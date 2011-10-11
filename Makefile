@@ -2,7 +2,7 @@
 # Ole Troan, ot@cisco.com
 # September 2010
 
-XML2RFC=./xml2rfc/xml2rfc.tcl
+XML2RFC=xml2rfc.tcl
 
 all:	drafts
 
