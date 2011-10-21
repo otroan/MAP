@@ -1,0 +1,728 @@
+
+
+
+Network Working Group                                      O. Troan, Ed.
+Internet-Draft                                                     cisco
+Intended status: Standards Track                        October 21, 2011
+Expires: April 23, 2012
+
+
+                   Mapping of Address and Port (MAP)
+            draft-ietf-softwire-mapping-address-and-port-00
+
+Abstract
+
+   This document describes a generic mechanism for mapping between an
+   IPv4 prefix, address or parts thereof, and transport layer ports and
+   an IPv6 prefix or address.
+
+Status of this Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at http://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on April 23, 2012.
+
+Copyright Notice
+
+   Copyright (c) 2011 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (http://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+
+
+
+
+Troan                    Expires April 23, 2012                 [Page 1]
+
+Internet-Draft                     MAP                      October 2011
+
+
+Table of Contents
+
+   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . . .  3
+   2.  Conventions  . . . . . . . . . . . . . . . . . . . . . . . . .  4
+   3.  Terminology  . . . . . . . . . . . . . . . . . . . . . . . . .  4
+   4.  IPv4 address and port assignment . . . . . . . . . . . . . . .  5
+   5.  From address and port to IPv6 address  . . . . . . . . . . . .  6
+   6.  Interface identifier . . . . . . . . . . . . . . . . . . . . .  6
+   7.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . .  6
+   8.  Security Considerations  . . . . . . . . . . . . . . . . . . .  6
+   9.  Contributors . . . . . . . . . . . . . . . . . . . . . . . . .  7
+   10. Acknowledgements . . . . . . . . . . . . . . . . . . . . . . .  7
+   11. References . . . . . . . . . . . . . . . . . . . . . . . . . .  7
+     11.1.  Normative References  . . . . . . . . . . . . . . . . . .  7
+     11.2.  Informative References  . . . . . . . . . . . . . . . . .  8
+   Appendix A.  Requirements  . . . . . . . . . . . . . . . . . . . . 10
+   Appendix B.  Deployment considerations . . . . . . . . . . . . . . 11
+     B.1.   Flexible Assigment of Port Range  . . . . . . . . . . . . 11
+     B.2.   Traffic Classification  . . . . . . . . . . . . . . . . . 12
+     B.3.   Prefix Delegation Deployment  . . . . . . . . . . . . . . 12
+     B.4.   Coexisting Deployment . . . . . . . . . . . . . . . . . . 12
+     B.5.   Friendly to Network Provisioning  . . . . . . . . . . . . 12
+     B.6.   Enable privacy addresses  . . . . . . . . . . . . . . . . 13
+     B.7.   Facilitating 4v6 Service  . . . . . . . . . . . . . . . . 13
+     B.8.   Independency with IPv6 Routing Planning . . . . . . . . . 13
+     B.9.   Optimized Routing Path  . . . . . . . . . . . . . . . . . 13
+   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 13
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Troan                    Expires April 23, 2012                 [Page 2]
+
+Internet-Draft                     MAP                      October 2011
+
+
+1.  Introduction
+
+   The mechanism of mapping IPv4 addresses in IPv6 address has been
+   described in numerous mechanisms dating back to [RFC1933] from 1996.
+   The Automatic tunnelling mechanism described in RFC1933, assigned a
+   globally unique IPv6 address to a host by combining the hosts IPv4
+   address with a well known IPv6 prefix.  Given an IPv6 packet with an
+   destination address with an embedded IPv4 address, a node could
+   automatically tunnel this packet by extracting the IPv4 tunnel end-
+   point address from the IPv6 destination address.
+
+   There are numerous variations of this idea, described in 6over4
+   [RFC2529], ISATAP [RFC5214] and 6rd [RFC5969].  The differences are
+   the use of well known IPv6 prefixes, or Service Provider assigned
+   IPv6 prefixes, and the exact position of the IPv4 bits embedded in
+   the IPv6 address.  Teredo [RFC4380] added a twist to this to achieve
+   NAT traversal by also encoding transport layer ports into the IPv6
+   address. 6rd to achieve more efficient encoding, allowed for only an
+   IPv4 address suffix to be embedded, with the IPv4 prefix being
+   deducted from other provisioning mechanisms.
+
+   NAT-PT [RFC2766](deprecated) combined with a DNS ALG used address
+   mapping to put NAT state, namely the IPv6 to IPv4 binding encoded in
+   an IPv6 address.
+
+   The commonalities of all these mechanisms are:
+   o  Provisions an IPv6 address for a host or an IPv6 prefix for a site
+   o  Algorithmic or implicit address resolution for tunneling or
+      encapsulation.  Given an IPv6 destination address, an IPv4 tunnel
+      endpoint address can be calculated.  Likewise for translation, an
+      IPv4 address can be calculated from an IPv6 destination address
+      and vice versa.
+   o  Embedding of an IPv4 address or part thereof and optionally
+      transport layer ports into an IPv6 address.
+
+   In the later phases of IPv4 to IPv6 migration, IPv6 only networks
+   will be common, while there will still be a need for residual IPv4
+   deployment.  This document describes a more generic mapping of IPv4
+   to IPv6 that can be used both for encapsulation (IPv4 over IPv6) and
+   for translation between the two protocols.
+
+   Just as the IPv6 over IPv4 mechanisms refered to above, the residual
+   IPv4 over IPv6 mechanisms must be capable of:
+   o  Provisioning an IPv4 prefix, an IPv4 address or a shared IPv4
+      address.
+   o  Algorithmically map between an IPv4 prefix, IPv4 address or a
+      shared IPv4 address and an IPv6 address.
+
+
+
+
+Troan                    Expires April 23, 2012                 [Page 3]
+
+Internet-Draft                     MAP                      October 2011
+
+
+2.  Conventions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in RFC 2119 [RFC2119].
+
+
+3.  Terminology
+
+   MAP domain:           A set of MAP CEs and BRs connected to the same
+                         virtual link.  A service provider may deploy a
+                         single MAP domain, or may utilize multiple MAP
+                         domains.  Each domain requires a separate MAP
+                         IPv6 prefix.
+   MAP Border Relay (BR):  A MAP enabled router managed by the service
+                         provider at the edge of a MAP domain.  A Border
+                         Relay router has at least an IPv6-enabled
+                         interface and an IPv4 interface connected to
+                         the native IPv4 network.  A MAP BR may also be
+                         referred to simply as a "BR" within the context
+                         of MAP.
+   MAP Customer Edge (CE):  A device functioning as a Customer Edge
+                         router in a MAP deployment.  In a residential
+                         broadband deployment, this type of device is
+                         sometimes referred to as a "Residential
+                         Gateway" (RG) or "Customer Premises Equipment"
+                         (CPE).  A typical MPA CE adopting MAP rules
+                         will serve a residential site with one WAN side
+                         interface, one or more LAN side interfaces.  A
+                         MAP CE may also be referred to simply as a "CE"
+                         within the context of MAP.
+   Shared IPv4 address:  An IPv4 address that is shared among multiple
+                         CEs.  Each node has a separate part of the
+                         transport layer port space.
+   CE IPv6 prefix:       The IPv6 prefix assigned to a CE by other means
+                         than MAP itself, and used by MAP to derive a CE
+                         MAP prefix.
+   CE IPv6 address:      In the context of MAP, the IPv6 address used to
+                         reach the MAP function of a CE from other CE's
+                         and from BR's.  The IID of this address differs
+                         from that of host interface address that start
+                         with the CE IPv6 prefix.
+   CE MAP prefix:        The MAP prefix of the CE.  It is derived from
+                         the CE IPv6 prefix by a mapping rule according
+                         to Section XX.  Depending on its length, it is
+                         an IPv4 prefix, an IPv4 address, or a shared
+                         IPv4 address followed by a Port-set ID (Section
+                         XX).
+
+
+
+Troan                    Expires April 23, 2012                 [Page 4]
+
+Internet-Draft                     MAP                      October 2011
+
+
+   Port-set ID (PSID):   In a CE MAP prefix longer than 32 bits, bits
+                         that follow the first 32.  It algorithmically
+                         identifies a set of ports exclusively assigned
+                         to the CE.
+   Domain IPv6 prefix:   An IPv6 prefix assigned by an ISP to a MAP
+                         domain.
+   Domain IPv4 prefix:   A MAP prefix assigned by an ISP to the MAP
+                         domain.
+   IPv4 Embedded Address (EA) bits:  The IPv4 EA-bits in the IPv6
+                         address identify an IPv4 prefix, IPv4 address
+                         or part of IPv4 address and port set
+                         identifier.
+
+
+4.  IPv4 address and port assignment
+
+
+
+    |     n bits         | o bits  |  m bits   |   128-n-o-m bits      |
+    +--------------------+---------+-----------+------------+----------+
+    | Domain IPv6 prefix | EA bits | subnet ID |     interface ID      |
+    +--------------------+---------+-----------+-----------------------+
+    |<---IPv6 delegated prefix --->|
+
+    The first half of the EA bits contain the IPv4 address, prefix
+    or IPv4 suffix. The second half of the EA bits, in the case of a
+    shared IPv4 address contains the PSID.
+
+    |   r bits    |        p bits       |         |   q bits   |
+    +-------------+---------------------+         +------------+
+    | IPv4 prefix | IPv4 Address suffix |         |Port Set ID |
+    +-------------+---------------------+         +------------+
+
+    To create a complete IPv4 address, the IPv4 address suffix from the
+    EA bits, are concatenated with a provisioned IPv4 prefix.
+
+    The PSID bits are not a prefix, but an infix. And is used to
+    create a port range.
+
+    |  Port range (16 bits)   |
+    +-------------------------+
+    | YYYY YY | P S I D  | XX |
+    +-------------------------+
+    |  Y > 0  |
+
+
+                                 Figure 1
+
+
+
+
+Troan                    Expires April 23, 2012                 [Page 5]
+
+Internet-Draft                     MAP                      October 2011
+
+
+5.  From address and port to IPv6 address
+
+
+
+    |        32 bits           |         |    16 bits        |
+    +--------------------------+         +-------------------+
+    | IPv4 destination address |         |  IPv4 dest port   |
+    +--------------------------+         +-------------------+
+
+    |       p bits     |                 |   q bits   |
+    +------------------+                 +------------+
+    | IPv4 addr suffix |                 |Port Set ID |
+    +------------------+                 +------------+
+
+
+    |     n bits         | o bits  |  m bits   |   128-n-o-m bits      |
+    +--------------------+---------+-----------+------------+----------+
+    | Domain IPv6 prefix | EA bits | subnet ID |     interface ID      |
+    +--------------------+---------+-----------+-----------------------+
+    |<---IPv6 delegated prefix --->|
+
+
+                                 Figure 2
+
+
+6.  Interface identifier
+
+
+
+                |   32 bits          |      32 bits       |
+                +--------------------+--------------------+
+                | 02-00-5E-FE        |    IPv4 address    |
+                +--------------------+--------------------+
+
+
+                                 Figure 3
+
+
+7.  IANA Considerations
+
+   This specification does not require any IANA actions.
+
+
+8.  Security Considerations
+
+   There are no new security considerations pertaining to this document.
+
+
+
+
+
+Troan                    Expires April 23, 2012                 [Page 6]
+
+Internet-Draft                     MAP                      October 2011
+
+
+9.  Contributors
+
+   The members of the MAP design team are:
+      Mohamed Boucadair
+      Gang Chen
+      Leaf Yeh
+      Tomasz Mrugalski
+      Wojciech Dec
+      Satoru Matsushima
+      Jan Zorz
+      Tina Tsou
+      Dan Wing
+      Xing Li
+      Maoke
+      Xiaohong Deng
+      Jacni Qin
+      Jouni Korhonen
+
+
+10.  Acknowledgements
+
+
+11.  References
+
+11.1.  Normative References
+
+   [I-D.mrugalski-dhc-dhcpv6-4rd]
+              Mrugalski, T., "DHCPv6 Options for IPv4 Residual
+              Deployment (4rd)", draft-mrugalski-dhc-dhcpv6-4rd-00 (work
+              in progress), July 2011.
+
+   [I-D.murakami-softwire-4rd]
+              Murakami, T., Troan, O., and S. Matsushima, "IPv4 Residual
+              Deployment on IPv6 infrastructure - protocol
+              specification", draft-murakami-softwire-4rd-01 (work in
+              progress), September 2011.
+
+   [I-D.xli-behave-divi-pd]
+              Li, X., Bao, C., Dec, W., Asati, R., Xie, C., and Q. Sun,
+              "dIVI-pd: Dual-Stateless IPv4/IPv6 Translation with Prefix
+              Delegation", draft-xli-behave-divi-pd-01 (work in
+              progress), September 2011.
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119, March 1997.
+
+   [RFC6333]  Durand, A., Droms, R., Woodyatt, J., and Y. Lee, "Dual-
+              Stack Lite Broadband Deployments Following IPv4
+
+
+
+Troan                    Expires April 23, 2012                 [Page 7]
+
+Internet-Draft                     MAP                      October 2011
+
+
+              Exhaustion", RFC 6333, August 2011.
+
+   [RFC6346]  Bush, R., "The Address plus Port (A+P) Approach to the
+              IPv4 Address Shortage", RFC 6346, August 2011.
+
+11.2.  Informative References
+
+   [I-D.bcx-address-fmt-extension]
+              Li, X., "Extended IPv6 Addressing for Encoding Port
+              Range", draft-bcx-address-fmt-extension-01 (work in
+              progress), April 2011.
+
+   [I-D.boucadair-behave-ipv6-portrange]
+              Boucadair, M., Levis, P., Grimault, J., Villefranque, A.,
+              Kassi-Lahlou, M., Bajko, G., Lee, Y., Melia, T., and O.
+              Vautrin, "Flexible IPv6 Migration Scenarios in the Context
+              of IPv4 Address Shortage",
+              draft-boucadair-behave-ipv6-portrange-04 (work in
+              progress), October 2009.
+
+   [I-D.boucadair-dhcpv6-shared-address-option]
+              Boucadair, M., Levis, P., Grimault, J., Savolainen, T.,
+              and G. Bajko, "Dynamic Host Configuration Protocol
+              (DHCPv6) Options for Shared IP Addresses Solutions",
+              draft-boucadair-dhcpv6-shared-address-option-01 (work in
+              progress), December 2009.
+
+   [I-D.boucadair-softwire-stateless-requirements]
+              Boucadair, M., Bao, C., Skoberne, N., and X. Li,
+              "Requirements for Extending IPv6 Addressing with Port
+              Sets", draft-boucadair-softwire-stateless-requirements-00
+              (work in progress), September 2011.
+
+   [I-D.bsd-softwire-stateless-port-index-analysis]
+              Boucadair, M., Skoberne, N., and W. Dec, "Analysis of Port
+              Indexing Algorithms",
+              draft-bsd-softwire-stateless-port-index-analysis-00 (work
+              in progress), September 2011.
+
+   [I-D.chen-softwire-4v6-add-format]
+              Chen, G. and Z. Cao, "Design Principles of a Unified
+              Address Format for 4v6",
+              draft-chen-softwire-4v6-add-format-00 (work in progress),
+              October 2011.
+
+   [I-D.chen-softwire-4v6-pd]
+              Chen, G., Sun, T., and H. Deng, "Prefix Delegation in
+              4V6", draft-chen-softwire-4v6-pd-00 (work in progress),
+
+
+
+Troan                    Expires April 23, 2012                 [Page 8]
+
+Internet-Draft                     MAP                      October 2011
+
+
+              August 2011.
+
+   [I-D.dec-stateless-4v6]
+              Dec, W., Asati, R., Bao, C., Deng, H., and M. Boucadair,
+              "Stateless 4Via6 Address Sharing",
+              draft-dec-stateless-4v6-04 (work in progress),
+              October 2011.
+
+   [I-D.despres-softwire-4rd-addmapping]
+              Despres, R., Qin, J., Perreault, S., and X. Deng,
+              "Stateless Address Mapping for IPv4 Residual Deployment
+              (4rd)", draft-despres-softwire-4rd-addmapping-01 (work in
+              progress), September 2011.
+
+   [I-D.despres-softwire-sam]
+              Despres, R., "Stateless Address Mapping (SAM) - a
+              Simplified Mesh-Softwire Model",
+              draft-despres-softwire-sam-01 (work in progress),
+              July 2010.
+
+   [I-D.despres-softwire-stateless-analysis-tool]
+              Despres, R., "Analysis of Stateless Solutions for IPv4
+              Service across IPv6 Networks - A synthetic Analysis Tool",
+              draft-despres-softwire-stateless-analysis-tool-00 (work in
+              progress), September 2011.
+
+   [I-D.murakami-softwire-4v6-translation]
+              Murakami, T., Chen, G., Deng, H., Dec, W., and S.
+              Matsushima, "4via6 Stateless Translation",
+              draft-murakami-softwire-4v6-translation-00 (work in
+              progress), July 2011.
+
+   [I-D.sun-softwire-stateless-4over6]
+              Sun, Q., Xie, C., Cui, Y., Wu, J., Wu, P., Zhou, C., and
+              Y. Lee, "Stateless 4over6 in access network",
+              draft-sun-softwire-stateless-4over6-00 (work in progress),
+              September 2011.
+
+   [RFC1933]  Gilligan, R. and E. Nordmark, "Transition Mechanisms for
+              IPv6 Hosts and Routers", RFC 1933, April 1996.
+
+   [RFC2529]  Carpenter, B. and C. Jung, "Transmission of IPv6 over IPv4
+              Domains without Explicit Tunnels", RFC 2529, March 1999.
+
+   [RFC2766]  Tsirtsis, G. and P. Srisuresh, "Network Address
+              Translation - Protocol Translation (NAT-PT)", RFC 2766,
+              February 2000.
+
+
+
+
+Troan                    Expires April 23, 2012                 [Page 9]
+
+Internet-Draft                     MAP                      October 2011
+
+
+   [RFC4291]  Hinden, R. and S. Deering, "IP Version 6 Addressing
+              Architecture", RFC 4291, February 2006.
+
+   [RFC4380]  Huitema, C., "Teredo: Tunneling IPv6 over UDP through
+              Network Address Translations (NATs)", RFC 4380,
+              February 2006.
+
+   [RFC5214]  Templin, F., Gleeson, T., and D. Thaler, "Intra-Site
+              Automatic Tunnel Addressing Protocol (ISATAP)", RFC 5214,
+              March 2008.
+
+   [RFC5969]  Townsley, W. and O. Troan, "IPv6 Rapid Deployment on IPv4
+              Infrastructures (6rd) -- Protocol Specification",
+              RFC 5969, August 2010.
+
+
+Appendix A.  Requirements
+
+   This list of requirements for a stateless mapping of address and
+   ports solution may not be complete.  The requirements are listed in
+   no particular order, and they may be conflicting.
+
+   R-1:   The representation of an IPv4 prefix, address or shared IPv4
+          address and PSID must be efficient.  As an example it must be
+          possible to represent a shared IPv4 address and PSID in 24
+          bits or less.  (Given a typical prefix assignment of /56 to
+          the end-user and a MAP IPv6 prefix of /32.)
+   R-2:   The IPv6 address format and mapping must be flexible, and
+          support any placement of the embedded bits from IPv4 address
+          and port set in the IPv6 address.
+   R-3:   Algorithm complexity.  The mapping from an IPv4 address and
+          port to an IPv6 address is done in the forwarding plane on MAP
+          nodes.  It is important that the algorithm is bounded and as
+          efficient as possible.
+   R-4:   The mapping must at least support a sharing ratio of 64, 1024
+          ports per end-user.
+   R-5:   The mapping should support multiple rules to allow for
+          deployments with several IPv4 subnets within the mapping
+          domain.
+   R-6:   The mapping may support deployments using differentiated port-
+          ranges.  That is end-users are assigned different sized port-
+          ranges and direct communication between MAP CEs are permitted.
+   R-7:   The mapping should support differentiated port ranges within a
+          single shared IPv4 address.
+
+
+
+
+
+
+
+Troan                    Expires April 23, 2012                [Page 10]
+
+Internet-Draft                     MAP                      October 2011
+
+
+   R-8:   The MAP solution should support excluding the well known ports
+          0-1023.
+   R-9:   It MUST be possible to assign well known ports to a CE.
+   R-10:  There must not be any dependency between IPv6 addressing and
+          IPv4 addressing.  With the exception where full IPv4 addresses
+          or prefixes are encoded.  Then IPv6 prefix assignment must be
+          done so that martian IPv4 addresses are not assigned.
+   R-11:  The mapping must not require IPv4 routing to be imported in
+          IPv6 routing.
+   R-12:  The mapping should support legacy RTP/RTCP compatibility.
+          (Allocating two consecutive ports).
+   R-13:  The mapping may be UPnP 1.0 friendly.  A UPnP client will keep
+          asking for the next port (as in current port + 1) a scattered
+          port allocation will be more UPnP friendly.
+   R-14:  For out of domain traffic the mapping must support embedding a
+          full IPv4 address (and PSID) in the IPv6 interface identifier.
+          This is required in the translation case.  It also simplifies
+          pretty printing and other operational tools.
+   R-15:  For Service Providers requiring to apply specific policies on
+          per Address-Family (e.g., IPv4, IPv6), some provisioning tools
+          (e.g., DHCPv6 option) may be required to derive in a
+          deterministic way the IPv6 address to be used for the IPv4
+          traffic based on the IPv6 prefix delegated to the home
+          network.
+   R-16:  It should/must/may be possible to use the same IPv6 prefix
+          (/64) for native IPv6 traffic and MAPed traffic.
+   R-17:  When only one single IPv6 prefix is assigned for both native
+          IPv6 communications and the transport of IPv4 packets, the
+          IPv4-translatable IPv6 prefix MUST have a length less than
+          /64.  When distinct prefixes are used, this requirement is
+          relaxed.
+   R-18:  The same mapping must support both translation and
+          encapsulation solutions.
+
+
+Appendix B.  Deployment considerations
+
+   Regarding MAP solutions, the community has granted to investigate
+   encap/decap and translation for different deployment cases.  A new
+   designed solutions should not impact customary behaviour on existing
+   network nodes. below has listed some deployment considerations.
+
+B.1.  Flexible Assigment of Port Range
+
+   Different classes of customers would require port sets of different
+   sizes.  In the context of shared IPv4 addresses, some customers would
+   be satisfied with an shared IPv4 addresses, while others may need to
+   be assigned with a single IPv4 address or delegated with IPv4
+
+
+
+Troan                    Expires April 23, 2012                [Page 11]
+
+Internet-Draft                     MAP                      October 2011
+
+
+   prefixes shorter than 32 bits due to increasing traffic demands.  MAP
+   would allow such flexibilities to allocate different port- set sizes
+   for satisfy different demands.
+
+B.2.  Traffic Classification
+
+   Usually, ISPs adopt traffic classification to ensure service quality
+   for different classes of customers.  This feature is also helpful for
+   customer behavior monitoring and security protection. for example,
+   DIA (Dedicated Internet Access) has been provided by operators for
+   corporations to cater for their Internet communications needs.
+   Service is made by means of the edge router features and key systems,
+   like ACL(Access List Control) to classify different traffic.  Five
+   tuples would be identified from IP header and UDP/TCP header.
+   Currently, it is very well supported in IPv4.  Vendors are delivering
+   or committed to support that feature for IPv6.  In order to
+   facilitating IPv6 deployment, 4v6 solution would support this feature
+   on IPv6 plane.
+
+B.3.  Prefix Delegation Deployment
+
+   Prefix delegation is an important feature both for broadband and
+   mobile network.  In mobile network, prefix delegation is introduced
+   in 3GPP network in Release 10.  The deployment of PD would be
+   supported in 4v6 case.  Variable length of IPv6 prefix is assigned to
+   CPE for deriving IPv4 information.
+
+B.4.  Coexisting Deployment
+
+   4v6 solutions(i.e. encapsulation and translation) would not only
+   coexist with each other, but also can harmonize with other deployment
+   cases.  Here lists some coexisting cases.  (Note: more coexisting
+   cases are expected to be investigated in future.)
+
+   o Case 1: Coexisting between 4v6 encapsulation and 4v6 translation
+
+   o Case 2: Coexisting between 4v6 translation and NAT64 (Single
+   Translation)
+
+   o Case 3: Coexisting between 4v6 solutions and SLAAC
+
+B.5.  Friendly to Network Provisioning
+
+   Network management plane normally has an ability to to identify
+   different users and the compatible with the address assignment
+   techniques in the domain. 4v6 would conform to current practices on
+   management plane.  In 3GPP network, for example, only the IPv6 prefix
+   is assigned to the devices, used to identify different users.  And
+
+
+
+Troan                    Expires April 23, 2012                [Page 12]
+
+Internet-Draft                     MAP                      October 2011
+
+
+   managment plane for one family address is better than two, namely the
+   operating platform does not need to manage both IPv4 and IPv6.  Since
+   only IPv6 prefix is assigned, 4v6 on the management plane is
+   naturally conducted only via IPv6.
+
+B.6.  Enable privacy addresses
+
+   User privacy should be taken into account when 4v6 solution is
+   deployed.  Some security concern associated with non-changing IPv6
+   interface identifiers has been expressed in RFC4941[RFC4941].
+   Ability to change the interface identifier over time makes it more
+   difficult for eavesdroppers and other information collectors to
+   identify when different addresses used in different sessions actually
+   correspond to the same node.
+
+B.7.  Facilitating 4v6 Service
+
+   Some ISPs may need to offer services in a 4v6 domain with a shared
+   address, e.g. 4v6 node hosts FTP server.  The service provisioning
+   may require well-know port range(i.e. port range belong to 0-1023).
+   MAP would provide operators with possibilities to generate a port
+   range including the 0-1023.  Afterwards, operators could decide to
+   assign it to any requesting user.
+
+B.8.  Independency with IPv6 Routing Planning
+
+   The IPv6 routing is easier to plan if it's not impacted by the
+   encoded IPv4 or port ID information.  MAP would prohibit IPv4 routing
+   imported in IPv6.
+
+B.9.  Optimized Routing Path
+
+   MAP could achieve optimized routing path both for hub case and mesh
+   case.  Traffic in hub and spoke case could follow asymmetric routing,
+   in which incoming routes would not be binded to a given border point
+   but others geographically closed to traffic initiators.  In mesh
+   cases, traffic between CPEs could directly communicate without going
+   through remote border point.
+
+
+Author's Address
+
+   Ole Troan (editor)
+   cisco
+
+
+
+
+
+
+
+Troan                    Expires April 23, 2012                [Page 13]
+
