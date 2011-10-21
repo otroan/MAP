@@ -13,8 +13,12 @@ draft-mdt-softwire-map-dhcp-option: draft-mdt-softwire-map-dhcp-option.xml
 
 drafts: \
 	draft-mdt-softwire-mapping-address-and-port \
-#	draft-mdt-softwire-map-dhcp-option
+	draft-mdt-softwire-map-dhcp-option
 
-.PHONY: clean draft commit
+design: draft-mdt-softwire-mapping-address-and-port
+
+dhcp: draft-mdt-softwire-map-dhcp-option
+
+.PHONY: clean draft commit design dhcp
 clean:
 	/bin/rm -f *.txt

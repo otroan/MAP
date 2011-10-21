@@ -13,26 +13,73 @@
 
 ]>
 
-<rfc category="info" docName="draft-ietf-softwire-map-dhcp-option-00.txt"
+<rfc category="info" docName="draft-mdt-softwire-map-dhcp-option-00.txt"
      ipr="trust200902">
   <front>
-    <title abbrev="">Mapping of Address and Port - DHCP option</title>
+    <title abbrev="MAP DHCPv6 Options">DHCPv6 Options for Mapping of Address and Port</title>
 
-    <author fullname="Ole Troan" initials="O" surname="Troan" role="editor">
-      <organization abbrev="">cisco</organization>
+    <author fullname="Tomasz Mrugalski" initials="T." surname="Mrugalski" role="editor">
+      <organization abbrev="ISC">Internet Systems Consortium, Inc.
+      </organization>
       <address>
+        <postal>
+          <street>950 Charter Street</street>
+          <city>Redwood City</city>
+          <region>CA</region>
+          <code>94063</code>
+          <country>USA</country>
+        </postal>
+        <phone>+1 650 423 1345</phone>
+        <email>tomasz.mrugalski@gmail.com</email>
       </address>
     </author>
-b   
+
+    <author fullname="Mohamed Boucadair" initials="M." surname="Boucadair">
+      <organization>France Telecom</organization>
+      <address>
+        <postal>
+          <street></street>
+          <city>Rennes</city>
+          <code>35000</code>
+          <country>France</country>
+        </postal>
+        <email>mohamed.boucadair@gmail.com</email>
+      </address>
+    </author>
+
+    <author fullname="Ole Troan" initials="O" surname="Troan">
+      <organization abbrev="Cisco">Cisco Systems, Inc.</organization>
+      <address>
+        <postal>
+          <street>Telemarksvingen 20</street>
+          <city>Oslo</city>
+          <code>N-0655</code>
+          <country>Norway</country>
+        </postal>
+        <email>ot@cisco.com</email>
+      </address>
+    </author>
+
     <date year="2011" />
 
     <area>Internet</area>
-
-    <workgroup>Network Working Group</workgroup>
+    <workgroup>Softwire</workgroup>
+    <keyword>MAP</keyword>
+    <keyword>DHCPv6</keyword>
 
     <!--  SECTION 0:  Abstract                      -->
 
     <abstract>
+      <t>Generic mechanism for mapping between an IPv4 prefix, address
+      or parts of thereof, and transport layer between ports and an
+      IPv6 prefix or address is specified in <xref
+      target="map-design"/>. This is a companion document that
+      specifies provisioning mechanism of MAP rules. It defines DHCPv6
+      options which are meant to be used between Customer Edge (CE)
+      devices and DHCPv6 server to obtain necessary parameters to
+      configure MAP rules. Since specification of MAP
+      architecture is still expected to evolve, DHCPv6 options may
+      have to evolve too to fit the revised MAP specification.</t>
       <t></t>
     </abstract>
   </front>
@@ -41,12 +88,41 @@ b
     <!--  SECTION 1:  Introduction                  -->
 
     <section title="Introduction">
-		<t></t>
+      <t>Mapping of Address and Port (MAP) defined in <xref
+      target="map-design" /> is an automatic mechanism for providing
+      IPv4 connectivity service to end users over a service provider's
+      IPv6 network. It defines MAP Border Relay (BR) router that is
+      located that the edge of a MAP domain. MAP Customer Edge (CE) is
+      also defined as a device typically deployed at customers'
+      location.  In a residential broadband deployment, this type of
+      device is sometimes referred to as a Residential Gateway (RG) or
+      Customer Premises Equipment (CPE). A MAP CE may also be referred
+      to simply as a "CE" within the context of MAP.</t>
+
+      <t>A typical MAP CE adopting MAP rules will serve a residential
+      site with one WAN side interface, one or more LAN side
+      interfaces. To operate properly, it requires one or more MAP
+      rules and additional informations. In larger networks it is
+      infeasible to configure such parameters manually. Therefore
+      provisioning mechanism is required. Such mechanism is defined in
+      this document. It leverages existing DHCPv6 <xref
+      target="RFC3315"/> protocol to deliver necessary parameters to
+      CE.</t>
+
+      <t>This document defines several DHCPv6 options that allow
+      delivery of required information to configure CE. Configuration
+      of the BR is outside of scope of this document. Definitions of
+      used parameters are provided in <xref target="map-design" />.</t>
+
+      <t>Since specification of MAP architecture is still expected to
+      evolve, DHCPv6 options may have to evolve too to fit the revised
+      MAP specification.
+      </t>
     </section>
 
     <!--  SECTION 2: REQUIREMENTS LANGUAGE                                         -->
 
-    <section anchor="sec:conventions" title="Conventions">
+    <section anchor="conventions" title="Conventions">
       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
       "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
       document are to be interpreted as described in RFC 2119 <xref
@@ -57,23 +133,251 @@ b
 
     <!--  SECTION 3: DESCRIPTION                                                   -->
 
+    <section anchor="description" title="Provisioning mechanism">
+      <t>TODO: Describe that CE acting as a DHCPv6 client requests
+      options that are being provided by a DHCPv6 server located
+      somewhere in ISP network.</t>
+    </section>
+
+    <section title="DHCPv6 Options Format">
+      <t>DHCPv6 protocol is used for CE provisioning. Several new
+      options are defined for conveying MAP-specific parameters. Their
+      format and usage is defined in the following sections.</t>
+
+      <t>Discussion: Proposed layout assumes that several simple
+      options are used. Such approach simplifies implementation as it
+      is much easier for implementors to reuse existing code handling
+      such options. This design choice comes at a cost,
+      however. Clients must perform checks if provided set of options
+      is complete. Alternatively, it would be possible to define one
+      complex option that contains all mandatory
+      parameters. </t>
+      <t>Discussion: It should be noted that initial concept of 4rd
+      provisioning was presented in DHC working group meeting. It used
+      one complex option to convey all required parameters. Strong
+      suggestion from DHC WG was to use several simpler
+      options. Options (possibly nested) are preferred over
+      conditional option formatting. See DHCP option guidelines
+      document <xref target="I-D.ietf-dhc-option-guidelines"/>).</t>
+
+      <section title="MAP Options Cardinality">
+        <t>MAP CE requires one or more MAP rules. Each rule consists
+        of the following parameters:</t>
+        <t>
+        <list style="symbols">
+          <t>BR Prefix, consisting of 128-bit field representing IPv6
+          prefix with 8-bit long prefix length</t>
+          <t>Rule IPv6 Prefix, consisting of 128-bit field
+          representing IPv6 prefix with 8-bit long prefix length</t>
+          <t>Rule IPv4 Prefix, consisting of 32-bit long IPv4 address
+          nad 8-bit long prefix length</t>
+          <t>L value that designates delegated prefix length.</t>
+        </list>
+        </t>
+
+        <t>The following notation is proposed for rule presentation:</t>
+
+        <t>{BR Prefix, [Rule IPv6 Prefix, Rule IPv4 Prefix, L]}</t>
+
+        <t>where L designates a length of a prefix delegated to CE,
+        using OPTION_IA_PD, as defined in <xref
+        target="RFC3633"/>.</t>
+
+        <t>Besides requiring at least one MAP rule, CE must also be
+        informed about transport mode (translation or
+        encapsulation).</t>
+
+        <t>BR Prefix does not have to be unique and MAY be shared
+        between several mapping rules.</t>
+      </section>
+
+      <section title="MAP Rule Option">
+        <t>OPTION_MAP_RULE. A container option than groups parameters
+        for specific rule.</t>
+        <t>Discussion: Do we need to distinguish or reference rules?
+        (i.e. Is some kind of ID field required?)</t>
+        <t>Server MAY send more than one MAP Rule Option, if it is
+        configured to do so. Clients MUST NOT send MAP Rule
+        Option.</t>
+      </section>
+
+      <section anchor="option-br-prefix" title="MAP BR Prefix">
+        <t>OPTION_MAP_BR_PREFIX6. This option defines BR Prefix. It
+        contains 128-bit field that specify the IPv6 prefix itself and
+        8-bit prefix length field.</t>
+        <t>MAP BR Prefix MUST NOT appear in places other than
+        suboption of MAP Rule Option.</t>
+      </section>
+
+      <section anchor="option-prefix6" title="MAP Rule IPv6 Prefix">
+        <t>OPTION_MAP_PREFIX6. This option defines MAP Rule IPv6
+        Prefix. It contains 128-bit field that specify the IPv6 prefix
+        itself and 8-bit prefix length field.</t>
+        <t>MAP Rule IPv6 Prefix MUST NOT appear in places other than
+        suboption of MAP Rule Option.</t>
+      </section>
+
+      <section anchor="option-prefix4" title="MAP Rule IPv4 Prefix">
+        <t>OPTION_MAP_PREFIX4. This option defines MAP Rule IPv4
+        Prefix. It contains 32-bit field that specify the IPv4 address
+        itself and 8-bit prefix length field. Note that this is not a
+        typical netmask used in IPv4. For length values smaller than
+        32, this defines IPv4 prefix. For length equal 32, this
+        defines IPv4 address. For values larger than 32, this defines
+        shared IPv4 address with Port set ID.</t>
+
+        <t>MAP Rule IPv6 Prefix MUST NOT appear in places other than
+        suboption of MAP Rule Option.</t>
+      </section>
+
+      <section anchor="option-flags" title="MAP Flags Option">
+        <t>OPTION_MAP_FLAGS. This option specifies MAP
+        flags. Currently the only defined flag is T - transport
+        mode. 0 designates translation and 1 designates encapsulation.
+        </t>
+      </section>
+
+      <section anchor="example" title="MAP Options Example">
+        <t>DHCPv6 server provisioning a single MAP Rule to a CE
+        (DHCPv6 client) will convey the following MAP options in its
+        messages:</t>
+
+        <figure align="center" anchor="img-example" title="MAP Options Example">
+          <preamble></preamble>
+          <artwork align="center"><![CDATA[
+<MAP_RULE>
+    <MAP_BR_PREFIX6/>
+    <MAP_RULE_PREFIX6/>
+    <MAP_RULE_PREFIX4/>
+</MAP_RULE>
+<MAP_FLAGS>
+]]></artwork>
+        </figure>
+
+      </section>
+
+    </section>
+
+
+    <section title="DHCPv6 Server Behavior">
+      <t><xref target="RFC3315">RFC 3315 Section 17.2.2</xref>
+      describes how a DHCPv6 client and server negotiate configuration
+      values using the ORO.  As a convenience to the reader, we
+      mention here that a server will not reply with a MAP Rule Option
+      if the client has not explicitly enumerated it on its Option
+      Request Option.</t>
+      <t>Server conformant to this specification MUST allow
+      configuration of one or more MAP Rule Options.</t>
+      <t>Server MUST transmist all configured instances of the Mapping
+      Rule Options with all sub-options, if client requested it using
+      OPTION_MAP_RULE in its Option Request Option (ORO). Server MUST
+      transmit MAP Flags Option if client requested OPTION_MAP_FLAGS
+      in its ORO.</t>
+    </section>
+
+    <section title="DHCPv6 Client Behavior">
+      <t>Although other use cases are allowed, in typical use case CE
+      will act as DHCPv6 client and will request MAP configuration to
+      be assigned by the DHCPv6 server located in the ISP network. A
+      client that supports MAP CE functionality and conforms to this
+      specfication MUST include OPTION_MAP_RULE and OPTION_MAP_FLAGS
+      in its ORO.</t>
+
+      <t>For proper operation, MAP CE client MUST also request IPv6
+      address (OPTION_IA_NA, defined in <xref target="RFC3315"/>) and
+      prefix delegation (OPTION_IA_PD, defined in <xref
+      target="RFC3633"/>). MAP CE client SHOULD NOT initiate DHCPv4
+      configuration as all parameters are delivered over DHCPv6.</t>
+
+      <t>Client SHOULD request OPTION_MAP_RULE and OPTION_MAP_FLAGS
+      options in SOLICIT, REQUEST, RENEW, REBIND and
+      INFORMATION-REQUEST messages.</t>
+
+      <t>If client receives more than one OPTION_MAP_RULE option, it
+      MUST use all received instances. It MUST NOT use only the first
+      one, while discarding remaining ones.</t>
+
+      <t>Note that system implementing MAP CE functionality may have
+      multiple network interfaces, and these interfaces may be
+      configured differently; some may be connected to networks that
+      call for MAP, and some may be connected to networks that are
+      using normal dual stack or other means.  The MAP CE system
+      should approach this specification on an interface-by-interface
+      basis.  For example, if the CE system is attached to multiple
+      networks that provide the MAP Mapping Rule Option, then the CE
+      system MUST configure a MAP connection (i.e. a translation or
+      encapsulation) for each interface separately as each MAP
+      provides IPv4 connectivity for each distinct interface. Means to
+      bind a MAP configuration to a given interface in a multiple
+      interfaces device are out of scope of this document.</t>
+    </section>
+
+
     <!--  SECTION 4:  IANA Considerations           -->
 
     <section title="IANA Considerations">
       <t>This specification does not require any IANA actions.</t>
     </section>
 
-    <!--  SECTION 5:  Security Considerations      	-->
+    <!--  SECTION 6:  Acknowledgements                          -->
+
+    <!--  SECTION 5:  Security Considerations           -->
 
     <section title="Security Considerations">
-      <t>There are no new security considerations pertaining to this
-      document.</t>
+      <t>Implementation of this document does not present any new
+      security issues, but as with all DHCPv6-derived configuration
+      state, it is completely possible that the configuration is being
+      delivered by a third party (Man In The Middle).  As such, there
+      is no basis to trust that the access over the MAP can be
+      trusted, and it should not therefore bypass any security
+      mechanisms such as IP firewalls.</t>
+
+      <t>Readers concerned with security of MAP provisioning over
+      DHCPv6 are encouraged to familiarize with <xref
+      target="I-D.ietf-dhc-secure-dhcpv6"/>.</t>
+
+      <t>Section XX of <xref target="map-design"/> discusses security
+      issues of the MAP mechanism.</t>
+
+      <t>Section 23 of <xref target="RFC3315"/> discusses
+      DHCPv6-related security issues.</t>
+
+      <t>Section 6 of <xref target="I-D.murakami-softwire-4rd"/> discusses 4rd
+      related security issues that are partially applicable to MAP mechanism.</t>
     </section>
 
-    <!--  SECTION 6:  Acknowledgements     			-->
+    <section title="IANA Considerations">
+      <t>IANA is requested to allocate DHCPv6 option codes referencing
+      this document, delineating OPTION_MAP_RULE, OPTION_MAP_BR_PREFIX6,
+      OPTION_MAP_PREFIX6, OPTION_MAP_PREFIX4 and OPTION_MAP_FLAGS
+      option names.</t>
+    </section>
+
+    <section title="Contributors">
+      <t>The members of the MAP design team are:
+      <list>
+
+        <t>Mohamed Boucadair</t>
+        <t>Gang Chen</t>
+        <t>Wojciech Dec</t>
+        <t>Xiaohong Deng</t>
+        <t>Jouni Korhonen</t>
+        <t>Xing Li</t>
+        <t>Maoke</t>
+        <t>Satoru Matsushima</t>
+        <t>Tomasz Mrugalski</t>
+        <t>Jacni Qin</t>
+        <t>Tina Tsou</t>
+        <t>Ole Troan</t>
+        <t>Dan Wing</t>
+        <t>Leaf Yeh</t>
+        <t>Jan Zorz</t>
+
+      </list></t>
+    </section>
 
     <section title="Acknowledgements">
-
+      <t>None yet.</t>
     </section>
   </middle>
 
@@ -82,7 +386,27 @@ b
 
     <references title="Normative References">
       &rfc2119;
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3315"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3633"?>
+
+      <reference anchor="map-design" target="">
+        <front>
+            <title>Mapping of Address and Port (MAP)</title>
+            <author initials="O." surname="Troan" fullname="Ole Troan" role="editor">
+                <organization>Cisco</organization>
+            </author>
+            <date day="24" month="10" year="2011" />
+        </front>
+        <seriesInfo name="draft-ietf-softwire-mapping-address-and-port" value="00" />
+    </reference>
     </references>
+  <references title="Informative References">
+    <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-dhc-option-guidelines.xml" ?>
+    <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mrugalski-dhc-dhcpv6-4rd.xml" ?>
+    <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.boucadair-dhcpv6-shared-address-option.xml" ?>
+    <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-dhc-secure-dhcpv6.xml" ?>
+    <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.murakami-softwire-4rd.xml" ?>
+  </references>
 
     <!--  SECTION 8.2:  Informative References		-->
 
