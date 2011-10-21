@@ -195,7 +195,7 @@ Internet-Draft                     MAP                      October 2011
                          broadband deployment, this type of device is
                          sometimes referred to as a "Residential
                          Gateway" (RG) or "Customer Premises Equipment"
-                         (CPE).  A typical MPA CE adopting MAP rules
+                         (CPE).  A typical MAP CE adopting MAP rules
                          will serve a residential site with one WAN side
                          interface, one or more LAN side interfaces.  A
                          MAP CE may also be referred to simply as a "CE"
