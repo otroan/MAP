@@ -18,13 +18,12 @@
   <front>
     <title abbrev="">Mapping of Address and Port - DHCP option</title>
 
-    <author fullname="N.N" initials="N" surname="N">
-      <organization abbrev="">ACME</organization>
-
+    <author fullname="Ole Troan" initials="O" surname="Troan" role="editor">
+      <organization abbrev="">cisco</organization>
       <address>
       </address>
     </author>
-   
+b   
     <date year="2011" />
 
     <area>Internet</area>
