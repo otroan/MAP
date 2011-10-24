@@ -9,8 +9,12 @@
 <!ENTITY rfc4380 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4380.xml">
 <!ENTITY rfc2766 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2766.xml">
 <!ENTITY rfc4291 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4291.xml">
+<!ENTITY rfc6052 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6052.xml">
+<!ENTITY rfc6146 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6146.xml">
+<!ENTITY rfc6147 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6147.xml">
 <!ENTITY rfc6333 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6333.xml">
 <!ENTITY rfc6346 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6346.xml">
+<!ENTITY rfc3194 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3194.xml">
 <!ENTITY I-D.mrugalski-dhc-dhcpv6-4rd SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mrugalski-dhc-dhcpv6-4rd.xml'>
 <!ENTITY I-D.despres-softwire-sam SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.despres-softwire-sam.xml'>
 <!ENTITY I-D.chen-softwire-4v6-pd SYSTEM
@@ -24,6 +28,7 @@
 <!ENTITY I-D.sun-softwire-stateless-4over6 SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.sun-softwire-stateless-4over6.xml'>
 <!ENTITY I-D.murakami-softwire-4v6-translation SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.murakami-softwire-4v6-translation.xml'>
 <!ENTITY I-D.xli-behave-divi-pd SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.xli-behave-divi-pd.xml'>
+<!ENTITY I-D.xli-behave-divi SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.xli-behave-divi.xml'>
 <!ENTITY I-D.despres-softwire-4rd-addmapping SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.despres-softwire-4rd-addmapping.xml'>
 <!ENTITY I-D.murakami-softwire-4rd SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.murakami-softwire-4rd.xml'>
 <!ENTITY I-D.chen-softwire-4v6-add-format SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.chen-softwire-4v6-add-format.xml'>
@@ -40,7 +45,7 @@
 <?rfc comments="yes" ?>
 <?rfc inline="yes" ?>
 
-<rfc category="std" docName="draft-ietf-softwire-mapping-address-and-port-00"
+<rfc category="std" docName="draft-mdt-softwire-mapping-address-and-port-00"
      ipr="trust200902">
   <front>
     <title abbrev="MAP">Mapping of Address and Port (MAP)</title>
@@ -48,6 +53,12 @@
     <author fullname="Ole Troan" initials="O" surname="Troan" role="editor">
       <organization abbrev="">cisco</organization>
       <address>
+	<postal>
+          <street></street>
+          <city>Oslo</city>
+          <country>Norway</country>
+        </postal>
+        <email>ot@cisco.com</email>
       </address>
     </author>
    
@@ -72,7 +83,7 @@
     <section title="Introduction">
       <t>The mechanism of mapping IPv4 addresses in IPv6 address has
       been described in numerous mechanisms dating back to <xref
-      target="RFC1933"></xref> from 1996. The Automatic tunnelling
+      target="RFC1933"></xref> from 1996. The Automatic tunneling
       mechanism described in RFC1933, assigned a globally unique IPv6
       address to a host by combining the hosts IPv4 address with a
       well known IPv6 prefix. Given an IPv6 packet with an destination
@@ -95,7 +106,29 @@
 
       <t>NAT-PT <xref target="RFC2766"></xref>(deprecated) combined
       with a DNS ALG used address mapping to put NAT state, namely the
-      IPv6 to IPv4 binding encoded in an IPv6 address.</t>
+      IPv6 to IPv4 binding encoded in an IPv6 address.  This
+      characteristic has been inherited by NAT64 <xref
+      target="RFC6146"></xref> and DNS64 <xref
+      target="RFC6147"></xref> which rely on an address format defined
+      in <xref target="RFC6052"></xref>. <xref
+      target="RFC6052"></xref> specifies the algorithmic translation
+      of an IPv6 address to IPv4 address suffix to be embedded, with
+      the deducted from other provisioning mechanisms.  DNS ALG used
+      address IPv4 binding encoded in it a corresponding IPv4 address,
+      and vice versa. In particular, <xref target="RFC6052"></xref>
+      specifies the address format to build IPv4-converted and
+      IPv4-translatable IPv6 addresses. RFC6052 discusses the
+      transport of the port range information in an IPv4-embedded IPv6
+      address but the conclusion was the following (excerpt from
+      [RFC6052]):</t>
+
+      <t>"There have been proposals to complement stateless
+      translation with a port-range feature. Instead of mapping an
+      IPv4 address to exactly one IPv6 prefix, the options would allow
+      several IPv6 nodes to share an IPv4 address, with each node
+      managing a different range of ports. If a port range extension
+      is needed, could be defined later, using bits currently reserved
+      as null in the suffix."</t>
 
       <t>The commonalities of all these mechanisms are:
       <list style="symbols">
@@ -117,7 +150,7 @@
       (IPv4 over IPv6) and for translation between the two
       protocols.</t>
       
-      <t>Just as the IPv6 over IPv4 mechanisms refered to above, the
+      <t>Just as the IPv6 over IPv4 mechanisms refereed to above, the
       residual IPv4 over IPv6 mechanisms must be capable of:
       <list style="symbols">
 	<t>Provisioning an IPv4 prefix, an IPv4 address or a shared IPv4
@@ -142,8 +175,15 @@
 
 	<t hangText="MAP domain:">A set of MAP CEs and BRs connected
 	to the same virtual link. A service provider may deploy a
-	single MAP domain, or may utilize multiple MAP domains. Each
-	domain requires a separate MAP IPv6 prefix.</t>
+	single MAP domain, or may utilize multiple MAP domains. When
+	several MAP domains are deployed, separate Domain IPv6
+	prefixes are required.</t>
+
+	<t hangText="MAP Rule">A set of parameters whereby: an IPv4
+	prefix, exclusive IPv4 address or is derived from the
+	Delegated IPv6 Prefix; And a CE IPv6 address is derived from
+	an IPv4 address plus a port.  A 4rd domain has one or more
+	Mapping rules.</t>
 
 	<t hangText="MAP Border Relay (BR):">A MAP enabled router
 	managed by the service provider at the edge of a MAP domain.
@@ -163,16 +203,20 @@
 
 	<t hangText="Shared IPv4 address:">An IPv4 address that is
 	shared among multiple CEs. Each node has a separate part of
-	the transport layer port space.</t>
+	the transport layer port space; denoted as a port set.</t>
+	
+	<t hangText="IPv4 port-restricted CE">refers to aA MAP CE
+	assigned with a shared IPv4 address and a set of ports. Only
+	port belong to the assigned range of port must be used to
+	issue IPv4 packets (forwarded using IPv6 transfer capabilities
+	in the attached MAP domain).</t>
 
 	<t hangText="CE IPv6 prefix:">The IPv6 prefix assigned to a CE
 	by other means than MAP itself, and used by MAP to derive a CE
 	MAP prefix.</t>
 
-	<t hangText="CE IPv6 address:">In the context of MAP, the IPv6
-	address used to reach the MAP function of a CE from other CE's
-	and from BR's. The IID of this address differs from that of
-	host interface address that start with the CE IPv6 prefix.</t>
+	<t hangText="CE IPv6 address:">The IPv6 address used to reach
+	the MAP function of a CE from other CE's and from BR's.</t>
 
 	<t hangText="CE MAP prefix:">The MAP prefix of the CE.  It is
 	derived from the CE IPv6 prefix by a mapping rule according to
@@ -200,6 +244,30 @@
     </section>
 
     <!--  SECTION 3: DESCRIPTION                   -->
+
+    <section title="MAP Mapping Rule">
+
+      <t>MAP mapping rule is to determine the mapping relationship
+      between Domain IPv6 Prefix and Domain IPv4 Prefix. It can be
+      used to deduce the valid port set for a given CE, synthesize the
+      full IPv4 address from a provisioned CE IPv6 prefix, and vice
+      versa.</t>
+
+      <t>MAP Mapping Rule consists of the following items
+      <list style="symbols">
+	<t>Domain IPv6 prefix</t>
+	<t>Domain IPv4 prefix</t>
+	<t>Domain IPv6 prefix length</t>
+	<t>BR IPv6 prefix</t>
+      </list></t>
+
+      <t>In Hub and Spoke case, there is only one MAP mapping rule
+      needed for CE, indicating its own IPv4/IPv6 prefixes, while BR
+      must contain all MAP mapping rules for its MAP domain. However,
+      in mesh case, both CEs and BRs need to know all the mappings
+      rules in MAP domain.</t>
+
+    </section>
 
     <section title="IPv4 address and port assignment">
       <t>
@@ -274,14 +342,14 @@ create a port range.
     </section>
 
 
-    <section title="Interface identifier">
+    <section title="TBD: Interface identifier">
       <t>
 	<figure align="center" anchor="interfaceid-fig" title="">
 	  <preamble></preamble>
 
 	  <artwork align="center"><![CDATA[
 
-|   32 bits          |      32 bits       |
+	  |   32 bits          |      32 bits       |	       <!---->
 +--------------------+--------------------+
 | 02-00-5E-FE        |    IPv4 address    |
 +--------------------+--------------------+
@@ -326,6 +394,8 @@ create a port range.
 	<t>Xiaohong Deng</t>
 	<t>Jacni Qin</t>
 	<t>Jouni Korhonen</t>
+	<t>Congxiao Bao</t>
+	<t>Qiong Sun</t>
 
       </list></t>
 
@@ -343,15 +413,17 @@ create a port range.
 
     <references title="Normative References">
       &rfc2119;
-      &I-D.mrugalski-dhc-dhcpv6-4rd;
       &rfc6346;
-      &rfc6333;
-      &I-D.xli-behave-divi-pd;
-      &I-D.murakami-softwire-4rd;
     </references>
 
     <!--  SECTION 8.2:  Informative References		-->
     <references title="Informative References">
+      &I-D.mrugalski-dhc-dhcpv6-4rd;
+      &rfc6333;
+      &I-D.xli-behave-divi-pd;
+      &I-D.xli-behave-divi;
+      &I-D.murakami-softwire-4rd;
+      &rfc6052;
       &rfc1933;
       &rfc5969;
       &rfc2529;
@@ -359,6 +431,9 @@ create a port range.
       &rfc4380;
       &rfc2766;
       &rfc4291;
+      &rfc3194;
+      &rfc6146;
+      &rfc6147;
       &I-D.despres-softwire-sam;
       &I-D.chen-softwire-4v6-pd;
       &I-D.boucadair-softwire-stateless-requirements;
@@ -381,14 +456,16 @@ create a port range.
 
       <t><list style='format R-%d:'>
 
-	<t>The representation of an IPv4 prefix, address or shared
-	IPv4 address and PSID must be efficient. As an example it must
-	be possible to represent a shared IPv4 address and PSID in 24
-	bits or less. (Given a typical prefix assignment of /56 to the
-	end-user and a MAP IPv6 prefix of /32.)</t>
+	<t>To allow for a single user delegated IPv6 prefix to be used
+	for native IPv6 service and for MAP, the representation of an
+	IPv4 prefix, address or shared IPv4 address and PSID must be
+	efficient. As an example it must be possible to represent a
+	shared IPv4 address and PSID in 24 bits or less. (Given a
+	typical prefix assignment of /56 to the end-user and a MAP
+	IPv6 prefix of /32.)</t>
 
 	<t>The IPv6 address format and mapping must be flexible, and
-	support any placement of the embedded bits from IPv4 address
+	support any placement of the embedded bits from IPv4 prefix/address
 	and port set in the IPv6 address.</t>
 
 	<t>Algorithm complexity. The mapping from an IPv4 address and
@@ -396,20 +473,22 @@ create a port range.
 	nodes. It is important that the algorithm is bounded and as
 	efficient as possible.</t>
 
-	<t>The mapping must at least support a sharing ratio of 64,
-	1024 ports per end-user.</t>
-
-	<t>The mapping should support multiple rules to allow for
-	deployments with several IPv4 subnets within the mapping
-	domain.</t>
+	<t>MAP must allow service providers to define their own
+	address sharing ratio. MAP MUST NOT in particular restrict by
+	design the possible address sharing ratio; ideally 1:1 and
+	1:65536 should be supported. The mapping must at least support
+	a sharing ratio of 64, 1024 ports per end-user.</t>
 
 	<t>The mapping may support deployments using differentiated
-	port-ranges. That is end-users are assigned different sized
+	port-ranges. That is, end-users are assigned different sized
 	port-ranges and direct communication between MAP CEs are
 	permitted.</t>
 
 	<t>The mapping should support differentiated port ranges
-	within a single shared IPv4 address.</t>
+	within a single shared IPv4 address. (i.e., be able to assign
+	port ranges of different sizes to customers without requiring
+	any per customer state to be instantiated in network elements
+	involved in data transfer).</t>
 
 	<t>The MAP solution should support excluding the well known
 	ports 0-1023.</t>
@@ -465,7 +544,7 @@ create a port range.
       <t>Regarding MAP solutions, the community has granted to
       investigate encap/decap and translation for different deployment
       cases.  A new designed solutions should not impact customary
-      behaviour on existing network nodes. below has listed some
+      behavior on existing network nodes. below has listed some
       deployment considerations.</t>
 
       <section title="Flexible Assigment of Port Range">
@@ -533,7 +612,7 @@ create a port range.
 	assignment techniques in the domain. 4v6 would conform to
 	current practices on management plane.  In 3GPP network, for
 	example, only the IPv6 prefix is assigned to the devices, used
-	to identify different users.  And managment plane for one
+	to identify different users.  And management plane for one
 	family address is better than two, namely the operating
 	platform does not need to manage both IPv4 and IPv6.  Since
 	only IPv6 prefix is assigned, 4v6 on the management plane is
@@ -587,5 +666,252 @@ create a port range.
 
     </section>
 
+    <section title="Guidelines for Operators">
+
+      <section title="Terms">
+
+	<t><list hangIndent="22" style="hanging">
+	
+	  <t hangText="4pfx">the index for an IPv4 prefix.</t>
+
+	  <t hangText="ug-octet"> the octet consisting of 64-71 bits
+	  in the IPv6 address, containing the bits u and g defined by
+	  EUI-64 standard.</t>
+
+	  <t hangText="Common prefix">an aggregate decided by a domain
+	  for the MAP deployment. It is a subset of the operator's
+	  aggregates by its RIR or provider.</t>
+
+	  <t hangText="IPv4 suffix">the part of IPv4 address bits used
+	  for identifying CEs.</t>
+
+	  <t hangText="Host suffix">the IPv6 suffix assigning to an
+	  end system. NOTE: it doesn't mean this should be really
+	  configured on a certain interface of a host.</t>
+
+	  <t hangText="MAP format">the address mapping format defined
+	  by this document.</t>
+
+	  <t hangText="RFC6052 format">the address mapping format
+	  defined by <xref target = "RFC6052" /> and its succeeding
+	  extensions (or updates) for port-space sharing</t>
+	  
+	</list></t>
+      </section>
+
+      <section title="Understanding address formats: their difference and relevance">
+
+	<t>It is important for an operator to understand what the MAP
+	is designed for and where it could be applied.</t>
+   
+	<t>MAP introduces an address format of embedding IPv4
+	information to IPv6 address. On the other hand, we also have
+	<xref target="RFC6052"></xref> defines an address format with the
+	similar property. With extending port-set id, it can also
+	support address sharing among different CEs <xref
+	target="I-D.xli-behave-divi"></xref>. What are their differences
+	and relations?</t>
+
+	<t>We present a common abstract format for them both, as is
+	depicted in Fig.A-1. For the easy expression, we exclude the
+	ug-octet, which is not concerned in this appendix.</t>
+
+	<figure align="center" anchor="mapformats-fig" title="">
+	  <preamble></preamble>
+
+	  <artwork align="center"><![CDATA[
+
+   |<----- 120 bits (IPv6 address excluding ug-octet) --------->|
+   +-------------+------+-------------+------+-----------//-----+
+   |Common Prefix| 4pfx | IPv4 suffix | PSID | Host Suffix      | 
+   +-------------+------+-------------+------+-----------//-----+
+	
+	Figure C-1. Abstract view of MAP and RFC6052 formats
+
+]]></artwork>
+	  
+	</figure>
+
+	<t>Only two parts in Fig.A-1 are different for MAP and RFC6052
+	formats. We compare them in Fig.A-2 and following paragraphs.</t>
+
+	<figure align="center" anchor="maptable-fig" title="">
+	  <preamble></preamble>
+
+	  <artwork align="center"><![CDATA[
+
+            +----------------+--------------+------------+
+            |                |  MAP         | RFC6052    |
+            +----------------+--------------+------------+
+            | from IPv4      | coding with  | same, w/o  |  
+            | prefix to 4pfx | compression  | change     |
+            +----------------+--------------+------------+
+            | Host           | full v4.addr | padding to |
+            | Suffix         | or 4rd IID   | zero       | 
+            +----------------+--------------+------------+ 
+   
+	Figure A-2. Difference between MAP and RFC6052 formats
+]]></artwork>
+	  
+	</figure>
+
+	<t>This comparison clarifies that the major role of full IPv4
+	address embedded in the RFC6052 format is replaced by the
+	MAP's coded IPv4 prefix index and the uncoded IPv4 suffix.
+	The following Fig.A-3 illustrates this relationship.</t>
+   
+	<figure align="center" anchor="format-fig" title="">
+	  <preamble></preamble>
+
+	  <artwork align="center"><![CDATA[
+
+   (delegated prefix in RFC6052 format, w/o rule)
+   +-------------+-------------+-------------+------+
+   |Common Prefix| full IPv4 address (32bit) | PSID |  
+   +-------------+-------------+-------------+------+
+                 :             :             :      :
+                 +-------------+-------------+
+        32 bits: | 4pfx        | IPv4 suffix |      : 
+                 +-------------+-------------+      +
+                 :           .             .      .  
+                 :         .             .      .
+                 :       .             .      . 
+                 +-----+-------------+      +  
+         m bits: |4pfx | IPv4 suffix |      :    (w/ rules)  
+                 +-----+-------------+
+                 :     :             :      :  
+   +-------------+-----+-------------+------+
+   | Rule IPv6 Prefix  |    CE index        | 
+   +-------------+-----+-------------+------+
+   (delegated prefix in MAP format)
+	
+	Fig.A-3. Relevance between MAP and RFC6052 formats
+
+]]></artwork>
+	  
+	</figure>
+
+     
+	<t>Why is it needed to code the IPv4 prefix? </t>
+
+	<t>Precisely speaking, it is not "to compress the IPv4 prefix"
+	but "to establish correspondence between IPv6 delegated
+	prefixes and the residual IPv4 prefixes."</t>
+
+	<t>MAP is designed for IPv4 residual deployment, which refers
+	to efficiently applying residual (not-yet-assigned) IPv4
+	addresses in response to IPv4 communication demands of the
+	IPv6 network in deployment. Therefore, the delegated CE
+	prefixes are determined prior to finding proper IPv4 address
+	blocks in hand to be mapped to the CE index and the IPv4
+	prefix index as well as the Rule IPv6 prefix, respectively.</t>
+
+	<t>Because the IPv6 delegation planning is independent of the
+	IPv4 addressing, the /64 prefix is a canonical configuration
+	for all IPv6 local network. It is highly impossible to
+	directly match some IPv4 prefixes to the already-determined
+	IPv6 prefixes, and therefore the prefixes have to be coded and
+	typically it is a compression.</t>
+
+	<t>If we have a short-enough Common Prefix, it is also possible
+       to deploy a direct matching where 4pfx is equal to IPv4 
+       prefix. Only in this case, the MAP format is as same as the
+       RFC6052 format and the rule set could be simplified to a unique
+       rule for 0.0.0.0/0. </t>
+
+       <t>Why does MAP copy IPv4 address in the suffix?</t>
+
+       <t>The full IPv4 address copied in the suffix plays auxiliary roles. </t>
+
+       <t>Although the compression makes full IPv4 address not
+       directly appear in the IPv6 address, the delegated prefix is
+       sufficient to extract the corresponding IPv4 address for the
+       CE. However, this relies on the distribution of
+       rules. Embedding the full IPv4 address again in the suffix
+       helps simple processing at IPv6-to-IPv4 translator when
+       utilizing MAP for double translation.  It also helps in setting
+       filters at middle boxes, with exposing the IPv4 full addresses
+       dispatched to the CEs.</t>
+
+       <t>Although MAP is designed for the residual deployment, it is
+       also suitable for the objective of providing stateless
+       encapsulation or double translation for the ever deployed IPv4
+       networks whose provider backbone has upgraded to IPv6. However,
+       unlike the residual deployment, the latter case needs to
+       introduce IPv4 routing entropy into the IPv6 routing
+       infrastructure.</t>
+     </section>
+
+     <section title="A generic logic of working with MAP ">
+
+       <t>This section illustrate how we can use MAP in the operation
+       of residual deployment. It starts from IPv6 address planning.</t>
+
+       <t>
+       (A) IPv6 considerations 
+
+      (A1) Determine the maximum number N of CEs to be supported, 
+        and, for generality, suppose N = 2^n. 
+
+      (A2) Choose the length x of IPv6 prefixes to be assigned to 
+        ordinary customers (e.g., x = 60).
+
+      (A3) Multiply N by a margin coefficient K, a power of two 
+        (K = 2 ^ k), to take into account that:
+
+      - Some privileged customers may be assigned IPv6 prefixes of 
+        length x', shorter than x, to have larger addressing spaces 
+	than ordinary customers, both in IPv6 and IPv4.  
+      - Due to the hierarchy of routable prefixes, many theoretically 
+        delegatable prefixes may not be actually delegatable (ref: 
+	host density ratio of <xref target="RFC3194" />).
+
+   (B) IPv4 considerations
+
+      (B1) List all (non overlapping, not yet assigned to any in-running 
+        networks) IPv4 prefixes Hi that are available for IPv4 residual 
+	deployment.  
+
+      (B2) Take enough of them, among the shortest ones, to get a total 
+        space whose size M is a power of two (M = 2 ^ m), and includes 
+	a good proportion of the available IPv4 space. 
+
+        If the M < N, addresses should be shared by N CEs and thus
+	each is shared by N/M = 2^(n - m) CEs with PSID length of 
+	(n - m). 
+
+      (B3) For each IPv4 prefix Hi of length hi, choose a "rule index", 
+        i.e., the 4pfx in Fig.C-1 and Fig.C-3, say Ri of length 
+	ri = m - (32 - hi). 
+	
+	All these indexes must be non overlapping prefixes (e.g. 0, 
+	10, 110, 111 for one /10, one /11, and two /12).
+
+   (C) After (A) and (B), deriving the rule(s)
+
+      (C1) Derive the length c of the "Common prefix" C that will appear 
+        at the beginning of all delegated prefixes (c = x - (n + k)).
+
+      (C2) Take any prefix for this C of length c that starts with a 
+        RIR-allocated IPv6 prefix.
+
+      (C3) For each IPv4 prefix Hi, make a rule, in which the key 
+        is Hi, and the value is the Common prefix C followed by the 
+	Rule index Ri. Then this i-th rule's Rule IPv6 Prefix will
+	have the length of (c + ri). 
+       </t>
+
+       <t>If different sharing ratio is expected, we may partition all
+       CEs into subsets and do (A) and (B) for each subset,
+       determining the PSID length for them separately.</t>
+
+       <t>NOTE: Applying MAP for the operation other than residual deployment
+   (e.g., the IPv6 mapping for already-deployed old IPv4 CEs and subnets)
+   can reference the above text but please pay attention to the 
+   differences in prerequisites and demands. The condition for the 
+   deployment feasibility is possibly different. </t>
+
+     </section>
+   </section>
   </back>
 </rfc>
