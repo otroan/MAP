@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
-<?rfc toc="no" ?>
+<?rfc toc="yes" ?>
 <?rfc tocompact="yes" ?>
 <?rfc compact="yes" ?>
 <?rfc subcompact="yes" ?>
@@ -13,7 +13,7 @@
 
 ]>
 
-<rfc category="info" docName="draft-mdt-softwire-map-dhcp-option-00.txt"
+<rfc category="std" docName="draft-mdt-softwire-map-dhcp-option-00.txt"
      ipr="trust200902">
   <front>
     <title abbrev="MAP DHCPv6 Options">DHCPv6 Options for Mapping of Address and Port</title>
@@ -63,7 +63,7 @@
     <date year="2011" />
 
     <area>Internet</area>
-    <workgroup>Softwire</workgroup>
+    <workgroup>Softwire WG</workgroup>
     <keyword>MAP</keyword>
     <keyword>DHCPv6</keyword>
 
@@ -89,7 +89,7 @@
 
     <section title="Introduction">
       <t>Mapping of Address and Port (MAP) defined in <xref
-      target="map-design" /> is an automatic mechanism for providing
+      target="map-design" /> is a mechanism for providing
       IPv4 connectivity service to end users over a service provider's
       IPv6 network. It defines MAP Border Relay (BR) router that is
       located that the edge of a MAP domain. MAP Customer Edge (CE) is
@@ -134,15 +134,43 @@
     <!--  SECTION 3: DESCRIPTION                                                   -->
 
     <section anchor="description" title="Provisioning mechanism">
-      <t>TODO: Describe that CE acting as a DHCPv6 client requests
+
+      <t>A typical MAP CE usually acts as a DHCPv6 client and requests
       options that are being provided by a DHCPv6 server located
-      somewhere in ISP network.</t>
+      somewhere in ISP network. It would adopt three kinds of
+      parameters independently:</t>
+
+      <t>
+      <list style="symbols">
+        <t>MAP mapping rules are defined in <xref
+        target="map-design"/>, including Rule IPv6 prefix/length,
+        Rule IPv4 prefix and BR IPv6 prefix. One MAP CE can receive
+        one or more MAP mapping rules from the DHCPv6 server, the
+        first of which should be the default MAP mapping rule for the
+        initiated CE of its own, followed by other mapping rules
+        within the MAP domain if necessary.</t>
+        <t>Transport mode indicates encapsulation or translation mode for MAP
+        approach. It should be conducted on interface-by-interface
+        basis</t>
+        <t>Discussion: Qiong also proposed to add deployment mode
+        here.  Jacni Qin recommends against it. Deployment mode is to
+        notify whether CE is in Hub and spoke mode or mesh. In Hub and
+        spoke mode, only the first default MAP mapping rule is needed
+        in the following MAP procedure. While in mesh mode, all MAP
+        mapping rules are included to achieve CE-CE traffic
+        optimization.</t>
+      </list>
+      </t>
     </section>
 
     <section title="DHCPv6 Options Format">
       <t>DHCPv6 protocol is used for CE provisioning. Several new
       options are defined for conveying MAP-specific parameters. Their
       format and usage is defined in the following sections.</t>
+
+      <t>Discussion: As the exact parameters required to configure MAP
+      rules and MAP in general are expected to change, this section
+      is expected to be updated or even rewritten completely.</t>
 
       <t>Discussion: Proposed layout assumes that several simple
       options are used. Such approach simplifies implementation as it
@@ -152,6 +180,7 @@
       is complete. Alternatively, it would be possible to define one
       complex option that contains all mandatory
       parameters. </t>
+
       <t>Discussion: It should be noted that initial concept of 4rd
       provisioning was presented in DHC working group meeting. It used
       one complex option to convey all required parameters. Strong
@@ -161,82 +190,97 @@
       document <xref target="I-D.ietf-dhc-option-guidelines"/>).</t>
 
       <section title="MAP Options Cardinality">
-        <t>MAP CE requires one or more MAP rules. Each rule consists
-        of the following parameters:</t>
-        <t>
-        <list style="symbols">
-          <t>BR Prefix, consisting of 128-bit field representing IPv6
-          prefix with 8-bit long prefix length</t>
-          <t>Rule IPv6 Prefix, consisting of 128-bit field
-          representing IPv6 prefix with 8-bit long prefix length</t>
-          <t>Rule IPv4 Prefix, consisting of 32-bit long IPv4 address
-          nad 8-bit long prefix length</t>
-          <t>L value that designates delegated prefix length.</t>
-        </list>
+        <t>MAP rule is defined in <xref target="map-design"/>, Section 4.</t>
+        
+        <t>Discussion: If you want additional parameter added to the
+        OPTION_MAP_RULE option, please update <xref
+        target="map-design"/> first.</t>
+
+        <t>In each REPLY message, server that supports MAP configuration
+        MUST include exactly one OPTION_MAP_FLAGS option.</t>
+
+        <t>MAP_FLAGS option MUST include one or more OPTION_MAP_RULE options.</t>
+
+        <t>For proper operation, additional parameters obtained via
+        other options are necessary. In particular, L parameter is equal
+        to a length of a prefix delegated to CE, conveyed in OPTION_IA_PD
+        and IAPREFIX, as defined in <xref target="RFC3633"/>.</t>
+
+      </section>
+
+      <section anchor="option-flags" title="MAP Flags Option">
+        <t>. This option specifies MAP
+        flags. Currently the only defined flag is T - transport
+        mode. 0 designates translation and 1 designates encapsulation.
         </t>
-
-        <t>The following notation is proposed for rule presentation:</t>
-
-        <t>{BR Prefix, [Rule IPv6 Prefix, Rule IPv4 Prefix, L]}</t>
-
-        <t>where L designates a length of a prefix delegated to CE,
-        using OPTION_IA_PD, as defined in <xref
-        target="RFC3633"/>.</t>
-
-        <t>Besides requiring at least one MAP rule, CE must also be
-        informed about transport mode (translation or
-        encapsulation).</t>
-
-        <t>BR Prefix does not have to be unique and MAY be shared
-        between several mapping rules.</t>
+        
+        <t>Each MAP_FLAGS option MUST contain one or more MAP Rule
+        Options.</t>
+        <figure align="center" anchor="img-option-flags" title="MAP Flags Option">
+          <preamble></preamble>
+          <artwork align="center"><![CDATA[ 
+TODO: Add format here later
+          ]]>
+          </artwork>
+        </figure>
+        <t>option-code: OPTION_MAP_FLAGS (TBD)</t>
       </section>
 
       <section title="MAP Rule Option">
-        <t>OPTION_MAP_RULE. A container option than groups parameters
-        for specific rule.</t>
+        <t>This option represents a single MAP Rule. Depending on
+        deployment mode, each CE may require one or more MAP Rules to
+        operate properly.</t>
+
+        <t>Server includes one or more MAP Rule Options in MAP Flags option.</t>
+
         <t>Discussion: Do we need to distinguish or reference rules?
         (i.e. Is some kind of ID field required?)</t>
         <t>Server MAY send more than one MAP Rule Option, if it is
         configured to do so. Clients MUST NOT send MAP Rule
         Option.</t>
-      </section>
 
-      <section anchor="option-br-prefix" title="MAP BR Prefix">
-        <t>OPTION_MAP_BR_PREFIX6. This option defines BR Prefix. It
-        contains 128-bit field that specify the IPv6 prefix itself and
-        8-bit prefix length field.</t>
-        <t>MAP BR Prefix MUST NOT appear in places other than
-        suboption of MAP Rule Option.</t>
-      </section>
+        <figure align="center" anchor="img-option-rule" title="MAP Rule Option">
+          <preamble></preamble>
+          <artwork align="center"><![CDATA[
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|        OPTION_MAP_RULE        |         option-length         |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               |
+|                        rule IPv6 prefix                       |
+|                                                               |
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                        rule IPv4 prefix                       |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|                                                               |
+|                     BR prefix (IPv6 prefix)                   |
+|                                                               |
+|                                                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+| rule-pref6-len|
++-+-+-+-+-+-+-+-+]]>
+</artwork>
+        </figure>
 
-      <section anchor="option-prefix6" title="MAP Rule IPv6 Prefix">
-        <t>OPTION_MAP_PREFIX6. This option defines MAP Rule IPv6
-        Prefix. It contains 128-bit field that specify the IPv6 prefix
-        itself and 8-bit prefix length field.</t>
-        <t>MAP Rule IPv6 Prefix MUST NOT appear in places other than
-        suboption of MAP Rule Option.</t>
-      </section>
+        <t>
+          <list style="symbols">
+            <t>option-code: OPTION_MAP_RULE (TBD)</t>
 
-      <section anchor="option-prefix4" title="MAP Rule IPv4 Prefix">
-        <t>OPTION_MAP_PREFIX4. This option defines MAP Rule IPv4
-        Prefix. It contains 32-bit field that specify the IPv4 address
-        itself and 8-bit prefix length field. Note that this is not a
-        typical netmask used in IPv4. For length values smaller than
-        32, this defines IPv4 prefix. For length equal 32, this
-        defines IPv4 address. For values larger than 32, this defines
-        shared IPv4 address with Port set ID.</t>
+            <t>option-length: 37 in octets</t>
 
-        <t>MAP Rule IPv6 Prefix MUST NOT appear in places other than
-        suboption of MAP Rule Option.</t>
-      </section>
+            <t>rule-pref6-len: length for the rule IPv6 prefix in bits</t>
 
-      <section anchor="option-flags" title="MAP Flags Option">
-        <t>OPTION_MAP_FLAGS. This option specifies MAP
-        flags. Currently the only defined flag is T - transport
-        mode. 0 designates translation and 1 designates encapsulation.
+            <t>rule IPv6 prefix: an IPv6 prefix that appears in a MAP rule.</t>
+
+            <t>rule IPv4 prefix: an IPv4 prefix that appears in a MAP rule.</t>
+
+            <t>BR prefix: the IPv6 prefix of BR that appears in a MAP rule</t>
+          </list>
         </t>
       </section>
-
+      
       <section anchor="example" title="MAP Options Example">
         <t>DHCPv6 server provisioning a single MAP Rule to a CE
         (DHCPv6 client) will convey the following MAP options in its
@@ -245,19 +289,18 @@
         <figure align="center" anchor="img-example" title="MAP Options Example">
           <preamble></preamble>
           <artwork align="center"><![CDATA[
-<MAP_RULE>
-    <MAP_BR_PREFIX6/>
-    <MAP_RULE_PREFIX6/>
-    <MAP_RULE_PREFIX4/>
-</MAP_RULE>
 <MAP_FLAGS>
+    <MAP_RULE1/>
+    <MAP_RULE2/>
+    ...
+    <MAP_RULEN/>
+</MAP_FLAGS>
 ]]></artwork>
         </figure>
 
       </section>
 
     </section>
-
 
     <section title="DHCPv6 Server Behavior">
       <t><xref target="RFC3315">RFC 3315 Section 17.2.2</xref>
@@ -273,6 +316,18 @@
       OPTION_MAP_RULE in its Option Request Option (ORO). Server MUST
       transmit MAP Flags Option if client requested OPTION_MAP_FLAGS
       in its ORO.</t>
+
+      <t>Rules assignment is a stateless process from the server's
+      perspective. Server does not need to maintain a state of rules
+      provisioned to clients, track lifetimes, expire outdated rules
+      etc. Server SHOULDs assign the same set of rules to all CEs in
+      one MAP Domain, unless there are several classes of CEs defined,
+      e.g. regular and premium users. In such case, each class of CEs
+      is expected to get the same set of rules. Server is not expected
+      to track MAP rules on a per CE basis. Exact assignment of
+      specific rules to a specific CEs is outside of scope of this
+      document.</t>
+      
     </section>
 
     <section title="DHCPv6 Client Behavior">
@@ -355,7 +410,7 @@
 
     <section title="Contributors">
       <t>The members of the MAP design team are:
-      <list>
+      <list style="numbers">
 
         <t>Mohamed Boucadair</t>
         <t>Gang Chen</t>
@@ -377,7 +432,8 @@
     </section>
 
     <section title="Acknowledgements">
-      <t>None yet.</t>
+      <t>Authors would like to thank Xiaohong Deng, Congxiao Bao,
+      Jacni Qin, Qiong Sun for their comments and suggestions.</t>
     </section>
   </middle>
 
@@ -386,19 +442,19 @@
 
     <references title="Normative References">
       &rfc2119;
+      <reference anchor="map-design" target="">
+        <front>
+          <title>Mapping of Address and Port (MAP)</title>
+          <author initials="O." surname="Troan" fullname="Ole Troan" role="editor">
+            <organization>Cisco</organization>
+          </author>
+          <date day="24" month="10" year="2011" />
+        </front>
+        <seriesInfo name="draft-ietf-softwire-mapping-address-and-port" value="00" />
+      </reference>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3315"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3633"?>
 
-      <reference anchor="map-design" target="">
-        <front>
-            <title>Mapping of Address and Port (MAP)</title>
-            <author initials="O." surname="Troan" fullname="Ole Troan" role="editor">
-                <organization>Cisco</organization>
-            </author>
-            <date day="24" month="10" year="2011" />
-        </front>
-        <seriesInfo name="draft-ietf-softwire-mapping-address-and-port" value="00" />
-    </reference>
     </references>
   <references title="Informative References">
     <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-dhc-option-guidelines.xml" ?>
