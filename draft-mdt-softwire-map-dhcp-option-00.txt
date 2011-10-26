@@ -3,15 +3,11 @@
 
 Softwire WG                                            T. Mrugalski, Ed.
 Internet-Draft                                                       ISC
-<<<<<<< HEAD
 Intended status: Standards Track                            M. Boucadair
-=======
-Intended status: Informational                              M. Boucadair
->>>>>>> Cleaning up.
-Expires: April 26, 2012                                   France Telecom
+Expires: April 28, 2012                                   France Telecom
                                                                 O. Troan
                                                                    Cisco
-                                                        October 24, 2011
+                                                        October 26, 2011
 
 
              DHCPv6 Options for Mapping of Address and Port
@@ -45,7 +41,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on April 26, 2012.
+   This Internet-Draft will expire on April 28, 2012.
 
 Copyright Notice
 
@@ -56,7 +52,7 @@ Copyright Notice
 
 
 
-Mrugalski, et al.        Expires April 26, 2012                 [Page 1]
+Mrugalski, et al.        Expires April 28, 2012                 [Page 1]
 
 Internet-Draft             MAP DHCPv6 Options               October 2011
 
@@ -112,7 +108,7 @@ Table of Contents
 
 
 
-Mrugalski, et al.        Expires April 26, 2012                 [Page 2]
+Mrugalski, et al.        Expires April 28, 2012                 [Page 2]
 
 Internet-Draft             MAP DHCPv6 Options               October 2011
 
@@ -168,11 +164,7 @@ Internet-Draft             MAP DHCPv6 Options               October 2011
 
 
 
-<<<<<<< HEAD
-Mrugalski, et al.        Expires April 26, 2012                 [Page 3]
-=======
-Mrugalski, et al.        Expires April 26, 2012                 [Page 2]
->>>>>>> Cleaning up.
+Mrugalski, et al.        Expires April 28, 2012                 [Page 3]
 
 Internet-Draft             MAP DHCPv6 Options               October 2011
 
@@ -228,12 +220,7 @@ Internet-Draft             MAP DHCPv6 Options               October 2011
 
 
 
-<<<<<<< HEAD
-Mrugalski, et al.        Expires April 26, 2012                 [Page 4]
-=======
-
-Mrugalski, et al.        Expires April 26, 2012                 [Page 3]
->>>>>>> Cleaning up.
+Mrugalski, et al.        Expires April 28, 2012                 [Page 4]
 
 Internet-Draft             MAP DHCPv6 Options               October 2011
 
@@ -285,17 +272,11 @@ Internet-Draft             MAP DHCPv6 Options               October 2011
 
 
 
-<<<<<<< HEAD
-=======
-Mrugalski, et al.        Expires April 26, 2012                 [Page 4]
-
-Internet-Draft             MAP DHCPv6 Options               October 2011
->>>>>>> Cleaning up.
 
 
 
 
-Mrugalski, et al.        Expires April 26, 2012                 [Page 5]
+Mrugalski, et al.        Expires April 28, 2012                 [Page 5]
 
 Internet-Draft             MAP DHCPv6 Options               October 2011
 
@@ -351,7 +332,7 @@ Internet-Draft             MAP DHCPv6 Options               October 2011
 
 
 
-Mrugalski, et al.        Expires April 26, 2012                 [Page 6]
+Mrugalski, et al.        Expires April 28, 2012                 [Page 6]
 
 Internet-Draft             MAP DHCPv6 Options               October 2011
 
@@ -392,17 +373,6 @@ Internet-Draft             MAP DHCPv6 Options               October 2011
    MAP CE functionality and conforms to this specfication MUST include
    OPTION_MAP_RULE and OPTION_MAP_FLAGS in its ORO.
 
-<<<<<<< HEAD
-=======
-
-
-
-Mrugalski, et al.        Expires April 26, 2012                 [Page 5]
-
-Internet-Draft             MAP DHCPv6 Options               October 2011
-
-
->>>>>>> Cleaning up.
    For proper operation, MAP CE client MUST also request IPv6 address
    (OPTION_IA_NA, defined in [RFC3315]) and prefix delegation
    (OPTION_IA_PD, defined in [RFC3633]).  MAP CE client SHOULD NOT
@@ -418,7 +388,7 @@ Internet-Draft             MAP DHCPv6 Options               October 2011
 
 
 
-Mrugalski, et al.        Expires April 26, 2012                 [Page 7]
+Mrugalski, et al.        Expires April 28, 2012                 [Page 7]
 
 Internet-Draft             MAP DHCPv6 Options               October 2011
 
@@ -459,16 +429,6 @@ Internet-Draft             MAP DHCPv6 Options               October 2011
 
    Section 23 of [RFC3315] discusses DHCPv6-related security issues.
 
-<<<<<<< HEAD
-=======
-
-
-Mrugalski, et al.        Expires April 26, 2012                 [Page 6]
-
-Internet-Draft             MAP DHCPv6 Options               October 2011
-
-
->>>>>>> Cleaning up.
    Section 6 of [I-D.murakami-softwire-4rd] discusses 4rd related
    security issues that are partially applicable to MAP mechanism.
 
@@ -484,7 +444,7 @@ Internet-Draft             MAP DHCPv6 Options               October 2011
 
 
 
-Mrugalski, et al.        Expires April 26, 2012                 [Page 8]
+Mrugalski, et al.        Expires April 28, 2012                 [Page 8]
 
 Internet-Draft             MAP DHCPv6 Options               October 2011
 
@@ -526,17 +486,6 @@ Internet-Draft             MAP DHCPv6 Options               October 2011
               and M. Carney, "Dynamic Host Configuration Protocol for
               IPv6 (DHCPv6)", RFC 3315, July 2003.
 
-<<<<<<< HEAD
-=======
-
-
-
-Mrugalski, et al.        Expires April 26, 2012                 [Page 7]
-
-Internet-Draft             MAP DHCPv6 Options               October 2011
-
-
->>>>>>> Cleaning up.
    [RFC3633]  Troan, O. and R. Droms, "IPv6 Prefix Options for Dynamic
               Host Configuration Protocol (DHCP) version 6", RFC 3633,
               December 2003.
@@ -551,7 +500,7 @@ Internet-Draft             MAP DHCPv6 Options               October 2011
 
 
 
-Mrugalski, et al.        Expires April 26, 2012                 [Page 9]
+Mrugalski, et al.        Expires April 28, 2012                 [Page 9]
 
 Internet-Draft             MAP DHCPv6 Options               October 2011
 
@@ -607,11 +556,7 @@ Authors' Addresses
 
 
 
-<<<<<<< HEAD
-Mrugalski, et al.        Expires April 26, 2012                [Page 10]
-=======
-Mrugalski, et al.        Expires April 26, 2012                 [Page 8]
->>>>>>> Cleaning up.
+Mrugalski, et al.        Expires April 28, 2012                [Page 10]
 
 Internet-Draft             MAP DHCPv6 Options               October 2011
 
@@ -655,7 +600,6 @@ Internet-Draft             MAP DHCPv6 Options               October 2011
 
 
 
-<<<<<<< HEAD
 
 
 
@@ -668,8 +612,5 @@ Internet-Draft             MAP DHCPv6 Options               October 2011
 
 
 
-Mrugalski, et al.        Expires April 26, 2012                [Page 11]
-=======
-Mrugalski, et al.        Expires April 26, 2012                 [Page 9]
->>>>>>> Cleaning up.
+Mrugalski, et al.        Expires April 28, 2012                [Page 11]
 
