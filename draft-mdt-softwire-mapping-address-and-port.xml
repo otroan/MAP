@@ -273,13 +273,6 @@
     <section title="Mapping Rules">
       <t>A MAP node is provisioned with one or more mapping rules.</t>
 
-      <t>A Mapping Rule consist of the following items:
-      <list style="symbols">
-	<t>Rule IPv6 prefix (including prefix length)</t>
-	<t>Rule IPv4 prefix (including prefix length)</t>
-	<t>Sharing Ratio (in power of 2)</t>
-      </list></t>
-
       <t>Mapping rules are used differently depending on their
       function. Every MAP node must be provisioned with a Basic
       mapping rule. This is used by the node to map from an End-user
@@ -302,16 +295,32 @@
 
 	<t>Basic Mapping Rule - used for IPv4 prefix, address or port
 	range assignment. There can only be one Basic Mapping Rule per
-	End-user IPv6 prefix.</t>
+	End-user IPv6 prefix.
+	<list style="symbols">
+	  <t>Rule IPv6 prefix (including prefix length)</t>
+	  <t>Rule IPv4 prefix (including prefix length)</t>
+	</list></t>
 
 	<t>Forwarding Mapping Rule - used for forwarding. The Basic
 	Mapping Rule is also a Forwarding Mapping Rule. Each
 	Forwarding Mapping Rule will result in a route in a conceptual
-	RIB for the Rule IPv4 prefix.</t>
+	RIB for the Rule IPv4 prefix.
+
+	<list style="symbols">
+	  <t>Rule IPv6 prefix (including prefix length)</t>
+	  <t>Rule IPv4 prefix (including prefix length)</t>
+	  <t>Sharing Ratio (in power of 2)</t>
+	</list></t>
 
 	<t>Default Mapping Rule - used for destinations outside the
 	MAP domain. A 0.0.0.0/0 route is installed in the RIB for this
-	rule.</t>
+	rule.
+	<list style="symbols">
+
+	  <t>Rule IPv6 prefix (including prefix length)</t>
+	  <t>BR IPv4 address</t>
+	</list></t>
+
       </list></t>
 
       <t>A MAP node finds its Basic Mapping Rule by doing a longest
@@ -518,7 +527,35 @@
 
       </section>
       <section title="Default mapping rule (DMR)">
-	<t>TBD</t>
+	<t>The Default Mapping rule is used to reach IPv4 destinations
+	outside of the MAP domain. Traffic using this rule will be
+	sent from a CE to a BR.</t>
+
+	<t>The Rule IPv4 prefix in the DMR is: 0.0.0.0/0. The Rule
+	IPv6 prefix is the IPv6 address or prefix of the BR. Which is
+	used is dependent on the mode used. For example translation
+	requires that the IPv4 destination address is encoded in the
+	BR IPv6 address, so only a prefix is used in the DMR to allow
+	for a generated interface identifier. For the encapsulation
+	mode the Rule IPv6 prefix can be the full IPv6 address of the
+	BR.</t>
+
+	<t>An example of a DMR is:</t>
+	<t>
+   Default Mapping Rule:     {2001:db8:0001:0000:&lt;interface-id>:/128,
+                              0.0.0.0/0, BR IPv4 address: 192.0.2.1, }
+
+	</t>
+
+	<t>In most implementations of a RIB, the next-hop address must
+	be of the same address family as the prefix. To satisfy this
+	requirement a BR IPv4 address is included in the rule. Giving a default route in the RIB:</t>
+
+        <figure><artwork align="left"><![CDATA[
+   0.0.0.0 -> 192.0.2.1, MAP-Interface0
+  ]]></artwork></figure>
+
+
       </section>
 
     </section>
