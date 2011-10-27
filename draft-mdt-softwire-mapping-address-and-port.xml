@@ -117,17 +117,17 @@
       and vice versa. In particular, <xref target="RFC6052"></xref>
       specifies the address format to build IPv4-converted and
       IPv4-translatable IPv6 addresses. RFC6052 discusses the
-      transport of the port range information in an IPv4-embedded IPv6
+      transport of the port set information in an IPv4-embedded IPv6
       address but the conclusion was the following (excerpt from
       [RFC6052]):</t>
 
       <t>"There have been proposals to complement stateless
-      translation with a port-range feature. Instead of mapping an
+      translation with a port range feature. Instead of mapping an
       IPv4 address to exactly one IPv6 prefix, the options would allow
       several IPv6 nodes to share an IPv4 address, with each node
-      managing a different range of ports. If a port range extension
-      is needed, could be defined later, using bits currently reserved
-      as null in the suffix."</t>
+      managing a different set of ports. If a port set extension is
+      needed, could be defined later, using bits currently reserved as
+      null in the suffix."</t>
 
       <t>The commonalities of all these mechanisms are:
       <list style="symbols">
@@ -193,10 +193,9 @@
       target="RFC6346"></xref>. The corresponding stateful solution
       DS-lite is described in <xref target="RFC6333"></xref></t>
 
-      <t>Requirements and deployment considerations are documented in
-      appendix A to C. These are kept in the document for
-      informational purposes for now, but are in no way to be
-      considered normative.</t>
+      <t>Outstanding issues, Requirements and deployment
+      considerations are temporarily kept in Appendix A to D. The
+      appendixes are in no way to be considered normative.</t>
 
     </section>
 
@@ -241,7 +240,7 @@
 	<t hangText="Shared IPv4 address:">An IPv4 address that is
 	shared among multiple CEs. Each node has a separate part of
 	the transport layer port space; denoted as a port set. Only
-	ports that belong to the assigned range can be used for
+	ports that belong to the assigned port set can be used for
 	communication.</t>
 
 	<t hangText="End-user IPv6 prefix:">The IPv6 prefix assigned
@@ -294,13 +293,13 @@
       <list style="numbers">
 
 	<t>Basic Mapping Rule - used for IPv4 prefix, address or port
-	range assignment. There can only be one Basic Mapping Rule per
+	set assignment. There can only be one Basic Mapping Rule per
 	End-user IPv6 prefix.
 	<list style="symbols">
 	  <t>Rule IPv6 prefix (including prefix length)</t>
 	  <t>Rule IPv4 prefix (including prefix length)</t>
-	  <t>Sharing Ratio (in power of 2)</t>
-	  <t>PSID offset in number of bits (default 6)</t>
+	  <t>Rule EA-bits length (in bits)</t>
+	  <t>Rule PSID offset in number of bits (optional, default 6)</t>
 	</list></t>
 
 	<t>Forwarding Mapping Rule - used for forwarding. The Basic
@@ -311,8 +310,8 @@
 	<list style="symbols">
 	  <t>Rule IPv6 prefix (including prefix length)</t>
 	  <t>Rule IPv4 prefix (including prefix length)</t>
-	  <t>Sharing Ratio (in power of 2)</t>
-	  <t>PSID offset in number of bits (default 6)</t>
+	  <t>Rule EA-bits length (in bits)</t>
+	  <t>Rule PSID offset in number of bits (default 6)</t>
 	</list></t>
 
 	<t>Default Mapping Rule - used for destinations outside the
@@ -321,7 +320,7 @@
 	<list style="symbols">
 
 	  <t>Rule IPv6 prefix (including prefix length)</t>
-	  <t>BR IPv4 address</t>
+	  <t>Rule BR IPv4 address</t>
 	</list></t>
 
       </list></t>
@@ -344,7 +343,7 @@
 	16 bits), giving the user 1024 ports. The issue with that
 	scheme is that it does not exclude the well known ports
 	(0-1023), unless the IPv6 prefixes resulting in assigning the
-	well known port range are not being assigned to end users. In
+	well known port set are not being assigned to end users. In
 	a deployment where IPv6 address planning is independent of
 	IPv4 address planning, that would result in some users being
 	assigned the well known port space. A variant of the prefix
@@ -365,13 +364,13 @@
 +-------------------------+
 | YYYY YY | P S I D  | XX |
 +-------------------------+
-|<-Offset>|
-|  Y > 0  | 
+|<Offset> |            Any
+|  Y > 0  |           value
 ]]></artwork>
 	  
 	</figure></t>
 
-	<t>The node's port range is given by the Y and X bits.</t>
+	<t>The MAP node's port set is given by the Y and X bits.</t>
 
       </section>
 
@@ -403,38 +402,74 @@
 	IPv4 address case contains a Port Set Identifier (PSID).</t>
 
 	<t><figure align="center" anchor="addressallocation2-fig" title="">
-	  <preamble></preamble>
+	  <preamble>Shared IPv4 address:</preamble>
 
 	  <artwork align="center"><![CDATA[
 
 |   r bits    |        p bits       |         |   q bits   |
 +-------------+---------------------+         +------------+
-| IPv4 prefix | IPv4 Address suffix |         |Port Set ID |
+| Domain IPv4 | IPv4 Address suffix |         |Port Set ID |
 +-------------+---------------------+         +------------+
+|            32 bits                |
 
 ]]></artwork>
 	  
 	</figure></t>
 
-	<t>If only a part of the IPv4 address/prefix is encoded in the
-	EA bits, the IPv4 prefix is provisioned to the CE by other
-	means (e.g. a DHCPv6 option). To create a complete IPv4
-	address, the IPv4 address suffix from the EA bits, are
-	concatenated with the IPv4 prefix.</t>
+	<t><figure align="center" anchor="addressallocation3-fig" title="">
+	  <preamble>Complete IPv4 address:</preamble>
 
-	<t>The number of IPv4 address bits (p) in the EA bits is given by 32 - r bits.</t>
+	  <artwork align="center"><![CDATA[
+
+|   r bits    |        p bits       |
++-------------+---------------------+
+| Domain IPv4 | IPv4 Address suffix |
++-------------+---------------------+
+|            32 bits                |
+
+]]></artwork>
+	  
+	</figure></t>
+
+	<t><figure align="center" anchor="addressallocation4-fig" title="">
+	  <preamble>IPv4 prefix:</preamble>
+
+	  <artwork align="center"><![CDATA[
+
+|   r bits    |        p bits       |
++-------------+---------------------+
+| Domain IPv4 | IPv4 Address suffix |
++-------------+---------------------+
+|           < 32 bits               |
+]]></artwork>
+	  
+	</figure></t>
+
+	<t>If only a part of the IPv4 address/prefix is encoded in the
+	EA bits, the Domain IPv4 prefix is provisioned to the CE by other
+	means (e.g. a DHCPv6 option). To create a complete IPv4
+	address (or prefix), the IPv4 address suffix from the EA bits, are
+	concatenated with the Domain IPv4 prefix (r bits).</t>
 
 	<t>The offset of the EA bits field in the IPv6 address is
 	equal to the BMR Rule IPv6 prefix length. The length of the EA
-	bits field (o bits) is given by p + log2(Rule Sharing
-	Ratio). The node MUST verify that the BMR Rule IPv6 prefix
-	length + o is less than or equal to the length of the End-user
-	IPv6 prefix.</t>
+	bits field (o) is given in the Rule EA-bits length
+	parameter.</t>
 
-	<t>The PSID bits are used to create a port range. The length
-	of the PSID bit field within EA bits is: o - p.</t>
+	<t>If o + r &lt; 32, then an IPv4 prefix is assigned. The IPv4
+	prefix length is equal to r bits + Rule EA-bits length.</t>
 
-	<t><figure align="center" anchor="addressallocation2-fi3" title="">
+	<t>If o + r is equal to 32, then a full IPv4 address is
+	to be assigned. The address is created by concatenating the
+	Domain IPv4 prefix and the EA-bits.</t>
+
+	<t>If o + r is > 32, then a shared IPv4 address is to be
+	assigned. The number of IPv4 address bits (p) in the EA bits
+	is given by 32 - r bits. The PSID bits are used to create a
+	port set. The length of the PSID bit field within EA bits is:
+	o - p.</t>
+
+	<t><figure align="center" anchor="addressallocation5-fig" title="">
 	  <preamble></preamble>
 
 	  <artwork align="center"><![CDATA[
@@ -705,6 +740,68 @@
       &I-D.bcx-address-fmt-extension;
     </references>
 
+   <section title="Outstanding issues">
+     <section title="Port mapping algorithm">
+       <section title="Prefix/infix algorithm">
+	 <t>Whether the chosen offset has 4 or 6 bits is still an open
+	 question. With 4, the sharing ration can be up to 1024
+	 (Requirement R-4, with due respect of R-11).  On the other
+	 hand, this excludes the first 4096 first ports from any
+	 assigned port set, while the well-known ports that have to be
+	 excluded are only the first 1024 (4.7% of usable ports are
+	 unused).</t>
+       </section>
+
+     </section>
+
+     <section title="Max PSID">
+       <t>It is possible to support variable sized port sets per
+       shared IPv4 address by using a mechanism called "MAX PSID", the
+       idea is that a CE doesn't have to know the length of the PSID
+       field, but includes all possible ports (barring offset bits) in
+       the encoded IPv6 address. While that solves this particular
+       requirement, it implies that a MAP CE now must be capable of
+       receiving MAP traffic for any address within its delegated
+       prefix, as opposed to having a dedicated /128 connected to the
+       MAP virtual link.</t>
+
+       <t>To distinguish between native and MAP traffic it has been
+       proposed to use a special coding for the bits 71/72 in the
+       modified EUI-64 interface-id format.</t>
+
+     </section>
+
+     <section title="BR per Rule within a domain">
+     </section>
+
+     <section title="Interface identifier">
+
+       <t><figure><artwork align="center"><![CDATA[
+|<--------------- 64 -----------><8><----- 40 ------><--16--->
++--------------------------------+-+----------------+--------+
+|        Subnet prefix (part 1)  |V|    (part 2)    |CNP or 0|
++--------------------------------+-+----------------+--------+
+]]></artwork>
+
+       </figure></t>
+       <t>The V octet is a mark that deterministically differentiates
+       MAP addresses from other IPv6 addresses (Requirement R-15, not
+       restricted to /64s. </t>
+
+       <t>CNP is the Checksum Neutrality Preserver such that ports of
+       the IPv4 payload, if present, don't need to be updated (in
+       one's complement arithmetic, the sum of the two 16 bit fields
+       of the IPv4 address, minus the sum of 16 bit fields of bits
+       0-111 of the address). It can be replaced by 0 in case of
+       encapsulation, but facilitates double translation and, possibly
+       more important, permits to envisage a unique solution having
+       significant advantages of both encapsulation and double
+       translation.</t>
+     </section>
+
+   </section>
+
+
     <section title="Requirements">
       <t>This list of requirements for a stateless mapping of address
       and ports solution may not be complete. The requirements are
@@ -736,13 +833,13 @@
 	a sharing ratio of 64, 1024 ports per end-user.</t>
 
 	<t>The mapping may support deployments using differentiated
-	port-ranges. That is, end-users are assigned different sized
-	port-ranges and direct communication between MAP CEs are
+	port-sets. That is, end-users are assigned different sized
+	port-sets and direct communication between MAP CEs are
 	permitted.</t>
 
-	<t>The mapping should support differentiated port ranges
+	<t>The mapping should support differentiated port sets
 	within a single shared IPv4 address. (i.e., be able to assign
-	port ranges of different sizes to customers without requiring
+	port sets of different sizes to customers without requiring
 	any per customer state to be instantiated in network elements
 	involved in data transfer).</t>
 
@@ -796,7 +893,7 @@
 	
     <section title="Deployment considerations">
 
-      <section title="Flexible Assigment of Port Range">
+      <section title="Flexible Assigment of Port Sets">
 
 	<t>Different classes of customers require port sets of
 	different size. In the context of shared IPv4 addresses, some

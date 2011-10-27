@@ -65,8 +65,8 @@ Table of Contents
    4.  Mapping Rules  . . . . . . . . . . . . . . . . . . . . . . . .  9
      4.1.  Port mapping algorithm . . . . . . . . . . . . . . . . . . 10
      4.2.  Basic mapping rule (BMR) . . . . . . . . . . . . . . . . . 11
-     4.3.  Forwarding mapping rule (FMR)  . . . . . . . . . . . . . . 12
-     4.4.  Default mapping rule (DMR) . . . . . . . . . . . . . . . . 13
+     4.3.  Forwarding mapping rule (FMR)  . . . . . . . . . . . . . . 13
+     4.4.  Default mapping rule (DMR) . . . . . . . . . . . . . . . . 14
    5.  Use of the IPv6 Interface identifier . . . . . . . . . . . . . 15
    6.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . . 16
    7.  Security Considerations  . . . . . . . . . . . . . . . . . . . 17
@@ -75,29 +75,29 @@ Table of Contents
    10. References . . . . . . . . . . . . . . . . . . . . . . . . . . 20
      10.1. Normative References . . . . . . . . . . . . . . . . . . . 20
      10.2. Informative References . . . . . . . . . . . . . . . . . . 20
-   Appendix A.  Requirements  . . . . . . . . . . . . . . . . . . . . 24
-   Appendix B.  Deployment considerations . . . . . . . . . . . . . . 26
-     B.1.  Flexible Assigment of Port Range . . . . . . . . . . . . . 26
-     B.2.  Traffic Classification . . . . . . . . . . . . . . . . . . 26
-     B.3.  Prefix Delegation Deployment . . . . . . . . . . . . . . . 26
-     B.4.  Coexisting Deployment  . . . . . . . . . . . . . . . . . . 26
-     B.5.  Friendly to Network Provisioning . . . . . . . . . . . . . 27
-     B.6.  Enable privacy addresses . . . . . . . . . . . . . . . . . 27
-     B.7.  Facilitating 4v6 Service . . . . . . . . . . . . . . . . . 27
-     B.8.  Independency with IPv6 Routing Planning  . . . . . . . . . 27
-     B.9.  Optimized Routing Path . . . . . . . . . . . . . . . . . . 27
-   Appendix C.  Guidelines for Operators  . . . . . . . . . . . . . . 28
-     C.1.  Additional terms . . . . . . . . . . . . . . . . . . . . . 28
-     C.2.  Understanding address formats: their difference  and
-           relevance  . . . . . . . . . . . . . . . . . . . . . . . . 28
-     C.3.  Residual deployment with MAP . . . . . . . . . . . . . . . 32
-   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 36
-
-
-
-
-
-
+   Appendix A.  Outstanding issues  . . . . . . . . . . . . . . . . . 24
+     A.1.  Port mapping algorithm . . . . . . . . . . . . . . . . . . 24
+       A.1.1.  Prefix/infix algorithm . . . . . . . . . . . . . . . . 24
+     A.2.  Max PSID . . . . . . . . . . . . . . . . . . . . . . . . . 24
+     A.3.  BR per Rule within a domain  . . . . . . . . . . . . . . . 24
+     A.4.  Interface identifier . . . . . . . . . . . . . . . . . . . 24
+   Appendix B.  Requirements  . . . . . . . . . . . . . . . . . . . . 26
+   Appendix C.  Deployment considerations . . . . . . . . . . . . . . 28
+     C.1.  Flexible Assigment of Port Sets  . . . . . . . . . . . . . 28
+     C.2.  Traffic Classification . . . . . . . . . . . . . . . . . . 28
+     C.3.  Prefix Delegation Deployment . . . . . . . . . . . . . . . 28
+     C.4.  Coexisting Deployment  . . . . . . . . . . . . . . . . . . 28
+     C.5.  Friendly to Network Provisioning . . . . . . . . . . . . . 29
+     C.6.  Enable privacy addresses . . . . . . . . . . . . . . . . . 29
+     C.7.  Facilitating 4v6 Service . . . . . . . . . . . . . . . . . 29
+     C.8.  Independency with IPv6 Routing Planning  . . . . . . . . . 29
+     C.9.  Optimized Routing Path . . . . . . . . . . . . . . . . . . 29
+   Appendix D.  Guidelines for Operators  . . . . . . . . . . . . . . 30
+     D.1.  Additional terms . . . . . . . . . . . . . . . . . . . . . 30
+     D.2.  Understanding address formats: their difference  and
+           relevance  . . . . . . . . . . . . . . . . . . . . . . . . 30
+     D.3.  Residual deployment with MAP . . . . . . . . . . . . . . . 34
+   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 38
 
 
 
@@ -144,16 +144,16 @@ Internet-Draft                     MAP                      October 2011
    binding encoded in it a corresponding IPv4 address, and vice versa.
    In particular, [RFC6052] specifies the address format to build IPv4-
    converted and IPv4-translatable IPv6 addresses.  RFC6052 discusses
-   the transport of the port range information in an IPv4-embedded IPv6
+   the transport of the port set information in an IPv4-embedded IPv6
    address but the conclusion was the following (excerpt from
    [RFC6052]):
 
    "There have been proposals to complement stateless translation with a
-   port-range feature.  Instead of mapping an IPv4 address to exactly
+   port range feature.  Instead of mapping an IPv4 address to exactly
    one IPv6 prefix, the options would allow several IPv6 nodes to share
-   an IPv4 address, with each node managing a different range of ports.
-   If a port range extension is needed, could be defined later, using
-   bits currently reserved as null in the suffix."
+   an IPv4 address, with each node managing a different set of ports.
+   If a port set extension is needed, could be defined later, using bits
+   currently reserved as null in the suffix."
 
    The commonalities of all these mechanisms are:
 
@@ -225,9 +225,9 @@ Troan                    Expires April 29, 2012                 [Page 4]
 Internet-Draft                     MAP                      October 2011
 
 
-   Requirements and deployment considerations are documented in appendix
-   A to C. These are kept in the document for informational purposes for
-   now, but are in no way to be considered normative.
+   Outstanding issues, Requirements and deployment considerations are
+   temporarily kept in Appendix A to D. The appendixes are in no way to
+   be considered normative.
 
 
 
@@ -373,7 +373,7 @@ Internet-Draft                     MAP                      October 2011
                          CEs.  Each node has a separate part of the
                          transport layer port space; denoted as a port
                          set.  Only ports that belong to the assigned
-                         range can be used for communication.
+                         port set can be used for communication.
 
    End-user IPv6 prefix: The IPv6 prefix assigned to an End-user CE by
                          other means than MAP itself.
@@ -471,7 +471,7 @@ Internet-Draft                     MAP                      October 2011
 
    There are three types of mapping rules:
 
-   1.  Basic Mapping Rule - used for IPv4 prefix, address or port range
+   1.  Basic Mapping Rule - used for IPv4 prefix, address or port set
        assignment.  There can only be one Basic Mapping Rule per End-
        user IPv6 prefix.
 
@@ -479,9 +479,9 @@ Internet-Draft                     MAP                      October 2011
 
        *  Rule IPv4 prefix (including prefix length)
 
-       *  Sharing Ratio (in power of 2)
+       *  Rule EA-bits length (in bits)
 
-       *  PSID offset in number of bits (default 6)
+       *  Rule PSID offset in number of bits (optional, default 6)
 
    2.  Forwarding Mapping Rule - used for forwarding.  The Basic Mapping
        Rule is also a Forwarding Mapping Rule.  Each Forwarding Mapping
@@ -492,9 +492,9 @@ Internet-Draft                     MAP                      October 2011
 
        *  Rule IPv4 prefix (including prefix length)
 
-       *  Sharing Ratio (in power of 2)
+       *  Rule EA-bits length (in bits)
 
-       *  PSID offset in number of bits (default 6)
+       *  Rule PSID offset in number of bits (default 6)
 
 
 
@@ -510,7 +510,7 @@ Internet-Draft                     MAP                      October 2011
 
        *  Rule IPv6 prefix (including prefix length)
 
-       *  BR IPv4 address
+       *  Rule BR IPv4 address
 
    A MAP node finds its Basic Mapping Rule by doing a longest match
    between the End-user IPv6 prefix and the Rule IPv6 prefix in the
@@ -529,14 +529,14 @@ Internet-Draft                     MAP                      October 2011
    define a /6 worth of port space (out of the total 16 bits), giving
    the user 1024 ports.  The issue with that scheme is that it does not
    exclude the well known ports (0-1023), unless the IPv6 prefixes
-   resulting in assigning the well known port range are not being
-   assigned to end users.  In a deployment where IPv6 address planning
-   is independent of IPv4 address planning, that would result in some
-   users being assigned the well known port space.  A variant of the
-   prefix algorithm uses an "infix" instead of a "prefix.  By requiring
-   that the PSID offset field are larger then 0, the well known ports
-   being excluded, while still sharing the ports fairly among all users.
-   The length of the PSID offset is given as a parameter in the mapping
+   resulting in assigning the well known port set are not being assigned
+   to end users.  In a deployment where IPv6 address planning is
+   independent of IPv4 address planning, that would result in some users
+   being assigned the well known port space.  A variant of the prefix
+   algorithm uses an "infix" instead of a "prefix.  By requiring that
+   the PSID offset field are larger then 0, the well known ports being
+   excluded, while still sharing the ports fairly among all users.  The
+   length of the PSID offset is given as a parameter in the mapping
    rule.  A PSID offset of 0, results in the basic "prefix" algorithm.
    The default length of the PSID offset is 6, resulting in the ports
    0-1023 being excluded.
@@ -547,12 +547,12 @@ Internet-Draft                     MAP                      October 2011
                         +-------------------------+
                         | YYYY YY | P S I D  | XX |
                         +-------------------------+
-                        |<-Offset>|
-                        |  Y > 0  |
+                        |<Offset> |            Any
+                        |  Y > 0  |           value
 
                                  Figure 1
 
-   The node's port range is given by the Y and X bits.
+   The MAP node's port set is given by the Y and X bits.
 
 
 
@@ -585,29 +585,29 @@ Internet-Draft                     MAP                      October 2011
    in the shared IPv4 address case contains a Port Set Identifier
    (PSID).
 
+                           Shared IPv4 address:
 
 
         |   r bits    |        p bits       |         |   q bits   |
         +-------------+---------------------+         +------------+
-        | IPv4 prefix | IPv4 Address suffix |         |Port Set ID |
+        | Domain IPv4 | IPv4 Address suffix |         |Port Set ID |
         +-------------+---------------------+         +------------+
+        |            32 bits                |
 
 
                                  Figure 3
 
-   If only a part of the IPv4 address/prefix is encoded in the EA bits,
-   the IPv4 prefix is provisioned to the CE by other means (e.g. a
-   DHCPv6 option).  To create a complete IPv4 address, the IPv4 address
-   suffix from the EA bits, are concatenated with the IPv4 prefix.
+                          Complete IPv4 address:
 
-   The number of IPv4 address bits (p) in the EA bits is given by 32 - r
-   bits.
 
-   The offset of the EA bits field in the IPv6 address is equal to the
-   BMR Rule IPv6 prefix length.  The length of the EA bits field (o
-   bits) is given by p + log2(Rule Sharing Ratio).  The node MUST verify
-   that the BMR Rule IPv6 prefix length + o is less than or equal to the
-   length of the End-user IPv6 prefix.
+                   |   r bits    |        p bits       |
+                   +-------------+---------------------+
+                   | Domain IPv4 | IPv4 Address suffix |
+                   +-------------+---------------------+
+                   |            32 bits                |
+
+
+                                 Figure 4
 
 
 
@@ -617,8 +617,38 @@ Troan                    Expires April 29, 2012                [Page 11]
 Internet-Draft                     MAP                      October 2011
 
 
-   The PSID bits are used to create a port range.  The length of the
-   PSID bit field within EA bits is: o - p.
+                               IPv4 prefix:
+
+
+                   |   r bits    |        p bits       |
+                   +-------------+---------------------+
+                   | Domain IPv4 | IPv4 Address suffix |
+                   +-------------+---------------------+
+                   |           < 32 bits               |
+
+                                 Figure 5
+
+   If only a part of the IPv4 address/prefix is encoded in the EA bits,
+   the Domain IPv4 prefix is provisioned to the CE by other means (e.g.
+   a DHCPv6 option).  To create a complete IPv4 address (or prefix), the
+   IPv4 address suffix from the EA bits, are concatenated with the
+   Domain IPv4 prefix (r bits).
+
+   The offset of the EA bits field in the IPv6 address is equal to the
+   BMR Rule IPv6 prefix length.  The length of the EA bits field (o) is
+   given in the Rule EA-bits length parameter.
+
+   If o + r < 32, then an IPv4 prefix is assigned.  The IPv4 prefix
+   length is equal to r bits + Rule EA-bits length.
+
+   If o + r is equal to 32, then a full IPv4 address is to be assigned.
+   The address is created by concatenating the Domain IPv4 prefix and
+   the EA-bits.
+
+   If o + r is > 32, then a shared IPv4 address is to be assigned.  The
+   number of IPv4 address bits (p) in the EA bits is given by 32 - r
+   bits.  The PSID bits are used to create a port set.  The length of
+   the PSID bit field within EA bits is: o - p.
 
 
 
@@ -630,7 +660,18 @@ Internet-Draft                     MAP                      October 2011
                         |  Y > 0  |
 
 
-                                 Figure 4
+                                 Figure 6
+
+
+
+
+
+
+
+Troan                    Expires April 29, 2012                [Page 12]
+
+Internet-Draft                     MAP                      October 2011
+
 
    Example:
 
@@ -640,7 +681,7 @@ Internet-Draft                     MAP                      October 2011
       IPv4 prefix:          192.0.2.0/24
       Basic Mapping Rule:   {2001:db8:00::/40, 192.0.2.0/24, 256, 6}
 
-     We get IPv4 address and port range:
+     We get IPv4 address and port set:
       EA bits offset:       40
       IPv4 suffix bits (p): 32 - 24 = 8
       IPv4 address:         192.0.2.18
@@ -657,20 +698,6 @@ Internet-Draft                     MAP                      October 2011
    On forwarding an IPv4 packet a lookup is done in the RIB and the
    correct FMR is used.
 
-
-
-
-
-
-
-
-
-
-
-
-Troan                    Expires April 29, 2012                [Page 12]
-
-Internet-Draft                     MAP                      October 2011
 
 
     |        32 bits           |         |    16 bits        |
@@ -692,7 +719,15 @@ Internet-Draft                     MAP                      October 2011
     |<---  End-user IPv6 prefix  --->|
 
 
-                                 Figure 5
+                                 Figure 7
+
+
+
+
+Troan                    Expires April 29, 2012                [Page 13]
+
+Internet-Draft                     MAP                      October 2011
+
 
    The subnet ID for MAP is defined to be ~0.  I.e. the last subnet in
    an End-user IPv6 prefix allocation is used for MAP.
@@ -721,14 +756,6 @@ Internet-Draft                     MAP                      October 2011
 
    The Rule IPv4 prefix in the DMR is: 0.0.0.0/0.  The Rule IPv6 prefix
    is the IPv6 address or prefix of the BR.  Which is used is dependent
-
-
-
-Troan                    Expires April 29, 2012                [Page 13]
-
-Internet-Draft                     MAP                      October 2011
-
-
    on the mode used.  For example translation requires that the IPv4
    destination address is encoded in the BR IPv6 address, so only a
    prefix is used in the DMR to allow for a generated interface
@@ -747,33 +774,6 @@ Internet-Draft                     MAP                      October 2011
 
 
       0.0.0.0 -> 192.0.2.1, MAP-Interface0
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -818,7 +818,7 @@ Internet-Draft                     MAP                      October 2011
                   +------------------+------------------+
 
 
-                                 Figure 6
+                                 Figure 8
 
             Parsable format including address length and PSID:
 
@@ -829,7 +829,7 @@ Internet-Draft                     MAP                      October 2011
                   +---+----------------+------+-----+---+
 
 
-                                 Figure 7
+                                 Figure 9
 
 
 
@@ -1289,7 +1289,119 @@ Troan                    Expires April 29, 2012                [Page 23]
 Internet-Draft                     MAP                      October 2011
 
 
-Appendix A.  Requirements
+Appendix A.  Outstanding issues
+
+A.1.  Port mapping algorithm
+
+A.1.1.  Prefix/infix algorithm
+
+   Whether the chosen offset has 4 or 6 bits is still an open question.
+   With 4, the sharing ration can be up to 1024 (Requirement R-4, with
+   due respect of R-11).  On the other hand, this excludes the first
+   4096 first ports from any assigned port set, while the well-known
+   ports that have to be excluded are only the first 1024 (4.7% of
+   usable ports are unused).
+
+A.2.  Max PSID
+
+   It is possible to support variable sized port sets per shared IPv4
+   address by using a mechanism called "MAX PSID", the idea is that a CE
+   doesn't have to know the length of the PSID field, but includes all
+   possible ports (barring offset bits) in the encoded IPv6 address.
+   While that solves this particular requirement, it implies that a MAP
+   CE now must be capable of receiving MAP traffic for any address
+   within its delegated prefix, as opposed to having a dedicated /128
+   connected to the MAP virtual link.
+
+   To distinguish between native and MAP traffic it has been proposed to
+   use a special coding for the bits 71/72 in the modified EUI-64
+   interface-id format.
+
+A.3.  BR per Rule within a domain
+
+A.4.  Interface identifier
+
+
+       |<--------------- 64 -----------><8><----- 40 ------><--16--->
+       +--------------------------------+-+----------------+--------+
+       |        Subnet prefix (part 1)  |V|    (part 2)    |CNP or 0|
+       +--------------------------------+-+----------------+--------+
+
+   The V octet is a mark that deterministically differentiates MAP
+   addresses from other IPv6 addresses (Requirement R-15, not restricted
+   to /64s.
+
+   CNP is the Checksum Neutrality Preserver such that ports of the IPv4
+   payload, if present, don't need to be updated (in one's complement
+   arithmetic, the sum of the two 16 bit fields of the IPv4 address,
+   minus the sum of 16 bit fields of bits 0-111 of the address).  It can
+   be replaced by 0 in case of encapsulation, but facilitates double
+   translation and, possibly more important, permits to envisage a
+
+
+
+Troan                    Expires April 29, 2012                [Page 24]
+
+Internet-Draft                     MAP                      October 2011
+
+
+   unique solution having significant advantages of both encapsulation
+   and double translation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Troan                    Expires April 29, 2012                [Page 25]
+
+Internet-Draft                     MAP                      October 2011
+
+
+Appendix B.  Requirements
 
    This list of requirements for a stateless mapping of address and
    ports solution may not be complete.  The requirements are listed in
@@ -1319,14 +1431,14 @@ Appendix A.  Requirements
           sharing ratio of 64, 1024 ports per end-user.
 
    R-5:   The mapping may support deployments using differentiated port-
-          ranges.  That is, end-users are assigned different sized port-
-          ranges and direct communication between MAP CEs are permitted.
+          sets.  That is, end-users are assigned different sized port-
+          sets and direct communication between MAP CEs are permitted.
 
-   R-6:   The mapping should support differentiated port ranges within a
-          single shared IPv4 address. (i.e., be able to assign port
-          ranges of different sizes to customers without requiring any
-          per customer state to be instantiated in network elements
-          involved in data transfer).
+   R-6:   The mapping should support differentiated port sets within a
+          single shared IPv4 address. (i.e., be able to assign port sets
+          of different sizes to customers without requiring any per
+          customer state to be instantiated in network elements involved
+          in data transfer).
 
    R-7:   The MAP solution should support excluding the well known ports
           0-1023.
@@ -1340,7 +1452,7 @@ Appendix A.  Requirements
 
 
 
-Troan                    Expires April 29, 2012                [Page 24]
+Troan                    Expires April 29, 2012                [Page 26]
 
 Internet-Draft                     MAP                      October 2011
 
@@ -1396,21 +1508,21 @@ Internet-Draft                     MAP                      October 2011
 
 
 
-Troan                    Expires April 29, 2012                [Page 25]
+Troan                    Expires April 29, 2012                [Page 27]
 
 Internet-Draft                     MAP                      October 2011
 
 
-Appendix B.  Deployment considerations
+Appendix C.  Deployment considerations
 
-B.1.  Flexible Assigment of Port Range
+C.1.  Flexible Assigment of Port Sets
 
    Different classes of customers require port sets of different size.
    In the context of shared IPv4 addresses, some customers would be
    satisfied with an shared IPv4 addresses, while others may need to be
    assigned a single IPv4 address or delegated an IPv4 subnet.
 
-B.2.  Traffic Classification
+C.2.  Traffic Classification
 
    Usually, ISPs adopt traffic classification to ensure service quality
    for different classes of customers.  This feature is also helpful for
@@ -1425,7 +1537,7 @@ B.2.  Traffic Classification
    facilitating IPv6 deployment, MAP solution should support this
    feature on IPv6 plane.
 
-B.3.  Prefix Delegation Deployment
+C.3.  Prefix Delegation Deployment
 
    Prefix delegation is an important feature both for broadband and
    mobile network.  In mobile network, prefix delegation is introduced
@@ -1433,7 +1545,7 @@ B.3.  Prefix Delegation Deployment
    supported in 4v6 case.  Variable length of IPv6 prefix is assigned to
    CPE for deriving IPv4 information.
 
-B.4.  Coexisting Deployment
+C.4.  Coexisting Deployment
 
    4v6 solutions(i.e. encapsulation and translation) would not only
    coexist with each other, but also can harmonize with other deployment
@@ -1452,12 +1564,12 @@ B.4.  Coexisting Deployment
 
 
 
-Troan                    Expires April 29, 2012                [Page 26]
+Troan                    Expires April 29, 2012                [Page 28]
 
 Internet-Draft                     MAP                      October 2011
 
 
-B.5.  Friendly to Network Provisioning
+C.5.  Friendly to Network Provisioning
 
    Network management plane normally has an ability to to identify
    different users and the compatible with the address assignment
@@ -1469,7 +1581,7 @@ B.5.  Friendly to Network Provisioning
    Since only IPv6 prefix is assigned, 4v6 on the management plane is
    naturally conducted only via IPv6.
 
-B.6.  Enable privacy addresses
+C.6.  Enable privacy addresses
 
    User privacy should be taken into account when 4v6 solution is
    deployed.  Some security concern associated with non-changing IPv6
@@ -1479,7 +1591,7 @@ B.6.  Enable privacy addresses
    identify when different addresses used in different sessions actually
    correspond to the same node.
 
-B.7.  Facilitating 4v6 Service
+C.7.  Facilitating 4v6 Service
 
    Some ISPs may need to offer services in a 4v6 domain with a shared
    address, e.g. 4v6 node hosts FTP server.  The service provisioning
@@ -1488,13 +1600,13 @@ B.7.  Facilitating 4v6 Service
    range including the 0-1023.  Afterwards, operators could decide to
    assign it to any requesting user.
 
-B.8.  Independency with IPv6 Routing Planning
+C.8.  Independency with IPv6 Routing Planning
 
    The IPv6 routing is easier to plan if it's not impacted by the
    encoded IPv4 or port ID information.  MAP would prohibit IPv4 routing
    imported in IPv6.
 
-B.9.  Optimized Routing Path
+C.9.  Optimized Routing Path
 
    MAP could achieve optimized routing path both for hub case and mesh
    case.  Traffic in hub and spoke case could follow asymmetric routing,
@@ -1508,19 +1620,19 @@ B.9.  Optimized Routing Path
 
 
 
-Troan                    Expires April 29, 2012                [Page 27]
+Troan                    Expires April 29, 2012                [Page 29]
 
 Internet-Draft                     MAP                      October 2011
 
 
-Appendix C.  Guidelines for Operators
+Appendix D.  Guidelines for Operators
 
    This appendix is purposed to (1) clarify the difference and relevance
    of MAP address mapping format and what has published in standard
    track; (2) provide a referential guideline to operators, illustrating
    a common use-case of MAP deployment.
 
-C.1.  Additional terms
+D.1.  Additional terms
 
    The following terms are listed, mainly used in this appendix only, as
    an add-on to the terminology of the main text.
@@ -1552,7 +1664,7 @@ C.1.  Additional terms
                          port-space sharing, for example,
                          [I-D.xli-behave-divi].
 
-C.2.  Understanding address formats: their difference  and relevance
+D.2.  Understanding address formats: their difference  and relevance
 
    MAP introduces an address format of embedding IPv4 information to
    IPv6 address.  On the other hand, we also have [RFC6052] defines an
@@ -1564,13 +1676,13 @@ C.2.  Understanding address formats: their difference  and relevance
 
 
 
-Troan                    Expires April 29, 2012                [Page 28]
+Troan                    Expires April 29, 2012                [Page 30]
 
 Internet-Draft                     MAP                      October 2011
 
 
-   Figure 8.  For the easy expression, we exclude the ug-octet, which is
-   not concerned in this appendix.
+   Figure 10.  For the easy expression, we exclude the ug-octet, which
+   is not concerned in this appendix.
 
 
 
@@ -1580,10 +1692,10 @@ Internet-Draft                     MAP                      October 2011
        +-------------+------+-------------+------+-----------//-----+
 
 
-            Figure 8: Abstract view of MAP- and RFC6052-formats
+           Figure 10: Abstract view of MAP- and RFC6052-formats
 
-   Only two parts in Figure 8 are different for MAP- and RFC6052-
-   formats.  We compare them in Figure 9 and following paragraphs.
+   Only two parts in Figure 10 are different for MAP- and RFC6052-
+   formats.  We compare them in Figure 11 and following paragraphs.
 
 
 
@@ -1598,11 +1710,11 @@ Internet-Draft                     MAP                      October 2011
                +----------------+--------------+------------+
 
 
-           Figure 9: Difference between MAP- and RFC6052-formats
+          Figure 11: Difference between MAP- and RFC6052-formats
 
    The comparison clarifies that the major role of full IPv4 address
    embedded in the RFC6052 format is replaced by the MAP's coded IPv4
-   prefix index and the uncoded IPv4 suffix.  The Figure 10 illustrates
+   prefix index and the uncoded IPv4 suffix.  The Figure 12 illustrates
    this relevance.
 
 
@@ -1620,7 +1732,7 @@ Internet-Draft                     MAP                      October 2011
 
 
 
-Troan                    Expires April 29, 2012                [Page 29]
+Troan                    Expires April 29, 2012                [Page 31]
 
 Internet-Draft                     MAP                      October 2011
 
@@ -1646,7 +1758,7 @@ Internet-Draft                     MAP                      October 2011
           (delegated prefix in MAP format)
 
 
-           Figure 10: Relevance between MAP- and RFC6052-formats
+           Figure 12: Relevance between MAP- and RFC6052-formats
 
    o  Why is it needed to compress the IPv4 prefix?
 
@@ -1676,7 +1788,7 @@ Internet-Draft                     MAP                      October 2011
 
 
 
-Troan                    Expires April 29, 2012                [Page 30]
+Troan                    Expires April 29, 2012                [Page 32]
 
 Internet-Draft                     MAP                      October 2011
 
@@ -1732,7 +1844,7 @@ Internet-Draft                     MAP                      October 2011
 
 
 
-Troan                    Expires April 29, 2012                [Page 31]
+Troan                    Expires April 29, 2012                [Page 33]
 
 Internet-Draft                     MAP                      October 2011
 
@@ -1750,7 +1862,7 @@ Internet-Draft                     MAP                      October 2011
    with keeping temporal uniqueness of end-to-end identifiers throughout
    the period of transition and providing the rule-free simplicity.
 
-C.3.  Residual deployment with MAP
+D.3.  Residual deployment with MAP
 
    This section illustrate how we can use MAP in the operation of
    residual deployment.
@@ -1788,7 +1900,7 @@ C.3.  Residual deployment with MAP
 
 
 
-Troan                    Expires April 29, 2012                [Page 32]
+Troan                    Expires April 29, 2012                [Page 34]
 
 Internet-Draft                     MAP                      October 2011
 
@@ -1844,7 +1956,7 @@ Internet-Draft                     MAP                      October 2011
 
 
 
-Troan                    Expires April 29, 2012                [Page 33]
+Troan                    Expires April 29, 2012                [Page 35]
 
 Internet-Draft                     MAP                      October 2011
 
@@ -1900,7 +2012,7 @@ Internet-Draft                     MAP                      October 2011
 
 
 
-Troan                    Expires April 29, 2012                [Page 34]
+Troan                    Expires April 29, 2012                [Page 36]
 
 Internet-Draft                     MAP                      October 2011
 
@@ -1956,7 +2068,7 @@ Internet-Draft                     MAP                      October 2011
 
 
 
-Troan                    Expires April 29, 2012                [Page 35]
+Troan                    Expires April 29, 2012                [Page 37]
 
 Internet-Draft                     MAP                      October 2011
 
@@ -2012,5 +2124,5 @@ Author's Address
 
 
 
-Troan                    Expires April 29, 2012                [Page 36]
+Troan                    Expires April 29, 2012                [Page 38]
 
