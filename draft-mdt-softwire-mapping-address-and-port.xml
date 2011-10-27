@@ -37,8 +37,8 @@
 
 <?rfc toc="yes" ?>
 <?rfc tocompact="yes" ?>
-<?rfc compact="yes" ?>
-<?rfc subcompact="yes" ?>
+<?rfc compact="no" ?>
+<?rfc subcompact="no" ?>
 <?rfc symrefs="yes"?>
 <?rfc sortrefs="yes" ?>
 <?rfc comments="yes" ?>
@@ -339,26 +339,22 @@
       using the Default Mapping Rule.</t>
 
       <section title="Port mapping algorithm">
-	<t>[Note: that various algorithms have been proposed to encode
-	the port set. The effort to reach consensus on a port indexing
-	algorithm meeting the requirements listed in the Requirements
-	section is ongoing.]</t>
-
-	<t>The simplest port mapping algorithm one could imagine would
-	be a simple CIDR style prefix. E.g. define a /6 worth of port
-	space (out of the total 16 bits), giving the user 1024
-	ports. The issue with that scheme is that it does not exclude
-	the well known ports (0-1023). In a deployment where IPv6
-	address planning is independent of IPv4 address planning, that
-	would result in some users being assigned the well known port
-	space. A variant of the prefix algorithm uses an "infix"
-	instead of a "prefix. By requiring that the 'Y' field are
-	larger then 0, the well known ports being excluded, while
-	still sharing the ports fairly among all users. The length of
-	the 'Y' field (PSID offset) is given as a parameter in the
-	mapping rule. A length of the Y field of 0, results in the
-	basic "prefix" algorithm. The default length of "Y" is 6,
-	resulting in the ports 0-1023 being excluded.</t>
+	<t>A simple port mapping algorithm is a simple CIDR style
+	prefix. E.g. define a /6 worth of port space (out of the total
+	16 bits), giving the user 1024 ports. The issue with that
+	scheme is that it does not exclude the well known ports
+	(0-1023), unless the IPv6 prefixes resulting in assigning the
+	well known port range are not being assigned to end users. In
+	a deployment where IPv6 address planning is independent of
+	IPv4 address planning, that would result in some users being
+	assigned the well known port space. A variant of the prefix
+	algorithm uses an "infix" instead of a "prefix. By requiring
+	that the PSID offset field are larger then 0, the well known
+	ports being excluded, while still sharing the ports fairly
+	among all users. The length of the PSID offset is given as a
+	parameter in the mapping rule. A PSID offset of 0, results in
+	the basic "prefix" algorithm. The default length of the PSID
+	offset is 6, resulting in the ports 0-1023 being excluded.</t>
 
 	<t><figure align="center" anchor="portmapping-fig" title="">
 	  <preamble></preamble>
@@ -369,6 +365,7 @@
 +-------------------------+
 | YYYY YY | P S I D  | XX |
 +-------------------------+
+|<-Offset>|
 |  Y > 0  | 
 ]]></artwork>
 	  
@@ -446,6 +443,7 @@
 +-------------------------+
 | YYYY YY | P S I D  | XX |
 +-------------------------+
+|<-Offset>|
 |  Y > 0  | 
 
 ]]></artwork>
@@ -798,40 +796,31 @@
 	
     <section title="Deployment considerations">
 
-      <t>Regarding MAP solutions, the community has granted to
-      investigate encap/decap and translation for different deployment
-      cases.  A new designed solutions should not impact customary
-      behavior on existing network nodes. below has listed some
-      deployment considerations.</t>
-
       <section title="Flexible Assigment of Port Range">
 
-	<t>Different classes of customers would require port sets of
-	different sizes.  In the context of shared IPv4 addresses,
-	some customers would be satisfied with an shared IPv4
-	addresses, while others may need to be assigned with a single
-	IPv4 address or delegated with IPv4 prefixes shorter than 32
-	bits due to increasing traffic demands.  MAP would allow such
-	flexibilities to allocate different port- set sizes for
-	satisfy different demands.</t>
+	<t>Different classes of customers require port sets of
+	different size. In the context of shared IPv4 addresses, some
+	customers would be satisfied with an shared IPv4 addresses,
+	while others may need to be assigned a single IPv4 address or
+	delegated an IPv4 subnet.</t>
 
       </section>
 
       <section title="Traffic Classification">
 
 	<t>Usually, ISPs adopt traffic classification to ensure
-	service quality for different classes of customers.  This
+	service quality for different classes of customers. This
 	feature is also helpful for customer behavior monitoring and
-	security protection. for example, DIA (Dedicated Internet
+	security protection. For example, DIA (Dedicated Internet
 	Access) has been provided by operators for corporations to
-	cater for their Internet communications needs.  Service is
-	made by means of the edge router features and key systems,
-	like ACL(Access List Control) to classify different traffic.
-	Five tuples would be identified from IP header and UDP/TCP
-	header.  Currently, it is very well supported in IPv4.
-	Vendors are delivering or committed to support that feature
-	for IPv6.  In order to facilitating IPv6 deployment, 4v6
-	solution would support this feature on IPv6 plane.</t>
+	cater for their Internet communications needs. Service is made
+	by means of the edge router features and key systems, like ACL
+	(Access List Control) to classify different traffic.  Five
+	tuples would be identified from IP header and UDP/TCP header.
+	Currently, it is very well supported in IPv4.  Vendors are
+	delivering or committed to support that feature for IPv6.  In
+	order to facilitating IPv6 deployment, MAP solution should
+	support this feature on IPv6 plane.</t>
       </section>
 
       <section title="Prefix Delegation Deployment">
