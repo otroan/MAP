@@ -460,7 +460,7 @@
    IPv4 prefix:          192.0.2.0/24
    Basic Mapping Rule:   {2001:db8:00::/40, 192.0.2.0/24, 256, 6}
 
-  We get IPv4 address and port range:
+  We get IPv4 address and port set:
    EA bits offset:       40
    IPv4 suffix bits (p): 32 - 24 = 8
    IPv4 address:         192.0.2.18
