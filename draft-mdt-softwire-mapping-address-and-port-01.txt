@@ -3,8 +3,8 @@
 
 Network Working Group                                      O. Troan, Ed.
 Internet-Draft                                                     cisco
-Intended status: Standards Track                        October 26, 2011
-Expires: April 28, 2012
+Intended status: Standards Track                        October 27, 2011
+Expires: April 29, 2012
 
 
                    Mapping of Address and Port (MAP)
@@ -31,7 +31,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on April 28, 2012.
+   This Internet-Draft will expire on April 29, 2012.
 
 Copyright Notice
 
@@ -52,7 +52,7 @@ Copyright Notice
 
 
 
-Troan                    Expires April 28, 2012                 [Page 1]
+Troan                    Expires April 29, 2012                 [Page 1]
 
 Internet-Draft                     MAP                      October 2011
 
@@ -64,7 +64,7 @@ Table of Contents
    3.  Terminology  . . . . . . . . . . . . . . . . . . . . . . . . .  5
    4.  Mapping Rules  . . . . . . . . . . . . . . . . . . . . . . . .  6
      4.1.  Port mapping algorithm . . . . . . . . . . . . . . . . . .  7
-     4.2.  Basic mapping rule (BMR) . . . . . . . . . . . . . . . . .  7
+     4.2.  Basic mapping rule (BMR) . . . . . . . . . . . . . . . . .  8
      4.3.  Forwarding mapping rule (FMR)  . . . . . . . . . . . . . .  9
      4.4.  Default mapping rule (DMR) . . . . . . . . . . . . . . . . 10
    5.  Use of the IPv6 Interface identifier . . . . . . . . . . . . . 11
@@ -78,11 +78,11 @@ Table of Contents
    Appendix A.  Requirements  . . . . . . . . . . . . . . . . . . . . 16
    Appendix B.  Deployment considerations . . . . . . . . . . . . . . 17
      B.1.  Flexible Assigment of Port Range . . . . . . . . . . . . . 17
-     B.2.  Traffic Classification . . . . . . . . . . . . . . . . . . 17
+     B.2.  Traffic Classification . . . . . . . . . . . . . . . . . . 18
      B.3.  Prefix Delegation Deployment . . . . . . . . . . . . . . . 18
      B.4.  Coexisting Deployment  . . . . . . . . . . . . . . . . . . 18
      B.5.  Friendly to Network Provisioning . . . . . . . . . . . . . 18
-     B.6.  Enable privacy addresses . . . . . . . . . . . . . . . . . 18
+     B.6.  Enable privacy addresses . . . . . . . . . . . . . . . . . 19
      B.7.  Facilitating 4v6 Service . . . . . . . . . . . . . . . . . 19
      B.8.  Independency with IPv6 Routing Planning  . . . . . . . . . 19
      B.9.  Optimized Routing Path . . . . . . . . . . . . . . . . . . 19
@@ -91,8 +91,7 @@ Table of Contents
      C.2.  Understanding address formats: their difference  and
            relevance  . . . . . . . . . . . . . . . . . . . . . . . . 20
      C.3.  Residual deployment with MAP . . . . . . . . . . . . . . . 23
-   Appendix D.  TODO  . . . . . . . . . . . . . . . . . . . . . . . . 25
-   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 26
+   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 25
 
 
 
@@ -108,7 +107,8 @@ Table of Contents
 
 
 
-Troan                    Expires April 28, 2012                 [Page 2]
+
+Troan                    Expires April 29, 2012                 [Page 2]
 
 Internet-Draft                     MAP                      October 2011
 
@@ -164,7 +164,7 @@ Internet-Draft                     MAP                      October 2011
 
 
 
-Troan                    Expires April 28, 2012                 [Page 3]
+Troan                    Expires April 29, 2012                 [Page 3]
 
 Internet-Draft                     MAP                      October 2011
 
@@ -220,7 +220,7 @@ Internet-Draft                     MAP                      October 2011
 
 
 
-Troan                    Expires April 28, 2012                 [Page 4]
+Troan                    Expires April 29, 2012                 [Page 4]
 
 Internet-Draft                     MAP                      October 2011
 
@@ -276,7 +276,7 @@ Internet-Draft                     MAP                      October 2011
 
 
 
-Troan                    Expires April 28, 2012                 [Page 5]
+Troan                    Expires April 29, 2012                 [Page 5]
 
 Internet-Draft                     MAP                      October 2011
 
@@ -317,26 +317,31 @@ Internet-Draft                     MAP                      October 2011
    1.  Basic Mapping Rule - used for IPv4 prefix, address or port range
        assignment.  There can only be one Basic Mapping Rule per End-
        user IPv6 prefix.
+   2.
        *  Rule IPv6 prefix (including prefix length)
        *  Rule IPv4 prefix (including prefix length)
-   2.  Forwarding Mapping Rule - used for forwarding.  The Basic Mapping
+       *  Sharing Ratio (in power of 2)
+       *  PSID offset in number of bits (default 6)
+   3.  Forwarding Mapping Rule - used for forwarding.  The Basic Mapping
        Rule is also a Forwarding Mapping Rule.  Each Forwarding Mapping
        Rule will result in a route in a conceptual RIB for the Rule IPv4
        prefix.
        *  Rule IPv6 prefix (including prefix length)
-       *  Rule IPv4 prefix (including prefix length)
-       *  Sharing Ratio (in power of 2)
-   3.  Default Mapping Rule - used for destinations outside the MAP
-       domain.  A 0.0.0.0/0 route is installed in the RIB for this rule.
 
 
 
 
-Troan                    Expires April 28, 2012                 [Page 6]
+
+Troan                    Expires April 29, 2012                 [Page 6]
 
 Internet-Draft                     MAP                      October 2011
 
 
+       *  Rule IPv4 prefix (including prefix length)
+       *  Sharing Ratio (in power of 2)
+       *  PSID offset in number of bits (default 6)
+   4.  Default Mapping Rule - used for destinations outside the MAP
+       domain.  A 0.0.0.0/0 route is installed in the RIB for this rule.
        *  Rule IPv6 prefix (including prefix length)
        *  BR IPv4 address
 
@@ -348,12 +353,15 @@ Internet-Draft                     MAP                      October 2011
    Routes in the RIB are installed for all the Forwarding Mapping Rules
    and an IPv4 default route for the Default Mapping Rule.
 
+   In the hub and spoke mode, all traffic should be forwarded using the
+   Default Mapping Rule.
+
 4.1.  Port mapping algorithm
 
-   Note: that various algorithms have been proposed to encode the port
+   [Note: that various algorithms have been proposed to encode the port
    set.  The effort to reach consensus on a port indexing algorithm
    meeting the requirements listed in the Requirements section is
-   ongoing.
+   ongoing.]
 
    The simplest port mapping algorithm one could imagine would be a
    simple CIDR style prefix.  E.g. define a /6 worth of port space (out
@@ -361,11 +369,28 @@ Internet-Draft                     MAP                      October 2011
    that scheme is that it does not exclude the well known ports
    (0-1023).  In a deployment where IPv6 address planning is independent
    of IPv4 address planning, that would result in some users being
-   assigned the well known port space.  The algorithm described here
-   uses an "infix" instead of a "prefix.  By requiring that the 'Y'
-   field (the first 6 bits) are larger then 0, the well known ports
-   being excluded, while still sharing the ports fairly among all users.
+   assigned the well known port space.  A variant of the prefix
+   algorithm uses an "infix" instead of a "prefix.  By requiring that
+   the 'Y' field are larger then 0, the well known ports being excluded,
+   while still sharing the ports fairly among all users.  The length of
+   the 'Y' field (PSID offset) is given as a parameter in the mapping
+   rule.  A length of the Y field of 0, results in the basic "prefix"
+   algorithm.  The default length of "Y" is 6, resulting in the ports
+   0-1023 being excluded.
 
+
+
+
+
+
+
+
+
+
+
+Troan                    Expires April 29, 2012                 [Page 7]
+
+Internet-Draft                     MAP                      October 2011
 
 
                         |  Port range (16 bits)   |
@@ -381,16 +406,6 @@ Internet-Draft                     MAP                      October 2011
 4.2.  Basic mapping rule (BMR)
 
 
-
-
-
-
-
-
-
-Troan                    Expires April 28, 2012                 [Page 7]
-
-Internet-Draft                     MAP                      October 2011
 
 
     |     n bits         |  o bits   | m bits  |   128-n-o-m bits      |
@@ -427,26 +442,25 @@ Internet-Draft                     MAP                      October 2011
    DHCPv6 option).  To create a complete IPv4 address, the IPv4 address
    suffix from the EA bits, are concatenated with the IPv4 prefix.
 
-   The offset of the EA bits field in the IPv6 address is equal to the
-   BMR Rule IPv6 prefix length.  The length of the EA bits field (o
-   bits) is given by End-user IPv6 prefix length - BMR Rule IPv6 prefix
-   length.
+
+
+Troan                    Expires April 29, 2012                 [Page 8]
+
+Internet-Draft                     MAP                      October 2011
+
 
    The number of IPv4 address bits (p) in the EA bits is given by 32 - r
    bits.
 
+   The offset of the EA bits field in the IPv6 address is equal to the
+   BMR Rule IPv6 prefix length.  The length of the EA bits field (o
+   bits) is given by p + log2(Rule Sharing Ratio).  The node MUST verify
+   that the BMR Rule IPv6 prefix length + o is less than or equal to the
+   length of the End-user IPv6 prefix.
+
    The PSID bits are used to create a port range.  The length of the
    PSID bit field within EA bits is: o - p.
 
-
-
-
-
-
-
-Troan                    Expires April 28, 2012                 [Page 8]
-
-Internet-Draft                     MAP                      October 2011
 
 
                         |  Port range (16 bits)   |
@@ -464,17 +478,15 @@ Internet-Draft                     MAP                      October 2011
       End-user IPv6 prefix: 2001:db8:0012:34::/56
       Domain IPv6 prefix:   2001:db8:00::/40
       IPv4 prefix:          192.0.2.0/24
-      Basic Mapping Rule:   {2001:db8:00::/40, 192.0.2.0/24}
+      Basic Mapping Rule:   {2001:db8:00::/40, 192.0.2.0/24, 256}
 
      We get IPv4 address and port range:
       EA bits offset:       40
-      EA bits length (o):   56 - 40 = 16
       IPv4 suffix bits (p): 32 - 24 = 8
       IPv4 address:         192.0.2.18
 
       PSID offset:          40 + p = 40 + 8 = 48
-      PSID length:          o - p = 16 - 8 = 8.
-                            Giving a sharing ratio of 256 (2^8).
+      PSID length:          o - p = log2(256) - 8 = 8.
       PSID:                 0x34.
 
 4.3.  Forwarding mapping rule (FMR)
@@ -488,19 +500,7 @@ Internet-Draft                     MAP                      October 2011
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-Troan                    Expires April 28, 2012                 [Page 9]
+Troan                    Expires April 29, 2012                 [Page 9]
 
 Internet-Draft                     MAP                      October 2011
 
@@ -526,7 +526,11 @@ Internet-Draft                     MAP                      October 2011
 
                                  Figure 5
 
+   The subnet ID for MAP is defined to be ~0.  I.e. the last subnet in
+   an End-user IPv6 prefix allocation is used for MAP.
+
    Example:
+
 
      Given:
       IPv4 destination address: 192.0.2.18
@@ -539,7 +543,7 @@ Internet-Draft                     MAP                      October 2011
       PSID length:          8 (sharing ratio)
       PSID:                 0x34 (1232)
       EA bits:              0x1234
-      IPv6 address:         2001:db8:0012:3400:<interface-identifier>
+      IPv6 address:         2001:db8:0012:34FF:<interface-identifier>
 
 4.4.  Default mapping rule (DMR)
 
@@ -549,18 +553,18 @@ Internet-Draft                     MAP                      October 2011
 
    The Rule IPv4 prefix in the DMR is: 0.0.0.0/0.  The Rule IPv6 prefix
    is the IPv6 address or prefix of the BR.  Which is used is dependent
-   on the mode used.  For example translation requires that the IPv4
-   destination address is encoded in the BR IPv6 address, so only a
-   prefix is used in the DMR to allow for a generated interface
-   identifier.  For the encapsulation mode the Rule IPv6 prefix can be
 
 
 
-Troan                    Expires April 28, 2012                [Page 10]
+Troan                    Expires April 29, 2012                [Page 10]
 
 Internet-Draft                     MAP                      October 2011
 
 
+   on the mode used.  For example translation requires that the IPv4
+   destination address is encoded in the BR IPv6 address, so only a
+   prefix is used in the DMR to allow for a generated interface
+   identifier.  For the encapsulation mode the Rule IPv6 prefix can be
    the full IPv6 address of the BR.
 
    An example of a DMR is:
@@ -572,6 +576,7 @@ Internet-Draft                     MAP                      October 2011
    same address family as the prefix.  To satisfy this requirement a BR
    IPv4 address is included in the rule.  Giving a default route in the
    RIB:
+
 
       0.0.0.0 -> 192.0.2.1, MAP-Interface0
 
@@ -603,24 +608,24 @@ Internet-Draft                     MAP                      October 2011
 
 
 
+
+
+
+
+Troan                    Expires April 29, 2012                [Page 11]
+
+Internet-Draft                     MAP                      October 2011
+
+
                   |   32 bits        |    32 bits       |
                   +------------------+------------------+
                   | 02-00-5E-FE      |  IPv4 address    |
                   +------------------+------------------+
 
 
-
-
-
-Troan                    Expires April 28, 2012                [Page 11]
-
-Internet-Draft                     MAP                      October 2011
-
-
                                  Figure 6
 
-   Parsable format including address length and PSID:
-
+            Parsable format including address length and PSID:
 
 
                   <-8-><-------- L>=32 -------><48-L><8->
@@ -661,17 +666,15 @@ Internet-Draft                     MAP                      October 2011
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
 
-   [RFC6346]  Bush, R., "The Address plus Port (A+P) Approach to the
-              IPv4 Address Shortage", RFC 6346, August 2011.
 
 
-
-
-
-Troan                    Expires April 28, 2012                [Page 12]
+Troan                    Expires April 29, 2012                [Page 12]
 
 Internet-Draft                     MAP                      October 2011
 
+
+   [RFC6346]  Bush, R., "The Address plus Port (A+P) Approach to the
+              IPv4 Address Shortage", RFC 6346, August 2011.
 
 10.2.  Informative References
 
@@ -718,17 +721,17 @@ Internet-Draft                     MAP                      October 2011
               4V6", draft-chen-softwire-4v6-pd-00 (work in progress),
               August 2011.
 
-   [I-D.dec-stateless-4v6]
-              Dec, W., Asati, R., Bao, C., Deng, H., and M. Boucadair,
-              "Stateless 4Via6 Address Sharing",
 
 
 
-Troan                    Expires April 28, 2012                [Page 13]
+Troan                    Expires April 29, 2012                [Page 13]
 
 Internet-Draft                     MAP                      October 2011
 
 
+   [I-D.dec-stateless-4v6]
+              Dec, W., Asati, R., Bao, C., Deng, H., and M. Boucadair,
+              "Stateless 4Via6 Address Sharing",
               draft-dec-stateless-4v6-04 (work in progress),
               October 2011.
 
@@ -774,16 +777,17 @@ Internet-Draft                     MAP                      October 2011
               September 2011.
 
    [I-D.xli-behave-divi]
-              Bao, C., Li, X., Zhai, Y., and W. Shang, "dIVI: Dual-
-              Stateless IPv4/IPv6 Translation", draft-xli-behave-divi-03
-              (work in progress), July 2011.
 
 
 
-Troan                    Expires April 28, 2012                [Page 14]
+Troan                    Expires April 29, 2012                [Page 14]
 
 Internet-Draft                     MAP                      October 2011
 
+
+              Bao, C., Li, X., Zhai, Y., and W. Shang, "dIVI: Dual-
+              Stateless IPv4/IPv6 Translation", draft-xli-behave-divi-03
+              (work in progress), July 2011.
 
    [I-D.xli-behave-divi-pd]
               Li, X., Bao, C., Dec, W., Asati, R., Xie, C., and Q. Sun,
@@ -830,15 +834,16 @@ Internet-Draft                     MAP                      October 2011
               Translation from IPv6 Clients to IPv4 Servers", RFC 6147,
               April 2011.
 
+
+
+Troan                    Expires April 29, 2012                [Page 15]
+
+Internet-Draft                     MAP                      October 2011
+
+
    [RFC6333]  Durand, A., Droms, R., Woodyatt, J., and Y. Lee, "Dual-
               Stack Lite Broadband Deployments Following IPv4
               Exhaustion", RFC 6333, August 2011.
-
-
-
-Troan                    Expires April 28, 2012                [Page 15]
-
-Internet-Draft                     MAP                      October 2011
 
 
 Appendix A.  Requirements
@@ -881,22 +886,21 @@ Appendix A.  Requirements
           IPv4 addressing.  With the exception where full IPv4 addresses
           or prefixes are encoded.  Then IPv6 prefix assignment must be
           done so that martian IPv4 addresses are not assigned.
-   R-10:  The mapping must not require IPv4 routing to be imported in
-          IPv6 routing.
-   R-11:  The mapping should support legacy RTP/RTCP compatibility.
-          (Allocating two consecutive ports).
 
 
 
 
 
 
-
-Troan                    Expires April 28, 2012                [Page 16]
+Troan                    Expires April 29, 2012                [Page 16]
 
 Internet-Draft                     MAP                      October 2011
 
 
+   R-10:  The mapping must not require IPv4 routing to be imported in
+          IPv6 routing.
+   R-11:  The mapping should support legacy RTP/RTCP compatibility.
+          (Allocating two consecutive ports).
    R-12:  The mapping may be UPnP 1.0 friendly.  A UPnP client will keep
           asking for the next port (as in current port + 1) a scattered
           port allocation will be more UPnP friendly.
@@ -938,6 +942,17 @@ B.1.  Flexible Assigment of Port Range
    would allow such flexibilities to allocate different port- set sizes
    for satisfy different demands.
 
+
+
+
+
+
+
+Troan                    Expires April 29, 2012                [Page 17]
+
+Internet-Draft                     MAP                      October 2011
+
+
 B.2.  Traffic Classification
 
    Usually, ISPs adopt traffic classification to ensure service quality
@@ -945,14 +960,6 @@ B.2.  Traffic Classification
    customer behavior monitoring and security protection. for example,
    DIA (Dedicated Internet Access) has been provided by operators for
    corporations to cater for their Internet communications needs.
-
-
-
-Troan                    Expires April 28, 2012                [Page 17]
-
-Internet-Draft                     MAP                      October 2011
-
-
    Service is made by means of the edge router features and key systems,
    like ACL(Access List Control) to classify different traffic.  Five
    tuples would be identified from IP header and UDP/TCP header.
@@ -995,20 +1002,19 @@ B.5.  Friendly to Network Provisioning
    Since only IPv6 prefix is assigned, 4v6 on the management plane is
    naturally conducted only via IPv6.
 
+
+
+Troan                    Expires April 29, 2012                [Page 18]
+
+Internet-Draft                     MAP                      October 2011
+
+
 B.6.  Enable privacy addresses
 
    User privacy should be taken into account when 4v6 solution is
    deployed.  Some security concern associated with non-changing IPv6
    interface identifiers has been expressed in RFC4941[RFC4941].
    Ability to change the interface identifier over time makes it more
-
-
-
-Troan                    Expires April 28, 2012                [Page 18]
-
-Internet-Draft                     MAP                      October 2011
-
-
    difficult for eavesdroppers and other information collectors to
    identify when different addresses used in different sessions actually
    correspond to the same node.
@@ -1050,21 +1056,18 @@ C.1.  Additional terms
    The following terms are listed, mainly used in this appendix only, as
    an add-on to the terminology of the main text.
 
-   4pfx                  the index for an IPv4 prefix, either generated
-                         with coding or as same as the IPv4 prefix
-                         itslef.
 
 
 
 
-
-
-
-Troan                    Expires April 28, 2012                [Page 19]
+Troan                    Expires April 29, 2012                [Page 19]
 
 Internet-Draft                     MAP                      October 2011
 
 
+   4pfx                  the index for an IPv4 prefix, either generated
+                         with coding or as same as the IPv4 prefix
+                         itslef.
    ug-octet              the octet consisting of 64-71 bits in the IPv6
                          address, containing the bits u and g defined by
                          EUI-64 standard.
@@ -1113,10 +1116,7 @@ C.2.  Understanding address formats: their difference  and relevance
 
 
 
-
-
-
-Troan                    Expires April 28, 2012                [Page 20]
+Troan                    Expires April 29, 2012                [Page 20]
 
 Internet-Draft                     MAP                      October 2011
 
@@ -1172,7 +1172,7 @@ Internet-Draft                     MAP                      October 2011
 
 
 
-Troan                    Expires April 28, 2012                [Page 21]
+Troan                    Expires April 29, 2012                [Page 21]
 
 Internet-Draft                     MAP                      October 2011
 
@@ -1228,7 +1228,7 @@ Internet-Draft                     MAP                      October 2011
 
 
 
-Troan                    Expires April 28, 2012                [Page 22]
+Troan                    Expires April 29, 2012                [Page 22]
 
 Internet-Draft                     MAP                      October 2011
 
@@ -1284,7 +1284,7 @@ C.3.  Residual deployment with MAP
 
 
 
-Troan                    Expires April 28, 2012                [Page 23]
+Troan                    Expires April 29, 2012                [Page 23]
 
 Internet-Draft                     MAP                      October 2011
 
@@ -1340,7 +1340,7 @@ Internet-Draft                     MAP                      October 2011
 
 
 
-Troan                    Expires April 28, 2012                [Page 24]
+Troan                    Expires April 29, 2012                [Page 24]
 
 Internet-Draft                     MAP                      October 2011
 
@@ -1389,21 +1389,16 @@ Internet-Draft                     MAP                      October 2011
    work in the address planning.
 
 
-Appendix D.  TODO
-
-   Mapping rule database
 
 
 
 
-Troan                    Expires April 28, 2012                [Page 25]
+
+
+
+Troan                    Expires April 29, 2012                [Page 25]
 
 Internet-Draft                     MAP                      October 2011
-
-
-   How provisioned information is combined with dedudced
-
-   Rules and limitations for use of mapping rules
 
 
 Author's Address
@@ -1452,5 +1447,10 @@ Author's Address
 
 
 
-Troan                    Expires April 28, 2012                [Page 26]
+
+
+
+
+
+Troan                    Expires April 29, 2012                [Page 26]
 

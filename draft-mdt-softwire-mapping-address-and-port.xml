@@ -299,6 +299,8 @@
 	<list style="symbols">
 	  <t>Rule IPv6 prefix (including prefix length)</t>
 	  <t>Rule IPv4 prefix (including prefix length)</t>
+	  <t>Sharing Ratio (in power of 2)</t>
+	  <t>PSID offset in number of bits (default 6)</t>
 	</list></t>
 
 	<t>Forwarding Mapping Rule - used for forwarding. The Basic
@@ -310,6 +312,7 @@
 	  <t>Rule IPv6 prefix (including prefix length)</t>
 	  <t>Rule IPv4 prefix (including prefix length)</t>
 	  <t>Sharing Ratio (in power of 2)</t>
+	  <t>PSID offset in number of bits (default 6)</t>
 	</list></t>
 
 	<t>Default Mapping Rule - used for destinations outside the
@@ -332,11 +335,14 @@
       Mapping Rules and an IPv4 default route for the Default Mapping
       Rule.</t>
 
+      <t>In the hub and spoke mode, all traffic should be forwarded
+      using the Default Mapping Rule.</t>
+
       <section title="Port mapping algorithm">
-	<t>Note: that various algorithms have been proposed to encode
+	<t>[Note: that various algorithms have been proposed to encode
 	the port set. The effort to reach consensus on a port indexing
 	algorithm meeting the requirements listed in the Requirements
-	section is ongoing.</t>
+	section is ongoing.]</t>
 
 	<t>The simplest port mapping algorithm one could imagine would
 	be a simple CIDR style prefix. E.g. define a /6 worth of port
@@ -345,10 +351,14 @@
 	the well known ports (0-1023). In a deployment where IPv6
 	address planning is independent of IPv4 address planning, that
 	would result in some users being assigned the well known port
-	space. The algorithm described here uses an "infix" instead of
-	a "prefix. By requiring that the 'Y' field (the first 6 bits)
-	are larger then 0, the well known ports being excluded, while
-	still sharing the ports fairly among all users.</t>
+	space. A variant of the prefix algorithm uses an "infix"
+	instead of a "prefix. By requiring that the 'Y' field are
+	larger then 0, the well known ports being excluded, while
+	still sharing the ports fairly among all users. The length of
+	the 'Y' field (PSID offset) is given as a parameter in the
+	mapping rule. A length of the Y field of 0, results in the
+	basic "prefix" algorithm. The default length of "Y" is 6,
+	resulting in the ports 0-1023 being excluded.</t>
 
 	<t><figure align="center" anchor="portmapping-fig" title="">
 	  <preamble></preamble>
@@ -369,8 +379,7 @@
       </section>
 
       <section title="Basic mapping rule (BMR)">
-	<t>
-	  <figure align="center" anchor="addressallocation-fig" title="">
+	<t><figure align="center" anchor="addressallocation-fig" title="">
 	    <preamble></preamble>
 
 	    <artwork align="center"><![CDATA[
@@ -396,8 +405,7 @@
 	full or part of an IPv4 prefix or address, and in the shared
 	IPv4 address case contains a Port Set Identifier (PSID).</t>
 
-	<t>
-	<figure align="center" anchor="addressallocation2-fig" title="">
+	<t><figure align="center" anchor="addressallocation2-fig" title="">
 	  <preamble></preamble>
 
 	  <artwork align="center"><![CDATA[
@@ -417,19 +425,19 @@
 	address, the IPv4 address suffix from the EA bits, are
 	concatenated with the IPv4 prefix.</t>
 
-	<t>The offset of the EA bits field in the IPv6 address is
-	equal to the BMR Rule IPv6 prefix length. The length of the EA
-	bits field (o bits) is given by End-user IPv6 prefix length - BMR Rule
-	IPv6 prefix length.</t>
-
 	<t>The number of IPv4 address bits (p) in the EA bits is given by 32 - r bits.</t>
 
+	<t>The offset of the EA bits field in the IPv6 address is
+	equal to the BMR Rule IPv6 prefix length. The length of the EA
+	bits field (o bits) is given by p + log2(Rule Sharing
+	Ratio). The node MUST verify that the BMR Rule IPv6 prefix
+	length + o is less than or equal to the length of the End-user
+	IPv6 prefix.</t>
 
 	<t>The PSID bits are used to create a port range. The length
 	of the PSID bit field within EA bits is: o - p.</t>
 
-	<t>
-	<figure align="center" anchor="addressallocation2-fi3" title="">
+	<t><figure align="center" anchor="addressallocation2-fi3" title="">
 	  <preamble></preamble>
 
 	  <artwork align="center"><![CDATA[
@@ -442,31 +450,30 @@
 
 ]]></artwork>
 	  
-	  </figure>
+	</figure>
 	</t>
 
-	<t>Example:
-        <figure><artwork align="left"><![CDATA[
+	<t><figure>
+	  <preamble>Example:</preamble>
+	  <artwork align="left"><![CDATA[
   Given:
    End-user IPv6 prefix: 2001:db8:0012:34::/56
    Domain IPv6 prefix:   2001:db8:00::/40
    IPv4 prefix:          192.0.2.0/24
-   Basic Mapping Rule:   {2001:db8:00::/40, 192.0.2.0/24}
+   Basic Mapping Rule:   {2001:db8:00::/40, 192.0.2.0/24, 256, 6}
 
   We get IPv4 address and port range:
    EA bits offset:       40
-   EA bits length (o):   56 - 40 = 16
    IPv4 suffix bits (p): 32 - 24 = 8
    IPv4 address:         192.0.2.18
 
-   PSID offset:          40 + p = 40 + 8 = 48
-   PSID length:          o - p = 16 - 8 = 8.
-                         Giving a sharing ratio of 256 (2^8).
+   PSID start:           40 + p = 40 + 8 = 48
+   PSID length:          o - p = log2(256) - 8 = 8.
    PSID:                 0x34.
-  ]]></artwork></figure>
+  ]]></artwork>
 
+	</figure>
 	</t>
-
 
       </section>
 
@@ -505,23 +512,28 @@
 	  </figure>
 	</t>
 
+	<t>The subnet ID for MAP is defined to be ~0. I.e. the last
+	subnet in an End-user IPv6 prefix allocation is used for
+	MAP.</t>
 
-	<t>Example:
-        <figure><artwork align="left"><![CDATA[
+	<t><figure>
+	  <preamble>Example:</preamble>
+	  <artwork align="left"><![CDATA[
+
   Given:
    IPv4 destination address: 192.0.2.18
    IPv4 destination port:    1232
    Forwarding Mapping Rule:  {2001:db8:00::/40, 192.0.2.0/24,
-                              Sharing ratio: 256}
+                              Sharing ratio: 256, PSID offset: 6}
 
   We get IPv6 address:
    IPv4 suffix bits (p): 32 - 24 = 8 (18)
    PSID length:          8 (sharing ratio)
    PSID:                 0x34 (1232)
    EA bits:              0x1234
-   IPv6 address:         2001:db8:0012:3400:<interface-identifier>
-  ]]></artwork></figure>
-
+   IPv6 address:         2001:db8:0012:34FF:<interface-identifier>
+  ]]></artwork>
+	</figure>
 	</t>
 
 
@@ -551,10 +563,11 @@
 	be of the same address family as the prefix. To satisfy this
 	requirement a BR IPv4 address is included in the rule. Giving a default route in the RIB:</t>
 
-        <figure><artwork align="left"><![CDATA[
+	<t><figure>
+	  <artwork align="left"><![CDATA[
    0.0.0.0 -> 192.0.2.1, MAP-Interface0
-  ]]></artwork></figure>
-
+  ]]></artwork>
+	</figure></t>
 
       </section>
 
@@ -602,9 +615,8 @@
 	</figure>
       </t>
 
-<t>Parsable format including address length and PSID:
-	<figure align="center" anchor="interfaceid2-fig" title="">
-	  <preamble></preamble>
+      <t><figure align="center" anchor="interfaceid2-fig" title="">
+	<preamble>Parsable format including address length and PSID:</preamble>
 
 	  <artwork align="center"><![CDATA[
 
@@ -973,7 +985,7 @@
 	expression, we exclude the ug-octet, which is not concerned in 
 	this appendix.</t>
 
-	<figure align="center" anchor="mapformats-fig" title="Abstract
+	<t><figure align="center" anchor="mapformats-fig" title="Abstract
 	view of MAP- and RFC6052-formats">
 	  <preamble></preamble>
 
@@ -987,11 +999,13 @@
 ]]></artwork>
 	  
 	</figure>
+	</t>
 
 	<t>Only two parts in <xref target="mapformats-fig" /> are 
 	different for MAP- and RFC6052-formats. We compare them in 
 	<xref target="mapdiff-fig" /> and following paragraphs.</t>
 
+	<t>
 	<figure align="center" anchor="mapdiff-fig" title="Difference
 	between MAP- and RFC6052-formats">
 	  <preamble></preamble>
@@ -1010,7 +1024,7 @@
    
 ]]></artwork>
 	  
-	</figure>
+	</figure></t>
 
 	<t>The comparison clarifies that the major role of full IPv4
 	address embedded in the RFC6052 format is replaced by the
@@ -1018,7 +1032,7 @@
 	The <xref target="maprelev-fig" /> illustrates this relevance.
 	</t>
    
-	<figure align="center" anchor="maprelev-fig" title="Relevance
+	<t><figure align="center" anchor="maprelev-fig" title="Relevance
 	between MAP- and RFC6052-formats">
 	  <preamble></preamble>
 
@@ -1046,7 +1060,7 @@
 	
 ]]></artwork>
 	  
-	</figure>
+	</figure></t>
 
 
 	<t><list style="symbols">
@@ -1230,11 +1244,11 @@
 	10, 110, 111 for one /10, one /11, and two /12).
 	  </t>
 	  <t> </t>
-	  <t hangText=""> Then we have: </t> 
-	  <artwork align="center"><![CDATA[
+	  <t hangText=""> Then we have:</t>
+	  <figure><artwork align="center"><![CDATA[
 H1 = 192.32../16, h1 = 16, r1 = 1 => R1 = bin(0); 
 H2 = 63.245../16, h2 = 16, r2 = 1 => R2 = bin(1); 
-]]></artwork>
+]]></artwork></figure>
 	
 	</list></t>
 
@@ -1257,22 +1271,22 @@ H2 = 63.245../16, h2 = 16, r2 = 1 => R2 = bin(1);
 	have the length of (c + ri). 
 	  </t>
 	  <t> </t>
-	  <t hangText=""> Then we can do that: </t> 
-	  <artwork align="center"><![CDATA[
+	  <t hangText=""> Then we can do that:</t>
+	  <figure><artwork align="center"><![CDATA[
 c = 40 => C = 2001:0db8:ff00::/40
 Rule 1: Rule IPv6 Prefix = 2001:0db8:ff00::/41
 Rule 2: Rule IPv6 Prefix = 2001:0db8:ff80::/41
-]]></artwork>
+]]></artwork></figure>
 	  <t> </t>
 	  <t hangText=""> As a result, for a certain CE delegating 
-2001:0db8:ff98:7650::/60, its parameters are: </t> 
-	  <artwork align="center"><![CDATA[
+2001:0db8:ff98:7650::/60, its parameters are:</t>
+	  <figure><artwork align="center"><![CDATA[
 Rule IPv6 Prefix = 2001:0db8:ff80::/41 => Rule 2
 IPv4 Suffix = bin(001 1000 0111 0110 0) 
                            PSID = bin(101) = 0x5
 Rule IPv4 Prefix = 63.245../16
 CE IPv4 Address = 63.245.48.236
-]]></artwork>
+]]></artwork></figure>
 	</list></t>
 
        <t>If different sharing ratio is expected, we may partition 
@@ -1283,10 +1297,5 @@ CE IPv4 Address = 63.245.48.236
      </section>
    </section>
 
-   <section title="TODO">
-     <t>Mapping rule database</t>
-     <t>How provisioned information is combined with dedudced</t>
-     <t>Rules and limitations for use of mapping rules</t>
-   </section>
   </back>
 </rfc>
