@@ -14,6 +14,7 @@
 <!ENTITY rfc6333 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6333.xml">
 <!ENTITY rfc6346 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6346.xml">
 <!ENTITY rfc3194 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3194.xml">
+<!ENTITY rfc5342 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5342.xml">
 <!ENTITY I-D.mrugalski-dhc-dhcpv6-4rd SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mrugalski-dhc-dhcpv6-4rd.xml'>
 <!ENTITY I-D.despres-softwire-sam SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.despres-softwire-sam.xml'>
 <!ENTITY I-D.chen-softwire-4v6-pd SYSTEM
@@ -299,7 +300,7 @@
 	  <t>Rule IPv6 prefix (including prefix length)</t>
 	  <t>Rule IPv4 prefix (including prefix length)</t>
 	  <t>Rule EA-bits length (in bits)</t>
-	  <t>Rule PSID offset in number of bits (optional, default 6)</t>
+	  <t>Rule Port Parameters</t>
 	</list></t>
 
 	<t>Forwarding Mapping Rule - used for forwarding. The Basic
@@ -311,7 +312,7 @@
 	  <t>Rule IPv6 prefix (including prefix length)</t>
 	  <t>Rule IPv4 prefix (including prefix length)</t>
 	  <t>Rule EA-bits length (in bits)</t>
-	  <t>Rule PSID offset in number of bits (default 6)</t>
+	  <t>Rule Port Parameters</t>
 	</list></t>
 
 	<t>Default Mapping Rule - used for destinations outside the
@@ -330,54 +331,167 @@
       in the Mapping Rule database. The rule is then used for IPv4
       prefix, address or shared address assignment.</t>
 
-      <t>Routes in the RIB are installed for all the Forwarding
-      Mapping Rules and an IPv4 default route for the Default Mapping
-      Rule.</t>
+      <t>Routes in the conceptual RIB are installed for all the
+      Forwarding Mapping Rules and an IPv4 default route for the
+      Default Mapping Rule.</t>
 
       <t>In the hub and spoke mode, all traffic should be forwarded
       using the Default Mapping Rule.</t>
 
       <section title="Port mapping algorithm">
-	<t>A simple port mapping algorithm is a simple CIDR style
-	prefix. E.g. define a /6 worth of port space (out of the total
-	16 bits), giving the user 1024 ports. The issue with that
-	scheme is that it does not exclude the well known ports
-	(0-1023), unless the IPv6 prefixes resulting in assigning the
-	well known port set are not being assigned to end users. In
-	a deployment where IPv6 address planning is independent of
-	IPv4 address planning, that would result in some users being
-	assigned the well known port space. A variant of the prefix
-	algorithm uses an "infix" instead of a "prefix. By requiring
-	that the PSID offset field are larger then 0, the well known
-	ports being excluded, while still sharing the ports fairly
-	among all users. The length of the PSID offset is given as a
-	parameter in the mapping rule. A PSID offset of 0, results in
-	the basic "prefix" algorithm. The default length of the PSID
-	offset is 6, resulting in the ports 0-1023 being excluded.</t>
+	<t>Several port mapping algorithms have been proposed with
+	their own set of advantages and disadvantages. Since different
+	PSID MUST have non-overlapping port sets, the two extreme
+	cases are: (1) the port number is not contiguous for each
+	PSID, but uniformly distributed across the whole port range
+	(0-65535); (2) the port number is contiguous in a single range
+	for each PSID. The port mapping algorithm proposed here is
+	called generalized modulus algorithm (GMA) and supports both
+	these cases.</t>
 
-	<t><figure align="center" anchor="portmapping-fig" title="">
+	<t>For a given sharing ratio (R) and the maximum number of
+	contiguous ports (M), the GMA algorithm is defined as:</t>
+
+	<t><list style="numbers">
+
+	  <t>The port number (P) of a given PSID (K) is composed of:
+	  <figure><artwork>
+P = R * M * j + M * K + i
+	  </artwork></figure>
+
+	  Where:<list style="symbols">
+	  <t>PSID: K = 0 to R - 1</t>
+
+	  <t>Port range index: j = (1024 / M) / R to ((65536 / M) / R) - 1, if the
+	  well-known port numbers (0 - 1024) are excluded.</t>
+
+	  <t>Contiguous Port index: i = 0 to M - 1</t>
+	  </list></t>
+
+	  <t>The PSID (K) of a given port number (P) is determined by:
+
+	  <figure><artwork>
+K = (floor(P/M)) % R
+	  </artwork></figure>
+
+	  Where:<list style="symbols">
+	  <t>% is the modulus operator</t>
+
+	  <t>floor(arg) is a function that returns the largest integer
+	  not greater than arg</t>
+	  </list></t>
+	</list></t>
+
+	<section title="Bit Representation of the Algorithm">
+
+	  <t>Given a sharing ratio (R=2^k), the maximum number of
+	  contiguous ports (M=2^m), for any PSID (K) and available
+	  ports (P) can be represented as:</t>
+
+	<t><figure align="center" title="Bit representation" anchor="bitrepresentation-fig">
 	  <preamble></preamble>
-
 	  <artwork align="center"><![CDATA[
 
-|  Port range (16 bits)   |
-+-------------------------+
-| YYYY YY | P S I D  | XX |
-+-------------------------+
-|<Offset> |            Any
-|  Y > 0  |           value
-]]></artwork>
-	  
-	</figure></t>
+0                          8                         15
++---------------+----------+------+-------------------+
+|                     P                               |
+----------------+-----------------+-------------------+
+|        A (j)  |   PSID (K)      |        M  (i)     |
++---------------+----------+------+-------------------+
+|<----a bits--->|<-----k bits---->|<------m bits----->|
+                |<---c bits--->|<-----(k+m-c) bits--->|
 
-	<t>The MAP node's port set is given by the Y and X bits.</t>
+		]]></artwork></figure></t>
 
-      </section>
+	  <t>Where j and i are the same indexes defined in the port
+	  mapping algorithm.</t>
 
-      <section title="Basic mapping rule (BMR)">
-	<t><figure align="center" anchor="addressallocation-fig" title="">
+	  <t>For any port number, the PSID can be obtained by bit mask
+	  operation.</t>
+
+	  <t>Note that in above figure there is a PSID prefix length
+	  (c). Based on this definition, PSID can also be represented
+	  in "CIDR style" and more ports can be assigned to a single
+	  CE when PSID prefix length (c &lt; k).</t>
+
+	  <t>When m = 0, GMA becomes a modulo operation. When a = 0,
+	  GMA becomes division operation. The port mapping algorithm
+	  in <xref
+	  target="I-D.despres-softwire-4rd-addmapping"></xref> can be
+	  represented by the algorithm usng a=4 and each PSID may have
+	  different prefix length c).</t>
+	</section>
+
+	<section title="GMA examples">
+
+	<t><figure align="center" title="Example" anchor="example-fig">
+	  <preamble></preamble>
+	  <artwork align="center">
+
+For example, for R=128, M=4,
+
+          Port set-1                Port set-2
+PSID=0   | 1024, 1025, 1026, 1027, | 1536, 1537, 1538, 1539, | 2048
+PSID=1   | 1028, 1029, 1030, 1031, | 1540, 1541, 1542, 1543, | ....
+PSID=2   | 1032, 1033, 1034, 1035, | 1544, 1545, 1546, 1547, | ....
+PSID=3   | 1036, 1037, 1038, 1039, | 1548, 1549, 1550, 1551, | ....
+...
+PSID=127 | 1532, 1533, 1534, 1535, | 2044, 2045, 2046, 2047, | ....
+
+	  </artwork></figure></t>
+	</section>
+
+	<section title="GMA Provisioning Considerations">
+	  <t>The sharing ratio (R), the PSID (K) and the PSID length
+	  are derived from existing information.</t>
+
+	  <t>The number of contiguous ports (M) and a flag for
+	  exclusion of the well-known ports (default: excluded) are
+	  provisioned via the "Rule Port Mapping Parameters" in the
+	  Basic Mapping Rule.</t>
+	</section>
+
+	<section title="Features of the Algorithm">
+
+	  <t>The GMA algorithm has the following features:</t>
+
+	  <t><list style="numbers">
+	    <t>There is no waste of the port numbers, except the
+	    well-known ports.</t>
+
+	    <t>The algorithm is flexible, the control parameters are
+	    sharing ratio (R), the continue port range (M) and PSID
+	    prefix length (c).</t>
+
+	    <t>The algorithm is simple to perform effectively.</t>
+
+	    <t>It allows Service Providers to define their own address
+	    sharing ratio, the theoretical value is from 1:1 to
+	    1:65536 and a more practical value is from 1:1 to
+	    1:4096.</t>
+
+	    <t>It supports deployments using differentiated port
+	    ranges.</t>
+
+	    <t>It supports differentiated port ranges within a single
+	    shared IPv4 address.</t>
+
+	    <t>It support excluding the well known ports 0-1023.</t>
+
+	    <t>It supports assigning well known ports to a CE.</t>
+
+	    <t>It supports legacy RTP/RTCP compatibility.</t>
+
+	  </list></t>
+
+	</section>
+
+	</section>
+
+	<section title="Basic mapping rule (BMR)">
+	  <t><figure align="center" title="IPv6 address format"
+		     anchor="addressallocation-fig">
 	    <preamble></preamble>
-
 	    <artwork align="center"><![CDATA[
 
 
@@ -474,12 +588,14 @@
 
 	  <artwork align="center"><![CDATA[
 
-|  Port range (16 bits)   |
-+-------------------------+
-| YYYY YY | P S I D  | XX |
-+-------------------------+
-|<-Offset>|
-|  Y > 0  | 
+|               Port range (16 bits)                  |
++---------------+----------+------+-------------------+
+|                     P                               |
+----------------+-----------------+-------------------+
+|        A (j)  |   PSID (K)      |        M  (i)     |
++---------------+----------+------+-------------------+
+|<----a bits--->|<-----k bits---->|<------m bits----->|
+                |<---c bits--->|<-----(k+m-c) bits--->|
 
 ]]></artwork>
 	  
@@ -547,7 +663,9 @@
 
 	<t>The subnet ID for MAP is defined to be ~0. I.e. the last
 	subnet in an End-user IPv6 prefix allocation is used for
-	MAP.</t>
+	MAP. A MAP node MUST reserve the topmost IPv6 prefix in a
+	End-user IPv6 prefix for the purpose of MAP. This prefix MUST
+	NOT be used for native IPv6 traffic.</t>
 
 	<t><figure>
 	  <preamble>Example:</preamble>
@@ -620,7 +738,12 @@
       outside of the MAP domain, it is translated to the BR's IPv6
       prefix. For the BR to be able to reverse the translation, the
       full destination IPv4 address must be encoded in the IPv6
-      address. There are multiple proposals for how to encode the IPv4
+      address. The same thing applies if an IPv4 prefix is encoded in
+      the IPv6 address, then the reverse translator needs to know the
+      full destination IPv4 address, which has to be encoded in the
+      interface-id.</t>
+
+      <t>There are multiple proposals for how to encode the IPv4
       address, and if also the destinatin port or PSID should also be
       included. A couple of the proposals are shown in the figure
       below.</t>
@@ -632,7 +755,7 @@
       encapsulation and translation.</t>
 
 
-      <t>Simple format similar to ISATAP:
+      <t>Existing IANA assigned format <xref target="RFC5342"></xref>:
 	<figure align="center" anchor="interfaceid-fig" title="">
 	  <preamble></preamble>
 
@@ -649,7 +772,7 @@
       </t>
 
       <t><figure align="center" anchor="interfaceid2-fig" title="">
-	<preamble>Parsable format including address length and PSID:</preamble>
+	<preamble>Parsable format including the extended IPv4 prefix length (L) and PSID:</preamble>
 
 	  <artwork align="center"><![CDATA[
 
@@ -662,6 +785,10 @@
 	  
 	</figure>
       </t>
+
+      <t>If the End-user IPv6 prefix length is larger than 64, the
+      most significant parts of the interface identifier is
+      overwritten by the prefix.</t>
 
     </section>
 	
@@ -686,8 +813,9 @@
 
 	<t>Congxiao Bao, Mohamed Boucadair, Gang Chen, Maoke Chen,
 	Wojciech Dec, Xiaohong Deng, Remi Despres, Jouni Korhonen,
-	Xing Li, Satoru Matsushima, Tomasz Mrugalski, Jacni Qin, Qiong
-	Sun, Tina Tsou, Dan Wing, Leaf Yeh and Jan Zorz</t>
+	Xing Li, Satoru Matsushima, Tomasz Mrugalski, Tetsuya
+	Murakami, Jacni Qin, Qiong Sun, Tina Tsou, Dan Wing, Leaf Yeh
+	and Jan Zorz.</t>
 
       </list></t>
 
@@ -705,6 +833,7 @@
 
     <references title="Normative References">
       &rfc2119;
+      &rfc5342;
       &rfc6346;
     </references>
 
@@ -740,20 +869,7 @@
       &I-D.bcx-address-fmt-extension;
     </references>
 
-   <section title="Outstanding issues">
-     <section title="Port mapping algorithm">
-       <section title="Prefix/infix algorithm">
-	 <t>Whether the chosen offset has 4 or 6 bits is still an open
-	 question. With 4, the sharing ration can be up to 1024
-	 (Requirement R-4, with due respect of R-11).  On the other
-	 hand, this excludes the first 4096 first ports from any
-	 assigned port set, while the well-known ports that have to be
-	 excluded are only the first 1024 (4.7% of usable ports are
-	 unused).</t>
-       </section>
-
-     </section>
-
+   <section title="Open issues / New features">
      <section title="Max PSID">
        <t>It is possible to support variable sized port sets per
        shared IPv4 address by using a mechanism called "MAX PSID", the
@@ -762,19 +878,32 @@
        the encoded IPv6 address. While that solves this particular
        requirement, it implies that a MAP CE now must be capable of
        receiving MAP traffic for any address within its delegated
-       prefix, as opposed to having a dedicated /128 connected to the
-       MAP virtual link.</t>
+       prefix, as opposed to having a dedicated /128 (or /64)
+       connected to the MAP virtual link.</t>
 
-       <t>To distinguish between native and MAP traffic it has been
-       proposed to use a special coding for the bits 71/72 in the
-       modified EUI-64 interface-id format.</t>
+       <t>If this idea is accepted a MAP router can not do a normal
+       routing lookup to determine if the packet is for itself (and
+       should be decapsulated) or if it is to a native IPv6 host that
+       should be forwarded normally. To distinguish between native and
+       MAP traffic it has been proposed to use a special flag (V) in the
+       bits 71/72 in the modified EUI-64 interface-id format <xref
+       target="RFC5342"></xref>.</t>
 
-     </section>
-
-     <section title="BR per Rule within a domain">
      </section>
 
      <section title="Interface identifier">
+       <t>There are multiple issues related to the
+       Interface-identifier encoding. The idea of being able to
+       identify MAP traffic based on the "V" bits, independently of
+       the IPv6 prefix allows for differently sized port sets per
+       single shared IPv4 address, and it also allows combining MAP
+       traffic with native IPv6 traffic in the cases where a single
+       /64 is assigned (or delegated) to the MAP node.</t>
+
+       <t>There is also ideas to be able distinguish between
+       encapsulation and translation using flags in the interface
+       identifier.</t>
+
 
        <t><figure><artwork align="center"><![CDATA[
 |<--------------- 64 -----------><8><----- 40 ------><--16--->
@@ -797,6 +926,12 @@
        more important, permits to envisage a unique solution having
        significant advantages of both encapsulation and double
        translation.</t>
+     </section>
+
+     <section title="BR per Rule within a domain">
+       <t>With multiple mapping rules it has been proposed to
+       associate a BR IPv6 address/prefix with each mapping rule,
+       allowing a separate set of BR's per IPv4 prefix</t>
      </section>
 
    </section>
