@@ -211,12 +211,12 @@ Internet-Draft                     MAP                      October 2011
    [I-D.dec-stateless-4v6] [I-D.boucadair-behave-ipv6-portrange]
    [I-D.bsd-softwire-stateless-port-index-analysis]
    [I-D.despres-softwire-stateless-analysis-tool]
-   [I-D.mrugalski-dhc-dhcpv6-4rd] [I-D.xli-behave-divi-pd]
-   [I-D.murakami-softwire-4rd] [I-D.mrugalski-dhc-dhcpv6-4rd].
+   [I-D.xli-behave-divi-pd] [I-D.murakami-softwire-4rd].
 
    In particular the architecture of a shared IPv4 address by
    distributing the port space is described in [RFC6346].  The
    corresponding stateful solution DS-lite is described in [RFC6333]
+
 
 
 
@@ -1293,6 +1293,12 @@ Internet-Draft                     MAP                      October 2011
 
 10.1.  Normative References
 
+   [I-D.mdt-softwire-map-dhcp-option]
+              Mrugalski, T., Boucadair, M., and O. Troan, "DHCPv6
+              Options for Mapping of Address and Port",
+              draft-mdt-softwire-map-dhcp-option-00 (work in progress),
+              October 2011.
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
 
@@ -1331,12 +1337,6 @@ Internet-Draft                     MAP                      October 2011
               Sets", draft-boucadair-softwire-stateless-requirements-00
               (work in progress), September 2011.
 
-   [I-D.bsd-softwire-stateless-port-index-analysis]
-              Boucadair, M., Skoberne, N., and W. Dec, "Analysis of Port
-              Indexing Algorithms",
-              draft-bsd-softwire-stateless-port-index-analysis-00 (work
-              in progress), September 2011.
-
 
 
 
@@ -1344,6 +1344,12 @@ Troan                      Expires May 3, 2012                 [Page 24]
 
 Internet-Draft                     MAP                      October 2011
 
+
+   [I-D.bsd-softwire-stateless-port-index-analysis]
+              Boucadair, M., Skoberne, N., and W. Dec, "Analysis of Port
+              Indexing Algorithms",
+              draft-bsd-softwire-stateless-port-index-analysis-00 (work
+              in progress), September 2011.
 
    [I-D.chen-softwire-4v6-add-format]
               Chen, G. and Z. Cao, "Design Principles of a Unified
@@ -1387,12 +1393,6 @@ Internet-Draft                     MAP                      October 2011
               progress), September 2011.
 
    [I-D.mrugalski-dhc-dhcpv6-4rd]
-              Mrugalski, T., "DHCPv6 Options for IPv4 Residual
-              Deployment (4rd)", draft-mrugalski-dhc-dhcpv6-4rd-00 (work
-              in progress), July 2011.
-
-   [I-D.murakami-softwire-4rd]
-              Murakami, T., Troan, O., and S. Matsushima, "IPv4 Residual
 
 
 
@@ -1401,6 +1401,12 @@ Troan                      Expires May 3, 2012                 [Page 25]
 Internet-Draft                     MAP                      October 2011
 
 
+              Mrugalski, T., "DHCPv6 Options for IPv4 Residual
+              Deployment (4rd)", draft-mrugalski-dhc-dhcpv6-4rd-00 (work
+              in progress), July 2011.
+
+   [I-D.murakami-softwire-4rd]
+              Murakami, T., Troan, O., and S. Matsushima, "IPv4 Residual
               Deployment on IPv6 infrastructure - protocol
               specification", draft-murakami-softwire-4rd-01 (work in
               progress), September 2011.
@@ -1443,12 +1449,6 @@ Internet-Draft                     MAP                      October 2011
               RFC 3194, November 2001.
 
    [RFC4380]  Huitema, C., "Teredo: Tunneling IPv6 over UDP through
-              Network Address Translations (NATs)", RFC 4380,
-              February 2006.
-
-   [RFC5214]  Templin, F., Gleeson, T., and D. Thaler, "Intra-Site
-              Automatic Tunnel Addressing Protocol (ISATAP)", RFC 5214,
-              March 2008.
 
 
 
@@ -1456,6 +1456,13 @@ Troan                      Expires May 3, 2012                 [Page 26]
 
 Internet-Draft                     MAP                      October 2011
 
+
+              Network Address Translations (NATs)", RFC 4380,
+              February 2006.
+
+   [RFC5214]  Templin, F., Gleeson, T., and D. Thaler, "Intra-Site
+              Automatic Tunnel Addressing Protocol (ISATAP)", RFC 5214,
+              March 2008.
 
    [RFC5969]  Townsley, W. and O. Troan, "IPv6 Rapid Deployment on IPv4
               Infrastructures (6rd) -- Protocol Specification",
@@ -1477,13 +1484,6 @@ Internet-Draft                     MAP                      October 2011
    [RFC6333]  Durand, A., Droms, R., Woodyatt, J., and Y. Lee, "Dual-
               Stack Lite Broadband Deployments Following IPv4
               Exhaustion", RFC 6333, August 2011.
-
-
-
-
-
-
-
 
 
 
