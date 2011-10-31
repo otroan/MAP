@@ -448,14 +448,23 @@ PSID=127 | 1532, 1533, 1534, 1535, | 2044, 2045, 2046, 2047, | ....
 
 	  <t>The defaults are:
 	  <list style="symbols">
-	    <t>Excluded ports   : 0-1024</t>
+	    <t>Excluded ports   : 0-1023</t>
 	    <t>Offset bits (A)  : 6</t>
 	  </list></t>
 
-	  <t>TBD: Can offset bits be fixed in the algorithm? Allowing
-	  provisoning of A complicates implementation. Should A be 4 instead of 6?
-	  That excludes 4096 ports, but gives a larger M and aligns
-	  PSID on a nibble boundary for 'readability'.</t>
+	  <t>The defaults of Offset bits (A), which determines
+	  excluded ports, remains to be chosen. At least if MAP and
+	  native-IPv6 prefixes are the same, two values are
+	  considered: 6 and 4.  With offset=6, there are 1024 excluded
+	  ports, but the maximum sharing ratio is less than the
+	  requirement of R-4 (1024). With offset=4, compliance with
+	  R-4 is ensured, but there are 4096 excluded ports, which
+	  reduces by 4.8% the number of non-well-known ports that can
+	  be unused 4096-1024)/(65536-1024). Comparative merits of R-4
+	  compliance and full optimization of port-set sizes remain to
+	  be evaluated. If MAP and native-IPv6 prefixes are different,
+	  having a different default, e.g. offset=0 has also been
+	  proposed.</t>
 
 	</section>
 

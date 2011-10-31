@@ -641,14 +641,21 @@ Internet-Draft                     MAP                      October 2011
 
    The defaults are:
 
-   o  Excluded ports : 0-1024
+   o  Excluded ports : 0-1023
 
    o  Offset bits (A) : 6
 
-   TBD: Can offset bits be fixed in the algorithm?  Allowing provisoning
-   of A complicates implementation.  Should A be 4 instead of 6?  That
-   excludes 4096 ports, but gives a larger M and aligns PSID on a nibble
-   boundary for 'readability'.
+   The defaults of Offset bits (A), which determines excluded ports,
+   remains to be chosen.  At least if MAP and native-IPv6 prefixes are
+   the same, two values are considered: 6 and 4.  With offset=6, there
+   are 1024 excluded ports, but the maximum sharing ratio is less than
+   the requirement of R-4 (1024).  With offset=4, compliance with R-4 is
+   ensured, but there are 4096 excluded ports, which reduces by 4.8% the
+   number of non-well-known ports that can be unused 4096-1024)/
+   (65536-1024).  Comparative merits of R-4 compliance and full
+   optimization of port-set sizes remain to be evaluated.  If MAP and
+   native-IPv6 prefixes are different, having a different default, e.g.
+   offset=0 has also been proposed.
 
 4.1.4.  Features of the Algorithm
 
@@ -656,6 +663,15 @@ Internet-Draft                     MAP                      October 2011
 
    1.  There is no waste of the port numbers, except the well-known
        ports.
+
+
+
+
+
+Troan                      Expires May 3, 2012                 [Page 12]
+
+Internet-Draft                     MAP                      October 2011
+
 
    2.  The algorithm is flexible, the control parameters are sharing
        ratio (R), the continue port range (M) and PSID prefix length
@@ -665,14 +681,6 @@ Internet-Draft                     MAP                      October 2011
 
    4.  It allows Service Providers to define their own address sharing
        ratio, the theoretical value is from 1:1 to 1:65536 and a more
-
-
-
-Troan                      Expires May 3, 2012                 [Page 12]
-
-Internet-Draft                     MAP                      October 2011
-
-
        practical value is from 1:1 to 1:4096.
 
    5.  It supports deployments using differentiated port ranges.
@@ -711,14 +719,6 @@ Internet-Draft                     MAP                      October 2011
    in the shared IPv4 address case contains a Port Set Identifier
    (PSID).
 
-                           Shared IPv4 address:
-
-
-        |   r bits    |        p bits       |         |   q bits   |
-        +-------------+---------------------+         +------------+
-        | Domain IPv4 | IPv4 Address suffix |         |Port Set ID |
-        +-------------+---------------------+         +------------+
-        |            32 bits                |
 
 
 
@@ -727,6 +727,16 @@ Internet-Draft                     MAP                      October 2011
 Troan                      Expires May 3, 2012                 [Page 13]
 
 Internet-Draft                     MAP                      October 2011
+
+
+                           Shared IPv4 address:
+
+
+        |   r bits    |        p bits       |         |   q bits   |
+        +-------------+---------------------+         +------------+
+        | Domain IPv4 | IPv4 Address suffix |         |Port Set ID |
+        +-------------+---------------------+         +------------+
+        |            32 bits                |
 
 
                                  Figure 4
@@ -767,6 +777,14 @@ Internet-Draft                     MAP                      October 2011
    If o + r < 32, then an IPv4 prefix is assigned.  The IPv4 prefix
    length is equal to r bits + Rule EA-bits length.
 
+
+
+
+Troan                      Expires May 3, 2012                 [Page 14]
+
+Internet-Draft                     MAP                      October 2011
+
+
    If o + r is equal to 32, then a full IPv4 address is to be assigned.
    The address is created by concatenating the Domain IPv4 prefix and
    the EA-bits.
@@ -776,13 +794,6 @@ Internet-Draft                     MAP                      October 2011
    bits.  The PSID bits are used to create a port set.  The length of
    the PSID bit field within EA bits is: o - p.
 
-
-
-
-
-Troan                      Expires May 3, 2012                 [Page 14]
-
-Internet-Draft                     MAP                      October 2011
 
 
           |               Port range (16 bits)                  |
@@ -821,17 +832,6 @@ Internet-Draft                     MAP                      October 2011
 
    On forwarding an IPv4 packet a lookup is done in the RIB and the
    correct FMR is used.
-
-
-
-
-
-
-
-
-
-
-
 
 
 
