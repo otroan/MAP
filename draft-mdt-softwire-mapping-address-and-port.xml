@@ -30,6 +30,7 @@
 <!ENTITY I-D.xli-behave-divi-pd SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.xli-behave-divi-pd.xml'>
 <!ENTITY I-D.xli-behave-divi SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.xli-behave-divi.xml'>
 <!ENTITY I-D.despres-softwire-4rd-addmapping SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.despres-softwire-4rd-addmapping.xml'>
+<!ENTITY I-D.despres-softwire-4rd-u SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.despres-softwire-4rd-u.xml'>
 <!ENTITY I-D.murakami-softwire-4rd SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.murakami-softwire-4rd.xml'>
 <!ENTITY I-D.chen-softwire-4v6-add-format SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.chen-softwire-4v6-add-format.xml'>
 <!ENTITY I-D.bcx-address-fmt-extension SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.bcx-address-fmt-extension.xml'>
@@ -300,7 +301,7 @@
 	  <t>Rule IPv6 prefix (including prefix length)</t>
 	  <t>Rule IPv4 prefix (including prefix length)</t>
 	  <t>Rule EA-bits length (in bits)</t>
-	  <t>Rule Port Parameters</t>
+	  <t>Rule Port Parameters (optional)</t>
 	</list></t>
 
 	<t>Forwarding Mapping Rule - used for forwarding. The Basic
@@ -312,7 +313,7 @@
 	  <t>Rule IPv6 prefix (including prefix length)</t>
 	  <t>Rule IPv4 prefix (including prefix length)</t>
 	  <t>Rule EA-bits length (in bits)</t>
-	  <t>Rule Port Parameters</t>
+	  <t>Rule Port Parameters (optional)</t>
 	</list></t>
 
 	<t>Default Mapping Rule - used for destinations outside the
@@ -391,7 +392,6 @@ K = (floor(P/M)) % R
 	<t><figure align="center" title="Bit representation" anchor="bitrepresentation-fig">
 	  <preamble></preamble>
 	  <artwork align="center"><![CDATA[
-
 0                          8                         15
 +---------------+----------+------+-------------------+
 |                     P                               |
@@ -399,7 +399,7 @@ K = (floor(P/M)) % R
 |        A (j)  |   PSID (K)      |        M  (i)     |
 +---------------+----------+------+-------------------+
 |<----a bits--->|<-----k bits---->|<------m bits----->|
-                |<---c bits--->|<-----(k+m-c) bits--->|
+                |k-c |<--c bits-->|<------m bits----->|
 
 		]]></artwork></figure></t>
 
@@ -416,8 +416,7 @@ K = (floor(P/M)) % R
 
 	  <t>When m = 0, GMA becomes a modulo operation. When a = 0,
 	  GMA becomes division operation. The port mapping algorithm
-	  in <xref
-	  target="I-D.despres-softwire-4rd-addmapping"></xref> can be
+	  in <xref target="I-D.despres-softwire-4rd-addmapping"></xref> can be
 	  represented by the algorithm usng a=4 and each PSID may have
 	  different prefix length c).</t>
 	</section>
@@ -427,7 +426,6 @@ K = (floor(P/M)) % R
 	<t><figure align="center" title="Example" anchor="example-fig">
 	  <preamble></preamble>
 	  <artwork align="center">
-
 For example, for R=128, M=4,
 
           Port set-1                Port set-2
@@ -445,10 +443,21 @@ PSID=127 | 1532, 1533, 1534, 1535, | 2044, 2045, 2046, 2047, | ....
 	  <t>The sharing ratio (R), the PSID (K) and the PSID length
 	  are derived from existing information.</t>
 
-	  <t>The number of contiguous ports (M) and a flag for
-	  exclusion of the well-known ports (default: excluded) are
-	  provisioned via the "Rule Port Mapping Parameters" in the
-	  Basic Mapping Rule.</t>
+	  <t>The number of offset bits (A) and excluded ports are
+	  optionally provisioned via the "Rule Port Mapping
+	  Parameters" in the Basic Mapping Rule.</t>
+
+	  <t>The defaults are:
+	  <list style="symbols">
+	    <t>Excluded ports   : 0-1024</t>
+	    <t>Offset bits (A)  : 6</t>
+	  </list></t>
+
+	  <t>TBD: Can offset bits be fixed in the algorithm? Allowing
+	  provisoning of A complicates implementation. Should A be 4 instead of 6?
+	  That excludes 4096 ports, but gives a larger M and aligns
+	  PSID on a nibble boundary for 'readability'.</t>
+
 	</section>
 
 	<section title="Features of the Algorithm">
@@ -473,8 +482,9 @@ PSID=127 | 1532, 1533, 1534, 1535, | 2044, 2045, 2046, 2047, | ....
 	    <t>It supports deployments using differentiated port
 	    ranges.</t>
 
-	    <t>It supports differentiated port ranges within a single
-	    shared IPv4 address.</t>
+	    <t>It could support differentiated port ranges within a
+	    single shared IPv4 address, depending on the IPv6 format
+	    chosen (see Appendix A).</t>
 
 	    <t>It support excluding the well known ports 0-1023.</t>
 
@@ -670,7 +680,6 @@ PSID=127 | 1532, 1533, 1534, 1535, | 2044, 2045, 2046, 2047, | ....
 	<t><figure>
 	  <preamble>Example:</preamble>
 	  <artwork align="left"><![CDATA[
-
   Given:
    IPv4 destination address: 192.0.2.18
    IPv4 destination port:    1232
@@ -867,71 +876,85 @@ PSID=127 | 1532, 1533, 1534, 1535, | 2044, 2045, 2046, 2047, | ....
       &I-D.despres-softwire-4rd-addmapping;
       &I-D.chen-softwire-4v6-add-format;
       &I-D.bcx-address-fmt-extension;
+      &I-D.despres-softwire-4rd-u;
     </references>
 
    <section title="Open issues / New features">
      <section title="Max PSID">
-       <t>It is possible to support variable sized port sets per
-       shared IPv4 address by using a mechanism called "MAX PSID", the
-       idea is that a CE doesn't have to know the length of the PSID
-       field, but includes all possible ports (barring offset bits) in
-       the encoded IPv6 address. While that solves this particular
-       requirement, it implies that a MAP CE now must be capable of
-       receiving MAP traffic for any address within its delegated
-       prefix, as opposed to having a dedicated /128 (or /64)
-       connected to the MAP virtual link.</t>
-
-       <t>If this idea is accepted a MAP router can not do a normal
-       routing lookup to determine if the packet is for itself (and
-       should be decapsulated) or if it is to a native IPv6 host that
-       should be forwarded normally. To distinguish between native and
-       MAP traffic it has been proposed to use a special flag (V) in the
-       bits 71/72 in the modified EUI-64 interface-id format <xref
-       target="RFC5342"></xref>.</t>
-
+       <t>It has been proposed to keep independence of IPv6 routing
+       plans from IPv4 considerations and yet to be able to support
+       variable sized port sets per shared IPv4 address. A mechanism
+       proposed for this is called "MAX PSID". The idea is that a
+       source, transmitting a packet to a CE doesn't need to know the
+       length of the PSID field of that CE. All port bits after offset
+       bits are copied in the encoded IPv6 address. This implies that
+       a MAP CE be capable of receiving MAP traffic for multiple
+       addresses within its delegated prefix, e.g. using the same
+       mechanism as used for double translation when CEs are allocated
+       IPv4 prefixes shorter than /32.</t>
      </section>
 
-     <section title="Interface identifier">
-       <t>There are multiple issues related to the
-       Interface-identifier encoding. The idea of being able to
-       identify MAP traffic based on the "V" bits, independently of
-       the IPv6 prefix allows for differently sized port sets per
-       single shared IPv4 address, and it also allows combining MAP
-       traffic with native IPv6 traffic in the cases where a single
-       /64 is assigned (or delegated) to the MAP node.</t>
 
-       <t>There is also ideas to be able distinguish between
-       encapsulation and translation using flags in the interface
-       identifier.</t>
+     <section title="Interface identifier - V octet and Checksum neutrality">
 
+       <t>There are multiple issues related to the Interface-identifier encoding.</t>
 
+       <t><list style="symbols">
+	 <t>The V octet is required to distinguish between MAP and
+	 native IPv6 traffic if the same End-user IPv6 prefix is
+	 used. If a separate End-user IPv6 prefix is used for MAP
+	 traffic, requiring a special flag in the interface-identifier
+	 is not required.</t>
+       
+	 <t>The Checksum-neutrality preserver (CNP). It is for MAP
+	 packets to be acceptable by IPv6 functions that check UDP/TCP
+	 checksums, without needing for this to consider
+	 transport-layer fields. Checksum neutrality is useful for
+	 double translation and, possibly more important, it permits
+	 to envisage a unified solution which has significant
+	 advantages of both encapsulation and double translation <xref
+	 target="I-D.despres-softwire-4rd-u"></xref>. With
+	 encapsulation, the field can be set to 0.</t>
+       </list></t>
+
+       <t>With both mechanisms, IPv6 addresses have the following format:</t>
        <t><figure><artwork align="center"><![CDATA[
-|<--------------- 64 -----------><8><----- 40 ------><--16--->
-+--------------------------------+-+----------------+--------+
-|        Subnet prefix (part 1)  |V|    (part 2)    |CNP or 0|
-+--------------------------------+-+----------------+--------+
+	 
+|<--------------- 64 ------------><8><----- 40 ------><--16--->
++---------------------------------+-+----------------+--------+
+| Unformatted IPv6 prefix (part 1)|V|    (part 2)    |CNP or 0|
++---------------------------------+-+----------------+--------+
 ]]></artwork>
-
        </figure></t>
-       <t>The V octet is a mark that deterministically differentiates
-       MAP addresses from other IPv6 addresses (Requirement R-15, not
-       restricted to /64s. </t>
 
-       <t>CNP is the Checksum Neutrality Preserver such that ports of
-       the IPv4 payload, if present, don't need to be updated (in
-       one's complement arithmetic, the sum of the two 16 bit fields
-       of the IPv4 address, minus the sum of 16 bit fields of bits
-       0-111 of the address). It can be replaced by 0 in case of
-       encapsulation, but facilitates double translation and, possibly
-       more important, permits to envisage a unique solution having
-       significant advantages of both encapsulation and double
-       translation.</t>
+       <t>The V octet deterministically differentiates MAP addresses
+       from other IPv6 addresses by having its bits 6 and 7 set to 1
+       and 1 (they are 1 and 0 in modified EUI-64 Interface-ID format,
+       and bit 6 is 0 in the privacy extension of [RFC 3041]. V is
+       proposed to be 0x03 (which leaves 2^6 values of bits 0 to 5 for
+       other Interface ID formats that could be useful in the future).</t>
+
+       <t>The Unformatted IPv6 prefix starts with bits derived from
+       the IPv4 address being mapped (e.g. Rule IPv6 prefix, IPv4
+       suffix, and PSID, or Max PSID if applicable). The remainder to
+       reach 104 bits is filled with 0s.</t>
+
+       <t>The CNP field is, in one's complement arithmetic, the sum of
+       the two halves of the IPv4 address, minus the sum of the seven
+       16-bit fields that precede the CNP in the IPv6 address.</t>
+
      </section>
+     <section title="Optional BR per Rule within a domain">
 
-     <section title="BR per Rule within a domain">
-       <t>With multiple mapping rules it has been proposed to
-       associate a BR IPv6 address/prefix with each mapping rule,
-       allowing a separate set of BR's per IPv4 prefix</t>
+       <t>With BR IPv6 address/prefix as optional parameters in
+       mapping rules, it has been proposed to support ISP networks
+       that have IPv4 prefixes coming from several providers
+       necessitating geographically dispersed BRs. In such
+       configurations, each provider exercises ingress filtering so
+       that a CE MUST sent its traffic going to the Internet via the
+       right BR (that whose locally routed IPv4 prefixes include one
+       that matches the IPv4 address or prefix of the CE) <xref
+       target="I-D.despres-softwire-4rd-addmapping"></xref>.</t>
      </section>
 
    </section>
