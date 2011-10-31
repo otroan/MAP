@@ -379,6 +379,10 @@
         uses only Rule IPv6 prefix, Rule IPv6 Prefix Length and IPv4 address that denotes
         BR IPv4 address. All other parameters are ignored for Default Mapping Rule.</t>
 
+        <t>Discussion: Remi Despres pointed out that not all of
+        prefix4len + prefix6-len + ea-len + excluded ports + off are
+        needed. Only 4 of these are independent, so one of them will be removed.</t>
+
       </section>
 
       <section anchor="option-portparams" title="Port Parameters Option">

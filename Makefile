@@ -9,7 +9,7 @@ all:	drafts
 draft-mdt-softwire-mapping-address-and-port: draft-mdt-softwire-mapping-address-and-port.xml
 	$(XML2RFC) $< $@-01.txt
 draft-mdt-softwire-map-dhcp-option: draft-mdt-softwire-map-dhcp-option.xml
-	$(XML2RFC) $< $@-00.txt
+	$(XML2RFC) $< $@-01.txt
 
 drafts: \
 	draft-mdt-softwire-mapping-address-and-port \

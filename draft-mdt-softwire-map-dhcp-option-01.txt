@@ -405,6 +405,10 @@ Internet-Draft             MAP DHCPv6 Options               October 2011
    IPv4 address that denotes BR IPv4 address.  All other parameters are
    ignored for Default Mapping Rule.
 
+   Discussion: Remi Despres pointed out that not all of prefix4len +
+   prefix6-len + ea-len + excluded ports + off are needed.  Only 4 of
+   these are independent, so one of them will be removed.
+
 4.4.  Port Parameters Option
 
    Port Parameters Option specifies Rule Port Paramters.  It MAY appear
@@ -437,10 +441,6 @@ Internet-Draft             MAP DHCPv6 Options               October 2011
    o  off: specifies offset bits.  Currently defined values are 4 and 6.
 
    Map Port Parameters Option is optional.  If it is not present, the
-   following default values are to be assumed:
-   1.  Excluded ports: 0-1023 (excluded-ports field value is 1023)
-
-
 
 
 
@@ -449,6 +449,8 @@ Mrugalski, et al.          Expires May 3, 2012                  [Page 8]
 Internet-Draft             MAP DHCPv6 Options               October 2011
 
 
+   following default values are to be assumed:
+   1.  Excluded ports: 0-1023 (excluded-ports field value is 1023)
    2.  A: offset is for a (A field value is 0)
    3.  Offset bits: 6 (off field value is 6)
    If administrator wants to provision only one or two of those
@@ -495,8 +497,6 @@ Internet-Draft             MAP DHCPv6 Options               October 2011
    Rules assignment is a stateless process from the server's
    perspective.  Server does not need to maintain a state of rules
    provisioned to clients, track lifetimes, expire outdated rules etc.
-   Server SHOULDs assign the same set of rules to all CEs in one MAP
-   Domain, unless there are several classes of CEs defined, e.g. regular
 
 
 
@@ -505,6 +505,8 @@ Mrugalski, et al.          Expires May 3, 2012                  [Page 9]
 Internet-Draft             MAP DHCPv6 Options               October 2011
 
 
+   Server SHOULDs assign the same set of rules to all CEs in one MAP
+   Domain, unless there are several classes of CEs defined, e.g. regular
    and premium users.  In such case, each class of CEs is expected to
    get the same set of rules.  Server is not expected to track MAP rules
    on a per CE basis.  Exact assignment of specific rules to a specific
@@ -550,8 +552,6 @@ Internet-Draft             MAP DHCPv6 Options               October 2011
 
    IANA is kindly requested to allocate DHCPv6 option code referencing
    this document, delineating OPTION_MAP_RULE and OPTION_MAP_FLAGS.
-
-
 
 
 
@@ -635,7 +635,7 @@ Internet-Draft             MAP DHCPv6 Options               October 2011
 
    [I-D.mdt-softwire-mapping-address-and-port]
               Troan, O., "Mapping of Address and Port (MAP)",
-              draft-mdt-softwire-mapping-address-and-port-00 (work in
+              draft-mdt-softwire-mapping-address-and-port-01 (work in
               progress), October 2011.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
