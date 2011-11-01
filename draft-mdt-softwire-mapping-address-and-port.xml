@@ -47,7 +47,7 @@
 <?rfc comments="yes" ?>
 <?rfc inline="yes" ?>
 
-<rfc category="std" docName="draft-mdt-softwire-mapping-address-and-port-01"
+<rfc category="std" docName="draft-mdt-softwire-mapping-address-and-port-02"
      ipr="trust200902">
   <front>
     <title abbrev="MAP">Mapping of Address and Port (MAP)</title>
@@ -198,10 +198,12 @@
       considerations are temporarily kept in Appendix A to D. The
       appendixes are in no way to be considered normative.</t>
 
+      <t>A parellel document defines a DHCPv6 option for provisioning
+      of MAP <xref target="I-D.mdt-softwire-map-dhcp-option"></xref></t>
     </section>
 
     <!--  SECTION 2: REQUIREMENTS LANGUAGE          -->
-    <section anchor="sec:conventions" title="Conventions">
+    <section anchor="conventions" title="Conventions">
       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
       "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
       document are to be interpreted as described in RFC 2119 <xref
@@ -1475,7 +1477,7 @@ PSID=127 | 1532, 1533, 1534, 1535, | 2044, 2045, 2046, 2047, | ....
 	  </t>
 	  <t> </t>
 	  <t hangText="">
-	  If the M < N, addresses should be shared by N CEs and thus
+	  If the M &lt; N, addresses should be shared by N CEs and thus
 	each is shared by N/M = 2^(n - m) CEs with PSID length of 
 	(n - m).
 	  </t>
@@ -1497,11 +1499,12 @@ PSID=127 | 1532, 1533, 1534, 1535, | 2044, 2045, 2046, 2047, | ....
 	10, 110, 111 for one /10, one /11, and two /12).
 	  </t>
 	  <t> </t>
-	  <t hangText=""> Then we have:</t>
+	  <t hangText=""> Then we have:
 	  <figure><artwork align="center"><![CDATA[
 H1 = 192.32../16, h1 = 16, r1 = 1 => R1 = bin(0); 
 H2 = 63.245../16, h2 = 16, r2 = 1 => R2 = bin(1); 
 ]]></artwork></figure>
+          </t>
 	
 	</list></t>
 
@@ -1524,22 +1527,22 @@ H2 = 63.245../16, h2 = 16, r2 = 1 => R2 = bin(1);
 	have the length of (c + ri). 
 	  </t>
 	  <t> </t>
-	  <t hangText=""> Then we can do that:</t>
+	  <t hangText=""> Then we can do that:
 	  <figure><artwork align="center"><![CDATA[
 c = 40 => C = 2001:0db8:ff00::/40
 Rule 1: Rule IPv6 Prefix = 2001:0db8:ff00::/41
 Rule 2: Rule IPv6 Prefix = 2001:0db8:ff80::/41
-]]></artwork></figure>
+]]></artwork></figure></t>
 	  <t> </t>
 	  <t hangText=""> As a result, for a certain CE delegating 
-2001:0db8:ff98:7650::/60, its parameters are:</t>
+2001:0db8:ff98:7650::/60, its parameters are:
 	  <figure><artwork align="center"><![CDATA[
 Rule IPv6 Prefix = 2001:0db8:ff80::/41 => Rule 2
 IPv4 Suffix = bin(001 1000 0111 0110 0) 
                            PSID = bin(101) = 0x5
 Rule IPv4 Prefix = 63.245../16
 CE IPv4 Address = 63.245.48.236
-]]></artwork></figure>
+]]></artwork></figure></t>
 	</list></t>
 
        <t>If different sharing ratio is expected, we may partition 
