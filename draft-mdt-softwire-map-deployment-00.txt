@@ -1,0 +1,952 @@
+
+
+
+Network Working Group                                          N. N, Ed.
+Internet-Draft                                         November 16, 2011
+Intended status: Informational
+Expires: May 19, 2012
+
+
+     Mapping of Address and Port (MAP) - Deployment Considerations
+                  draft-mdt-softwire-map-deployment-00
+
+Abstract
+
+
+Status of this Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at http://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on May 19, 2012.
+
+Copyright Notice
+
+   Copyright (c) 2011 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents
+   (http://trustee.ietf.org/license-info) in effect on the date of
+   publication of this document.  Please review these documents
+   carefully, as they describe your rights and restrictions with respect
+   to this document.  Code Components extracted from this document must
+   include Simplified BSD License text as described in Section 4.e of
+   the Trust Legal Provisions and are provided without warranty as
+   described in the Simplified BSD License.
+
+
+
+
+
+
+
+
+N                         Expires May 19, 2012                  [Page 1]
+
+Internet-Draft                     MAP                     November 2011
+
+
+Table of Contents
+
+   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . . .  3
+   2.  Conventions  . . . . . . . . . . . . . . . . . . . . . . . . .  4
+   3.  Terminology  . . . . . . . . . . . . . . . . . . . . . . . . .  5
+   4.  Deployment considerations  . . . . . . . . . . . . . . . . . .  6
+     4.1.  Flexible Assigment of Port Sets  . . . . . . . . . . . . .  6
+     4.2.  Traffic Classification . . . . . . . . . . . . . . . . . .  6
+     4.3.  Prefix Delegation Deployment . . . . . . . . . . . . . . .  6
+     4.4.  Coexisting Deployment  . . . . . . . . . . . . . . . . . .  6
+     4.5.  Friendly to Network Provisioning . . . . . . . . . . . . .  7
+     4.6.  Enable privacy addresses . . . . . . . . . . . . . . . . .  7
+     4.7.  Facilitating 4v6 Service . . . . . . . . . . . . . . . . .  7
+     4.8.  Independency with IPv6 Routing Planning  . . . . . . . . .  7
+     4.9.  Optimized Routing Path . . . . . . . . . . . . . . . . . .  7
+   5.  Operational Guidance . . . . . . . . . . . . . . . . . . . . .  8
+   6.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . . 11
+   7.  Security Considerations  . . . . . . . . . . . . . . . . . . . 12
+   8.  Contributors . . . . . . . . . . . . . . . . . . . . . . . . . 13
+   9.  Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . 14
+   10. References . . . . . . . . . . . . . . . . . . . . . . . . . . 15
+     10.1. Normative References . . . . . . . . . . . . . . . . . . . 15
+     10.2. Informative References . . . . . . . . . . . . . . . . . . 15
+   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 17
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+N                         Expires May 19, 2012                  [Page 2]
+
+Internet-Draft                     MAP                     November 2011
+
+
+1.  Introduction
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+N                         Expires May 19, 2012                  [Page 3]
+
+Internet-Draft                     MAP                     November 2011
+
+
+2.  Conventions
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in RFC 2119 [RFC2119].
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+N                         Expires May 19, 2012                  [Page 4]
+
+Internet-Draft                     MAP                     November 2011
+
+
+3.  Terminology
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+N                         Expires May 19, 2012                  [Page 5]
+
+Internet-Draft                     MAP                     November 2011
+
+
+4.  Deployment considerations
+
+4.1.  Flexible Assigment of Port Sets
+
+   Different classes of customers require port sets of different size.
+   In the context of shared IPv4 addresses, some customers would be
+   satisfied with an shared IPv4 addresses, while others may need to be
+   assigned a single IPv4 address or delegated an IPv4 subnet.
+
+4.2.  Traffic Classification
+
+   Usually, ISPs adopt traffic classification to ensure service quality
+   for different classes of customers.  This feature is also helpful for
+   customer behavior monitoring and security protection.  For example,
+   DIA (Dedicated Internet Access) has been provided by operators for
+   corporations to cater for their Internet communications needs.
+   Service is made by means of the edge router features and key systems,
+   like ACL (Access List Control) to classify different traffic.  Five
+   tuples would be identified from IP header and UDP/TCP header.
+   Currently, it is very well supported in IPv4.  Vendors are delivering
+   or committed to support that feature for IPv6.  In order to
+   facilitating IPv6 deployment, MAP solution should support this
+   feature on IPv6 plane.
+
+4.3.  Prefix Delegation Deployment
+
+   Prefix delegation is an important feature both for broadband and
+   mobile network.  In mobile network, prefix delegation is introduced
+   in 3GPP network in Release 10.  The deployment of PD would be
+   supported in 4v6 case.  Variable length of IPv6 prefix is assigned to
+   CPE for deriving IPv4 information.
+
+4.4.  Coexisting Deployment
+
+   4v6 solutions(i.e. encapsulation and translation) would not only
+   coexist with each other, but also can harmonize with other deployment
+   cases.  Here lists some coexisting cases.  (Note: more coexisting
+   cases are expected to be investigated in future.)
+
+   o Case 1: Coexisting between 4v6 encapsulation and 4v6 translation
+
+   o Case 2: Coexisting between 4v6 translation and NAT64 (Single
+   Translation)
+
+   o Case 3: Coexisting between 4v6 solutions and SLAAC
+
+
+
+
+
+
+N                         Expires May 19, 2012                  [Page 6]
+
+Internet-Draft                     MAP                     November 2011
+
+
+4.5.  Friendly to Network Provisioning
+
+   Network management plane normally has an ability to to identify
+   different users and the compatible with the address assignment
+   techniques in the domain. 4v6 would conform to current practices on
+   management plane.  In 3GPP network, for example, only the IPv6 prefix
+   is assigned to the devices, used to identify different users.  And
+   management plane for one family address is better than two, namely
+   the operating platform does not need to manage both IPv4 and IPv6.
+   Since only IPv6 prefix is assigned, 4v6 on the management plane is
+   naturally conducted only via IPv6.
+
+4.6.  Enable privacy addresses
+
+   User privacy should be taken into account when 4v6 solution is
+   deployed.  Some security concern associated with non-changing IPv6
+   interface identifiers has been expressed in RFC4941[RFC4941].
+   Ability to change the interface identifier over time makes it more
+   difficult for eavesdroppers and other information collectors to
+   identify when different addresses used in different sessions actually
+   correspond to the same node.
+
+4.7.  Facilitating 4v6 Service
+
+   Some ISPs may need to offer services in a 4v6 domain with a shared
+   address, e.g. 4v6 node hosts FTP server.  The service provisioning
+   may require well-know port range(i.e. port range belong to 0-1023).
+   MAP would provide operators with possibilities to generate a port
+   range including the 0-1023.  Afterwards, operators could decide to
+   assign it to any requesting user.
+
+4.8.  Independency with IPv6 Routing Planning
+
+   The IPv6 routing is easier to plan if it's not impacted by the
+   encoded IPv4 or port ID information.  MAP would prohibit IPv4 routing
+   imported in IPv6.
+
+4.9.  Optimized Routing Path
+
+   MAP could achieve optimized routing path both for hub case and mesh
+   case.  Traffic in hub and spoke case could follow asymmetric routing,
+   in which incoming routes would not be binded to a given border point
+   but others geographically closed to traffic initiators.  In mesh
+   cases, traffic between CPEs could directly communicate without going
+   through remote border point.
+
+
+
+
+
+
+N                         Expires May 19, 2012                  [Page 7]
+
+Internet-Draft                     MAP                     November 2011
+
+
+5.  Operational Guidance
+
+   This appendix is purposed to provide a referential guideline to
+   operators, illustrating a common usage of MAP in IPv4 residual
+   deployment.
+
+   Residual deployment starts from IPv6 address planning.  A simple
+   example is taken inline for easy understanding.
+
+   (A) IPv6 considerations
+
+   (A1)  Determine the maximum number N of CEs to be supported, and, for
+         generality, suppose N = 2^n.
+
+         For example, we suppose n = 20.  It means there will be up to
+         about one million CEs.
+
+   (A2)  Choose the length x of IPv6 prefixes to be assigned to ordinary
+         customers.
+
+         Considering we have a /32 IPv6 block, it is not a problem for
+         the IPv6 deployment with the given number of CEs.  Let x = 60,
+         allowing subnets inside in each CE delegated networks.
+
+   (A3)  Multiply N by a margin coefficient K, a power of two (K = 2 ^
+         k), to take into account that:
+
+      -  Some privileged customers may be assigned IPv6 prefixes of
+         length x', shorter than x, to have larger addressing spaces
+         than ordinary customers, both in IPv6 and IPv4;
+
+      -  Due to the hierarchy of routable prefixes, many theoretically
+         delegatable prefixes may not be actually delegatable (ref: host
+         density ratio of [RFC3194]).
+
+         In our example, let's take k = 0 for simplicity.
+
+   (B) IPv4 considerations
+
+   (B1)  List all (non overlapping, not yet assigned to any in-running
+         networks) IPv4 prefixes Hi that are available for IPv4 residual
+         deployment.
+
+         Suppose that we hold two blocks and not yet assigned to any
+         fixed network: 192.32../16 and 63.245../16.
+
+
+
+
+
+
+N                         Expires May 19, 2012                  [Page 8]
+
+Internet-Draft                     MAP                     November 2011
+
+
+   (B2)  Take enough of them, among the shortest ones, to get a total
+         whose size M is a power of two (M = 2 ^ m), and includes a good
+         proportion of the available IPv4 space.
+
+         If the M < N, addresses should be shared by N CEs and thus each
+         is shared by N/M = 2^(n - m) CEs with PSID length of (n - m).
+
+         If we use both blocks, M = 2^16 + 2^16, and therefore m = 17.
+         Then PSID length could be 3 bits, the corresponding sharing
+         ratio is also determined so that each CE can have 8192 ports to
+         use under the shared global IPv4 address.
+
+   (B3)  For each IPv4 prefix Hi of length hi, choose a "rule index",
+         i.e., the 4pfx in Fig.C-1 and Fig.C-3, say Ri of length ri = m
+         - (32 - hi).
+
+         All these indexes must be non overlapping prefixes (e.g. 0, 10,
+         110, 111 for one /10, one /11, and two /12).
+
+         Then we have:
+
+             H1 = 192.32../16, h1 = 16, r1 = 1 => R1 = bin(0);
+             H2 = 63.245../16, h2 = 16, r2 = 1 => R2 = bin(1);
+
+   (C) After (A) and (B), derive the rule(s)
+
+   (C1)  Derive the length c of the "Common prefix" C that will appear
+         at the beginning of all delegated prefixes (c = x - (n + k)).
+
+   (C2)  Take any prefix for this C of length c that starts with a RIR-
+         allocated IPv6 prefix.
+
+   (C3)  For each IPv4 prefix Hi, make a rule, in which the key is Hi,
+         and the value is the Common prefix C followed by the Rule index
+         Ri.  Then this i-th rule's Rule IPv6 Prefix will have the
+         length of (c + ri).
+
+         Then we can do that:
+
+               c = 40 => C = 2001:0db8:ff00::/40
+               Rule 1: Rule IPv6 Prefix = 2001:0db8:ff00::/41
+               Rule 2: Rule IPv6 Prefix = 2001:0db8:ff80::/41
+
+         As a result, for a certain CE delegating 2001:0db8:ff98:
+         7650::/60, its parameters are:
+
+
+
+
+
+
+N                         Expires May 19, 2012                  [Page 9]
+
+Internet-Draft                     MAP                     November 2011
+
+
+              Rule IPv6 Prefix = 2001:0db8:ff80::/41 => Rule 2
+              IPv4 Suffix = bin(001 1000 0111 0110 0)
+                                         PSID = bin(101) = 0x5
+              Rule IPv4 Prefix = 63.245../16
+              CE IPv4 Address = 63.245.48.236
+
+   If different sharing ratio is demanded, we may partition CEs into
+   groups and do (A) and (B) for each group, determining the PSID length
+   for them separately.
+
+   Remarks:
+
+   1.  The term "residual deployment" refers to utilizing not-yet-
+       assigned or recalled IPv4 addresses for IPv4 communications going
+       across the IPv6 domain backbone.  Therefore IPv6 address planning
+       is independent of the usage of the residual IPv4 addresses.
+
+   2.  MAP is mainly designed for residual deployment but also applied
+       for the case of legacy IPv4 networks keeping communication with
+       the IPv4 world over the IPv6 domain without renumbering.  In such
+       a case, unlike the residual deployment, the IPv6 addressing is
+       not independent of IPv4.
+
+   3.  For the non-residual deployment case, the address format, which
+       is introduced by [RFC6052] as well as its extensions like
+       [I-D.xli-behave-divi], is typically applied.  The relevance of
+       MAP- and RFC6052-formats is: once a single rule applies for the
+       whole IPv4 space, MAP-format becomes equivalent to RFC6052-
+       format.  This frees the domain to distribute any specific rule
+       information, including the DMR.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+N                         Expires May 19, 2012                 [Page 10]
+
+Internet-Draft                     MAP                     November 2011
+
+
+6.  IANA Considerations
+
+   This specification does not require any IANA actions.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+N                         Expires May 19, 2012                 [Page 11]
+
+Internet-Draft                     MAP                     November 2011
+
+
+7.  Security Considerations
+
+   There are no new security considerations pertaining to this document.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+N                         Expires May 19, 2012                 [Page 12]
+
+Internet-Draft                     MAP                     November 2011
+
+
+8.  Contributors
+
+   The members of the MAP design team are:
+
+      Congxiao Bao, Mohamed Boucadair, Gang Chen, Maoke Chen, Wojciech
+      Dec, Xiaohong Deng, Remi Despres, Jouni Korhonen, Xing Li, Satoru
+      Matsushima, Tomasz Mrugalski, Tetsuya Murakami, Jacni Qin, Qiong
+      Sun, Tina Tsou, Dan Wing, Leaf Yeh and Jan Zorz.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+N                         Expires May 19, 2012                 [Page 13]
+
+Internet-Draft                     MAP                     November 2011
+
+
+9.  Acknowledgements
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+N                         Expires May 19, 2012                 [Page 14]
+
+Internet-Draft                     MAP                     November 2011
+
+
+10.  References
+
+10.1.  Normative References
+
+   [I-D.mdt-softwire-map-dhcp-option]
+              Mrugalski, T., Boucadair, M., Troan, O., Deng, X., and C.
+              Bao, "DHCPv6 Options for Mapping of Address and Port",
+              draft-mdt-softwire-map-dhcp-option-01 (work in progress),
+              October 2011.
+
+   [I-D.mdt-softwire-mapping-address-and-port]
+              Troan, O., "Mapping of Address and Port (MAP)",
+              draft-mdt-softwire-mapping-address-and-port-01 (work in
+              progress), October 2011.
+
+   [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
+              Requirement Levels", BCP 14, RFC 2119, March 1997.
+
+   [RFC5342]  Eastlake, D., "IANA Considerations and IETF Protocol Usage
+              for IEEE 802 Parameters", BCP 141, RFC 5342,
+              September 2008.
+
+   [RFC6346]  Bush, R., "The Address plus Port (A+P) Approach to the
+              IPv4 Address Shortage", RFC 6346, August 2011.
+
+10.2.  Informative References
+
+   [I-D.murakami-softwire-4rd]
+              Murakami, T., Troan, O., and S. Matsushima, "IPv4 Residual
+              Deployment on IPv6 infrastructure - protocol
+              specification", draft-murakami-softwire-4rd-01 (work in
+              progress), September 2011.
+
+   [I-D.xli-behave-divi]
+              Bao, C., Li, X., Zhai, Y., and W. Shang, "dIVI: Dual-
+              Stateless IPv4/IPv6 Translation", draft-xli-behave-divi-04
+              (work in progress), October 2011.
+
+   [I-D.xli-softwire-divi-pd]
+              Li, X., Bao, C., Dec, W., Asati, R., Xie, C., and Q. Sun,
+              "dIVI-pd: Dual-Stateless IPv4/IPv6 Translation with Prefix
+              Delegation", draft-xli-softwire-divi-pd-01 (work in
+              progress), October 2011.
+
+   [RFC3194]  Durand, A. and C. Huitema, "The H-Density Ratio for
+              Address Assignment Efficiency An Update on the H ratio",
+              RFC 3194, November 2001.
+
+
+
+
+N                         Expires May 19, 2012                 [Page 15]
+
+Internet-Draft                     MAP                     November 2011
+
+
+   [RFC6052]  Bao, C., Huitema, C., Bagnulo, M., Boucadair, M., and X.
+              Li, "IPv6 Addressing of IPv4/IPv6 Translators", RFC 6052,
+              October 2010.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+N                         Expires May 19, 2012                 [Page 16]
+
+Internet-Draft                     MAP                     November 2011
+
+
+Author's Address
+
+   N N (editor)
+
+
+   Email:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+N                         Expires May 19, 2012                 [Page 17]
+

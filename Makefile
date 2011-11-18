@@ -10,14 +10,18 @@ draft-mdt-softwire-mapping-address-and-port: draft-mdt-softwire-mapping-address-
 	$(XML2RFC) $< $@-02.txt
 draft-mdt-softwire-map-dhcp-option: draft-mdt-softwire-map-dhcp-option.xml
 	$(XML2RFC) $< $@-01.txt
+draft-mdt-softwire-map-deployment: draft-mdt-softwire-map-deployment.xml
+	$(XML2RFC) $< $@-00.txt
 
 drafts: \
 	draft-mdt-softwire-mapping-address-and-port \
-	draft-mdt-softwire-map-dhcp-option
+	draft-mdt-softwire-map-dhcp-option \
+	draft-mdt-softwire-map-deployment
 
 design: draft-mdt-softwire-mapping-address-and-port
 
 dhcp: draft-mdt-softwire-map-dhcp-option
+deployment: draft-mdt-softwire-map-deployment
 
 .PHONY: clean draft commit design dhcp
 clean:
