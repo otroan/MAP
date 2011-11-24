@@ -3,8 +3,8 @@
 
 Network Working Group                                      O. Troan, Ed.
 Internet-Draft                                                     cisco
-Intended status: Standards Track                       November 18, 2011
-Expires: May 21, 2012
+Intended status: Standards Track                       November 24, 2011
+Expires: May 27, 2012
 
 
                    Mapping of Address and Port (MAP)
@@ -31,7 +31,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 21, 2012.
+   This Internet-Draft will expire on May 27, 2012.
 
 Copyright Notice
 
@@ -52,7 +52,7 @@ Copyright Notice
 
 
 
-Troan                     Expires May 21, 2012                  [Page 1]
+Troan                     Expires May 27, 2012                  [Page 1]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -67,10 +67,10 @@ Table of Contents
        4.1.1.  Bit Representation of the Algorithm  . . . . . . . . .  8
        4.1.2.  GMA examples . . . . . . . . . . . . . . . . . . . . .  9
        4.1.3.  GMA Provisioning Considerations  . . . . . . . . . . .  9
-       4.1.4.  Features of the Algorithm  . . . . . . . . . . . . . .  9
+       4.1.4.  Features of the Algorithm  . . . . . . . . . . . . . . 10
      4.2.  Basic mapping rule (BMR) . . . . . . . . . . . . . . . . . 10
      4.3.  Forwarding mapping rule (FMR)  . . . . . . . . . . . . . . 12
-     4.4.  Default mapping rule (DMR) . . . . . . . . . . . . . . . . 13
+     4.4.  Default mapping rule (DMR) . . . . . . . . . . . . . . . . 14
    5.  The IPv6 Interface Identifier  . . . . . . . . . . . . . . . . 14
    6.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . . 15
    7.  Security Considerations  . . . . . . . . . . . . . . . . . . . 15
@@ -108,7 +108,7 @@ Table of Contents
 
 
 
-Troan                     Expires May 21, 2012                  [Page 2]
+Troan                     Expires May 27, 2012                  [Page 2]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -116,16 +116,16 @@ Internet-Draft                     MAP                     November 2011
 1.  Introduction
 
    The mechanism of mapping IPv4 addresses in IPv6 address has been
-   described in numerous mechanisms dating back to [RFC1933] from 1996.
-   The Automatic tunneling mechanism described in RFC1933, assigned a
-   globally unique IPv6 address to a host by combining the hosts IPv4
+   described in numerous mechanisms dating back to 1996 [RFC1933].  The
+   Automatic tunneling mechanism described in RFC1933, assigned a
+   globally unique IPv6 address to a host by combining the host's IPv4
    address with a well known IPv6 prefix.  Given an IPv6 packet with an
    destination address with an embedded IPv4 address, a node could
    automatically tunnel this packet by extracting the IPv4 tunnel end-
    point address from the IPv6 destination address.
 
    There are numerous variations of this idea, described in 6over4
-   [RFC2529], ISATAP [RFC5214], 6to4 [RFC3056] and 6rd [RFC5969].  The
+   [RFC2529], 6to4 [RFC3056], ISATAP [RFC5214], and 6rd [RFC5969].  The
    differences are the use of well known IPv6 prefixes, or Service
    Provider assigned IPv6 prefixes, and the exact position of the IPv4
    bits embedded in the IPv6 address.  Teredo [RFC4380] added a twist to
@@ -164,7 +164,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-Troan                     Expires May 21, 2012                  [Page 3]
+Troan                     Expires May 27, 2012                  [Page 3]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -196,10 +196,10 @@ Internet-Draft                     MAP                     November 2011
 
    In particular the architecture of a shared IPv4 address by
    distributing the port space is described in [RFC6346].  The
-   corresponding stateful solution DS-lite is described in [RFC6333]
+   corresponding stateful solution DS-lite is described in [RFC6333].
 
-   A parellel document defines a DHCPv6 option for provisioning of MAP
-   [I-D.mdt-softwire-map-dhcp-option]
+   A companion document defines a DHCPv6 option for provisioning of MAP
+   [I-D.mdt-softwire-map-dhcp-option].
 
 
 2.  Conventions
@@ -220,7 +220,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-Troan                     Expires May 21, 2012                  [Page 4]
+Troan                     Expires May 27, 2012                  [Page 4]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -276,7 +276,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-Troan                     Expires May 21, 2012                  [Page 5]
+Troan                     Expires May 27, 2012                  [Page 5]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -332,7 +332,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-Troan                     Expires May 21, 2012                  [Page 6]
+Troan                     Expires May 27, 2012                  [Page 6]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -365,13 +365,12 @@ Internet-Draft                     MAP                     November 2011
 
 4.1.  Port mapping algorithm
 
-   Several port mapping algorithms have been proposed with their own set
-   of advantages and disadvantages.  Since different PSID MUST have non-
-   overlapping port sets, the two extreme cases are: (1) the port number
-   is not contiguous for each PSID, but uniformly distributed across the
-   whole port range (0-65535); (2) the port number is contiguous in a
-   single range for each PSID.  The port mapping algorithm proposed here
-   is called the Generalized Modulus Algorithm (GMA) and supports both
+   Different Port Set Identificators (PSID) MUST have non-overlapping
+   port sets.  The two extreme cases are: (1) the port number is not
+   contiguous for each PSID, but uniformly distributed across the whole
+   port range (0-65535); (2) the port number is contiguous in a single
+   range for each PSID.  The port mapping algorithm proposed here is
+   called the Generalized Modulus Algorithm (GMA) and supports both
    these cases.
 
    For a given sharing ratio (R) and the maximum number of contiguous
@@ -388,7 +387,8 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-Troan                     Expires May 21, 2012                  [Page 7]
+
+Troan                     Expires May 27, 2012                  [Page 7]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -438,32 +438,49 @@ Internet-Draft                     MAP                     November 2011
    more ports can be assigned to a single CE when PSID prefix length (c
    < k).
 
-   When m = 0, GMA becomes a modulo operation.  When a = 0, GMA becomes
-   division operation.
+   For a > 0, A MUST be larger than 0.  This ensures that the algorithm
+   excludes the well known ports.  For a = 0, A MAY be 0 to allow for
+   the provisioning of the well known ports.
 
 
 
-
-Troan                     Expires May 21, 2012                  [Page 8]
+Troan                     Expires May 27, 2012                  [Page 8]
 
 Internet-Draft                     MAP                     November 2011
 
 
+   When m = 0, GMA becomes a modulo operation.  When a = 0, GMA becomes
+   division operation.
+
 4.1.2.  GMA examples
 
-
-    For example, for R=128, M=4,
+    For example, for R = 1024, a = 4 (PSID offset = 4 and PSID length =
+                                 10 bits):
 
               Port set-1                Port set-2
-    PSID=0   | 1024, 1025, 1026, 1027, | 1536, 1537, 1538, 1539, | 2048
-    PSID=1   | 1028, 1029, 1030, 1031, | 1540, 1541, 1542, 1543, | ....
-    PSID=2   | 1032, 1033, 1034, 1035, | 1544, 1545, 1546, 1547, | ....
-    PSID=3   | 1036, 1037, 1038, 1039, | 1548, 1549, 1550, 1551, | ....
+    PSID=0   | 4096, 4097, 4098, 4099, | 8192, 8193, 8194, 8195, | 12288
+    PSID=1   | 4100, 4101, 4102, 4103, | 8196, 8197, 8198, 8199, | ....
+    PSID=2   | 4104, 4105, 4106, 4107, | 8200, 8201, 8202, 8203, | ....
+    PSID=3   | 4108, 4109, 4110, 4111, | 8204, 8205, 8206, 8207, | ....
     ...
-    PSID=127 | 1532, 1533, 1534, 1535, | 2044, 2045, 2046, 2047, | ....
+    PSID=127 | 4604, 4605, 4606, 4607, | 8700, 8701, 8702, 8703, | ....
 
 
                              Figure 2: Example
+
+    For example, for R = 64, a = 0 (PSID offset = 0 and PSID length = 6
+                                  bits):
+
+                                   Port set
+                         PSID=0   | [   0 - 1023]
+                         PSID=1   | [1024 - 2047]
+                         PSID=2   | [2048 - 3071]
+                         PSID=3   | [3072 - 4095]
+                         ...
+                         PSID=63  | [64512 - 65535]
+
+
+                 Figure 3: Example with offset = 0 (a = 0)
 
 4.1.3.  GMA Provisioning Considerations
 
@@ -480,6 +497,14 @@ Internet-Draft                     MAP                     November 2011
 
    o  Offset bits (A) : 4
 
+
+
+
+Troan                     Expires May 27, 2012                  [Page 9]
+
+Internet-Draft                     MAP                     November 2011
+
+
 4.1.4.  Features of the Algorithm
 
    The GMA algorithm has the following features:
@@ -488,22 +513,13 @@ Internet-Draft                     MAP                     November 2011
        ports.
 
    2.  The algorithm is flexible, the control parameters are PSID offset
-       (a) and PSID length (c).
+       (a) and PSID length (c) / Sharing ratio.
 
    3.  The algorithm is simple to perform effectively.
 
    4.  It allows Service Providers to define their own address sharing
        ratio, the theoretical value is from 1:1 to 1:65536 and a more
        practical value is from 1:1 to 1:4096.
-
-
-
-
-
-Troan                     Expires May 21, 2012                  [Page 9]
-
-Internet-Draft                     MAP                     November 2011
-
 
    5.  It supports deployments using differentiated port ranges.
 
@@ -525,7 +541,7 @@ Internet-Draft                     MAP                     November 2011
     |<---  End-user IPv6 prefix  --->|
 
 
-                       Figure 3: IPv6 address format
+                       Figure 4: IPv6 address format
 
    The Embedded Address bits (EA bits) are unique per end user within a
    Domain IPv6 prefix.  The Domain IPv6 prefix is the part of the End-
@@ -536,6 +552,14 @@ Internet-Draft                     MAP                     November 2011
    EA bits can contain a full or part of an IPv4 prefix or address, and
    in the shared IPv4 address case contains a Port Set Identifier
    (PSID).
+
+
+
+
+Troan                     Expires May 27, 2012                 [Page 10]
+
+Internet-Draft                     MAP                     November 2011
+
 
    The MAP IPv6 address is created by concatenating the End-user IPv6
    prefix with the MAP subnet-id ~0 and the interface-id as specified in
@@ -551,15 +575,7 @@ Internet-Draft                     MAP                     November 2011
         |            32 bits                |
 
 
-                                 Figure 4
-
-
-
-
-Troan                     Expires May 21, 2012                 [Page 10]
-
-Internet-Draft                     MAP                     November 2011
-
+                                 Figure 5
 
                           Complete IPv4 address:
 
@@ -571,7 +587,7 @@ Internet-Draft                     MAP                     November 2011
                    |            32 bits                |
 
 
-                                 Figure 5
+                                 Figure 6
 
                                IPv4 prefix:
 
@@ -582,7 +598,7 @@ Internet-Draft                     MAP                     November 2011
                    +-------------+---------------------+
                    |           < 32 bits               |
 
-                                 Figure 6
+                                 Figure 7
 
    If only a part of the IPv4 address/prefix is encoded in the EA bits,
    the Domain IPv4 prefix is provisioned to the CE by other means (e.g.
@@ -593,6 +609,13 @@ Internet-Draft                     MAP                     November 2011
    The offset of the EA bits field in the IPv6 address is equal to the
    BMR Rule IPv6 prefix length.  The length of the EA bits field (o) is
    given in the Rule EA-bits length parameter.
+
+
+
+Troan                     Expires May 27, 2012                 [Page 11]
+
+Internet-Draft                     MAP                     November 2011
+
 
    If o + r < 32, then an IPv4 prefix is assigned.  The IPv4 prefix
    length is equal to r bits + Rule EA-bits length.
@@ -608,15 +631,6 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-
-
-
-
-Troan                     Expires May 21, 2012                 [Page 11]
-
-Internet-Draft                     MAP                     November 2011
-
-
           |               Port range (16 bits)                  |
           +---------------+----------+------+-------------------+
           |                     P                               |
@@ -627,7 +641,7 @@ Internet-Draft                     MAP                     November 2011
                           |<---c bits--->|<-----(k+m-c) bits--->|
 
 
-                                 Figure 7
+                                 Figure 8
 
    Example:
 
@@ -651,26 +665,17 @@ Internet-Draft                     MAP                     November 2011
    On adding a FMR rule an IPv4 route is installed the conceptual
    routing table for the Rule IPv4 prefix.
 
+
+
+
+Troan                     Expires May 27, 2012                 [Page 12]
+
+Internet-Draft                     MAP                     November 2011
+
+
    On forwarding an IPv4 packet a lookup is done in the routing table
    and the correct FMR is used.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Troan                     Expires May 21, 2012                 [Page 12]
-
-Internet-Draft                     MAP                     November 2011
 
 
     |        32 bits           |         |    16 bits        |
@@ -692,7 +697,7 @@ Internet-Draft                     MAP                     November 2011
     |<---  End-user IPv6 prefix  --->|
 
 
-                                 Figure 8
+                                 Figure 9
 
    The subnet ID for MAP is defined to be ~0.  I.e. the last subnet in
    an End-user IPv6 prefix allocation is used for MAP.  A MAP node MUST
@@ -706,28 +711,29 @@ Internet-Draft                     MAP                     November 2011
       IPv4 destination address: 192.0.2.18
       IPv4 destination port:    1232
       Forwarding Mapping Rule:  {2001:db8:00::/40, 192.0.2.0/24,
-                                 Sharing ratio: 256, PSID offset: 6}
+                                 Sharing ratio: 256, PSID offset: 4}
 
      We get IPv6 address:
       IPv4 suffix bits (p): 32 - 24 = 8 (18)
       PSID length:          8 (sharing ratio)
-      PSID:                 0x34 (1232)
-      EA bits:              0x1234
-      IPv6 address:         2001:db8:0012:34FF:<interface-identifier>
+      PSID:                 0x17 (1232)
+      EA bits:              0x1217
+      IPv6 address:         2001:db8:0012:17FF:<interface-identifier>
+
+
+
+
+
+Troan                     Expires May 27, 2012                 [Page 13]
+
+Internet-Draft                     MAP                     November 2011
+
 
 4.4.  Default mapping rule (DMR)
 
    The Default Mapping rule is used to reach IPv4 destinations outside
    of the MAP domain.  Traffic using this rule will be sent from a CE to
    a BR.
-
-
-
-
-Troan                     Expires May 21, 2012                 [Page 13]
-
-Internet-Draft                     MAP                     November 2011
-
 
    The Rule IPv4 prefix in the DMR is: 0.0.0.0/0.  The Rule IPv6 prefix
    is the IPv6 address or prefix of the BR.  Which is used is dependent
@@ -771,22 +777,18 @@ Internet-Draft                     MAP                     November 2011
    translator needs to know the full destination IPv4 address, which has
    to be encoded in the interface-id.
 
-   The encoding of the full IPv4 address into the interface identifier,
-   both for the source and destination IPv6 addresses have been shown to
-   be useful for troubleshooting.
 
 
 
-
-
-
-Troan                     Expires May 21, 2012                 [Page 14]
+Troan                     Expires May 27, 2012                 [Page 14]
 
 Internet-Draft                     MAP                     November 2011
 
 
-     Parsable format including the extended IPv4 prefix length (L) and
-                                   PSID:
+   The encoding of the full IPv4 address into the interface identifier,
+   both for the source and destination IPv6 addresses have been shown to
+   be useful for troubleshooting.
+
 
 
                   <-8-><-------- L>=32 -------><48-L><8->
@@ -795,7 +797,7 @@ Internet-Draft                     MAP                     November 2011
                   +---+----------------+------+-----+---+
 
 
-                                 Figure 9
+                                 Figure 10
 
    The L field denotes the length of the IPv4 address, IPv4 prefix or
    shared IPv4 address.  In the case of an full IPv4 address L = 32, in
@@ -824,22 +826,22 @@ Internet-Draft                     MAP                     November 2011
 
       Congxiao Bao, Mohamed Boucadair, Gang Chen, Maoke Chen, Wojciech
       Dec, Xiaohong Deng, Remi Despres, Jouni Korhonen, Xing Li, Satoru
-      Matsushima, Tomasz Mrugalski, Tetsuya Murakami, Jacni Qin, Qiong
-      Sun, Tina Tsou, Dan Wing, Leaf Yeh and Jan Zorz.
+      Matsushima, Tomasz Mrugalski, Tetsuya Murakami, Jacni Qin, Necj
+      Scoberne, Qiong Sun, Tina Tsou, Dan Wing, Leaf Yeh and Jan Zorz.
 
 
 9.  Acknowledgements
 
 
-10.  References
 
 
 
-
-Troan                     Expires May 21, 2012                 [Page 15]
+Troan                     Expires May 27, 2012                 [Page 15]
 
 Internet-Draft                     MAP                     November 2011
 
+
+10.  References
 
 10.1.  Normative References
 
@@ -887,15 +889,16 @@ Internet-Draft                     MAP                     November 2011
               October 2010.
 
    [RFC6146]  Bagnulo, M., Matthews, P., and I. van Beijnum, "Stateful
-              NAT64: Network Address and Protocol Translation from IPv6
-              Clients to IPv4 Servers", RFC 6146, April 2011.
 
 
 
-Troan                     Expires May 21, 2012                 [Page 16]
+Troan                     Expires May 27, 2012                 [Page 16]
 
 Internet-Draft                     MAP                     November 2011
 
+
+              NAT64: Network Address and Protocol Translation from IPv6
+              Clients to IPv4 Servers", RFC 6146, April 2011.
 
    [RFC6147]  Bagnulo, M., Sullivan, A., Matthews, P., and I. van
               Beijnum, "DNS64: DNS Extensions for Network Address
@@ -945,8 +948,5 @@ Author's Address
 
 
 
-
-
-
-Troan                     Expires May 21, 2012                 [Page 17]
+Troan                     Expires May 27, 2012                 [Page 17]
 
