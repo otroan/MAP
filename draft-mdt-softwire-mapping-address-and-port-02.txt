@@ -321,7 +321,7 @@ Internet-Draft                     MAP                     November 2011
 
        *  Rule IPv4 prefix (including prefix length)
 
-       *  Rule EA-bits length (in bits, optional)
+       *  Rule EA-bits length (in bits)
 
        *  Rule Port Parameters (optional)
 
@@ -341,7 +341,7 @@ Internet-Draft                     MAP                     November 2011
 
        *  Rule IPv4 prefix (including prefix length)
 
-       *  Rule EA-bits length (in bits, optional)
+       *  Rule EA-bits length (in bits)
 
        *  Rule Port Parameters (optional)
 
@@ -363,10 +363,6 @@ Internet-Draft                     MAP                     November 2011
    node and is used as to terminate all MAP traffic being sent or
    received to the node.
 
-   Unless the Rule EA-bits length parameter is given, it can be
-   calculated by substracting the prefix length of the Rule IPv6 prefix
-   from the End-user IPv6 prefix length.
-
    Routes in the conceptual routing table are installed for all the
    Forwarding Mapping Rules and an IPv4 default route for the Default
    Mapping Rule.
@@ -385,6 +381,10 @@ Internet-Draft                     MAP                     November 2011
    called the Generalized Modulus Algorithm (GMA) and supports both
    these cases.
 
+   For a given sharing ratio (R) and the maximum number of contiguous
+   ports (M), the GMA algorithm is defined as:
+
+
 
 
 
@@ -392,9 +392,6 @@ Troan                     Expires May 28, 2012                  [Page 7]
 
 Internet-Draft                     MAP                     November 2011
 
-
-   For a given sharing ratio (R) and the maximum number of contiguous
-   ports (M), the GMA algorithm is defined as:
 
    1.  The port number (P) of a given PSID (K) is composed of:
 
@@ -442,14 +439,15 @@ Internet-Draft                     MAP                     November 2011
    Where j and i are the same indexes defined in the port mapping
    algorithm.
 
+   For any port number, the PSID can be obtained by bit mask operation.
+
+
 
 
 Troan                     Expires May 28, 2012                  [Page 8]
 
 Internet-Draft                     MAP                     November 2011
 
-
-   For any port number, the PSID can be obtained by bit mask operation.
 
    For a > 0, A MUST be larger than 0.  This ensures that the algorithm
    excludes the well known ports.  For a = 0, A MAY be 0 to allow for
@@ -497,6 +495,8 @@ Internet-Draft                     MAP                     November 2011
    provisioned via the "Rule Port Mapping Parameters" in the Basic
    Mapping Rule.
 
+   The defaults are:
+
 
 
 
@@ -504,8 +504,6 @@ Troan                     Expires May 28, 2012                  [Page 9]
 
 Internet-Draft                     MAP                     November 2011
 
-
-   The defaults are:
 
    o  Excluded ports : 0-4095
 
@@ -553,6 +551,8 @@ Internet-Draft                     MAP                     November 2011
    Domain IPv6 prefix.  The Domain IPv6 prefix is the part of the End-
    user IPv6 prefix that is common among all CEs using the same Basic
    Mapping Rule within the MAP domain.  There MUST be a Basic Mapping
+   Rule with a Rule IPv6 prefix equal to the Domain IPv6 prefix.  The EA
+   bits encode the CE specific IPv4 address and port information.  The
 
 
 
@@ -561,8 +561,6 @@ Troan                     Expires May 28, 2012                 [Page 10]
 Internet-Draft                     MAP                     November 2011
 
 
-   Rule with a Rule IPv6 prefix equal to the Domain IPv6 prefix.  The EA
-   bits encode the CE specific IPv4 address and port information.  The
    EA bits can contain a full or part of an IPv4 prefix or address, and
    in the shared IPv4 address case contains a Port Set Identifier
    (PSID).
@@ -609,6 +607,8 @@ Internet-Draft                     MAP                     November 2011
    If only a part of the IPv4 address/prefix is encoded in the EA bits,
    the Domain IPv4 prefix is provisioned to the CE by other means (e.g.
    a DHCPv6 option).  To create a complete IPv4 address (or prefix), the
+   IPv4 address suffix from the EA bits, are concatenated with the
+   Domain IPv4 prefix (r bits).
 
 
 
@@ -616,9 +616,6 @@ Troan                     Expires May 28, 2012                 [Page 11]
 
 Internet-Draft                     MAP                     November 2011
 
-
-   IPv4 address suffix from the EA bits, are concatenated with the
-   Domain IPv4 prefix (r bits).
 
    The offset of the EA bits field in the IPv6 address is equal to the
    BMR Rule IPv6 prefix length.  The length of the EA bits field (o) is
@@ -660,6 +657,9 @@ Internet-Draft                     MAP                     November 2011
 
    On forwarding an IPv4 packet a lookup is done in the routing table
    and the correct FMR is used.
+
+
+
 
 
 
@@ -759,7 +759,8 @@ Internet-Draft                     MAP                     November 2011
    an IPv6 address.  This is the address of the tunnel end point of the
    receiving MAP CE.  For traffic outside the MAP domain, the IPv6
    tunnel end point address is the IPv6 address of the BR.  The
-   interface-id MUST be consistent and the same for all MAP nodes.
+   interface-id used for all MAP nodes in the domain MUST be
+   deterministic.
 
    When translating, the destination IPv4 address is translated into a
    corresponding IPv6 address.  In the case of traffic outside of the
@@ -773,7 +774,6 @@ Internet-Draft                     MAP                     November 2011
    The encoding of the full IPv4 address into the interface identifier,
    both for the source and destination IPv6 addresses have been shown to
    be useful for troubleshooting.
-
 
 
 
@@ -819,9 +819,9 @@ Internet-Draft                     MAP                     November 2011
    The members of the MAP design team are:
 
       Congxiao Bao, Mohamed Boucadair, Gang Chen, Maoke Chen, Wojciech
-      Dec, Xiaohong Deng, Remi Despres, Jouni Korhonen, Xing Li, Satoru
-      Matsushima, Tomasz Mrugalski, Tetsuya Murakami, Jacni Qin, Necj
-      Scoberne, Qiong Sun, Tina Tsou, Dan Wing, Leaf Yeh and Jan Zorz.
+      Dec, Xiaohong Deng, Jouni Korhonen, Xing Li, Satoru Matsushima,
+      Tomasz Mrugalski, Tetsuya Murakami, Jacni Qin, Necj Scoberne,
+      Qiong Sun, Tina Tsou, Dan Wing, Leaf Yeh and Jan Zorz.
 
 
 9.  Acknowledgements

@@ -256,7 +256,7 @@
 	<list style="symbols">
 	  <t>Rule IPv6 prefix (including prefix length)</t>
 	  <t>Rule IPv4 prefix (including prefix length)</t>
-	  <t>Rule EA-bits length (in bits, optional)</t>
+	  <t>Rule EA-bits length (in bits)</t>
 	  <t>Rule Port Parameters (optional)</t>
 	</list></t>
 
@@ -268,7 +268,7 @@
 	<list style="symbols">
 	  <t>Rule IPv6 prefix (including prefix length)</t>
 	  <t>Rule IPv4 prefix (including prefix length)</t>
-	  <t>Rule EA-bits length (in bits, optional)</t>
+	  <t>Rule EA-bits length (in bits)</t>
 	  <t>Rule Port Parameters (optional)</t>
 	</list></t>
 
@@ -291,10 +291,6 @@
       IPv6 prefix. This address MUST be assigned to an interface of
       the MAP node and is used as to terminate all MAP traffic being
       sent or received to the node.</t>
-
-      <t>Unless the Rule EA-bits length parameter is given, it can be
-      calculated by substracting the prefix length of the Rule IPv6
-      prefix from the End-user IPv6 prefix length.</t>
 
       <t>Routes in the conceptual routing table are installed for all
       the Forwarding Mapping Rules and an IPv4 default route for the
@@ -713,8 +709,8 @@ PSID=63  | [64512 - 65535]
       mapped to an IPv6 address. This is the address of the tunnel end
       point of the receiving MAP CE. For traffic outside the MAP
       domain, the IPv6 tunnel end point address is the IPv6 address of
-      the BR. The interface-id MUST be consistent and the same for all
-      MAP nodes.</t>
+      the BR. The interface-id used for all MAP nodes in the domain
+      MUST be deterministic.</t>
 
       <t>When translating, the destination IPv4 address is translated
       into a corresponding IPv6 address. In the case of traffic
@@ -777,7 +773,7 @@ PSID=63  | [64512 - 65535]
       <list>
 
 	<t>Congxiao Bao, Mohamed Boucadair, Gang Chen, Maoke Chen,
-	Wojciech Dec, Xiaohong Deng, Remi Despres, Jouni Korhonen,
+	Wojciech Dec, Xiaohong Deng, Jouni Korhonen,
 	Xing Li, Satoru Matsushima, Tomasz Mrugalski, Tetsuya
 	Murakami, Jacni Qin, Necj Scoberne, Qiong Sun, Tina Tsou, Dan
 	Wing, Leaf Yeh and Jan Zorz.</t>
