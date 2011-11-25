@@ -2,9 +2,9 @@
 
 
 Network Working Group                                          N. N, Ed.
-Internet-Draft                                         November 16, 2011
+Internet-Draft                                         November 25, 2011
 Intended status: Informational
-Expires: May 19, 2012
+Expires: May 28, 2012
 
 
      Mapping of Address and Port (MAP) - Deployment Considerations
@@ -28,7 +28,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 19, 2012.
+   This Internet-Draft will expire on May 28, 2012.
 
 Copyright Notice
 
@@ -52,7 +52,7 @@ Copyright Notice
 
 
 
-N                         Expires May 19, 2012                  [Page 1]
+N                         Expires May 28, 2012                  [Page 1]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -108,7 +108,7 @@ Table of Contents
 
 
 
-N                         Expires May 19, 2012                  [Page 2]
+N                         Expires May 28, 2012                  [Page 2]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -164,7 +164,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 19, 2012                  [Page 3]
+N                         Expires May 28, 2012                  [Page 3]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -220,7 +220,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 19, 2012                  [Page 4]
+N                         Expires May 28, 2012                  [Page 4]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -276,7 +276,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 19, 2012                  [Page 5]
+N                         Expires May 28, 2012                  [Page 5]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -332,7 +332,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 19, 2012                  [Page 6]
+N                         Expires May 28, 2012                  [Page 6]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -388,14 +388,14 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 19, 2012                  [Page 7]
+N                         Expires May 28, 2012                  [Page 7]
 
 Internet-Draft                     MAP                     November 2011
 
 
 5.  Operational Guidance
 
-   This appendix is purposed to provide a referential guideline to
+   This section is purposed to provide a referential guideline to
    operators, illustrating a common usage of MAP in IPv4 residual
    deployment.
 
@@ -444,7 +444,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 19, 2012                  [Page 8]
+N                         Expires May 28, 2012                  [Page 8]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -500,7 +500,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 19, 2012                  [Page 9]
+N                         Expires May 28, 2012                  [Page 9]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -556,7 +556,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 19, 2012                 [Page 10]
+N                         Expires May 28, 2012                 [Page 10]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -612,7 +612,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 19, 2012                 [Page 11]
+N                         Expires May 28, 2012                 [Page 11]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -668,7 +668,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 19, 2012                 [Page 12]
+N                         Expires May 28, 2012                 [Page 12]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -724,7 +724,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 19, 2012                 [Page 13]
+N                         Expires May 28, 2012                 [Page 13]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -780,7 +780,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 19, 2012                 [Page 14]
+N                         Expires May 28, 2012                 [Page 14]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -836,7 +836,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 19, 2012                 [Page 15]
+N                         Expires May 28, 2012                 [Page 15]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -892,7 +892,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 19, 2012                 [Page 16]
+N                         Expires May 28, 2012                 [Page 16]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -948,5 +948,5 @@ Author's Address
 
 
 
-N                         Expires May 19, 2012                 [Page 17]
+N                         Expires May 28, 2012                 [Page 17]
 
