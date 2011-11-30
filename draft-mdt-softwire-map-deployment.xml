@@ -52,9 +52,33 @@
 <rfc category="info" docName="draft-mdt-softwire-map-deployment-00"
      ipr="trust200902">
   <front>
-    <title abbrev="MAP">Mapping of Address and Port (MAP) - Deployment Considerations</title>
+    <title abbrev="MAP Deployment">Mapping of Address and Port (MAP) - Deployment Considerations</title>
 
-    <author fullname="N N" initials="N" surname="N" role="editor">
+    <author fullname="Maoke Chen" initials="Maoke" surname="Chen" role="editor">
+      <organization abbrev="FreeBit">FreeBit Co., Ltd.</organization>
+      <address>
+	<postal>
+          <street>13F E-space Tower, Maruyama-cho 3-6</street>
+          <city>Shibuya-ku, Tokyo</city>
+          <country>Japan</country>
+        </postal>
+        <email>fibrib@gmail.com</email>
+      </address>
+    </author>
+   
+    <author fullname="N N" initials="N" surname="N" role="">
+      <organization abbrev=""></organization>
+      <address>
+	<postal>
+          <street></street>
+          <city></city>
+          <country></country>
+        </postal>
+        <email></email>
+      </address>
+    </author>
+   
+    <author fullname="N N" initials="N" surname="N" role="">
       <organization abbrev=""></organization>
       <address>
 	<postal>
@@ -84,7 +108,7 @@
   <middle>
     <!--  SECTION 1:  Introduction                  -->
 
-    <section title="Overview">
+    <section title="Introduction">
       <t> IPv4 address exhaustion has becoming world-wide reality and
 	the main stream of deployment since now on is IPv6-only
 	networking. Meanwhile, having access to legacy IPv4 contents 
@@ -143,8 +167,189 @@
       <t></t>
     </section -->
 
-    <!--  SECTION 3: DESCRIPTION                   -->
+    <!--  SECTION 3: DEPLOYMENT CASES   -->
+    <section title="Case Studies">
+      <t> MAP is suitable for deployment either in large-scale carrier 
+	(fixed) networks or in mobile networks. They have similar but 
+	different requirements. </t>
+
+      <!-- SUBSECTION: FIXED NETWORKS, Qiong -->
+      <section title="Fixed networks">
+	<t></t>
+      </section>
+
+      <!-- SUBSECTION: MOBILE NETWORKS, Gang -->
+      <section title="Mobile networks">
+	<t></t>
+      </section>
+
+    </section>
+    <!-- END SECTION 3: DEPLOYMENT CASES -->
+
+    <!--  SECTION 4: DEPLOYMENT CONSIDERATIONS, Qiong  -->
     <section title="Deployment Considerations">
+	<t></t>
+    </section>
+    <!-- END SECTION 4: DEPLOYMENT CONSIDERATIONS  -->
+
+    <!--  SECTION 5: ADDRESS PLANNING, Maoke  -->
+    <section title="MAP Address Planning, a Step-by-step Guide">
+
+	<t>This section is purposed to provide a referential guidance 
+	to operators, illustrating a common fashion of address planning 
+	with MAP in IPv4 residual deployment.  </t>
+
+	<t> Residual deployment starts from IPv6 address planning. A 
+	simple example is taken inline for easy understanding. </t>
+
+	<t> (A) IPv6 considerations </t>
+
+	<t><list style="hanging" hangIndent="6">
+	  <t hangText="(A1)">
+	  Determine the maximum number N of CEs to be supported, 
+	and, for generality, suppose N = 2^n.
+	  </t>
+	  <t hangText=""> For example, we suppose n = 20. It means 
+	there will be up to about one million CEs. </t>
+	  <t hangText="(A2)">
+	  Choose the length x of IPv6 prefixes to be assigned to 
+        ordinary customers.
+	  </t>
+	  <t hangText=""> Considering we have a /32 IPv6 block, it
+	is not a problem for the IPv6 deployment with the given number 
+	of CEs. Let x = 60, allowing subnets inside in each CE delegated
+	networks. </t>
+	  <t hangText="(A3)">
+	  Multiply N by a margin coefficient K, a power of two 
+        (K = 2 ^ k), to take into account that: </t>
+	  <t hangText="   -"> Some privileged 
+	customers may be assigned IPv6 prefixes of length x', shorter 
+	than x, to have larger addressing spaces than ordinary customers,
+	both in IPv6 and IPv4; </t>
+	  <t hangText="   -"> Due to the hierarchy of routable 
+	prefixes, many theoretically delegatable prefixes may not be 
+	actually delegatable (ref: host density ratio of <xref 
+	target="RFC3194" />).</t>
+	  <t hangText="">In our example, let's take k = 0 for simplicity. </t>
+	</list></t>
+
+       <t> (B) IPv4 considerations </t>
+	<t><list style="hanging" hangIndent="6">
+	  <t hangText="(B1)">
+	  List all (non overlapping, not yet assigned to any in-running 
+	networks) IPv4 prefixes Hi that are available for IPv4 residual 
+	deployment. 
+	  </t>
+	  <t hangText="">Suppose that we hold two blocks and not yet 
+	assigned to any fixed network: 192.32../16 and 63.245../16. </t>
+	  <t hangText="(B2)">
+	  Take enough of them, among the shortest ones, to get a total 
+	whose size M is a power of two (M = 2 ^ m), and includes 
+	a good proportion of the available IPv4 space. 
+	  </t>
+	  <t hangText="">
+	  If the M < N, addresses should be shared by N CEs and thus
+	each is shared by N/M = 2^(n - m) CEs with PSID length of 
+	(n - m).
+	  </t>
+	  <t hangText=""> If we use both blocks, M = 2^16 + 2^16, and 
+	therefore m = 17. Then PSID length could be 3 bits, the 
+	corresponding sharing ratio is also determined so that each 
+	CE can have 8192 ports to use under the shared global IPv4
+	address. </t>
+	  <t hangText="(B3)">
+	  For each IPv4 prefix Hi of length hi, choose a "rule index", 
+	i.e., the 4pfx in Fig.C-1 and Fig.C-3, say Ri of length 
+	ri = m - (32 - hi). 
+	  </t>
+	  <t hangText="">
+	  All these indexes must be non overlapping prefixes (e.g. 0, 
+	10, 110, 111 for one /10, one /11, and two /12).
+	  </t>
+	  <t hangText=""> Then we have:
+	  <figure><artwork align="center"><![CDATA[
+H1 = 192.32../16, h1 = 16, r1 = 1 => R1 = bin(0); 
+H2 = 63.245../16, h2 = 16, r2 = 1 => R2 = bin(1); 
+]]></artwork></figure></t>
+	
+	</list></t>
+
+       <t> (C) After (A) and (B), derive the rule(s) </t>
+	<t><list style="hanging" hangIndent="6">
+	  <t hangText="(C1)">
+	  Derive the length c of the "Common prefix" C that will appear 
+	at the beginning of all delegated prefixes (c = x - (n + k)).
+	  </t>
+	  <t hangText="(C2)">
+	  Take any prefix for this C of length c that starts with a 
+	RIR-allocated IPv6 prefix.
+	  </t>
+	  <t hangText="(C3)">
+	  For each IPv4 prefix Hi, make a rule, in which the key 
+	is Hi, and the value is the Common prefix C followed by the 
+	Rule index Ri. Then this i-th rule's Rule IPv6 Prefix will
+	have the length of (c + ri). 
+	  </t>
+	  <t hangText=""> Then we can do that:
+	  <figure><artwork align="center"><![CDATA[
+c = 40 => C = 2001:0db8:ff00::/40
+Rule 1: Rule IPv6 Prefix = 2001:0db8:ff00::/41
+Rule 2: Rule IPv6 Prefix = 2001:0db8:ff80::/41
+]]></artwork></figure></t>
+	  <t hangText=""> As a result, for a certain CE delegating 
+2001:0db8:ff98:7650::/60, its parameters are:
+	  <figure><artwork align="center"><![CDATA[
+Rule IPv6 Prefix = 2001:0db8:ff80::/41 => Rule 2
+IPv4 Suffix = bin(001 1000 0111 0110 0) 
+                           PSID = bin(101) = 0x5
+Rule IPv4 Prefix = 63.245../16
+CE IPv4 Address = 63.245.48.236
+]]></artwork></figure></t>
+	</list></t>
+
+       <t>If different sharing ratio is demanded, we may partition 
+       CEs into groups and do (A) and (B) for each group, determining 
+       the PSID length for them separately. </t> 
+
+	<t> Remarks: </t>
+	<t><list style="numbers">
+	  <t> IPv6 address planning in residual deployment is independent 
+	     of the usage of the residual IPv4 addresses. </t>
+	  <t> The IPv4 address pool for "residual deployment" contains  
+	     IPv4 addresses not yet assigned to customers/subscribers 
+	     and/or those already recalled from ex-customers. Dynamic
+	     assignment is also considered of the case of "recalled".  
+	  </t> 
+	  <t> MAP is mainly designed for residual deployment but also
+	     applied for the case of legacy IPv4 networks keeping 
+	     communication with the IPv4 world over the IPv6 domain
+	     without renumbering. In such a case, unlike the residual
+	     deployment, the IPv6 addressing is not independent of 
+	     IPv4.  
+	  </t> 
+	  <t> For the non-residual deployment case, the address format, 
+	     which is introduced by <xref target="RFC6052"></xref> as 
+	     well as its extensions like <xref 
+	     target="I-D.xli-behave-divi"></xref>, is typically applied. 
+	     The relevance of MAP- and RFC6052-formats is: once a 
+	     single rule applies for the whole IPv4 space, MAP-format 
+	     becomes equivalent to RFC6052-format. This frees the domain 
+	     to distribute any specific rule information, including the 
+	     DMR.
+	  </t>  
+	</list></t>
+      </section>
+    <!-- END SECTION 5: ADDRESS PLANNING  -->
+
+    <!--   SECTION 6: MIGRATION METHODOLOGY, Gang  -->
+    <section title="Migration Methodology">
+
+    </section>
+    <!--  END SECTION 6: MIGRATION METHODOLOGY  -->
+
+
+    <!--  OLD TEXT FOR AUTHORS REF                -->
+    <section title="=== OLD TEXT === Deployment Considerations">
 
       <section title="Flexible Assigment of Port Sets">
 
@@ -262,167 +467,20 @@
 
     </section>
 
-    <section title="Operational Guidance">
-
-	<t>This section is purposed to provide a referential guideline 
-	to operators, illustrating a common usage of MAP in IPv4
-	residual deployment.
-	</t>
-
-	<t> Residual deployment starts from IPv6 address planning. A 
-	simple example is taken inline for easy understanding. </t>
-
-	<t> (A) IPv6 considerations </t>
-
-	<t><list style="hanging" hangIndent="6">
-	  <t hangText="(A1)">
-	  Determine the maximum number N of CEs to be supported, 
-	and, for generality, suppose N = 2^n.
-	  </t>
-	  <t hangText=""> For example, we suppose n = 20. It means 
-	there will be up to about one million CEs. </t>
-	  <t hangText="(A2)">
-	  Choose the length x of IPv6 prefixes to be assigned to 
-        ordinary customers.
-	  </t>
-	  <t hangText=""> Considering we have a /32 IPv6 block, it
-	is not a problem for the IPv6 deployment with the given number 
-	of CEs. Let x = 60, allowing subnets inside in each CE delegated
-	networks. </t>
-	  <t hangText="(A3)">
-	  Multiply N by a margin coefficient K, a power of two 
-        (K = 2 ^ k), to take into account that: </t>
-	  <t hangText="   -"> Some privileged 
-	customers may be assigned IPv6 prefixes of length x', shorter 
-	than x, to have larger addressing spaces than ordinary customers,
-	both in IPv6 and IPv4; </t>
-	  <t hangText="   -"> Due to the hierarchy of routable 
-	prefixes, many theoretically delegatable prefixes may not be 
-	actually delegatable (ref: host density ratio of <xref 
-	target="RFC3194" />).</t>
-	  <t hangText="">In our example, let's take k = 0 for simplicity. </t>
-	</list></t>
-
-       <t> (B) IPv4 considerations </t>
-	<t><list style="hanging" hangIndent="6">
-	  <t hangText="(B1)">
-	  List all (non overlapping, not yet assigned to any in-running 
-	networks) IPv4 prefixes Hi that are available for IPv4 residual 
-	deployment. 
-	  </t>
-	  <t hangText="">Suppose that we hold two blocks and not yet 
-	assigned to any fixed network: 192.32../16 and 63.245../16. </t>
-	  <t hangText="(B2)">
-	  Take enough of them, among the shortest ones, to get a total 
-	whose size M is a power of two (M = 2 ^ m), and includes 
-	a good proportion of the available IPv4 space. 
-	  </t>
-	  <t hangText="">
-	  If the M < N, addresses should be shared by N CEs and thus
-	each is shared by N/M = 2^(n - m) CEs with PSID length of 
-	(n - m).
-	  </t>
-	  <t hangText=""> If we use both blocks, M = 2^16 + 2^16, and 
-	therefore m = 17. Then PSID length could be 3 bits, the 
-	corresponding sharing ratio is also determined so that each 
-	CE can have 8192 ports to use under the shared global IPv4
-	address. </t>
-	  <t hangText="(B3)">
-	  For each IPv4 prefix Hi of length hi, choose a "rule index", 
-	i.e., the 4pfx in Fig.C-1 and Fig.C-3, say Ri of length 
-	ri = m - (32 - hi). 
-	  </t>
-	  <t hangText="">
-	  All these indexes must be non overlapping prefixes (e.g. 0, 
-	10, 110, 111 for one /10, one /11, and two /12).
-	  </t>
-	  <t hangText=""> Then we have:
-	  <figure><artwork align="center"><![CDATA[
-H1 = 192.32../16, h1 = 16, r1 = 1 => R1 = bin(0); 
-H2 = 63.245../16, h2 = 16, r2 = 1 => R2 = bin(1); 
-]]></artwork></figure></t>
-	
-	</list></t>
-
-       <t> (C) After (A) and (B), derive the rule(s) </t>
-	<t><list style="hanging" hangIndent="6">
-	  <t hangText="(C1)">
-	  Derive the length c of the "Common prefix" C that will appear 
-	at the beginning of all delegated prefixes (c = x - (n + k)).
-	  </t>
-	  <t hangText="(C2)">
-	  Take any prefix for this C of length c that starts with a 
-	RIR-allocated IPv6 prefix.
-	  </t>
-	  <t hangText="(C3)">
-	  For each IPv4 prefix Hi, make a rule, in which the key 
-	is Hi, and the value is the Common prefix C followed by the 
-	Rule index Ri. Then this i-th rule's Rule IPv6 Prefix will
-	have the length of (c + ri). 
-	  </t>
-	  <t hangText=""> Then we can do that:
-	  <figure><artwork align="center"><![CDATA[
-c = 40 => C = 2001:0db8:ff00::/40
-Rule 1: Rule IPv6 Prefix = 2001:0db8:ff00::/41
-Rule 2: Rule IPv6 Prefix = 2001:0db8:ff80::/41
-]]></artwork></figure></t>
-	  <t hangText=""> As a result, for a certain CE delegating 
-2001:0db8:ff98:7650::/60, its parameters are:
-	  <figure><artwork align="center"><![CDATA[
-Rule IPv6 Prefix = 2001:0db8:ff80::/41 => Rule 2
-IPv4 Suffix = bin(001 1000 0111 0110 0) 
-                           PSID = bin(101) = 0x5
-Rule IPv4 Prefix = 63.245../16
-CE IPv4 Address = 63.245.48.236
-]]></artwork></figure></t>
-	</list></t>
-
-       <t>If different sharing ratio is demanded, we may partition 
-       CEs into groups and do (A) and (B) for each group, determining 
-       the PSID length for them separately. </t> 
-
-	<t> Remarks: </t>
-	<t><list style="numbers">
-	  <t> The term "residual deployment" refers to utilizing 
-	     not-yet-assigned or recalled IPv4 addresses for IPv4 
-	     communications going across the IPv6 domain backbone. 
-	     Therefore IPv6 address planning is independent of the 
-	     usage of the residual IPv4 addresses. 
-	  </t> 
-	  <t> MAP is mainly designed for residual deployment but also
-	     applied for the case of legacy IPv4 networks keeping 
-	     communication with the IPv4 world over the IPv6 domain
-	     without renumbering. In such a case, unlike the residual
-	     deployment, the IPv6 addressing is not independent of 
-	     IPv4.  
-	  </t> 
-	  <t> For the non-residual deployment case, the address format, 
-	     which is introduced by <xref target="RFC6052"></xref> as 
-	     well as its extensions like <xref 
-	     target="I-D.xli-behave-divi"></xref>, is typically applied. 
-	     The relevance of MAP- and RFC6052-formats is: once a 
-	     single rule applies for the whole IPv4 space, MAP-format 
-	     becomes equivalent to RFC6052-format. This frees the domain 
-	     to distribute any specific rule information, including the 
-	     DMR.
-	  </t>  
-	</list></t>
-      </section>
-
-    <!--  SECTION 4:  IANA Considerations           -->
+    <!--  SECTION 7:  IANA Considerations           -->
 
     <section title="IANA Considerations">
       <t>This specification does not require any IANA actions.</t>
     </section>
 
-    <!--  SECTION 5:  Security Considerations      	-->
+    <!--  SECTION 8:  Security Considerations      	-->
 
     <section title="Security Considerations">
       <t>There are no new security considerations pertaining to this
       document.</t>
     </section>
 
-    <!--  SECTION 6:  Contributors     			-->
+    <!--  SECTION 9:  Contributors     			-->
 
     <section title="Contributors">
       <t>The members of the MAP design team are:
@@ -438,7 +496,7 @@ CE IPv4 Address = 63.245.48.236
 
     </section>
 
-    <!--  SECTION 7:  Acknowledgements     			-->
+    <!--  SECTION 10:  Acknowledgements     			-->
 
     <section title="Acknowledgements">
     </section>
