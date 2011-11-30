@@ -3,8 +3,10 @@
 
 Network Working Group                                   Maoke. Chen, Ed.
 Internet-Draft                                                   FreeBit
-Intended status: Informational                                      N. N
-Expires: June 2, 2012                                               N. N
+Intended status: Informational                                    Q. Sun
+Expires: June 2, 2012                                      China Telecom
+                                                                    N. N
+                                                                    N. N
                                                        November 30, 2011
 
 
@@ -47,14 +49,15 @@ Copyright Notice
    to this document.  Code Components extracted from this document must
    include Simplified BSD License text as described in Section 4.e of
    the Trust Legal Provisions and are provided without warranty as
-   described in the Simplified BSD License.
-
 
 
 
 Chen, et al.              Expires June 2, 2012                  [Page 1]
 
 Internet-Draft               MAP Deployment                November 2011
+
+
+   described in the Simplified BSD License.
 
 
 Table of Contents
@@ -64,35 +67,32 @@ Table of Contents
    3.  Case Studies . . . . . . . . . . . . . . . . . . . . . . . . .  5
      3.1.  Fixed networks . . . . . . . . . . . . . . . . . . . . . .  5
      3.2.  Mobile networks  . . . . . . . . . . . . . . . . . . . . .  5
-   4.  Deployment Considerations  . . . . . . . . . . . . . . . . . .  6
-   5.  MAP Address Planning, a Step-by-step Guide . . . . . . . . . .  7
-   6.  Migration Methodology  . . . . . . . . . . . . . . . . . . . . 10
-   7.  === OLD TEXT === Deployment Considerations . . . . . . . . . . 11
-     7.1.  Flexible Assigment of Port Sets  . . . . . . . . . . . . . 11
-     7.2.  Traffic Classification . . . . . . . . . . . . . . . . . . 11
-     7.3.  Prefix Delegation Deployment . . . . . . . . . . . . . . . 11
-     7.4.  Coexisting Deployment  . . . . . . . . . . . . . . . . . . 11
-     7.5.  Friendly to Network Provisioning . . . . . . . . . . . . . 12
-     7.6.  Enable privacy addresses . . . . . . . . . . . . . . . . . 12
-     7.7.  Facilitating 4v6 Service . . . . . . . . . . . . . . . . . 12
-     7.8.  Independency with IPv6 Routing Planning  . . . . . . . . . 12
-     7.9.  Optimized Routing Path . . . . . . . . . . . . . . . . . . 12
-   8.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . . 13
-   9.  Security Considerations  . . . . . . . . . . . . . . . . . . . 14
-   10. Contributors . . . . . . . . . . . . . . . . . . . . . . . . . 15
-   11. Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . 16
-   12. References . . . . . . . . . . . . . . . . . . . . . . . . . . 17
-     12.1. Normative References . . . . . . . . . . . . . . . . . . . 17
-     12.2. Informative References . . . . . . . . . . . . . . . . . . 17
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 19
-
-
-
-
-
-
-
-
+   4.  Deployment Consideration . . . . . . . . . . . . . . . . . . .  6
+     4.1.  Building the MAP domain  . . . . . . . . . . . . . . . . .  6
+     4.2.  BR settings  . . . . . . . . . . . . . . . . . . . . . . .  6
+     4.3.  CE settings  . . . . . . . . . . . . . . . . . . . . . . .  6
+     4.4.  Supporting system  . . . . . . . . . . . . . . . . . . . .  6
+     4.5.  security issues  . . . . . . . . . . . . . . . . . . . . .  7
+   5.  MAP Address Planning, a Step-by-step Guide . . . . . . . . . .  8
+   6.  Migration Methodology  . . . . . . . . . . . . . . . . . . . . 11
+   7.  === OLD TEXT === Deployment Considerations . . . . . . . . . . 12
+     7.1.  Flexible Assigment of Port Sets  . . . . . . . . . . . . . 12
+     7.2.  Traffic Classification . . . . . . . . . . . . . . . . . . 12
+     7.3.  Prefix Delegation Deployment . . . . . . . . . . . . . . . 12
+     7.4.  Coexisting Deployment  . . . . . . . . . . . . . . . . . . 12
+     7.5.  Friendly to Network Provisioning . . . . . . . . . . . . . 13
+     7.6.  Enable privacy addresses . . . . . . . . . . . . . . . . . 13
+     7.7.  Facilitating 4v6 Service . . . . . . . . . . . . . . . . . 13
+     7.8.  Independency with IPv6 Routing Planning  . . . . . . . . . 13
+     7.9.  Optimized Routing Path . . . . . . . . . . . . . . . . . . 13
+   8.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . . 14
+   9.  Security Considerations  . . . . . . . . . . . . . . . . . . . 15
+   10. Contributors . . . . . . . . . . . . . . . . . . . . . . . . . 16
+   11. Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . 17
+   12. References . . . . . . . . . . . . . . . . . . . . . . . . . . 18
+     12.1. Normative References . . . . . . . . . . . . . . . . . . . 18
+     12.2. Informative References . . . . . . . . . . . . . . . . . . 18
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 20
 
 
 
@@ -281,49 +281,49 @@ Chen, et al.              Expires June 2, 2012                  [Page 5]
 Internet-Draft               MAP Deployment                November 2011
 
 
-4.  Deployment Considerations
+4.  Deployment Consideration
 
+4.1.  Building the MAP domain
 
+   1.  MAP domain planning
 
+   2.  MAP rule provisioning
 
+   3.  PSID consideration
 
+   4.  Addressing and routing
 
+   5.  Mesh vs. Hub & Spoke
 
+   6.  Translation vs. Encapsulation
 
+4.2.  BR settings
 
+   1.  BR placement
 
+   2.  BR Impacts on Accounting Process
 
+   3.  Reliability Considerations
 
+   4.  MTU & Fragmentation
 
+4.3.  CE settings
 
+   1.  Port forwarding issue
 
+   2. bridging vs. routing mode
 
+   3.  CE-initiated application
 
+4.4.  Supporting system
 
+   1.  Lawful Intercept
 
+   2.  Traffic Logging
 
+   3.  Geo-location aware service
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   4.  User Managment (policy control ,etc ... )
 
 
 
@@ -333,6 +333,62 @@ Internet-Draft               MAP Deployment                November 2011
 
 
 Chen, et al.              Expires June 2, 2012                  [Page 6]
+
+Internet-Draft               MAP Deployment                November 2011
+
+
+4.5.  security issues
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Chen, et al.              Expires June 2, 2012                  [Page 7]
 
 Internet-Draft               MAP Deployment                November 2011
 
@@ -388,7 +444,7 @@ Internet-Draft               MAP Deployment                November 2011
 
 
 
-Chen, et al.              Expires June 2, 2012                  [Page 7]
+Chen, et al.              Expires June 2, 2012                  [Page 8]
 
 Internet-Draft               MAP Deployment                November 2011
 
@@ -444,7 +500,7 @@ Internet-Draft               MAP Deployment                November 2011
 
 
 
-Chen, et al.              Expires June 2, 2012                  [Page 8]
+Chen, et al.              Expires June 2, 2012                  [Page 9]
 
 Internet-Draft               MAP Deployment                November 2011
 
@@ -500,7 +556,7 @@ Internet-Draft               MAP Deployment                November 2011
 
 
 
-Chen, et al.              Expires June 2, 2012                  [Page 9]
+Chen, et al.              Expires June 2, 2012                 [Page 10]
 
 Internet-Draft               MAP Deployment                November 2011
 
@@ -556,7 +612,7 @@ Internet-Draft               MAP Deployment                November 2011
 
 
 
-Chen, et al.              Expires June 2, 2012                 [Page 10]
+Chen, et al.              Expires June 2, 2012                 [Page 11]
 
 Internet-Draft               MAP Deployment                November 2011
 
@@ -612,7 +668,7 @@ Internet-Draft               MAP Deployment                November 2011
 
 
 
-Chen, et al.              Expires June 2, 2012                 [Page 11]
+Chen, et al.              Expires June 2, 2012                 [Page 12]
 
 Internet-Draft               MAP Deployment                November 2011
 
@@ -668,7 +724,7 @@ Internet-Draft               MAP Deployment                November 2011
 
 
 
-Chen, et al.              Expires June 2, 2012                 [Page 12]
+Chen, et al.              Expires June 2, 2012                 [Page 13]
 
 Internet-Draft               MAP Deployment                November 2011
 
@@ -724,7 +780,7 @@ Internet-Draft               MAP Deployment                November 2011
 
 
 
-Chen, et al.              Expires June 2, 2012                 [Page 13]
+Chen, et al.              Expires June 2, 2012                 [Page 14]
 
 Internet-Draft               MAP Deployment                November 2011
 
@@ -780,7 +836,7 @@ Internet-Draft               MAP Deployment                November 2011
 
 
 
-Chen, et al.              Expires June 2, 2012                 [Page 14]
+Chen, et al.              Expires June 2, 2012                 [Page 15]
 
 Internet-Draft               MAP Deployment                November 2011
 
@@ -836,7 +892,7 @@ Internet-Draft               MAP Deployment                November 2011
 
 
 
-Chen, et al.              Expires June 2, 2012                 [Page 15]
+Chen, et al.              Expires June 2, 2012                 [Page 16]
 
 Internet-Draft               MAP Deployment                November 2011
 
@@ -892,7 +948,7 @@ Internet-Draft               MAP Deployment                November 2011
 
 
 
-Chen, et al.              Expires June 2, 2012                 [Page 16]
+Chen, et al.              Expires June 2, 2012                 [Page 17]
 
 Internet-Draft               MAP Deployment                November 2011
 
@@ -948,7 +1004,7 @@ Internet-Draft               MAP Deployment                November 2011
 
 
 
-Chen, et al.              Expires June 2, 2012                 [Page 17]
+Chen, et al.              Expires June 2, 2012                 [Page 18]
 
 Internet-Draft               MAP Deployment                November 2011
 
@@ -1004,7 +1060,7 @@ Internet-Draft               MAP Deployment                November 2011
 
 
 
-Chen, et al.              Expires June 2, 2012                 [Page 18]
+Chen, et al.              Expires June 2, 2012                 [Page 19]
 
 Internet-Draft               MAP Deployment                November 2011
 
@@ -1020,6 +1076,16 @@ Authors' Addresses
    Email: fibrib@gmail.com
 
 
+   Qiong Sun
+   China Telecom
+   Room 708 No.118, Xizhimenneidajie
+   Beijing,   100035
+   P.R.China
+
+   Phone: +86 10 5855 2923
+   Email: sunqiong@ctbri.com.cn
+
+
    N N
 
 
@@ -1050,15 +1116,5 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-
-
-
-Chen, et al.              Expires June 2, 2012                 [Page 19]
+Chen, et al.              Expires June 2, 2012                 [Page 20]
 

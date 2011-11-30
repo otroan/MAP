@@ -212,7 +212,7 @@
 
     <!--  SECTION 4: DEPLOYMENT CONSIDERATIONS, Qiong  -->
 	<section title="Deployment Consideration">
-	   <section title="MAP domain planning">
+	   <section title="Building the MAP domain">
 	     <t> 1. MAP domain planning  </t>
 		 <t></t>
  	     <t> 2. MAP rule provisioning  </t>
