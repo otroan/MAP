@@ -2,9 +2,9 @@
 
 
 Network Working Group                                          N. N, Ed.
-Internet-Draft                                         November 25, 2011
+Internet-Draft                                         November 30, 2011
 Intended status: Informational
-Expires: May 28, 2012
+Expires: June 2, 2012
 
 
      Mapping of Address and Port (MAP) - Deployment Considerations
@@ -12,6 +12,9 @@ Expires: May 28, 2012
 
 Abstract
 
+   This document describes when and how an operator use the generic
+   softwire's Mapping of Address and Port (MAP) for the IPv4 residual
+   deployment in the IPv6-dominant domain.
 
 Status of this Memo
 
@@ -28,7 +31,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on May 28, 2012.
+   This Internet-Draft will expire on June 2, 2012.
 
 Copyright Notice
 
@@ -49,17 +52,14 @@ Copyright Notice
 
 
 
-
-
-
-N                         Expires May 28, 2012                  [Page 1]
+N                         Expires June 2, 2012                  [Page 1]
 
 Internet-Draft                     MAP                     November 2011
 
 
 Table of Contents
 
-   1.  Introduction . . . . . . . . . . . . . . . . . . . . . . . . .  3
+   1.  Overview . . . . . . . . . . . . . . . . . . . . . . . . . . .  3
    2.  Conventions  . . . . . . . . . . . . . . . . . . . . . . . . .  4
    3.  Terminology  . . . . . . . . . . . . . . . . . . . . . . . . .  5
    4.  Deployment considerations  . . . . . . . . . . . . . . . . . .  6
@@ -108,12 +108,50 @@ Table of Contents
 
 
 
-N                         Expires May 28, 2012                  [Page 2]
+N                         Expires June 2, 2012                  [Page 2]
 
 Internet-Draft                     MAP                     November 2011
 
 
-1.  Introduction
+1.  Overview
+
+   IPv4 address exhaustion has becoming world-wide reality and the main
+   stream of deployment since now on is IPv6-only networking.
+   Meanwhile, having access to legacy IPv4 contents and services is a
+   long-term requirement, lasting until the completion of the IPv6
+   transition.  It demands sharing residual IPv4 address pools for IPv4
+   communications across the IPv6-only domain(s).
+
+   Mapping of Address and Port (MAP)
+   [I-D.mdt-softwire-mapping-address-and-port] is designed in response
+   to the requirement of stateless residual deployment.  The term
+   "residual deployment" refers to utilizing not-yet-assigned or
+   recalled IPv4 addresses for IPv4 communications going across the IPv6
+   domain backbone.  MAP assumes the IPv6-only backbone as the
+   prerequisite of deployment so that native IPv6 services and
+   applications are fully supported and encouraged.  The statelessness
+   of MAP ensures only moderate overhead is added to part of the network
+   devices.
+
+   Residual deployment with MAP is new to most operators.  This document
+   is motivated to provide basic understanding on the usage of MAP,
+   i.e., when and how an operator can do with MAP to meet its own
+   operational requirements of IPv6 transition and its facility
+   conditions, in the phase of IPv4 residual deployment.  Potential
+   readers of this document are those who want to know:
+
+   1.  What kind of deployment requirements does MAP satisfy?
+
+   2.  What technical options needs to be considered when deploying MAP,
+       and how?
+
+   3.  How does MAP impact on the address planning for both IPv6 and
+       IPv4 pools?
+
+   4.  How does MAP impact on daily network operations and
+       administrations?
+
+   5.  How do we migrate to IPv6-only network with the help of MAP?
 
 
 
@@ -126,45 +164,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-N                         Expires May 28, 2012                  [Page 3]
+N                         Expires June 2, 2012                  [Page 3]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -220,7 +220,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 28, 2012                  [Page 4]
+N                         Expires June 2, 2012                  [Page 4]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -276,7 +276,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 28, 2012                  [Page 5]
+N                         Expires June 2, 2012                  [Page 5]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -332,7 +332,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 28, 2012                  [Page 6]
+N                         Expires June 2, 2012                  [Page 6]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -388,7 +388,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 28, 2012                  [Page 7]
+N                         Expires June 2, 2012                  [Page 7]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -444,7 +444,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 28, 2012                  [Page 8]
+N                         Expires June 2, 2012                  [Page 8]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -500,7 +500,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 28, 2012                  [Page 9]
+N                         Expires June 2, 2012                  [Page 9]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -556,7 +556,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 28, 2012                 [Page 10]
+N                         Expires June 2, 2012                 [Page 10]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -612,7 +612,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 28, 2012                 [Page 11]
+N                         Expires June 2, 2012                 [Page 11]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -668,7 +668,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 28, 2012                 [Page 12]
+N                         Expires June 2, 2012                 [Page 12]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -724,7 +724,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 28, 2012                 [Page 13]
+N                         Expires June 2, 2012                 [Page 13]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -780,7 +780,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 28, 2012                 [Page 14]
+N                         Expires June 2, 2012                 [Page 14]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -797,8 +797,8 @@ Internet-Draft                     MAP                     November 2011
 
    [I-D.mdt-softwire-mapping-address-and-port]
               Troan, O., "Mapping of Address and Port (MAP)",
-              draft-mdt-softwire-mapping-address-and-port-01 (work in
-              progress), October 2011.
+              draft-mdt-softwire-mapping-address-and-port-02 (work in
+              progress), November 2011.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
@@ -836,7 +836,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 28, 2012                 [Page 15]
+N                         Expires June 2, 2012                 [Page 15]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -892,7 +892,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires May 28, 2012                 [Page 16]
+N                         Expires June 2, 2012                 [Page 16]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -948,5 +948,5 @@ Author's Address
 
 
 
-N                         Expires May 28, 2012                 [Page 17]
+N                         Expires June 2, 2012                 [Page 17]
 

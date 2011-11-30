@@ -75,15 +75,53 @@
     <!--  SECTION 0:  Abstract                      -->
 
     <abstract>
-      <t></t>
+      <t>This document describes when and how an operator use the 
+	generic softwire's Mapping of Address and Port (MAP) for the 
+	IPv4 residual deployment in the IPv6-dominant domain. </t>
     </abstract>
   </front>
 
   <middle>
     <!--  SECTION 1:  Introduction                  -->
 
-    <section title="Introduction">
-      <t></t>
+    <section title="Overview">
+      <t> IPv4 address exhaustion has becoming world-wide reality and
+	the main stream of deployment since now on is IPv6-only
+	networking. Meanwhile, having access to legacy IPv4 contents 
+	and services is a long-term requirement, lasting until the 
+	completion of the IPv6 transition. It demands sharing residual 
+	IPv4 address pools for IPv4 communications across the 
+	IPv6-only domain(s). </t>
+ 
+      <t> Mapping of Address and Port (MAP) <xref target=
+	"I-D.mdt-softwire-mapping-address-and-port"></xref> is designed 
+	in response to the requirement of stateless residual deployment. 
+	The term "residual deployment" refers to utilizing not-yet-assigned 
+	or recalled IPv4 addresses for IPv4 communications going across 
+	the IPv6 domain backbone. MAP assumes the IPv6-only backbone as 
+	the prerequisite of deployment so that native IPv6 services and 
+	applications are fully supported and encouraged. The statelessness
+	of MAP ensures only moderate overhead is added to part of the 
+	network devices. </t>
+
+      <t> Residual deployment with MAP is new to most operators. This 
+	document is motivated to provide basic understanding on the 
+	usage of MAP, i.e., when and how an operator can do with MAP to
+	meet its own operational requirements of IPv6 transition and its 
+	facility conditions, in the phase of IPv4 residual deployment. 
+	Potential readers of this document are those who want to know:
+	<list style="numbers">
+	  <t> What kind of deployment requirements does MAP satisfy?</t>
+	  <t> What technical options needs to be considered when deploying
+	      MAP, and how? </t> 
+	  <t> How does MAP impact on the address planning for both 
+	      IPv6 and IPv4 pools? </t>
+	  <t> How does MAP impact on daily network operations and 
+	      administrations? </t>
+          <t> How do we migrate to IPv6-only network with the help of 
+	      MAP? </t> 
+	</list>
+	</t>     
     </section>
 
     <!--  SECTION 2: REQUIREMENTS LANGUAGE          -->
