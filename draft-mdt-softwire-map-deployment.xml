@@ -65,6 +65,30 @@
         <email>fibrib@gmail.com</email>
       </address>
     </author>
+	
+	<author fullname="Qiong Sun" initials="Q" surname="Sun">
+      <organization>China Telecom</organization>
+
+      <address>
+      <postal>
+        <street>Room 708 No.118, Xizhimenneidajie</street>
+
+        <city>Beijing</city>
+
+        <region></region>
+
+        <code>100035</code>
+
+        <country>P.R.China</country>
+      </postal>
+
+      <phone>+86 10 5855 2923</phone>
+
+      <email>sunqiong@ctbri.com.cn</email>
+
+      <!-- uri and facsimile elements may also be added -->
+      </address>
+    </author>
    
     <author fullname="N N" initials="N" surname="N" role="">
       <organization abbrev=""></organization>
@@ -187,9 +211,62 @@
     <!-- END SECTION 3: DEPLOYMENT CASES -->
 
     <!--  SECTION 4: DEPLOYMENT CONSIDERATIONS, Qiong  -->
-    <section title="Deployment Considerations">
-	<t></t>
-    </section>
+	<section title="Deployment Consideration">
+	   <section title="MAP domain planning">
+	     <t> 1. MAP domain planning  </t>
+		 <t></t>
+ 	     <t> 2. MAP rule provisioning  </t>
+		 <t></t>
+		 <t> 3. PSID consideration  </t>
+		 <t></t>
+		 <t> 4. Addressing and routing  </t>
+		 <t></t>
+		 <t> 5. Mesh vs. Hub & Spoke  </t>
+		 <t></t>
+		 <t> 6. Translation vs. Encapsulation  </t>
+         <t></t>
+	   </section>
+	   
+	   <section title="BR settings">
+	     
+		 <t> 1. BR placement  </t>
+		 <t></t>
+		 <t> 2. BR Impacts on Accounting Process </t>
+		 <t></t>
+		 <t> 3. Reliability Considerations</t>
+		 <t></t>
+		 <t> 4. MTU & Fragmentation </t>
+		 <t></t>
+	   </section>
+	   
+	   <section title="CE settings">
+	     <t> 1. Port forwarding issue  </t>
+		 <t></t>
+	     <t> 2. bridging vs. routing mode </t>
+         <t></t>
+         <t> 3. CE-initiated application </t>
+		 <t></t>
+	   </section>
+	   
+	   <section title="Supporting system">		 
+
+		 <t> 1. Lawful Intercept  </t>
+		 <t></t>
+		 <t> 2. Traffic Logging </t>
+		 <t></t>
+		 <t> 3. Geo-location aware service </t>
+		 <t></t>
+		 <t> 4. User Managment (policy control ,etc ... )</t>
+		 <t></t>
+		 
+       </section>	   
+	
+	   <section title="security issues">
+	   <t></t>
+	   </section>
+	   
+	</section>
+	
     <!-- END SECTION 4: DEPLOYMENT CONSIDERATIONS  -->
 
     <!--  SECTION 5: ADDRESS PLANNING, Maoke  -->
