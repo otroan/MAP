@@ -121,7 +121,13 @@
           <t> How do we migrate to IPv6-only network with the help of 
 	      MAP? </t> 
 	</list>
-	</t>     
+	</t>   
+
+      <t> Terminology of this document, unless it is intentionally 
+	specified, follows the definitions and abbreviations of 
+	<xref target="I-D.mdt-softwire-mapping-address-and-port"></xref>.  
+	(> co-authors: we may change this if later we find any new terms 
+	need to be added.)</t>
     </section>
 
     <!--  SECTION 2: REQUIREMENTS LANGUAGE          -->
@@ -133,12 +139,12 @@
     </section>
 
     <!-- conventions -->
-    <section title="Terminology">
+    <!-- section title="Terminology" >
       <t></t>
-    </section>
+    </section -->
 
     <!--  SECTION 3: DESCRIPTION                   -->
-    <section title="Deployment considerations">
+    <section title="Deployment Considerations">
 
       <section title="Flexible Assigment of Port Sets">
 

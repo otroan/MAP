@@ -61,26 +61,26 @@ Table of Contents
 
    1.  Overview . . . . . . . . . . . . . . . . . . . . . . . . . . .  3
    2.  Conventions  . . . . . . . . . . . . . . . . . . . . . . . . .  4
-   3.  Terminology  . . . . . . . . . . . . . . . . . . . . . . . . .  5
-   4.  Deployment considerations  . . . . . . . . . . . . . . . . . .  6
-     4.1.  Flexible Assigment of Port Sets  . . . . . . . . . . . . .  6
-     4.2.  Traffic Classification . . . . . . . . . . . . . . . . . .  6
-     4.3.  Prefix Delegation Deployment . . . . . . . . . . . . . . .  6
-     4.4.  Coexisting Deployment  . . . . . . . . . . . . . . . . . .  6
-     4.5.  Friendly to Network Provisioning . . . . . . . . . . . . .  7
-     4.6.  Enable privacy addresses . . . . . . . . . . . . . . . . .  7
-     4.7.  Facilitating 4v6 Service . . . . . . . . . . . . . . . . .  7
-     4.8.  Independency with IPv6 Routing Planning  . . . . . . . . .  7
-     4.9.  Optimized Routing Path . . . . . . . . . . . . . . . . . .  7
-   5.  Operational Guidance . . . . . . . . . . . . . . . . . . . . .  8
-   6.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . . 11
-   7.  Security Considerations  . . . . . . . . . . . . . . . . . . . 12
-   8.  Contributors . . . . . . . . . . . . . . . . . . . . . . . . . 13
-   9.  Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . 14
-   10. References . . . . . . . . . . . . . . . . . . . . . . . . . . 15
-     10.1. Normative References . . . . . . . . . . . . . . . . . . . 15
-     10.2. Informative References . . . . . . . . . . . . . . . . . . 15
-   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 17
+   3.  Deployment Considerations  . . . . . . . . . . . . . . . . . .  5
+     3.1.  Flexible Assigment of Port Sets  . . . . . . . . . . . . .  5
+     3.2.  Traffic Classification . . . . . . . . . . . . . . . . . .  5
+     3.3.  Prefix Delegation Deployment . . . . . . . . . . . . . . .  5
+     3.4.  Coexisting Deployment  . . . . . . . . . . . . . . . . . .  5
+     3.5.  Friendly to Network Provisioning . . . . . . . . . . . . .  6
+     3.6.  Enable privacy addresses . . . . . . . . . . . . . . . . .  6
+     3.7.  Facilitating 4v6 Service . . . . . . . . . . . . . . . . .  6
+     3.8.  Independency with IPv6 Routing Planning  . . . . . . . . .  6
+     3.9.  Optimized Routing Path . . . . . . . . . . . . . . . . . .  6
+   4.  Operational Guidance . . . . . . . . . . . . . . . . . . . . .  7
+   5.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . . 10
+   6.  Security Considerations  . . . . . . . . . . . . . . . . . . . 11
+   7.  Contributors . . . . . . . . . . . . . . . . . . . . . . . . . 12
+   8.  Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . 13
+   9.  References . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+     9.1.  Normative References . . . . . . . . . . . . . . . . . . . 14
+     9.2.  Informative References . . . . . . . . . . . . . . . . . . 14
+   Author's Address . . . . . . . . . . . . . . . . . . . . . . . . . 16
+
 
 
 
@@ -153,10 +153,10 @@ Internet-Draft                     MAP                     November 2011
 
    5.  How do we migrate to IPv6-only network with the help of MAP?
 
-
-
-
-
+   Terminology of this document, unless it is intentionally specified,
+   follows the definitions and abbreviations of
+   [I-D.mdt-softwire-mapping-address-and-port]. (> co-authors: we may
+   change this if later we find any new terms need to be added.)
 
 
 
@@ -225,72 +225,16 @@ N                         Expires June 2, 2012                  [Page 4]
 Internet-Draft                     MAP                     November 2011
 
 
-3.  Terminology
+3.  Deployment Considerations
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-N                         Expires June 2, 2012                  [Page 5]
-
-Internet-Draft                     MAP                     November 2011
-
-
-4.  Deployment considerations
-
-4.1.  Flexible Assigment of Port Sets
+3.1.  Flexible Assigment of Port Sets
 
    Different classes of customers require port sets of different size.
    In the context of shared IPv4 addresses, some customers would be
    satisfied with an shared IPv4 addresses, while others may need to be
    assigned a single IPv4 address or delegated an IPv4 subnet.
 
-4.2.  Traffic Classification
+3.2.  Traffic Classification
 
    Usually, ISPs adopt traffic classification to ensure service quality
    for different classes of customers.  This feature is also helpful for
@@ -305,7 +249,7 @@ Internet-Draft                     MAP                     November 2011
    facilitating IPv6 deployment, MAP solution should support this
    feature on IPv6 plane.
 
-4.3.  Prefix Delegation Deployment
+3.3.  Prefix Delegation Deployment
 
    Prefix delegation is an important feature both for broadband and
    mobile network.  In mobile network, prefix delegation is introduced
@@ -313,7 +257,7 @@ Internet-Draft                     MAP                     November 2011
    supported in 4v6 case.  Variable length of IPv6 prefix is assigned to
    CPE for deriving IPv4 information.
 
-4.4.  Coexisting Deployment
+3.4.  Coexisting Deployment
 
    4v6 solutions(i.e. encapsulation and translation) would not only
    coexist with each other, but also can harmonize with other deployment
@@ -332,12 +276,12 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires June 2, 2012                  [Page 6]
+N                         Expires June 2, 2012                  [Page 5]
 
 Internet-Draft                     MAP                     November 2011
 
 
-4.5.  Friendly to Network Provisioning
+3.5.  Friendly to Network Provisioning
 
    Network management plane normally has an ability to to identify
    different users and the compatible with the address assignment
@@ -349,7 +293,7 @@ Internet-Draft                     MAP                     November 2011
    Since only IPv6 prefix is assigned, 4v6 on the management plane is
    naturally conducted only via IPv6.
 
-4.6.  Enable privacy addresses
+3.6.  Enable privacy addresses
 
    User privacy should be taken into account when 4v6 solution is
    deployed.  Some security concern associated with non-changing IPv6
@@ -359,7 +303,7 @@ Internet-Draft                     MAP                     November 2011
    identify when different addresses used in different sessions actually
    correspond to the same node.
 
-4.7.  Facilitating 4v6 Service
+3.7.  Facilitating 4v6 Service
 
    Some ISPs may need to offer services in a 4v6 domain with a shared
    address, e.g. 4v6 node hosts FTP server.  The service provisioning
@@ -368,13 +312,13 @@ Internet-Draft                     MAP                     November 2011
    range including the 0-1023.  Afterwards, operators could decide to
    assign it to any requesting user.
 
-4.8.  Independency with IPv6 Routing Planning
+3.8.  Independency with IPv6 Routing Planning
 
    The IPv6 routing is easier to plan if it's not impacted by the
    encoded IPv4 or port ID information.  MAP would prohibit IPv4 routing
    imported in IPv6.
 
-4.9.  Optimized Routing Path
+3.9.  Optimized Routing Path
 
    MAP could achieve optimized routing path both for hub case and mesh
    case.  Traffic in hub and spoke case could follow asymmetric routing,
@@ -388,12 +332,12 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires June 2, 2012                  [Page 7]
+N                         Expires June 2, 2012                  [Page 6]
 
 Internet-Draft                     MAP                     November 2011
 
 
-5.  Operational Guidance
+4.  Operational Guidance
 
    This section is purposed to provide a referential guideline to
    operators, illustrating a common usage of MAP in IPv4 residual
@@ -444,7 +388,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires June 2, 2012                  [Page 8]
+N                         Expires June 2, 2012                  [Page 7]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -500,7 +444,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires June 2, 2012                  [Page 9]
+N                         Expires June 2, 2012                  [Page 8]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -556,14 +500,70 @@ Internet-Draft                     MAP                     November 2011
 
 
 
+N                         Expires June 2, 2012                  [Page 9]
+
+Internet-Draft                     MAP                     November 2011
+
+
+5.  IANA Considerations
+
+   This specification does not require any IANA actions.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 N                         Expires June 2, 2012                 [Page 10]
 
 Internet-Draft                     MAP                     November 2011
 
 
-6.  IANA Considerations
+6.  Security Considerations
 
-   This specification does not require any IANA actions.
+   There are no new security considerations pertaining to this document.
 
 
 
@@ -617,63 +617,7 @@ N                         Expires June 2, 2012                 [Page 11]
 Internet-Draft                     MAP                     November 2011
 
 
-7.  Security Considerations
-
-   There are no new security considerations pertaining to this document.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-N                         Expires June 2, 2012                 [Page 12]
-
-Internet-Draft                     MAP                     November 2011
-
-
-8.  Contributors
+7.  Contributors
 
    The members of the MAP design team are:
 
@@ -724,70 +668,70 @@ Internet-Draft                     MAP                     November 2011
 
 
 
+N                         Expires June 2, 2012                 [Page 12]
+
+Internet-Draft                     MAP                     November 2011
+
+
+8.  Acknowledgements
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 N                         Expires June 2, 2012                 [Page 13]
 
 Internet-Draft                     MAP                     November 2011
 
 
-9.  Acknowledgements
+9.  References
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-N                         Expires June 2, 2012                 [Page 14]
-
-Internet-Draft                     MAP                     November 2011
-
-
-10.  References
-
-10.1.  Normative References
+9.1.  Normative References
 
    [I-D.mdt-softwire-map-dhcp-option]
               Mrugalski, T., Boucadair, M., Troan, O., Deng, X., and C.
@@ -810,7 +754,7 @@ Internet-Draft                     MAP                     November 2011
    [RFC6346]  Bush, R., "The Address plus Port (A+P) Approach to the
               IPv4 Address Shortage", RFC 6346, August 2011.
 
-10.2.  Informative References
+9.2.  Informative References
 
    [I-D.murakami-softwire-4rd]
               Murakami, T., Troan, O., and S. Matsushima, "IPv4 Residual
@@ -836,7 +780,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires June 2, 2012                 [Page 15]
+N                         Expires June 2, 2012                 [Page 14]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -892,7 +836,7 @@ Internet-Draft                     MAP                     November 2011
 
 
 
-N                         Expires June 2, 2012                 [Page 16]
+N                         Expires June 2, 2012                 [Page 15]
 
 Internet-Draft                     MAP                     November 2011
 
@@ -948,5 +892,5 @@ Author's Address
 
 
 
-N                         Expires June 2, 2012                 [Page 17]
+N                         Expires June 2, 2012                 [Page 16]
 
