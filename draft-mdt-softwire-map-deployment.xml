@@ -16,30 +16,27 @@
 <!ENTITY rfc6346 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6346.xml">
 <!ENTITY rfc3194 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3194.xml">
 <!ENTITY rfc5342 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5342.xml">
-<!ENTITY I-D.mrugalski-dhc-dhcpv6-4rd SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mrugalski-dhc-dhcpv6-4rd.xml'>
-<!ENTITY I-D.mdt-softwire-map-dhcp-option SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mdt-softwire-map-dhcp-option.xml'>
-<!ENTITY I-D.mdt-softwire-mapping-address-and-port SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mdt-softwire-mapping-address-and-port.xml'>
-<!ENTITY I-D.despres-softwire-sam SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.despres-softwire-sam.xml'>
-<!ENTITY I-D.chen-softwire-4v6-pd SYSTEM
-'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.chen-softwire-4v6-pd.xml'>
-<!ENTITY I-D.boucadair-softwire-stateless-requirements SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.boucadair-softwire-stateless-requirements.xml'>
-<!ENTITY I-D.dec-stateless-4v6 SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.dec-stateless-4v6.xml'>
-<!ENTITY I-D.boucadair-dhcpv6-shared-address-option SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.boucadair-dhcpv6-shared-address-option.xml'>
-<!ENTITY I-D.boucadair-behave-ipv6-portrange SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.boucadair-behave-ipv6-portrange.xml'>
-<!ENTITY I-D.bsd-softwire-stateless-port-index-analysis SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.bsd-softwire-stateless-port-index-analysis.xml'>
-<!ENTITY I-D.despres-softwire-stateless-analysis-tool SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.despres-softwire-stateless-analysis-tool.xml'>
-<!ENTITY I-D.sun-softwire-stateless-4over6 SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.sun-softwire-stateless-4over6.xml'>
-<!ENTITY I-D.murakami-softwire-4v6-translation SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.murakami-softwire-4v6-translation.xml'>
-<!ENTITY I-D.xli-softwire-divi-pd SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.xli-softwire-divi-pd.xml'>
-<!ENTITY I-D.xli-behave-divi SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.xli-behave-divi.xml'>
-<!ENTITY I-D.despres-softwire-4rd-addmapping SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.despres-softwire-4rd-addmapping.xml'>
-<!ENTITY I-D.despres-softwire-4rd-u SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.despres-softwire-4rd-u.xml'>
-<!ENTITY I-D.murakami-softwire-4rd SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.murakami-softwire-4rd.xml'>
-<!ENTITY I-D.chen-softwire-4v6-add-format SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.chen-softwire-4v6-add-format.xml'>
-<!ENTITY I-D.bcx-address-fmt-extension SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.bcx-address-fmt-extension.xml'>
-
+<!ENTITY I-D.mrugalski-dhc-dhcpv6-4rd SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mrugalski-dhc-dhcpv6-4rd.xml">
+<!ENTITY I-D.mdt-softwire-map-dhcp-option SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mdt-softwire-map-dhcp-option.xml">
+<!ENTITY I-D.mdt-softwire-mapping-address-and-port SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mdt-softwire-mapping-address-and-port.xml">
+<!ENTITY I-D.despres-softwire-sam SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.despres-softwire-sam.xml">
+<!ENTITY I-D.chen-softwire-4v6-pd SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.chen-softwire-4v6-pd.xml">
+<!ENTITY I-D.boucadair-softwire-stateless-requirements SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.boucadair-softwire-stateless-requirements.xml">
+<!ENTITY I-D.dec-stateless-4v6 SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.dec-stateless-4v6.xml">
+<!ENTITY I-D.boucadair-dhcpv6-shared-address-option SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.boucadair-dhcpv6-shared-address-option.xml">
+<!ENTITY I-D.boucadair-behave-ipv6-portrange SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.boucadair-behave-ipv6-portrange.xml">
+<!ENTITY I-D.bsd-softwire-stateless-port-index-analysis SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.bsd-softwire-stateless-port-index-analysis.xml">
+<!ENTITY I-D.despres-softwire-stateless-analysis-tool SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.despres-softwire-stateless-analysis-tool.xml">
+<!ENTITY I-D.sun-softwire-stateless-4over6 SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.sun-softwire-stateless-4over6.xml">
+<!ENTITY I-D.murakami-softwire-4v6-translation SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.murakami-softwire-4v6-translation.xml">
+<!ENTITY I-D.xli-softwire-divi-pd SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.xli-softwire-divi-pd.xml">
+<!ENTITY I-D.xli-behave-divi SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.xli-behave-divi.xml">
+<!ENTITY I-D.despres-softwire-4rd-addmapping SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.despres-softwire-4rd-addmapping.xml">
+<!ENTITY I-D.despres-softwire-4rd-u SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.despres-softwire-4rd-u.xml">
+<!ENTITY I-D.murakami-softwire-4rd SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.murakami-softwire-4rd.xml">
+<!ENTITY I-D.chen-softwire-4v6-add-format SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.chen-softwire-4v6-add-format.xml">
+<!ENTITY I-D.bcx-address-fmt-extension SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.bcx-address-fmt-extension.xml">
 ]>
-
 <?rfc toc="yes" ?>
 <?rfc tocompact="yes" ?>
 <?rfc compact="no" ?>
@@ -48,72 +45,85 @@
 <?rfc sortrefs="yes" ?>
 <?rfc comments="yes" ?>
 <?rfc inline="yes" ?>
-
 <rfc category="info" docName="draft-mdt-softwire-map-deployment-00"
      ipr="trust200902">
   <front>
-    <title abbrev="MAP Deployment">Mapping of Address and Port (MAP) - Deployment Considerations</title>
+    <title abbrev="MAP Deployment">Mapping of Address and Port (MAP) -
+    Deployment Considerations</title>
 
-    <author fullname="Maoke Chen" initials="Maoke" surname="Chen" role="editor">
+    <author fullname="Maoke Chen" initials="Maoke" role="editor"
+            surname="Chen">
       <organization abbrev="FreeBit">FreeBit Co., Ltd.</organization>
+
       <address>
-	<postal>
+        <postal>
           <street>13F E-space Tower, Maruyama-cho 3-6</street>
+
           <city>Shibuya-ku, Tokyo</city>
+
           <country>Japan</country>
         </postal>
+
         <email>fibrib@gmail.com</email>
       </address>
     </author>
-	
-	<author fullname="Qiong Sun" initials="Q" surname="Sun">
+
+    <author fullname="Qiong Sun" initials="Q" surname="Sun">
       <organization>China Telecom</organization>
 
       <address>
-      <postal>
-        <street>Room 708 No.118, Xizhimenneidajie</street>
+        <postal>
+          <street>Room 708 No.118, Xizhimenneidajie</street>
 
-        <city>Beijing</city>
+          <city>Beijing</city>
 
-        <region></region>
+          <region></region>
 
-        <code>100035</code>
+          <code>100035</code>
 
-        <country>P.R.China</country>
-      </postal>
+          <country>P.R.China</country>
+        </postal>
 
-      <phone>+86 10 5855 2923</phone>
+        <phone>+86 10 5855 2923</phone>
 
-      <email>sunqiong@ctbri.com.cn</email>
+        <email>sunqiong@ctbri.com.cn</email>
 
-      <!-- uri and facsimile elements may also be added -->
+        <!-- uri and facsimile elements may also be added -->
       </address>
     </author>
-   
-    <author fullname="N N" initials="N" surname="N" role="">
+
+    <author fullname="N N" initials="N" surname="N">
       <organization abbrev=""></organization>
+
       <address>
-	<postal>
+        <postal>
           <street></street>
+
           <city></city>
+
           <country></country>
         </postal>
+
         <email></email>
       </address>
     </author>
-   
-    <author fullname="N N" initials="N" surname="N" role="">
+
+    <author fullname="N N" initials="N" surname="N">
       <organization abbrev=""></organization>
+
       <address>
-	<postal>
+        <postal>
           <street></street>
+
           <city></city>
+
           <country></country>
         </postal>
+
         <email></email>
       </address>
     </author>
-   
+
     <date year="2011" />
 
     <area>Internet</area>
@@ -123,9 +133,9 @@
     <!--  SECTION 0:  Abstract                      -->
 
     <abstract>
-      <t>This document describes when and how an operator use the 
-	generic softwire's Mapping of Address and Port (MAP) for the 
-	IPv4 residual deployment in the IPv6-dominant domain. </t>
+      <t>This document describes when and how an operator use the generic
+      softwire's Mapping of Address and Port (MAP) for the IPv4 residual
+      deployment in the IPv6-dominant domain.</t>
     </abstract>
   </front>
 
@@ -133,52 +143,52 @@
     <!--  SECTION 1:  Introduction                  -->
 
     <section title="Introduction">
-      <t> IPv4 address exhaustion has becoming world-wide reality and
-	the main stream of deployment since now on is IPv6-only
-	networking. Meanwhile, having access to legacy IPv4 contents 
-	and services is a long-term requirement, lasting until the 
-	completion of the IPv6 transition. It demands sharing residual 
-	IPv4 address pools for IPv4 communications across the 
-	IPv6-only domain(s). </t>
- 
-      <t> Mapping of Address and Port (MAP) <xref target=
-	"I-D.mdt-softwire-mapping-address-and-port"></xref> is designed 
-	in response to the requirement of stateless residual deployment. 
-	The term "residual deployment" refers to utilizing not-yet-assigned 
-	or recalled IPv4 addresses for IPv4 communications going across 
-	the IPv6 domain backbone. MAP assumes the IPv6-only backbone as 
-	the prerequisite of deployment so that native IPv6 services and 
-	applications are fully supported and encouraged. The statelessness
-	of MAP ensures only moderate overhead is added to part of the 
-	network devices. </t>
+      <t>IPv4 address exhaustion has becoming world-wide reality and the main
+      stream of deployment since now on is IPv6-only networking. Meanwhile,
+      having access to legacy IPv4 contents and services is a long-term
+      requirement, lasting until the completion of the IPv6 transition. It
+      demands sharing residual IPv4 address pools for IPv4 communications
+      across the IPv6-only domain(s).</t>
 
-      <t> Residual deployment with MAP is new to most operators. This 
-	document is motivated to provide basic understanding on the 
-	usage of MAP, i.e., when and how an operator can do with MAP to
-	meet its own operational requirements of IPv6 transition and its 
-	facility conditions, in the phase of IPv4 residual deployment. 
-	Potential readers of this document are those who want to know:
-	<list style="numbers">
-	  <t> What kind of deployment requirements does MAP satisfy?</t>
-	  <t> What technical options needs to be considered when deploying
-	      MAP, and how? </t> 
-	  <t> How does MAP impact on the address planning for both 
-	      IPv6 and IPv4 pools? </t>
-	  <t> How does MAP impact on daily network operations and 
-	      administrations? </t>
-          <t> How do we migrate to IPv6-only network with the help of 
-	      MAP? </t> 
-	</list>
-	</t>   
+      <t>Mapping of Address and Port (MAP) <xref
+      target="I-D.mdt-softwire-mapping-address-and-port"></xref> is designed
+      in response to the requirement of stateless residual deployment. The
+      term "residual deployment" refers to utilizing not-yet-assigned or
+      recalled IPv4 addresses for IPv4 communications going across the IPv6
+      domain backbone. MAP assumes the IPv6-only backbone as the prerequisite
+      of deployment so that native IPv6 services and applications are fully
+      supported and encouraged. The statelessness of MAP ensures only moderate
+      overhead is added to part of the network devices.</t>
 
-      <t> Terminology of this document, unless it is intentionally 
-	specified, follows the definitions and abbreviations of 
-	<xref target="I-D.mdt-softwire-mapping-address-and-port"></xref>.  
-	(> co-authors: we may change this if later we find any new terms 
-	need to be added.)</t>
+      <t>Residual deployment with MAP is new to most operators. This document
+      is motivated to provide basic understanding on the usage of MAP, i.e.,
+      when and how an operator can do with MAP to meet its own operational
+      requirements of IPv6 transition and its facility conditions, in the
+      phase of IPv4 residual deployment. Potential readers of this document
+      are those who want to know: <list style="numbers">
+          <t>What kind of deployment requirements does MAP satisfy?</t>
+
+          <t>What technical options needs to be considered when deploying MAP,
+          and how?</t>
+
+          <t>How does MAP impact on the address planning for both IPv6 and
+          IPv4 pools?</t>
+
+          <t>How does MAP impact on daily network operations and
+          administrations?</t>
+
+          <t>How do we migrate to IPv6-only network with the help of MAP?</t>
+        </list></t>
+
+      <t>Terminology of this document, unless it is intentionally specified,
+      follows the definitions and abbreviations of <xref
+      target="I-D.mdt-softwire-mapping-address-and-port"></xref>. (&gt;
+      co-authors: we may change this if later we find any new terms need to be
+      added.)</t>
     </section>
 
     <!--  SECTION 2: REQUIREMENTS LANGUAGE          -->
+
     <section anchor="conventions" title="Conventions">
       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
       "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
@@ -187,361 +197,437 @@
     </section>
 
     <!-- conventions -->
+
     <!-- section title="Terminology" >
       <t></t>
     </section -->
 
     <!--  SECTION 3: DEPLOYMENT CASES   -->
+
     <section title="Case Studies">
-      <t> MAP is suitable for deployment either in large-scale carrier 
-	(fixed) networks or in mobile networks. They have similar but 
-	different requirements. </t>
+      <t>MAP is suitable for deployment either in large-scale carrier (fixed)
+      networks or in mobile networks. They have similar but different
+      requirements.</t>
 
       <!-- SUBSECTION: FIXED NETWORKS, Qiong -->
+
       <section title="Fixed networks">
-	<t></t>
+        <t></t>
       </section>
 
       <!-- SUBSECTION: MOBILE NETWORKS, Gang -->
-      <section title="Mobile networks">
-	<t></t>
-      </section>
 
+      <section title="Mobile networks">
+        <t></t>
+      </section>
     </section>
+
     <!-- END SECTION 3: DEPLOYMENT CASES -->
 
     <!--  SECTION 4: DEPLOYMENT CONSIDERATIONS, Qiong  -->
-	<section title="Deployment Consideration">
-	   <section title="Building the MAP domain">
-	     <t> 1. MAP domain planning  </t>
-		 <t></t>
- 	     <t> 2. MAP rule provisioning  </t>
-		 <t></t>
-		 <t> 3. PSID consideration  </t>
-		 <t></t>
-		 <t> 4. Addressing and routing  </t>
-		 <t></t>
-		 <t> 5. Mesh vs. Hub & Spoke  </t>
-		 <t></t>
-		 <t> 6. Translation vs. Encapsulation  </t>
-         <t></t>
-	   </section>
-	   
-	   <section title="BR settings">
-	     
-		 <t> 1. BR placement  </t>
-		 <t></t>
-		 <t> 2. BR Impacts on Accounting Process </t>
-		 <t></t>
-		 <t> 3. Reliability Considerations</t>
-		 <t></t>
-		 <t> 4. MTU & Fragmentation </t>
-		 <t></t>
-	   </section>
-	   
-	   <section title="CE settings">
-	     <t> 1. Port forwarding issue  </t>
-		 <t></t>
-	     <t> 2. bridging vs. routing mode </t>
-         <t></t>
-         <t> 3. CE-initiated application </t>
-		 <t></t>
-	   </section>
-	   
-	   <section title="Supporting system">		 
 
-		 <t> 1. Lawful Intercept  </t>
-		 <t></t>
-		 <t> 2. Traffic Logging </t>
-		 <t></t>
-		 <t> 3. Geo-location aware service </t>
-		 <t></t>
-		 <t> 4. User Managment (policy control ,etc ... )</t>
-		 <t></t>
-		 
-       </section>	   
-	
-	   <section title="security issues">
-	   <t></t>
-	   </section>
-	   
-	</section>
-	
+    <section title="Deployment Consideration">
+      <section title="Building the MAP domain">
+        <t>1. MAP domain planning</t>
+
+        <t></t>
+
+        <t>2. MAP rule provisioning</t>
+
+        <t></t>
+
+        <t>3. PSID consideration</t>
+
+        <t></t>
+
+        <t>4. Addressing and routing</t>
+
+        <t></t>
+
+        <t>5. Mesh vs. Hub/Spoke</t>
+
+        <t></t>
+
+        <t>6. Translation vs. Encapsulation</t>
+
+        <t></t>
+      </section>
+
+      <section title="BR settings">
+        <t>1. BR placement</t>
+
+        <t></t>
+
+        <t>2. BR Impacts on Accounting Process</t>
+
+        <t></t>
+
+        <t>3. Reliability Considerations</t>
+
+        <t></t>
+
+        <t>4. MTU/Fragmentation</t>
+
+        <t></t>
+      </section>
+
+      <section title="CE settings">
+        <t>1. Port forwarding issue</t>
+
+        <t></t>
+
+        <t>2. bridging vs. routing mode</t>
+
+        <t></t>
+
+        <t>3. CE-initiated application</t>
+
+        <t></t>
+      </section>
+
+      <section title="Supporting system">
+        <t>1. Lawful Intercept</t>
+
+        <t></t>
+
+        <t>2. Traffic Logging</t>
+
+        <t></t>
+
+        <t>3. Geo-location aware service</t>
+
+        <t></t>
+
+        <t>4. User Managment (policy control ,etc ... )</t>
+
+        <t></t>
+      </section>
+
+      <section title="security issues">
+        <t></t>
+      </section>
+    </section>
+
     <!-- END SECTION 4: DEPLOYMENT CONSIDERATIONS  -->
 
     <!--  SECTION 5: ADDRESS PLANNING, Maoke  -->
+
     <section title="MAP Address Planning, a Step-by-step Guide">
+      <t>This section is purposed to provide a referential guidance to
+      operators, illustrating a common fashion of address planning with MAP in
+      IPv4 residual deployment.</t>
 
-	<t>This section is purposed to provide a referential guidance 
-	to operators, illustrating a common fashion of address planning 
-	with MAP in IPv4 residual deployment.  </t>
+      <t>Residual deployment starts from IPv6 address planning. A simple
+      example is taken inline for easy understanding.</t>
 
-	<t> Residual deployment starts from IPv6 address planning. A 
-	simple example is taken inline for easy understanding. </t>
+      <t>(A) IPv6 considerations</t>
 
-	<t> (A) IPv6 considerations </t>
+      <t><list hangIndent="6" style="hanging">
+          <t hangText="(A1)">Determine the maximum number N of CEs to be
+          supported, and, for generality, suppose N = 2^n.</t>
 
-	<t><list style="hanging" hangIndent="6">
-	  <t hangText="(A1)">
-	  Determine the maximum number N of CEs to be supported, 
-	and, for generality, suppose N = 2^n.
-	  </t>
-	  <t hangText=""> For example, we suppose n = 20. It means 
-	there will be up to about one million CEs. </t>
-	  <t hangText="(A2)">
-	  Choose the length x of IPv6 prefixes to be assigned to 
-        ordinary customers.
-	  </t>
-	  <t hangText=""> Considering we have a /32 IPv6 block, it
-	is not a problem for the IPv6 deployment with the given number 
-	of CEs. Let x = 60, allowing subnets inside in each CE delegated
-	networks. </t>
-	  <t hangText="(A3)">
-	  Multiply N by a margin coefficient K, a power of two 
-        (K = 2 ^ k), to take into account that: </t>
-	  <t hangText="   -"> Some privileged 
-	customers may be assigned IPv6 prefixes of length x', shorter 
-	than x, to have larger addressing spaces than ordinary customers,
-	both in IPv6 and IPv4; </t>
-	  <t hangText="   -"> Due to the hierarchy of routable 
-	prefixes, many theoretically delegatable prefixes may not be 
-	actually delegatable (ref: host density ratio of <xref 
-	target="RFC3194" />).</t>
-	  <t hangText="">In our example, let's take k = 0 for simplicity. </t>
-	</list></t>
+          <t hangText="">For example, we suppose n = 20. It means there will
+          be up to about one million CEs.</t>
 
-       <t> (B) IPv4 considerations </t>
-	<t><list style="hanging" hangIndent="6">
-	  <t hangText="(B1)">
-	  List all (non overlapping, not yet assigned to any in-running 
-	networks) IPv4 prefixes Hi that are available for IPv4 residual 
-	deployment. 
-	  </t>
-	  <t hangText="">Suppose that we hold two blocks and not yet 
-	assigned to any fixed network: 192.32../16 and 63.245../16. </t>
-	  <t hangText="(B2)">
-	  Take enough of them, among the shortest ones, to get a total 
-	whose size M is a power of two (M = 2 ^ m), and includes 
-	a good proportion of the available IPv4 space. 
-	  </t>
-	  <t hangText="">
+          <t hangText="(A2)">Choose the length x of IPv6 prefixes to be
+          assigned to ordinary customers.</t>
+
+          <t hangText="">Considering we have a /32 IPv6 block, it is not a
+          problem for the IPv6 deployment with the given number of CEs. Let x
+          = 60, allowing subnets inside in each CE delegated networks.</t>
+
+          <t hangText="(A3)">Multiply N by a margin coefficient K, a power of
+          two (K = 2 ^ k), to take into account that:</t>
+
+          <t hangText="   -">Some privileged customers may be assigned IPv6
+          prefixes of length x', shorter than x, to have larger addressing
+          spaces than ordinary customers, both in IPv6 and IPv4;</t>
+
+          <t hangText="   -">Due to the hierarchy of routable prefixes, many
+          theoretically delegatable prefixes may not be actually delegatable
+          (ref: host density ratio of <xref target="RFC3194"></xref>).</t>
+
+          <t hangText="">In our example, let's take k = 0 for simplicity.</t>
+        </list></t>
+
+      <t>(B) IPv4 considerations</t>
+
+      <t><list hangIndent="6" style="hanging">
+          <t hangText="(B1)">List all (non overlapping, not yet assigned to
+          any in-running networks) IPv4 prefixes Hi that are available for
+          IPv4 residual deployment.</t>
+
+          <t hangText="">Suppose that we hold two blocks and not yet assigned
+          to any fixed network: 192.32../16 and 63.245../16.</t>
+
+          <t hangText="(B2)">Take enough of them, among the shortest ones, to
+          get a total whose size M is a power of two (M = 2 ^ m), and includes
+          a good proportion of the available IPv4 space.</t>
+
+          <!-- <t hangText="">
 	  If the M < N, addresses should be shared by N CEs and thus
 	each is shared by N/M = 2^(n - m) CEs with PSID length of 
 	(n - m).
-	  </t>
-	  <t hangText=""> If we use both blocks, M = 2^16 + 2^16, and 
-	therefore m = 17. Then PSID length could be 3 bits, the 
-	corresponding sharing ratio is also determined so that each 
-	CE can have 8192 ports to use under the shared global IPv4
-	address. </t>
-	  <t hangText="(B3)">
-	  For each IPv4 prefix Hi of length hi, choose a "rule index", 
-	i.e., the 4pfx in Fig.C-1 and Fig.C-3, say Ri of length 
-	ri = m - (32 - hi). 
-	  </t>
-	  <t hangText="">
-	  All these indexes must be non overlapping prefixes (e.g. 0, 
-	10, 110, 111 for one /10, one /11, and two /12).
-	  </t>
-	  <t hangText=""> Then we have:
-	  <figure><artwork align="center"><![CDATA[
+	  </t>.-->
+
+          <t hangText="">If we use both blocks, M = 2^16 + 2^16, and therefore
+          m = 17. Then PSID length could be 3 bits, the corresponding sharing
+          ratio is also determined so that each CE can have 8192 ports to use
+          under the shared global IPv4 address.</t>
+
+          <t hangText="(B3)">For each IPv4 prefix Hi of length hi, choose a
+          "rule index", i.e., the 4pfx in Fig.C-1 and Fig.C-3, say Ri of
+          length ri = m - (32 - hi).</t>
+
+          <t hangText="">All these indexes must be non overlapping prefixes
+          (e.g. 0, 10, 110, 111 for one /10, one /11, and two /12).</t>
+
+          <t hangText="">Then we have: <figure>
+              <artwork align="center"><![CDATA[
 H1 = 192.32../16, h1 = 16, r1 = 1 => R1 = bin(0); 
 H2 = 63.245../16, h2 = 16, r2 = 1 => R2 = bin(1); 
-]]></artwork></figure></t>
-	
-	</list></t>
+]]></artwork>
+            </figure></t>
+        </list></t>
 
-       <t> (C) After (A) and (B), derive the rule(s) </t>
-	<t><list style="hanging" hangIndent="6">
-	  <t hangText="(C1)">
-	  Derive the length c of the "Common prefix" C that will appear 
-	at the beginning of all delegated prefixes (c = x - (n + k)).
-	  </t>
-	  <t hangText="(C2)">
-	  Take any prefix for this C of length c that starts with a 
-	RIR-allocated IPv6 prefix.
-	  </t>
-	  <t hangText="(C3)">
-	  For each IPv4 prefix Hi, make a rule, in which the key 
-	is Hi, and the value is the Common prefix C followed by the 
-	Rule index Ri. Then this i-th rule's Rule IPv6 Prefix will
-	have the length of (c + ri). 
-	  </t>
-	  <t hangText=""> Then we can do that:
-	  <figure><artwork align="center"><![CDATA[
+      <t>(C) After (A) and (B), derive the rule(s)</t>
+
+      <t><list hangIndent="6" style="hanging">
+          <t hangText="(C1)">Derive the length c of the "Common prefix" C that
+          will appear at the beginning of all delegated prefixes (c = x - (n +
+          k)).</t>
+
+          <t hangText="(C2)">Take any prefix for this C of length c that
+          starts with a RIR-allocated IPv6 prefix.</t>
+
+          <t hangText="(C3)">For each IPv4 prefix Hi, make a rule, in which
+          the key is Hi, and the value is the Common prefix C followed by the
+          Rule index Ri. Then this i-th rule's Rule IPv6 Prefix will have the
+          length of (c + ri).</t>
+
+          <t hangText="">Then we can do that: <figure>
+              <artwork align="center"><![CDATA[
 c = 40 => C = 2001:0db8:ff00::/40
 Rule 1: Rule IPv6 Prefix = 2001:0db8:ff00::/41
 Rule 2: Rule IPv6 Prefix = 2001:0db8:ff80::/41
-]]></artwork></figure></t>
-	  <t hangText=""> As a result, for a certain CE delegating 
-2001:0db8:ff98:7650::/60, its parameters are:
-	  <figure><artwork align="center"><![CDATA[
+]]></artwork>
+            </figure></t>
+
+          <t hangText="">As a result, for a certain CE delegating
+          2001:0db8:ff98:7650::/60, its parameters are: <figure>
+              <artwork align="center"><![CDATA[
 Rule IPv6 Prefix = 2001:0db8:ff80::/41 => Rule 2
 IPv4 Suffix = bin(001 1000 0111 0110 0) 
                            PSID = bin(101) = 0x5
 Rule IPv4 Prefix = 63.245../16
 CE IPv4 Address = 63.245.48.236
-]]></artwork></figure></t>
-	</list></t>
+]]></artwork>
+            </figure></t>
+        </list></t>
 
-       <t>If different sharing ratio is demanded, we may partition 
-       CEs into groups and do (A) and (B) for each group, determining 
-       the PSID length for them separately. </t> 
+      <t>If different sharing ratio is demanded, we may partition CEs into
+      groups and do (A) and (B) for each group, determining the PSID length
+      for them separately.</t>
 
-	<t> Remarks: </t>
-	<t><list style="numbers">
-	  <t> IPv6 address planning in residual deployment is independent 
-	     of the usage of the residual IPv4 addresses. </t>
-	  <t> The IPv4 address pool for "residual deployment" contains  
-	     IPv4 addresses not yet assigned to customers/subscribers 
-	     and/or those already recalled from ex-customers. Dynamic
-	     assignment is also considered of the case of "recalled".  
-	  </t> 
-	  <t> MAP is mainly designed for residual deployment but also
-	     applied for the case of legacy IPv4 networks keeping 
-	     communication with the IPv4 world over the IPv6 domain
-	     without renumbering. In such a case, unlike the residual
-	     deployment, the IPv6 addressing is not independent of 
-	     IPv4.  
-	  </t> 
-	  <t> For the non-residual deployment case, the address format, 
-	     which is introduced by <xref target="RFC6052"></xref> as 
-	     well as its extensions like <xref 
-	     target="I-D.xli-behave-divi"></xref>, is typically applied. 
-	     The relevance of MAP- and RFC6052-formats is: once a 
-	     single rule applies for the whole IPv4 space, MAP-format 
-	     becomes equivalent to RFC6052-format. This frees the domain 
-	     to distribute any specific rule information, including the 
-	     DMR.
-	  </t>  
-	</list></t>
-      </section>
+      <t>Remarks:</t>
+
+      <t><list style="numbers">
+          <t>IPv6 address planning in residual deployment is independent of
+          the usage of the residual IPv4 addresses.</t>
+
+          <t>The IPv4 address pool for "residual deployment" contains IPv4
+          addresses not yet assigned to customers/subscribers and/or those
+          already recalled from ex-customers. Dynamic assignment is also
+          considered of the case of "recalled".</t>
+
+          <t>MAP is mainly designed for residual deployment but also applied
+          for the case of legacy IPv4 networks keeping communication with the
+          IPv4 world over the IPv6 domain without renumbering. In such a case,
+          unlike the residual deployment, the IPv6 addressing is not
+          independent of IPv4.</t>
+
+          <t>For the non-residual deployment case, the address format, which
+          is introduced by <xref target="RFC6052"></xref> as well as its
+          extensions like <xref target="I-D.xli-behave-divi"></xref>, is
+          typically applied. The relevance of MAP- and RFC6052-formats is:
+          once a single rule applies for the whole IPv4 space, MAP-format
+          becomes equivalent to RFC6052-format. This frees the domain to
+          distribute any specific rule information, including the DMR.</t>
+        </list></t>
+    </section>
+
     <!-- END SECTION 5: ADDRESS PLANNING  -->
 
     <!--   SECTION 6: MIGRATION METHODOLOGY, Gang  -->
-    <section title="Migration Methodology">
 
+    <section title="Migration Methodology">
+      <section title="Roadmap for MAP-based Solution">
+        <t></t>
+
+        <section title="Start from Scratch">
+          <t></t>
+        </section>
+
+        <section title="Coexiting Phases">
+          <t>SP has various deployment strategy in the wild. The deployment of
+          MAP-based solution(i.e. MAP-encapsulation and MAP-translation)
+          should have a big tolerance to allow different deployment modes to
+          be occuring. Coexisting deployment would be a basic consideration
+          for this casualness. In a potential practice, MAP-E and MAP-T would
+          not only coexist with each other, but also can harmonize with other
+          deployment cases. Here lists some coexisting cases. (Note: more
+          coexisting cases are expected to be investigated in future.)</t>
+
+          <t><list style="symbols">
+              <t>Case 1: Coexisting between MAP Encapsulation(MAP-E) and MAP
+              Translation(MAP-T)</t>
+
+              <t>Case 2: Coexisting between MAP translation(Double
+              Translation) and NAT64 (Single Translation)</t>
+
+              <t>Case3: Coexisting between MAP-based solution and native IPv6
+              deployement</t>
+            </list>Regarding the case 1, MAP<xref
+          target="I-D.mdt-softwire-mapping-address-and-port"></xref> has
+          provided a good pre-condition, in which a unified address format and
+          configuration rules have been documented to facilitate the
+          collocation of MAP-T and MAP-E. Received date packages on CE or BR
+          could be differentiated and processed accordingly through inspecting
+          "Next Header" filed in IP header.</t>
+
+          <t>Regarding the case 2, separated gateway on the ISP network edge
+          may serve MAP BR and NAT64 respectively. In alternative case, MAP BR
+          or NAT64 functionality could be configured on the different
+          interfaces on a standalone gateway. In either case, traffic could be
+          distributed into proper gateway or interface by addressing diffrent
+          IPv6 prefix as NAT4prefix and Rule IPv6 prefix.</t>
+
+          <t>Regarding the case 3, MAP solutions would not eliminate IPv6 host
+          accessing MAP CE. Native IPv6 communication should get along with
+          MAP solution. RFC6204<xref target="RFC6204"></xref> shoud be applied
+          to CE in this case. Prefix delegation has two-fold, in which
+          delegated prefix would not only help to create unique, longer IPv6
+          prefixes for IPv6 hosts, but also serve MAP algorithm to implicitly
+          derive shared IPv4 address/port information. When data packages have
+          been received at CE, it would distinguish IPv4 packets from native
+          IPv6 packets depending on preconfigured mapping rules.</t>
+
+          <t></t>
+        </section>
+
+        <section title="Exit Strategy ">
+          <t></t>
+        </section>
+      </section>
+
+      <section title="Migration Mode">
+        <t></t>
+
+        <section title="Aggressive Transition">
+          <t></t>
+        </section>
+
+        <section title="Passive Transition">
+          <t></t>
+        </section>
+      </section>
     </section>
+
     <!--  END SECTION 6: MIGRATION METHODOLOGY  -->
 
-
     <!--  OLD TEXT FOR AUTHORS REF                -->
+
     <section title="=== OLD TEXT === Deployment Considerations">
-
       <section title="Flexible Assigment of Port Sets">
-
-	<t>Different classes of customers require port sets of
-	different size. In the context of shared IPv4 addresses, some
-	customers would be satisfied with an shared IPv4 addresses,
-	while others may need to be assigned a single IPv4 address or
-	delegated an IPv4 subnet.</t>
-
+        <t>Different classes of customers require port sets of different size.
+        In the context of shared IPv4 addresses, some customers would be
+        satisfied with an shared IPv4 addresses, while others may need to be
+        assigned a single IPv4 address or delegated an IPv4 subnet.</t>
       </section>
 
       <section title="Traffic Classification">
-
-	<t>Usually, ISPs adopt traffic classification to ensure
-	service quality for different classes of customers. This
-	feature is also helpful for customer behavior monitoring and
-	security protection. For example, DIA (Dedicated Internet
-	Access) has been provided by operators for corporations to
-	cater for their Internet communications needs. Service is made
-	by means of the edge router features and key systems, like ACL
-	(Access List Control) to classify different traffic.  Five
-	tuples would be identified from IP header and UDP/TCP header.
-	Currently, it is very well supported in IPv4.  Vendors are
-	delivering or committed to support that feature for IPv6.  In
-	order to facilitating IPv6 deployment, MAP solution should
-	support this feature on IPv6 plane.</t>
+        <t>Usually, ISPs adopt traffic classification to ensure service
+        quality for different classes of customers. This feature is also
+        helpful for customer behavior monitoring and security protection. For
+        example, DIA (Dedicated Internet Access) has been provided by
+        operators for corporations to cater for their Internet communications
+        needs. Service is made by means of the edge router features and key
+        systems, like ACL (Access List Control) to classify different traffic.
+        Five tuples would be identified from IP header and UDP/TCP header.
+        Currently, it is very well supported in IPv4. Vendors are delivering
+        or committed to support that feature for IPv6. In order to
+        facilitating IPv6 deployment, MAP solution should support this feature
+        on IPv6 plane.</t>
       </section>
 
       <section title="Prefix Delegation Deployment">
-
-	<t>Prefix delegation is an important feature both for
-	broadband and mobile network.  In mobile network, prefix
-	delegation is introduced in 3GPP network in Release 10.  The
-	deployment of PD would be supported in 4v6 case.  Variable
-	length of IPv6 prefix is assigned to CPE for deriving IPv4
-	information.</t>
-
+        <t>Prefix delegation is an important feature both for broadband and
+        mobile network. In mobile network, prefix delegation is introduced in
+        3GPP network in Release 10. The deployment of PD would be supported in
+        4v6 case. Variable length of IPv6 prefix is assigned to CPE for
+        deriving IPv4 information.</t>
       </section>
 
       <section title="Coexisting Deployment">
+        <t>4v6 solutions(i.e. encapsulation and translation) would not only
+        coexist with each other, but also can harmonize with other deployment
+        cases. Here lists some coexisting cases. (Note: more coexisting cases
+        are expected to be investigated in future.)</t>
 
-	<t>4v6 solutions(i.e. encapsulation and translation) would not
-	only coexist with each other, but also can harmonize with
-	other deployment cases.  Here lists some coexisting cases.
-	(Note: more coexisting cases are expected to be investigated
-	in future.)</t>
+        <t>o Case 1: Coexisting between 4v6 encapsulation and 4v6
+        translation</t>
 
-	<t>o  Case 1: Coexisting between 4v6 encapsulation and 4v6 translation</t>
+        <t>o Case 2: Coexisting between 4v6 translation and NAT64 (Single
+        Translation)</t>
 
-	<t>o Case 2: Coexisting between 4v6 translation and NAT64
-	(Single Translation)</t>
-
-	<t>o  Case 3: Coexisting between 4v6 solutions and SLAAC</t>
-
+        <t>o Case 3: Coexisting between 4v6 solutions and SLAAC</t>
       </section>
 
       <section title="Friendly to Network Provisioning">
-
-	<t>Network management plane normally has an ability to to
-	identify different users and the compatible with the address
-	assignment techniques in the domain. 4v6 would conform to
-	current practices on management plane.  In 3GPP network, for
-	example, only the IPv6 prefix is assigned to the devices, used
-	to identify different users.  And management plane for one
-	family address is better than two, namely the operating
-	platform does not need to manage both IPv4 and IPv6.  Since
-	only IPv6 prefix is assigned, 4v6 on the management plane is
-	naturally conducted only via IPv6.</t>
-
+        <t>Network management plane normally has an ability to to identify
+        different users and the compatible with the address assignment
+        techniques in the domain. 4v6 would conform to current practices on
+        management plane. In 3GPP network, for example, only the IPv6 prefix
+        is assigned to the devices, used to identify different users. And
+        management plane for one family address is better than two, namely the
+        operating platform does not need to manage both IPv4 and IPv6. Since
+        only IPv6 prefix is assigned, 4v6 on the management plane is naturally
+        conducted only via IPv6.</t>
       </section>
 
       <section title="Enable privacy addresses">
-
-	<t>User privacy should be taken into account when 4v6 solution
-	is deployed.  Some security concern associated with
-	non-changing IPv6 interface identifiers has been expressed in
-	RFC4941[RFC4941].  Ability to change the interface identifier
-	over time makes it more difficult for eavesdroppers and other
-	information collectors to identify when different addresses
-	used in different sessions actually correspond to the same
-	node.</t>
+        <t>User privacy should be taken into account when 4v6 solution is
+        deployed. Some security concern associated with non-changing IPv6
+        interface identifiers has been expressed in RFC4941[RFC4941]. Ability
+        to change the interface identifier over time makes it more difficult
+        for eavesdroppers and other information collectors to identify when
+        different addresses used in different sessions actually correspond to
+        the same node.</t>
       </section>
 
       <section title="Facilitating 4v6 Service">
-
-	<t>Some ISPs may need to offer services in a 4v6 domain with a
-	shared address, e.g. 4v6 node hosts FTP server.  The service
-	provisioning may require well-know port range(i.e. port range
-	belong to 0-1023).  MAP would provide operators with
-	possibilities to generate a port range including the 0-1023.
-	Afterwards, operators could decide to assign it to any
-	requesting user.</t>
-
+        <t>Some ISPs may need to offer services in a 4v6 domain with a shared
+        address, e.g. 4v6 node hosts FTP server. The service provisioning may
+        require well-know port range(i.e. port range belong to 0-1023). MAP
+        would provide operators with possibilities to generate a port range
+        including the 0-1023. Afterwards, operators could decide to assign it
+        to any requesting user.</t>
       </section>
 
       <section title="Independency with IPv6 Routing Planning">
-
-	<t>The IPv6 routing is easier to plan if it's not impacted by
-	the encoded IPv4 or port ID information.  MAP would prohibit
-	IPv4 routing imported in IPv6.</t>
-
+        <t>The IPv6 routing is easier to plan if it's not impacted by the
+        encoded IPv4 or port ID information. MAP would prohibit IPv4 routing
+        imported in IPv6.</t>
       </section>
-      
+
       <section title="Optimized Routing Path">
-
-	<t>MAP could achieve optimized routing path both for hub case
-	and mesh case. Traffic in hub and spoke case could follow
-	asymmetric routing, in which incoming routes would not be
-	binded to a given border point but others geographically
-	closed to traffic initiators. In mesh cases, traffic between
-	CPEs could directly communicate without going through remote
-	border point.</t>
-
+        <t>MAP could achieve optimized routing path both for hub case and mesh
+        case. Traffic in hub and spoke case could follow asymmetric routing,
+        in which incoming routes would not be binded to a given border point
+        but others geographically closed to traffic initiators. In mesh cases,
+        traffic between CPEs could directly communicate without going through
+        remote border point.</t>
       </section>
-
     </section>
 
     <!--  SECTION 7:  IANA Considerations           -->
@@ -560,46 +646,48 @@ CE IPv4 Address = 63.245.48.236
     <!--  SECTION 9:  Contributors     			-->
 
     <section title="Contributors">
-      <t>The members of the MAP design team are:
-      <list>
-
-	<t>Congxiao Bao, Mohamed Boucadair, Gang Chen, Maoke Chen,
-	Wojciech Dec, Xiaohong Deng, Remi Despres, Jouni Korhonen,
-	Xing Li, Satoru Matsushima, Tomasz Mrugalski, Tetsuya
-	Murakami, Jacni Qin, Qiong Sun, Tina Tsou, Dan Wing, Leaf Yeh
-	and Jan Zorz.</t>
-
-      </list></t>
-
+      <t>The members of the MAP design team are: <list>
+          <t>Congxiao Bao, Mohamed Boucadair, Gang Chen, Maoke Chen, Wojciech
+          Dec, Xiaohong Deng, Remi Despres, Jouni Korhonen, Xing Li, Satoru
+          Matsushima, Tomasz Mrugalski, Tetsuya Murakami, Jacni Qin, Qiong
+          Sun, Tina Tsou, Dan Wing, Leaf Yeh and Jan Zorz.</t>
+        </list></t>
     </section>
 
     <!--  SECTION 10:  Acknowledgements     			-->
 
-    <section title="Acknowledgements">
-    </section>
-
+    <section title="Acknowledgements"></section>
   </middle>
 
   <back>
     <!--  SECTION 8.1:  Normative References		-->
 
     <references title="Normative References">
+      <?rfc include="reference.RFC.6204"?>
+
       &rfc2119;
+
       &rfc5342;
+
       &rfc6346;
+
       &I-D.mdt-softwire-map-dhcp-option;
+
       &I-D.mdt-softwire-mapping-address-and-port;
     </references>
 
     <!--  SECTION 8.2:  Informative References		-->
+
     <references title="Informative References">
       &I-D.xli-softwire-divi-pd;
+
       &I-D.xli-behave-divi;
+
       &I-D.murakami-softwire-4rd;
+
       &rfc3194;
+
       &rfc6052;
     </references>
-
-
   </back>
 </rfc>
