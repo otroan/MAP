@@ -16,6 +16,7 @@
 <!ENTITY rfc6346 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6346.xml">
 <!ENTITY rfc3194 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3194.xml">
 <!ENTITY rfc5342 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5342.xml">
+<!ENTITY rfc6204 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6204.xml">
 <!ENTITY I-D.mrugalski-dhc-dhcpv6-4rd SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mrugalski-dhc-dhcpv6-4rd.xml">
 <!ENTITY I-D.mdt-softwire-map-dhcp-option SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mdt-softwire-map-dhcp-option.xml">
 <!ENTITY I-D.mdt-softwire-mapping-address-and-port SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mdt-softwire-mapping-address-and-port.xml">
@@ -51,19 +52,17 @@
     <title abbrev="MAP Deployment">Mapping of Address and Port (MAP) -
     Deployment Considerations</title>
 
-    <author fullname="Maoke Chen" initials="Maoke" role="editor"
+    <author fullname="Maoke Chen" initials="M" role=""
             surname="Chen">
       <organization abbrev="FreeBit">FreeBit Co., Ltd.</organization>
 
       <address>
         <postal>
           <street>13F E-space Tower, Maruyama-cho 3-6</street>
-
           <city>Shibuya-ku, Tokyo</city>
-
+	  <code>150-0044</code>
           <country>Japan</country>
         </postal>
-
         <email>fibrib@gmail.com</email>
       </address>
     </author>
@@ -165,7 +164,8 @@
       when and how an operator can do with MAP to meet its own operational
       requirements of IPv6 transition and its facility conditions, in the
       phase of IPv4 residual deployment. Potential readers of this document
-      are those who want to know: <list style="numbers">
+      are those who want to know: 
+	<list style="numbers">
           <t>What kind of deployment requirements does MAP satisfy?</t>
 
           <t>What technical options needs to be considered when deploying MAP,
@@ -663,16 +663,11 @@ CE IPv4 Address = 63.245.48.236
     <!--  SECTION 8.1:  Normative References		-->
 
     <references title="Normative References">
-      <?rfc include="reference.RFC.6204"?>
-
       &rfc2119;
-
       &rfc5342;
-
+      &rfc6204;
       &rfc6346;
-
       &I-D.mdt-softwire-map-dhcp-option;
-
       &I-D.mdt-softwire-mapping-address-and-port;
     </references>
 
@@ -680,13 +675,9 @@ CE IPv4 Address = 63.245.48.236
 
     <references title="Informative References">
       &I-D.xli-softwire-divi-pd;
-
       &I-D.xli-behave-divi;
-
       &I-D.murakami-softwire-4rd;
-
       &rfc3194;
-
       &rfc6052;
     </references>
   </back>

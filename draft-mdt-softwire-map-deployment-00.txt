@@ -1,7 +1,7 @@
 
 
 
-Network Working Group                                   Maoke. Chen, Ed.
+Network Working Group                                            M. Chen
 Internet-Draft                                                   FreeBit
 Intended status: Informational                                    Q. Sun
 Expires: June 3, 2012                                      China Telecom
@@ -1123,10 +1123,10 @@ Internet-Draft               MAP Deployment                December 2011
 
 Authors' Addresses
 
-   Maoke Chen (editor)
+   Maoke Chen
    FreeBit Co., Ltd.
    13F E-space Tower, Maruyama-cho 3-6
-   Shibuya-ku, Tokyo
+   Shibuya-ku, Tokyo  150-0044
    Japan
 
    Email: fibrib@gmail.com
