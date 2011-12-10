@@ -4,10 +4,10 @@
 Network Working Group                                            M. Chen
 Internet-Draft                                                   FreeBit
 Intended status: Informational                                    Q. Sun
-Expires: June 3, 2012                                      China Telecom
+Expires: June 13, 2012                                     China Telecom
                                                                     N. N
                                                                     N. N
-                                                        December 1, 2011
+                                                       December 11, 2011
 
 
      Mapping of Address and Port (MAP) - Deployment Considerations
@@ -34,7 +34,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on June 3, 2012.
+   This Internet-Draft will expire on June 13, 2012.
 
 Copyright Notice
 
@@ -52,7 +52,7 @@ Copyright Notice
 
 
 
-Chen, et al.              Expires June 3, 2012                  [Page 1]
+Chen, et al.              Expires June 13, 2012                 [Page 1]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -80,26 +80,26 @@ Table of Contents
        6.1.2.  Coexiting Phases . . . . . . . . . . . . . . . . . . . 11
        6.1.3.  Exit Strategy  . . . . . . . . . . . . . . . . . . . . 12
      6.2.  Migration Mode . . . . . . . . . . . . . . . . . . . . . . 12
-       6.2.1.  Aggressive Transition  . . . . . . . . . . . . . . . . 12
-       6.2.2.  Passive Transition . . . . . . . . . . . . . . . . . . 12
-   7.  === OLD TEXT === Deployment Considerations . . . . . . . . . . 13
-     7.1.  Flexible Assigment of Port Sets  . . . . . . . . . . . . . 13
-     7.2.  Traffic Classification . . . . . . . . . . . . . . . . . . 13
-     7.3.  Prefix Delegation Deployment . . . . . . . . . . . . . . . 13
-     7.4.  Coexisting Deployment  . . . . . . . . . . . . . . . . . . 13
-     7.5.  Friendly to Network Provisioning . . . . . . . . . . . . . 14
-     7.6.  Enable privacy addresses . . . . . . . . . . . . . . . . . 14
-     7.7.  Facilitating 4v6 Service . . . . . . . . . . . . . . . . . 14
-     7.8.  Independency with IPv6 Routing Planning  . . . . . . . . . 14
-     7.9.  Optimized Routing Path . . . . . . . . . . . . . . . . . . 14
-   8.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . . 15
-   9.  Security Considerations  . . . . . . . . . . . . . . . . . . . 16
-   10. Contributors . . . . . . . . . . . . . . . . . . . . . . . . . 17
-   11. Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . 18
-   12. References . . . . . . . . . . . . . . . . . . . . . . . . . . 19
-     12.1. Normative References . . . . . . . . . . . . . . . . . . . 19
-     12.2. Informative References . . . . . . . . . . . . . . . . . . 19
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 21
+       6.2.1.  Passive Transition . . . . . . . . . . . . . . . . . . 12
+       6.2.2.  Active Transition  . . . . . . . . . . . . . . . . . . 13
+   7.  === OLD TEXT === Deployment Considerations . . . . . . . . . . 14
+     7.1.  Flexible Assigment of Port Sets  . . . . . . . . . . . . . 14
+     7.2.  Traffic Classification . . . . . . . . . . . . . . . . . . 14
+     7.3.  Prefix Delegation Deployment . . . . . . . . . . . . . . . 14
+     7.4.  Coexisting Deployment  . . . . . . . . . . . . . . . . . . 14
+     7.5.  Friendly to Network Provisioning . . . . . . . . . . . . . 15
+     7.6.  Enable privacy addresses . . . . . . . . . . . . . . . . . 15
+     7.7.  Facilitating 4v6 Service . . . . . . . . . . . . . . . . . 15
+     7.8.  Independency with IPv6 Routing Planning  . . . . . . . . . 15
+     7.9.  Optimized Routing Path . . . . . . . . . . . . . . . . . . 15
+   8.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . . 16
+   9.  Security Considerations  . . . . . . . . . . . . . . . . . . . 17
+   10. Contributors . . . . . . . . . . . . . . . . . . . . . . . . . 18
+   11. Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . 19
+   12. References . . . . . . . . . . . . . . . . . . . . . . . . . . 20
+     12.1. Normative References . . . . . . . . . . . . . . . . . . . 20
+     12.2. Informative References . . . . . . . . . . . . . . . . . . 20
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 22
 
 
 
@@ -108,7 +108,7 @@ Table of Contents
 
 
 
-Chen, et al.              Expires June 3, 2012                  [Page 2]
+Chen, et al.              Expires June 13, 2012                 [Page 2]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -164,7 +164,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 3, 2012                  [Page 3]
+Chen, et al.              Expires June 13, 2012                 [Page 3]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -220,7 +220,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 3, 2012                  [Page 4]
+Chen, et al.              Expires June 13, 2012                 [Page 4]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -276,7 +276,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 3, 2012                  [Page 5]
+Chen, et al.              Expires June 13, 2012                 [Page 5]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -332,7 +332,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 3, 2012                  [Page 6]
+Chen, et al.              Expires June 13, 2012                 [Page 6]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -388,7 +388,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 3, 2012                  [Page 7]
+Chen, et al.              Expires June 13, 2012                 [Page 7]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -444,7 +444,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 3, 2012                  [Page 8]
+Chen, et al.              Expires June 13, 2012                 [Page 8]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -500,7 +500,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 3, 2012                  [Page 9]
+Chen, et al.              Expires June 13, 2012                 [Page 9]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -556,7 +556,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 3, 2012                 [Page 10]
+Chen, et al.              Expires June 13, 2012                [Page 10]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -566,6 +566,20 @@ Internet-Draft               MAP Deployment                December 2011
 6.1.  Roadmap for MAP-based Solution
 
 6.1.1.  Start from Scratch
+
+   IPv6 deployment normally involves a step-wise approach where parts of
+   the network should properly updated gradually.  As IPv6 deployment
+   progresses it may be simpler for operators to employ a single-version
+   network, since deploying both IPv4 and IPv6 in parallel would costs
+   more than IPv6-only network.  Therefore switching to an IPv6-only
+   network in realtively small scale will become more prevalent.
+   Meanwhile, a significant part of network will still stay in IPv4 for
+   long time, especially at early stage of IPv6 transition.  There may
+   not be enough public or private IPv4 addresses to support end-to-end
+   network communication, without segmenting the network into small
+   parts with sharing one IPv4 address space.  That is a time to
+   introduce MAP-based solution to bridge these IPv4 islands through
+   IPv6 network.
 
 6.1.2.  Coexiting Phases
 
@@ -595,6 +609,14 @@ Internet-Draft               MAP Deployment                December 2011
    "Next Header" filed in IP header.
 
    Regarding the case 2, separated gateway on the ISP network edge may
+
+
+
+Chen, et al.              Expires June 13, 2012                [Page 11]
+
+Internet-Draft               MAP Deployment                December 2011
+
+
    serve MAP BR and NAT64 respectively.  In alternative case, MAP BR or
    NAT64 functionality could be configured on the different interfaces
    on a standalone gateway.  In either case, traffic could be
@@ -609,40 +631,79 @@ Internet-Draft               MAP Deployment                December 2011
    also serve MAP algorithm to implicitly derive shared IPv4 address/
    port information.  When data packages have been received at CE, it
    would distinguish IPv4 packets from native IPv6 packets depending on
-
-
-
-Chen, et al.              Expires June 3, 2012                 [Page 11]
-
-Internet-Draft               MAP Deployment                December 2011
-
-
    preconfigured mapping rules.
 
 6.1.3.  Exit Strategy
 
+   The benefits of IPv6 + MAP-based solution are that all IPv6 flows
+   would go directly to the Internet, no need further progressing on
+   encapsulation or translation.  In this way, as more content providers
+   and service are available over IPv6, the utilization on MAP CE and BR
+   goes down since fewer destinations require MAP progressing.  This way
+   would advance IPv6, because it provides everyone incentives to use
+   IPv6, and eventually the result is an pure IPv6 network with no need
+   for IPv4.  As more content providers and hosts equiped with IPv6
+   capabilities , the MAP utilization goes down until it is eventually
+   not used at all when all content is IPv6.  In this way, MAP has an
+   "exit strategy".  The corresponding solutions will leave the network
+   in time.
+
 6.2.  Migration Mode
 
-6.2.1.  Aggressive Transition
+   IPv4 Residual deployment is a interim phase during IPv6 migration.
+   It would be beneficial for ISPs, if this phase is as short as
+   possible since end-to-end IPv6 traversal is the really goals.  When
+   IPv6 is getting more and more mature, MAP solution would be retired
+   in a natural way or enforced by particular considerations.
 
-6.2.2.  Passive Transition
+6.2.1.  Passive Transition
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+   Passive Transition is following IPv4 retirement law.  In another
+   word, MAP would always get along with IPv4 appearance, even all nodes
+   is dual-stack capable.  At a later stage of IPv6 migration, MAP based
+   solutions can also be served for dual-stack hosts, which is sending
+   traffic through the IPv4 stack.  There is still a value for this
+   approach because it could steer IPv4 traffic to IPv6 going through a
+   MAP CE processing.  When it comes the time when ISP decide to turn
 
 
 
+Chen, et al.              Expires June 13, 2012                [Page 12]
+
+Internet-Draft               MAP Deployment                December 2011
+
+
+   off IPv4, MAP would be faded due to IPv4 disappearance.
+
+6.2.2.  Active Transition
+
+   Active Transition is targeting to acclerate IPv4 exit and increase
+   native IPv6 utilization.  A desirable way deploying MAP solution is
+   only providing IPv6 traversal ability to a IPv4-only host.  However,
+   MAP CE can not determine received traffic is send from a IPv4 node or
+   a dual-stack node.  In the latter case, IPv6 utilization is prefered
+   in a common case.  When a network evolve to a post-IPv6 era.  It
+   might be good for ISP to consider implement enforcements rules to
+   help IPv6 migration.  There is a set of approach would help the
+   situation.
+
+   o  ISP could install only IPv6 record (i.e.  AAAA) in DNS server,
+      which would provide users with IPv6 steering effects.  When a host
+      is IPv6-capable and gets IPv6 DNS reply in advance, MAP
+      functionalities would be restricted by IPv6-only record reply
+
+   o  ISP could retrieve shared IPv4 address by increasing sharing
+      ratio.  In this case, number of concurrent IPv4 sessions on MAP CE
+      would be suppressed.  It would encourage native IPv6 growth in
+      some extent.
+
+   o  ISP could allocate a dedicated IPv6 prefix for MAP deployment.
+      The allocation could not only facilitate the differentiation
+      between MAPed traffic and native IPv6 trafffic, but also clearly
+      observe the tendency of MAP traffic.  When the traffic is getting
+      down for while, ISP could close the MAP functionalities in some
+      specific area.  It would result networks to native IPv6-only
+      capable.
 
 
 
@@ -663,12 +724,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-
-
-
-
-
-Chen, et al.              Expires June 3, 2012                 [Page 12]
+Chen, et al.              Expires June 13, 2012                [Page 13]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -724,7 +780,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 3, 2012                 [Page 13]
+Chen, et al.              Expires June 13, 2012                [Page 14]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -780,7 +836,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 3, 2012                 [Page 14]
+Chen, et al.              Expires June 13, 2012                [Page 15]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -836,7 +892,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 3, 2012                 [Page 15]
+Chen, et al.              Expires June 13, 2012                [Page 16]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -892,7 +948,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 3, 2012                 [Page 16]
+Chen, et al.              Expires June 13, 2012                [Page 17]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -948,7 +1004,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 3, 2012                 [Page 17]
+Chen, et al.              Expires June 13, 2012                [Page 18]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -1004,7 +1060,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 3, 2012                 [Page 18]
+Chen, et al.              Expires June 13, 2012                [Page 19]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -1060,7 +1116,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 3, 2012                 [Page 19]
+Chen, et al.              Expires June 13, 2012                [Page 20]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -1116,7 +1172,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 3, 2012                 [Page 20]
+Chen, et al.              Expires June 13, 2012                [Page 21]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -1172,5 +1228,5 @@ Authors' Addresses
 
 
 
-Chen, et al.              Expires June 3, 2012                 [Page 21]
+Chen, et al.              Expires June 13, 2012                [Page 22]
 

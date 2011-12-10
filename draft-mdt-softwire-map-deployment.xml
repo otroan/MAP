@@ -52,17 +52,20 @@
     <title abbrev="MAP Deployment">Mapping of Address and Port (MAP) -
     Deployment Considerations</title>
 
-    <author fullname="Maoke Chen" initials="M" role=""
-            surname="Chen">
+    <author fullname="Maoke Chen" initials="M" surname="Chen">
       <organization abbrev="FreeBit">FreeBit Co., Ltd.</organization>
 
       <address>
         <postal>
           <street>13F E-space Tower, Maruyama-cho 3-6</street>
+
           <city>Shibuya-ku, Tokyo</city>
-	  <code>150-0044</code>
+
+          <code>150-0044</code>
+
           <country>Japan</country>
         </postal>
+
         <email>fibrib@gmail.com</email>
       </address>
     </author>
@@ -164,8 +167,7 @@
       when and how an operator can do with MAP to meet its own operational
       requirements of IPv6 transition and its facility conditions, in the
       phase of IPv4 residual deployment. Potential readers of this document
-      are those who want to know: 
-	<list style="numbers">
+      are those who want to know: <list style="numbers">
           <t>What kind of deployment requirements does MAP satisfy?</t>
 
           <t>What technical options needs to be considered when deploying MAP,
@@ -465,7 +467,19 @@ CE IPv4 Address = 63.245.48.236
         <t></t>
 
         <section title="Start from Scratch">
-          <t></t>
+          <t>IPv6 deployment normally involves a step-wise approach where
+          parts of the network should properly updated gradually. As IPv6
+          deployment progresses it may be simpler for operators to employ a
+          single-version network, since deploying both IPv4 and IPv6 in
+          parallel would costs more than IPv6-only network. Therefore
+          switching to an IPv6-only network in realtively small scale will
+          become more prevalent. Meanwhile, a significant part of network will
+          still stay in IPv4 for long time, especially at early stage of IPv6
+          transition. There may not be enough public or private IPv4 addresses
+          to support end-to-end network communication, without segmenting the
+          network into small parts with sharing one IPv4 address space. That
+          is a time to introduce MAP-based solution to bridge these IPv4
+          islands through IPv6 network.</t>
         </section>
 
         <section title="Coexiting Phases">
@@ -511,24 +525,73 @@ CE IPv4 Address = 63.245.48.236
           derive shared IPv4 address/port information. When data packages have
           been received at CE, it would distinguish IPv4 packets from native
           IPv6 packets depending on preconfigured mapping rules.</t>
-
-          <t></t>
         </section>
 
         <section title="Exit Strategy ">
-          <t></t>
+          <t>The benefits of IPv6 + MAP-based solution are that all IPv6 flows
+          would go directly to the Internet, no need further progressing on
+          encapsulation or translation. In this way, as more content providers
+          and service are available over IPv6, the utilization on MAP CE and
+          BR goes down since fewer destinations require MAP progressing. This
+          way would advance IPv6, because it provides everyone incentives to
+          use IPv6, and eventually the result is an pure IPv6 network with no
+          need for IPv4. As more content providers and hosts equiped with IPv6
+          capabilities , the MAP utilization goes down until it is eventually
+          not used at all when all content is IPv6. In this way, MAP has an
+          "exit strategy". The corresponding solutions will leave the network
+          in time.</t>
         </section>
       </section>
 
       <section title="Migration Mode">
-        <t></t>
-
-        <section title="Aggressive Transition">
-          <t></t>
-        </section>
+        <t>IPv4 Residual deployment is a interim phase during IPv6 migration.
+        It would be beneficial for ISPs, if this phase is as short as possible
+        since end-to-end IPv6 traversal is the really goals. When IPv6 is
+        getting more and more mature, MAP solution would be retired in a
+        natural way or enforced by particular considerations.</t>
 
         <section title="Passive Transition">
-          <t></t>
+          <t>Passive Transition is following IPv4 retirement law. In another
+          word, MAP would always get along with IPv4 appearance, even all
+          nodes is dual-stack capable. At a later stage of IPv6 migration, MAP
+          based solutions can also be served for dual-stack hosts, which is
+          sending traffic through the IPv4 stack. There is still a value for
+          this approach because it could steer IPv4 traffic to IPv6 going
+          through a MAP CE processing. When it comes the time when ISP decide
+          to turn off IPv4, MAP would be faded due to IPv4 disappearance.</t>
+        </section>
+
+        <section title="Active Transition">
+          <t>Active Transition is targeting to acclerate IPv4 exit and
+          increase native IPv6 utilization. A desirable way deploying MAP
+          solution is only providing IPv6 traversal ability to a IPv4-only
+          host. However, MAP CE can not determine received traffic is send
+          from a IPv4 node or a dual-stack node. In the latter case, IPv6
+          utilization is prefered in a common case. When a network evolve to a
+          post-IPv6 era. It might be good for ISP to consider implement
+          enforcements rules to help IPv6 migration. There is a set of
+          approach would help the situation.</t>
+
+          <t><list style="symbols">
+              <t>ISP could install only IPv6 record (i.e. AAAA) in DNS server,
+              which would provide users with IPv6 steering effects. When a
+              host is IPv6-capable and gets IPv6 DNS reply in advance, MAP
+              functionalities would be restricted by IPv6-only record
+              reply</t>
+
+              <t>ISP could retrieve shared IPv4 address by increasing sharing
+              ratio. In this case, number of concurrent IPv4 sessions on MAP
+              CE would be suppressed. It would encourage native IPv6 growth in
+              some extent.</t>
+
+              <t>ISP could allocate a dedicated IPv6 prefix for MAP
+              deployment. The allocation could not only facilitate the
+              differentiation between MAPed traffic and native IPv6 trafffic,
+              but also clearly observe the tendency of MAP traffic. When the
+              traffic is getting down for while, ISP could close the MAP
+              functionalities in some specific area. It would result networks
+              to native IPv6-only capable.</t>
+            </list></t>
         </section>
       </section>
     </section>
@@ -664,10 +727,15 @@ CE IPv4 Address = 63.245.48.236
 
     <references title="Normative References">
       &rfc2119;
+
       &rfc5342;
+
       &rfc6204;
+
       &rfc6346;
+
       &I-D.mdt-softwire-map-dhcp-option;
+
       &I-D.mdt-softwire-mapping-address-and-port;
     </references>
 
@@ -675,9 +743,13 @@ CE IPv4 Address = 63.245.48.236
 
     <references title="Informative References">
       &I-D.xli-softwire-divi-pd;
+
       &I-D.xli-behave-divi;
+
       &I-D.murakami-softwire-4rd;
+
       &rfc3194;
+
       &rfc6052;
     </references>
   </back>
