@@ -94,19 +94,19 @@
       </address>
     </author>
 
-    <author fullname="N N" initials="N" surname="N">
-      <organization abbrev=""></organization>
+    <author fullname="Gang Chen" initials="G" surname="Chen">
+      <organization abbrev="">China Mobile</organization>
 
       <address>
         <postal>
-          <street></street>
+          <street>28 Xuanwumenxi Ave; Xuanwu District</street>
 
-          <city></city>
+          <city>Beijing</city>
 
-          <country></country>
+          <country>P.R. China</country>
         </postal>
 
-        <email></email>
+        <email>chengang@chinamobile.com</email>
       </address>
     </author>
 
@@ -136,7 +136,7 @@
 
     <abstract>
       <t>This document describes when and how an operator use the generic
-      softwire's Mapping of Address and Port (MAP) for the IPv4 residual
+      softwire is Mapping of Address and Port (MAP) for the IPv4 residual
       deployment in the IPv6-dominant domain.</t>
     </abstract>
   </front>
@@ -220,7 +220,56 @@
       <!-- SUBSECTION: MOBILE NETWORKS, Gang -->
 
       <section title="Mobile networks">
-        <t></t>
+        <t>Regarding the MAP based solution, double translation is more
+        suitable in mobile environment according to the analysis in stateless
+        4V6<xref target="I-D.dec-stateless-4v6"></xref>. An architecture of
+        mobile network deploying MAP-based solutions is depicted in <xref
+        target="I-D.chen-softwire-4v6-pd"></xref>. UE could take the rule of
+        MAP CE. There may be three possible cases for a UE performing as a MAP
+        CE. As shown in Figure 1. It provides IPv4 only, IPv6 only or IPv6 and
+        IPv4 connection to IP devices depicted as H1, H2 and H3. The MAP CE
+        may implement a internal NAT44 to provide IPv4 connectin for multiple
+        IP devices. The IP devices get /64 prefix from MAP CE through RS/RA.
+        Such a /64 prefix is generated from the prefix assigned by the network
+        through prefix delegation. In the process, IPv6 prefix delegation is
+        asked to derive the shared IPv4 address implicitly. </t>
+
+        <t>Prefix delegation is introduced in 3GPP network in Release 10. A
+        MAP CE obtains IPv6 prefix from the mobile network. It then initiates
+        DHCPv6 for prefix delegation. There are two phases for a MAP CE
+        performs prefix delegation function. For the first phase, the MAP CE
+        attaches to the LTE network. The network provides the UE with IPv6
+        only connection and the UE obtains a /64 rule IPv6 prefix. For the
+        second phase, the MAP CE initiates prefix delegation procedure. The
+        network assign a prefix shorter than 64 to the CE. Figure 1 shows a
+        case that a /56 is assigned to MAP CE during prefix delegation. </t>
+
+        <t><figure>
+            <artwork><![CDATA[               +-------------+
+               |Private IPv4 |
+               |  Network    | H1
+               +-------------+
+                |
+                |
+            O-------------------O
+            |      UE (MAP CE)  |
+            | +-------+-------+ |  |------------|    |------------|
+            | | NAT44 | 4via6 | |  |            |    |            |
+            | |       |  /64  | |==| E-UTRAN    |----|    EPC     |
+            | +-------+-------+ |  |------------|    |------------|
+            |         |       | |
+            |         |  /56  | |
+            O---------+-------+-O
+                 |          |
+                 | H3       |  H2
+          +-------------+  +----------+
+          | /64 IPv6    |  | /64 IPv6 |
+          |&Private IPv4|  +----------+
+          |  Network    |
+          +-------------+
+
+          Figure 1 MAP solutions deployment in mobile network]]></artwork>
+          </figure></t>
       </section>
     </section>
 
@@ -751,6 +800,10 @@ CE IPv4 Address = 63.245.48.236
       &rfc3194;
 
       &rfc6052;
+
+      <?rfc include='reference.I-D.dec-stateless-4v6'?>
+
+      <?rfc include='reference.I-D.chen-softwire-4v6-pd'?>
     </references>
   </back>
 </rfc>

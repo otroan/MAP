@@ -4,10 +4,11 @@
 Network Working Group                                            M. Chen
 Internet-Draft                                                   FreeBit
 Intended status: Informational                                    Q. Sun
-Expires: June 13, 2012                                     China Telecom
+Expires: June 17, 2012                                     China Telecom
+                                                                 G. Chen
+                                                            China Mobile
                                                                     N. N
-                                                                    N. N
-                                                       December 11, 2011
+                                                       December 15, 2011
 
 
      Mapping of Address and Port (MAP) - Deployment Considerations
@@ -16,7 +17,7 @@ Expires: June 13, 2012                                     China Telecom
 Abstract
 
    This document describes when and how an operator use the generic
-   softwire's Mapping of Address and Port (MAP) for the IPv4 residual
+   softwire is Mapping of Address and Port (MAP) for the IPv4 residual
    deployment in the IPv6-dominant domain.
 
 Status of this Memo
@@ -34,7 +35,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on June 13, 2012.
+   This Internet-Draft will expire on June 17, 2012.
 
 Copyright Notice
 
@@ -48,15 +49,15 @@ Copyright Notice
    carefully, as they describe your rights and restrictions with respect
    to this document.  Code Components extracted from this document must
    include Simplified BSD License text as described in Section 4.e of
-   the Trust Legal Provisions and are provided without warranty as
 
 
 
-Chen, et al.              Expires June 13, 2012                 [Page 1]
+Chen, et al.              Expires June 17, 2012                 [Page 1]
 
 Internet-Draft               MAP Deployment                December 2011
 
 
+   the Trust Legal Provisions and are provided without warranty as
    described in the Simplified BSD License.
 
 
@@ -67,39 +68,39 @@ Table of Contents
    3.  Case Studies . . . . . . . . . . . . . . . . . . . . . . . . .  5
      3.1.  Fixed networks . . . . . . . . . . . . . . . . . . . . . .  5
      3.2.  Mobile networks  . . . . . . . . . . . . . . . . . . . . .  5
-   4.  Deployment Consideration . . . . . . . . . . . . . . . . . . .  6
-     4.1.  Building the MAP domain  . . . . . . . . . . . . . . . . .  6
-     4.2.  BR settings  . . . . . . . . . . . . . . . . . . . . . . .  6
-     4.3.  CE settings  . . . . . . . . . . . . . . . . . . . . . . .  6
-     4.4.  Supporting system  . . . . . . . . . . . . . . . . . . . .  6
-     4.5.  security issues  . . . . . . . . . . . . . . . . . . . . .  7
-   5.  MAP Address Planning, a Step-by-step Guide . . . . . . . . . .  8
-   6.  Migration Methodology  . . . . . . . . . . . . . . . . . . . . 11
-     6.1.  Roadmap for MAP-based Solution . . . . . . . . . . . . . . 11
-       6.1.1.  Start from Scratch . . . . . . . . . . . . . . . . . . 11
-       6.1.2.  Coexiting Phases . . . . . . . . . . . . . . . . . . . 11
-       6.1.3.  Exit Strategy  . . . . . . . . . . . . . . . . . . . . 12
-     6.2.  Migration Mode . . . . . . . . . . . . . . . . . . . . . . 12
-       6.2.1.  Passive Transition . . . . . . . . . . . . . . . . . . 12
-       6.2.2.  Active Transition  . . . . . . . . . . . . . . . . . . 13
-   7.  === OLD TEXT === Deployment Considerations . . . . . . . . . . 14
-     7.1.  Flexible Assigment of Port Sets  . . . . . . . . . . . . . 14
-     7.2.  Traffic Classification . . . . . . . . . . . . . . . . . . 14
-     7.3.  Prefix Delegation Deployment . . . . . . . . . . . . . . . 14
-     7.4.  Coexisting Deployment  . . . . . . . . . . . . . . . . . . 14
-     7.5.  Friendly to Network Provisioning . . . . . . . . . . . . . 15
-     7.6.  Enable privacy addresses . . . . . . . . . . . . . . . . . 15
-     7.7.  Facilitating 4v6 Service . . . . . . . . . . . . . . . . . 15
-     7.8.  Independency with IPv6 Routing Planning  . . . . . . . . . 15
-     7.9.  Optimized Routing Path . . . . . . . . . . . . . . . . . . 15
-   8.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . . 16
-   9.  Security Considerations  . . . . . . . . . . . . . . . . . . . 17
-   10. Contributors . . . . . . . . . . . . . . . . . . . . . . . . . 18
-   11. Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . 19
-   12. References . . . . . . . . . . . . . . . . . . . . . . . . . . 20
-     12.1. Normative References . . . . . . . . . . . . . . . . . . . 20
-     12.2. Informative References . . . . . . . . . . . . . . . . . . 20
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 22
+   4.  Deployment Consideration . . . . . . . . . . . . . . . . . . .  7
+     4.1.  Building the MAP domain  . . . . . . . . . . . . . . . . .  7
+     4.2.  BR settings  . . . . . . . . . . . . . . . . . . . . . . .  7
+     4.3.  CE settings  . . . . . . . . . . . . . . . . . . . . . . .  7
+     4.4.  Supporting system  . . . . . . . . . . . . . . . . . . . .  7
+     4.5.  security issues  . . . . . . . . . . . . . . . . . . . . .  8
+   5.  MAP Address Planning, a Step-by-step Guide . . . . . . . . . .  9
+   6.  Migration Methodology  . . . . . . . . . . . . . . . . . . . . 12
+     6.1.  Roadmap for MAP-based Solution . . . . . . . . . . . . . . 12
+       6.1.1.  Start from Scratch . . . . . . . . . . . . . . . . . . 12
+       6.1.2.  Coexiting Phases . . . . . . . . . . . . . . . . . . . 12
+       6.1.3.  Exit Strategy  . . . . . . . . . . . . . . . . . . . . 13
+     6.2.  Migration Mode . . . . . . . . . . . . . . . . . . . . . . 13
+       6.2.1.  Passive Transition . . . . . . . . . . . . . . . . . . 13
+       6.2.2.  Active Transition  . . . . . . . . . . . . . . . . . . 14
+   7.  === OLD TEXT === Deployment Considerations . . . . . . . . . . 15
+     7.1.  Flexible Assigment of Port Sets  . . . . . . . . . . . . . 15
+     7.2.  Traffic Classification . . . . . . . . . . . . . . . . . . 15
+     7.3.  Prefix Delegation Deployment . . . . . . . . . . . . . . . 15
+     7.4.  Coexisting Deployment  . . . . . . . . . . . . . . . . . . 15
+     7.5.  Friendly to Network Provisioning . . . . . . . . . . . . . 16
+     7.6.  Enable privacy addresses . . . . . . . . . . . . . . . . . 16
+     7.7.  Facilitating 4v6 Service . . . . . . . . . . . . . . . . . 16
+     7.8.  Independency with IPv6 Routing Planning  . . . . . . . . . 16
+     7.9.  Optimized Routing Path . . . . . . . . . . . . . . . . . . 16
+   8.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . . 17
+   9.  Security Considerations  . . . . . . . . . . . . . . . . . . . 18
+   10. Contributors . . . . . . . . . . . . . . . . . . . . . . . . . 19
+   11. Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . 20
+   12. References . . . . . . . . . . . . . . . . . . . . . . . . . . 21
+     12.1. Normative References . . . . . . . . . . . . . . . . . . . 21
+     12.2. Informative References . . . . . . . . . . . . . . . . . . 21
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 23
 
 
 
@@ -107,8 +108,7 @@ Table of Contents
 
 
 
-
-Chen, et al.              Expires June 13, 2012                 [Page 2]
+Chen, et al.              Expires June 17, 2012                 [Page 2]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -164,7 +164,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 13, 2012                 [Page 3]
+Chen, et al.              Expires June 17, 2012                 [Page 3]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -220,7 +220,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 13, 2012                 [Page 4]
+Chen, et al.              Expires June 17, 2012                 [Page 4]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -235,6 +235,76 @@ Internet-Draft               MAP Deployment                December 2011
 
 3.2.  Mobile networks
 
+   Regarding the MAP based solution, double translation is more suitable
+   in mobile environment according to the analysis in stateless
+   4V6[I-D.dec-stateless-4v6].  An architecture of mobile network
+   deploying MAP-based solutions is depicted in
+   [I-D.chen-softwire-4v6-pd].  UE could take the rule of MAP CE.  There
+   may be three possible cases for a UE performing as a MAP CE.  As
+   shown in Figure 1.  It provides IPv4 only, IPv6 only or IPv6 and IPv4
+   connection to IP devices depicted as H1, H2 and H3.  The MAP CE may
+   implement a internal NAT44 to provide IPv4 connectin for multiple IP
+   devices.  The IP devices get /64 prefix from MAP CE through RS/RA.
+   Such a /64 prefix is generated from the prefix assigned by the
+   network through prefix delegation.  In the process, IPv6 prefix
+   delegation is asked to derive the shared IPv4 address implicitly.
+
+   Prefix delegation is introduced in 3GPP network in Release 10.  A MAP
+   CE obtains IPv6 prefix from the mobile network.  It then initiates
+   DHCPv6 for prefix delegation.  There are two phases for a MAP CE
+   performs prefix delegation function.  For the first phase, the MAP CE
+   attaches to the LTE network.  The network provides the UE with IPv6
+   only connection and the UE obtains a /64 rule IPv6 prefix.  For the
+   second phase, the MAP CE initiates prefix delegation procedure.  The
+   network assign a prefix shorter than 64 to the CE.  Figure 1 shows a
+   case that a /56 is assigned to MAP CE during prefix delegation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Chen, et al.              Expires June 17, 2012                 [Page 5]
+
+Internet-Draft               MAP Deployment                December 2011
+
+
+                  +-------------+
+                  |Private IPv4 |
+                  |  Network    | H1
+                  +-------------+
+                   |
+                   |
+               O-------------------O
+               |      UE (MAP CE)  |
+               | +-------+-------+ |  |------------|    |------------|
+               | | NAT44 | 4via6 | |  |            |    |            |
+               | |       |  /64  | |==| E-UTRAN    |----|    EPC     |
+               | +-------+-------+ |  |------------|    |------------|
+               |         |       | |
+               |         |  /56  | |
+               O---------+-------+-O
+                    |          |
+                    | H3       |  H2
+             +-------------+  +----------+
+             | /64 IPv6    |  | /64 IPv6 |
+             |&Private IPv4|  +----------+
+             |  Network    |
+             +-------------+
+
+             Figure 1 MAP solutions deployment in mobile network
 
 
 
@@ -262,21 +332,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Chen, et al.              Expires June 13, 2012                 [Page 5]
+Chen, et al.              Expires June 17, 2012                 [Page 6]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -332,7 +388,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 13, 2012                 [Page 6]
+Chen, et al.              Expires June 17, 2012                 [Page 7]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -388,7 +444,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 13, 2012                 [Page 7]
+Chen, et al.              Expires June 17, 2012                 [Page 8]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -444,7 +500,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 13, 2012                 [Page 8]
+Chen, et al.              Expires June 17, 2012                 [Page 9]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -500,7 +556,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 13, 2012                 [Page 9]
+Chen, et al.              Expires June 17, 2012                [Page 10]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -556,7 +612,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 13, 2012                [Page 10]
+Chen, et al.              Expires June 17, 2012                [Page 11]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -612,7 +668,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 13, 2012                [Page 11]
+Chen, et al.              Expires June 17, 2012                [Page 12]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -668,7 +724,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 13, 2012                [Page 12]
+Chen, et al.              Expires June 17, 2012                [Page 13]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -724,7 +780,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 13, 2012                [Page 13]
+Chen, et al.              Expires June 17, 2012                [Page 14]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -780,7 +836,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 13, 2012                [Page 14]
+Chen, et al.              Expires June 17, 2012                [Page 15]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -836,7 +892,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 13, 2012                [Page 15]
+Chen, et al.              Expires June 17, 2012                [Page 16]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -892,7 +948,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 13, 2012                [Page 16]
+Chen, et al.              Expires June 17, 2012                [Page 17]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -948,7 +1004,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 13, 2012                [Page 17]
+Chen, et al.              Expires June 17, 2012                [Page 18]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -1004,7 +1060,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 13, 2012                [Page 18]
+Chen, et al.              Expires June 17, 2012                [Page 19]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -1060,7 +1116,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-Chen, et al.              Expires June 13, 2012                [Page 19]
+Chen, et al.              Expires June 17, 2012                [Page 20]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -1096,11 +1152,30 @@ Internet-Draft               MAP Deployment                December 2011
 
 12.2.  Informative References
 
+   [I-D.chen-softwire-4v6-pd]
+              Chen, G., Sun, T., and H. Deng, "Prefix Delegation in
+              4V6", draft-chen-softwire-4v6-pd-00 (work in progress),
+              August 2011.
+
+   [I-D.dec-stateless-4v6]
+              Dec, W., Asati, R., Bao, C., Deng, H., and M. Boucadair,
+              "Stateless 4Via6 Address Sharing",
+              draft-dec-stateless-4v6-04 (work in progress),
+              October 2011.
+
    [I-D.murakami-softwire-4rd]
               Murakami, T., Troan, O., and S. Matsushima, "IPv4 Residual
               Deployment on IPv6 infrastructure - protocol
               specification", draft-murakami-softwire-4rd-01 (work in
               progress), September 2011.
+
+
+
+
+Chen, et al.              Expires June 17, 2012                [Page 21]
+
+Internet-Draft               MAP Deployment                December 2011
+
 
    [I-D.xli-behave-divi]
               Bao, C., Li, X., Zhai, Y., and W. Shang, "dIVI: Dual-
@@ -1112,14 +1187,6 @@ Internet-Draft               MAP Deployment                December 2011
               "dIVI-pd: Dual-Stateless IPv4/IPv6 Translation with Prefix
               Delegation", draft-xli-softwire-divi-pd-01 (work in
               progress), October 2011.
-
-
-
-
-Chen, et al.              Expires June 13, 2012                [Page 20]
-
-Internet-Draft               MAP Deployment                December 2011
-
 
    [RFC3194]  Durand, A. and C. Huitema, "The H-Density Ratio for
               Address Assignment Efficiency An Update on the H ratio",
@@ -1161,18 +1228,7 @@ Internet-Draft               MAP Deployment                December 2011
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-Chen, et al.              Expires June 13, 2012                [Page 21]
+Chen, et al.              Expires June 17, 2012                [Page 22]
 
 Internet-Draft               MAP Deployment                December 2011
 
@@ -1198,16 +1254,21 @@ Authors' Addresses
    Email: sunqiong@ctbri.com.cn
 
 
+   Gang Chen
+   China Mobile
+   28 Xuanwumenxi Ave; Xuanwu District
+   Beijing
+   P.R. China
+
+   Email: chengang@chinamobile.com
+
+
    N N
 
 
    Email:
 
 
-   N N
-
-
-   Email:
 
 
 
@@ -1223,10 +1284,5 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-Chen, et al.              Expires June 13, 2012                [Page 22]
+Chen, et al.              Expires June 17, 2012                [Page 23]
 
