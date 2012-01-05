@@ -13,7 +13,7 @@
 
 ]>
 
-<rfc category="std" docName="draft-mdt-softwire-map-dhcp-option-01"
+<rfc category="std" docName="draft-mdt-softwire-map-dhcp-option-02"
      ipr="trust200902">
   <front>
     <title abbrev="MAP DHCPv6 Options">DHCPv6 Options for Mapping of Address and Port</title>
@@ -90,7 +90,7 @@
 
     <!-- Qiong Sun requested joining author team as well (22.10.2011 12:10) -->
 
-    <date year="2011" />
+    <date day="5" month="January" year="2012" />
 
     <area>Internet</area>
     <workgroup>Softwire WG</workgroup>
@@ -169,12 +169,15 @@
 
       <t>A typical MAP CE usually acts as a DHCPv6 client and requests
       options that are being provided by a DHCPv6 server located
-      somewhere in ISP network. It would adopt three kinds of
-      parameters independently:</t>
+      somewhere in ISP network. This server provides typical
+      information to configured nodes: namely IPv6 address (IA_NA
+      option) and delegates a prefix (IA_PD option). Server also
+      provides additional parameters that are MAP specific. In
+      particular, it provides the following information:</t>
 
       <t>
       <list style="symbols">
-        <t>MAP mapping rules are defined in Section 4 of <xref
+        <t>MAP rules. MAP mapping rules are defined in Section 4 of <xref
         target="I-D.mdt-softwire-mapping-address-and-port"/>. There are
         several mapping rule types defined. Depending on rule type, number
         of exact parameters may be different. Rule parameters may contain
@@ -294,9 +297,9 @@
       </section>
 
       <section title="MAP Rule Option">
-        <t>This option represents a single MAP Rule. Depending on
-        deployment mode, each CE may require one or more MAP Rules to
-        operate properly.</t>
+        <t>MAP Rule Option option represents a single MAP
+        Rule. Depending on deployment mode, each CE may require one or
+        more MAP Rules to operate properly.</t>
 
         <t>Server includes one or more MAP Rule Options in MAP Flags option.</t>
 
@@ -312,15 +315,14 @@
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |        OPTION_MAP_RULE        |         option-length         |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|    rule-id    |  prefix4-len  |  prefix6-len  |    ea-len     |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|                                                               |
+|  prefix4-len  |  prefix6-len  |                               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               |
 |                        rule-ipv6-prefix                       |
-|                                                               |
-|                                                               |
+|                       (variable length)                       |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                       rule-ipv4-prefix                        |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
 |                                                               |
 .                rule sub-options (variable length)             .
 .                                                               .
@@ -336,23 +338,23 @@
 
             <t>option-length: TBD octets + size of sub-options</t>
 
-            <t>rule-id: 8-bits long indentifier that uniquely identifies
-            this rule.</t>
+            <t>prefix4-len: 8 bits long field expressing length of the
+            IPv4 prefix, specified in the rule-ipv4-prefix field,
+            expressed in bits.</t>
 
-            <t>rule-ipv6-prefix: a 128-bits field that specifies an IPv6
-            prefix that appears in a MAP rule.</t>
+            <t>prefix6-len: 8 bits long length of the IPv6 prefix,
+            specified in the rule-ipv6-prefix field, expressed in
+            bits.</t>
+
+            <t>rule-ipv6-prefix: a variable size field that specifies
+            an IPv6 prefix that appears in a MAP rule. Length of the
+            field is defined by prefix6-len field and is rounded up to
+            the nearest octet boundary (if case when prefix6-len is
+            not divisible by 8). In such case additional padding bits
+            must be zeroed.</t>
 
             <t>rule-ipv4-prefix: a 32-bits long field that specifies
             an IPv4 prefix that appears in a MAP rule.</t>
-
-            <t>prefix4-len: length of the IPv6 prefix, specified in the
-            rule-ipv6-prefix field, expressed in bits.</t>
-
-            <t>prefix6-len: length of the IPv6 prefix, specified in the
-            rule-ipv6-prefix field, expressed in bits.</t>
-
-            <t>ea-len: 8-bits long field that specifies Embedded-Address (EA)
-            length, expressed in bits.</t>
 
             <t>rule sub-options: a variable field that may contains
             zero or more options that specify additional parameters
@@ -366,29 +368,53 @@
           </list>
         </t>
 
-        <t>Each rule is identified with a rule-id. Rule-id MUST be unique within
-        each CE. Rule ID also defines rule type. Rule-id 0 denotes default rule.
-        Each CE configuration providioned by DHCPv6 server MUST provide exactly
-        one default rule (with rule-id set to 0). Additional rules MAY be provided
-        as required, but they MUST NOT use rule-id value of 0. Rules with rule-id smaller than
-        128 are Basic Mapping Rules. Rules with rule-id equal or greater than 128
-        are Forwarding Mapping Rules.</t>
+        <t>Depending on rule content, it can be Basic Mapping Rule
+        (BMR), Forwarding Mapping Rule (FMR) or Default Mapping Rule
+        (DMR). See Sections 4.2, 4.3 and 4.4 in <xref
+        target="I-D.mdt-softwire-mapping-address-and-port"/> for
+        detailed description of those rules.</t>
 
-        <t>Note that the default mapping rule is a simplified version of Basic Mapping
-        Rule. While it reuses the same DHCPv6 option format, Default Mapping Rule
-        uses only Rule IPv6 prefix, Rule IPv6 Prefix Length and IPv4 address that denotes
-        BR IPv4 address. All other parameters are ignored for Default Mapping Rule.</t>
+        <t>A CE node can determine, which received rule is the basic
+        rule based on the longest match between End-User IPv6 prefix
+        (received in IAPREFIX option in IA_PD) and the Rule IPv6
+        prefix (received in Map Rule Option). A Default rule can be
+        determined by the fact that it has Rule IPv4 prefix of
+        0.0.0.0/0.</t>
 
+        <t>It is expected that in a typical simple scenarios, there
+        will be a single BMR with a single DMR (that will also work as
+        FMR). For detailed discussion about MAP deployment
+        considerations, see <xref target="map-d"/>.</t>
+
+        <t>To form complete MAP Rule information, additional
+        information from other options is needed. In particular,
+        End-User IPv6 Prefix (or Delegated prefix, specified in IA_PD
+        option, see <xref target="RFC3633"/>) and assigned IPv6
+        address (specified in IA_ND option, see <xref
+        target="RFC3315"/>) are needed. In particular, EA-bits
+        (Embedded Address bits) length can be derived as a length of
+        the delegated prefix (specified in prefix-length field in
+        IAPREFIX option) decreased by MAP Domain IPv6 prefix length
+        (specified in prefix6-len of the DMR).</t>
+
+        <t>Note that the DMR is a simplified version of BMR. While it
+        reuses the same DHCPv6 option format, DMR uses only Rule IPv6
+        prefix, Rule IPv6 Prefix Length and IPv4 address that denotes
+        BR IPv4 address. All other parameters are ignored for Default
+        Mapping Rule.</t>
+
+        <!--
         <t>Discussion: Remi Despres pointed out that not all of
         prefix4len + prefix6-len + ea-len + excluded ports + off are
-        needed. Only 4 of these are independent, so one of them will be removed.</t>
-
+        needed. Only 4 of these are independent, so one of them will be removed.</t>-->
+        <!-- tomek: the one that had to go is ea-len -->
       </section>
 
       <section anchor="option-portparams" title="Port Parameters Option">
-        <t>Port Parameters Option specifies Rule Port Paramters. It MAY appear
-        as sub-option in OPTION_MAP_RULE option. It MUST NOT appear directly
-        in a message.</t>
+        <t>Port Parameters Option specifies optional Rule Port
+        Paramters that MAY be provided as part of the Mapping Rule. It
+        MAY appear as sub-option in OPTION_MAP_RULE option. It MUST
+        NOT appear directly in a message.</t>
         <t>See <xref target="I-D.mdt-softwire-mapping-address-and-port"/>, Section 4.1
         for detailed description of Port mapping algorithm.</t>
 
@@ -400,7 +426,7 @@
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |     OPTION_MAP_PORTPARAMS     |         option-length         |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|         excluded-ports        |A|  rsv  | off |
+|         excluded-ports        |   rsv   | off |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+]]>
 </artwork>
         </figure>
@@ -413,51 +439,51 @@
 
             <t>excluded-ports: defines upper bound for range of
             excluded ports.  The lower range is 0. For example, for
-            value 2047, excluded range is 0-2047 ports. Value of 0
+            value 1023, excluded range is 0-1023 ports. Value of 0
             (range 0-0) means that no ports are excluded.</t>
-
-            <t>A: Specifies if the offset is for a (0) or m (1).</t>
-            <t>rsvd: This 4-bits long field is currently not used and
+            <t>rsvd: This 5-bits long field is currently not used and
             MUST be set to 0 by server. Its value MUST be ingored
             by clients.</t>
-            <t>off: specifies offset bits. Currently defined values are
-            4 and 6.</t>
+            <t>off: 3 bits long field that specifies offset
+            bits. Currently defined values are 4 and 6.</t>
           </list>
         </t>
 
         <t>Map Port Parameters Option is optional. If it is not present,
-        the following default values are to be assumed:
+        the following default values are assumed:
         <list style="numbers">
-          <t>Excluded ports: 0-1023 (excluded-ports field value is 1023)</t>
-          <t>A: offset is for a (A field value is 0)</t>
-          <t>Offset bits: 6 (off field value is 6)</t>
+          <t>Excluded ports: 0-4095 (excluded-ports field value is 4095)</t>
+          <t>Offset bits: 4 (off field value is 4)</t>
         </list>
-        If administrator wants to provision only one or two of those
+        If administrator wants to provision only one of those
         parameters, remaining fields SHOULD be set to their default
         value.
         </t>
       </section>
 
-      <section anchor="example" title="MAP Options Example">
+      <section anchor="example" title="MAP Options Examples">
         <t>DHCPv6 server provisioning a single MAP Rule to a CE
         (DHCPv6 client) will convey the following MAP options in its
         messages:</t>
 
-        <figure align="center" anchor="img-example" title="MAP Options Example">
+        <figure align="center" anchor="img-bmr-example" title="BMR Option Example">
           <preamble></preamble>
           <artwork align="center"><![CDATA[
-<MAP_FLAGS>
-    <MAP_RULE1 rule-id="0"/>
-    <MAP_RULE2 rule-id="1"/>
-    <MAP_RULE3 rule-id="2"/>
-      <MAP_PORTPARAMS>
-    ...
-    <MAP_RULEN/>
-</MAP_FLAGS>
-]]></artwork>
+          TODO: Reflect example in section 4.2 of MAP draft
+          ]]></artwork>
         </figure>
-        <t>TODO: Make this a more detailed. This is more of a placeholder, than
-        a real example.</t>
+        <figure align="center" anchor="img-fmr-example" title="FMR Option Example">
+          <preamble></preamble>
+          <artwork align="center"><![CDATA[
+          TODO: Reflect example in section 4.3 of MAP draft
+          ]]></artwork>
+        </figure>
+        <figure align="center" anchor="img-dmr-example" title="DMR Option Examples">
+          <preamble></preamble>
+          <artwork align="center"><![CDATA[
+          TODO: Reflect example in section 4.4 of MAP draft
+          ]]></artwork>
+        </figure>
       </section>
 
     </section>
@@ -531,9 +557,9 @@
     <!--  SECTION 4:  IANA Considerations           -->
 
     <section title="IANA Considerations">
-      <t>IANA is kindly requested to allocate DHCPv6 option code
-      referencing this document, delineating OPTION_MAP_RULE and
-      OPTION_MAP_FLAGS.</t>
+      <t>IANA is kindly requested to allocate DHCPv6 three option code
+      referencing this document, delineating OPTION_MAP_FLAGS,
+      OPTION_MAP_RULE and OPTION_MAP_PORTPARAMS.</t>
     </section>
 
     <!--  SECTION 6:  Acknowledgements                          -->
@@ -573,32 +599,17 @@
 
     <section title="Contributors">
       <t>The members of the MAP design team are:
-      <list style="numbers">
-        <t>Congxiao Bao</t>
-        <t>Mohamed Boucadair</t>
-        <t>Gang Chen</t>
-        <t>Maoke Chen</t>
-        <t>Wojciech Dec</t>
-        <t>Xiaohong Deng</t>
-        <t>Remi Despres</t>
-        <t>Jouni Korhonen</t>
-        <t>Xing Li</t>
-        <t>Satoru Matsushima</t>
-        <t>Tomasz Mrugalski</t>
-        <t>Jacni Qin</t>
-        <t>Qiong Sun</t>
-        <t>Tina Tsou</t>
-        <t>Ole Troan</t>
-        <t>Dan Wing</t>
-        <t>Leaf Yeh</t>
-        <t>Jan Zorz</t>
-
-      </list></t>
+      Congxiao Bao, Mohamed Boucadair, Gang Chen, Maoke Chen,
+      Wojciech Dec, Xiaohong Deng, Jouni Korhonen,
+      Xing Li, Satoru Matsushima, Tomasz Mrugalski, Tetsuya
+      Murakami, Jacni Qin, Necj Scoberne, Qiong Sun, Tina Tsou, Dan
+      Wing, Leaf Yeh and Jan Zorz.</t>
+      <t>Former MAP design team members are: Remi Despres.</t>
     </section>
 
     <section title="Acknowledgements">
-      <t>Authors would like to thank Xiaohong Deng, Congxiao Bao,
-      Jacni Qin, Qiong Sun for their comments and suggestions.</t>
+      <t>Authors would like to thank Jacni Qin, Qiong Sun and Remi
+      Despres for their comments and suggestions.</t>
     </section>
   </middle>
 
@@ -613,6 +624,22 @@
 
     </references>
   <references title="Informative References">
+    <reference anchor="map-d" target="">
+        <front>
+          <title>Mapping of Address and Port (MAP) - Deployment Considerations</title>
+          <author fullname="Maoke Chen" initials="M" surname="Chen">
+            <organization abbrev="FreeBit">FreeBit Co., Ltd.</organization>
+          </author>
+          <author fullname="Qiong Sun" initials="Q" surname="Sun">
+            <organization>China Telecom</organization>
+          </author>
+          <author fullname="Gang Chen" initials="G" surname="Chen">
+            <organization abbrev="">China Mobile</organization>
+          </author>
+          <date day="23" month="12" year="2012" />
+        </front>
+        <seriesInfo name="draft-mdt-softwire-map-deployment" value="00" />
+      </reference>
     <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-dhc-option-guidelines.xml" ?>
     <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mrugalski-dhc-dhcpv6-4rd.xml" ?>
     <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.boucadair-dhcpv6-shared-address-option.xml" ?>
