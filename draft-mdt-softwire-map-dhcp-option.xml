@@ -87,10 +87,9 @@
       </address>
     </author>
 
-
     <!-- Qiong Sun requested joining author team as well (22.10.2011 12:10) -->
 
-    <date day="5" month="January" year="2012" />
+    <date day="9" month="January" year="2012" />
 
     <area>Internet</area>
     <workgroup>Softwire WG</workgroup>
@@ -101,7 +100,7 @@
 
     <abstract>
       <t>Generic mechanism for mapping between an IPv4 prefix, address
-      or parts of thereof, and transport layer between ports and an
+      or parts of thereof, and transport layer ports and an
       IPv6 prefix or address is specified in <xref
       target="I-D.mdt-softwire-mapping-address-and-port"/>. This is a companion document that
       specifies provisioning mechanism of MAP rules. It defines DHCPv6
@@ -128,8 +127,8 @@
       Customer Premises Equipment (CPE). A MAP CE may also be referred
       to simply as a "CE" within the context of MAP.</t>
 
-      <t>A typical MAP CE adopting MAP rules will serve a residential
-      site with one WAN side interface, one or more LAN side
+      <t>A typical CE adopting MAP rules will serve a residential
+      site with one WAN side interface and one or more LAN side
       interfaces. To operate properly, it requires one or more MAP
       rules and additional informations. In larger networks it is
       infeasible to configure such parameters manually. Therefore
@@ -150,6 +149,9 @@
 
       <t>Described proposal is not a dynamic port allocation mechanism.
       </t>
+
+      <t>Reader interested in deployment considerations is encouraged
+      to read <xref target="map-d"/>.</t>
     </section>
 
     <!--  SECTION 2: REQUIREMENTS LANGUAGE                                         -->
@@ -170,46 +172,51 @@
       <t>A typical MAP CE usually acts as a DHCPv6 client and requests
       options that are being provided by a DHCPv6 server located
       somewhere in ISP network. This server provides typical
-      information to configured nodes: namely IPv6 address (IA_NA
-      option) and delegates a prefix (IA_PD option). Server also
+      information to configured nodes: namely IPv6 address (in IA_NA
+      option) and delegates a prefix (in IA_PD option). Server also
       provides additional parameters that are MAP specific. In
       particular, it provides the following information:</t>
 
       <t>
       <list style="symbols">
-        <t>MAP rules. MAP mapping rules are defined in Section 4 of <xref
+        <t>One or more MAP rules. MAP mapping rules are defined in Section 4 of <xref
         target="I-D.mdt-softwire-mapping-address-and-port"/>. There are
-        several mapping rule types defined. Depending on rule type, number
-        of exact parameters may be different. Rule parameters may contain
+        several mapping rule types defined: Basic Mapping Rule (BMR), Forwarding 
+        Mapping Rule (FMR) and Default Mapping Rule (DMR).
+
+        Depending on rule type, number
+        of exact useful parameters may be different. Rule parameters may contain
         Rule IPv6 prefix (including prefix length), Rule IPv4 prefix (including
-        prefix length), EA-bits length (in bits) and additional values that
+        prefix length), and additional values that
         define Rule Port Parameters. One MAP CE can receive
-        one or more MAP mapping rules from the DHCPv6 server. One of those
-        rules must be the default MAP mapping rule for the
-        initiated CE of its own, followed by other mapping rules
-        within the MAP domain if necessary. (Discussion: We chose to remove
-        the text that states that first rule is the default one. DHCPv6 spec
-        explicitly states that option order is arbitrary and must not affect
-        the way options are processed. There's also practical aspect - some
-        implementations keep options in hash tables, so enforcing any specific order is
-        not feasible. Therefore we need to add rule type field.</t>
+        one or more MAP mapping rules from the DHCPv6 server. Exactly one of those
+        rules MUST be the default MAP mapping rule for the
+        initiated CE of its own, possibly accompanied with additional mapping rules
+        within the MAP domain if necessary.</t>
         <t>Transport mode indicates encapsulation or translation mode for MAP
         approach. It should be conducted on interface-by-interface
         basis.</t>
-        <t>Discussion: Qiong Sun also proposed to add deployment mode
-        here.  Jacni Qin recommends against it. Deployment mode is to
-        notify whether CE is in Hub and spoke mode or mesh. In Hub and
-        spoke mode, only the first default MAP mapping rule is needed
-        in the following MAP procedure. While in mesh mode, all MAP
-        mapping rules are included to achieve CE-CE traffic
-        optimization. Tomek: I believe that hub and spoke or mesh
-        affects number of rules, so server will provision one (hub and
-        spoke) or many (mesh) rules. CE does not need to explicitly be
-        information about this. It can derive this information in a
-        simple manner: if (number of rules>1) then mode=mesh else
-        mode=hub_and_spoke.</t>
       </list>
       </t>
+
+      <!--
+      <t>Discussion: Qiong Sun also proposed to add deployment mode
+      here.  Jacni Qin recommends against it. Deployment mode is to
+      notify whether CE is in Hub and spoke mode or mesh. In Hub and
+      spoke mode, only the first default MAP mapping rule is needed
+      in the following MAP procedure. While in mesh mode, all MAP
+      mapping rules are included to achieve CE-CE traffic
+      optimization. Tomek: I believe that hub and spoke or mesh
+      affects number of rules, so server will provision one (hub and
+      spoke) or many (mesh) rules. CE does not need to explicitly be
+      information about this. It can derive this information in a
+      simple manner: if (number of rules>1) then mode=mesh else
+      mode=hub_and_spoke.</t> -->
+      <!-- Tomek: Discussion resolved: see additional comment in "MAP
+           Flags Option" section. Algo for detecting mode: In th hub
+           and spoke mode, all traffic should be forwarded using
+           DMR. Hub and spoke mode is achieved with a BMR IPv4 rule
+           prefix length of 32 and no further FMR. -->
     </section>
 
     <section title="DHCPv6 Options Format">
@@ -238,32 +245,23 @@
       conditional option formatting. See DHCP option guidelines
       document <xref target="I-D.ietf-dhc-option-guidelines"/>).</t>
 
-      <section title="MAP Options Cardinality">
+      <section title="Options Cardinality">
         <t>MAP rule is defined in <xref target="I-D.mdt-softwire-mapping-address-and-port"/>, Section 4.</t>
 
         <t>Discussion: If you want additional parameter added to the
         OPTION_MAP_RULE option, please update <xref
         target="I-D.mdt-softwire-mapping-address-and-port"/> first.</t>
 
-        <t>In each REPLY message, server that supports MAP configuration
-        MUST include exactly one OPTION_MAP_FLAGS option.</t>
+        <t>Server that supports MAP configuration and is configured to
+        provision requesting CE MUST include exactly one
+        OPTION_MAP_FLAGS option in a REPLY message.</t>
 
         <t>MAP_FLAGS option MUST include one or more OPTION_MAP_RULE options.</t>
-
-        <t>For proper operation, additional parameters obtained via
-        other options are necessary. In particular, L parameter is
-        equal to a length of a prefix delegated to CE, conveyed in
-        OPTION_IA_PD and IAPREFIX, as defined in <xref
-        target="RFC3633"/>. As there is already defined mechanism to
-        provision this value, it is not mentioned in MAP
-        options. Nevertheless, it is required for proper MAP rule
-        configuration.</t>
-
       </section>
 
       <section anchor="option-flags" title="MAP Flags Option">
-        <t>. This option specifies MAP flags. Currently the only
-        defined flag is T - transport mode. Other flags that affect
+        <t>This option specifies MAP flags. Currently the only
+        defined flag is T that describes transport mode. Other flags that affect
         all mapping rules or the whole MAP domain may be specified
         here at a later date.</t>
         
@@ -277,8 +275,10 @@
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |        OPTION_MAP_FLAGS       |         option-length         |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|   reserved  |T|
-+-+-+-+-+-+-+-+-+]]>
+|   reserved  |T|                                               .
++-+-+-+-+-+-+-+-+                                               .
+.                     sub-options (variable length)             .
++---------------------------------------------------------------+]]>
           </artwork>
         </figure>
         <t>
@@ -292,7 +292,17 @@
             by clients.</t>
             <t>T: 1 bit field that specifies transport mode:
             translation (0) or encapsulation (1).</t>
+            <t>suboptions: sub-options specific to this MAP
+            domain. MUST contain one or more MAP_RULE options.</t>
           </list>
+        </t>
+
+        <t>It was suggested to also provision information whether MAP
+        network is working in hub and spoke or full mesh mode. That is
+        not necessary, as this information can be derived from
+        provisioned MAP rules. In the hub and spoke mode, all traffic
+        should be forwarded using DMR. Hub and spoke mode is achieved
+        with a BMR IPv4 rule prefix length of 32 and no further FMR.
         </t>
       </section>
 
@@ -332,11 +342,13 @@
 </artwork>
         </figure>
 
-        <t>
+        <t>Explicit parameters are:
           <list style="symbols">
             <t>option-code: OPTION_MAP_RULE (TBD2)</t>
 
-            <t>option-length: TBD octets + size of sub-options</t>
+            <t>option-length: length of the option, excluding
+            option-code and option-length fields, including length of
+            all sub-options.</t>
 
             <t>prefix4-len: 8 bits long field expressing length of the
             IPv4 prefix, specified in the rule-ipv4-prefix field,
@@ -347,7 +359,7 @@
             bits.</t>
 
             <t>rule-ipv6-prefix: a variable size field that specifies
-            an IPv6 prefix that appears in a MAP rule. Length of the
+            Rule IPv6 prefix. Length of the
             field is defined by prefix6-len field and is rounded up to
             the nearest octet boundary (if case when prefix6-len is
             not divisible by 8). In such case additional padding bits
@@ -368,40 +380,50 @@
           </list>
         </t>
 
-        <t>Depending on rule content, it can be Basic Mapping Rule
-        (BMR), Forwarding Mapping Rule (FMR) or Default Mapping Rule
-        (DMR). See Sections 4.2, 4.3 and 4.4 in <xref
-        target="I-D.mdt-softwire-mapping-address-and-port"/> for
-        detailed description of those rules.</t>
-
-        <t>A CE node can determine, which received rule is the basic
-        rule based on the longest match between End-User IPv6 prefix
-        (received in IAPREFIX option in IA_PD) and the Rule IPv6
-        prefix (received in Map Rule Option). A Default rule can be
-        determined by the fact that it has Rule IPv4 prefix of
-        0.0.0.0/0.</t>
+        <t>There are also number of implicit parameters that may be
+        derived from content of MAP and other options. In particular,
+        End-User IPv6 Prefix (or Delegated prefix, specified in IA_PD
+        option, see <xref target="RFC3633"/>) and assigned IPv6
+        address (specified in IA_NA option, see <xref
+        target="RFC3315"/>) are needed. Even though these values are
+        not provided explicitely, they are required for proper MAP
+        rule configuration. Following implicit parameters may be
+        calculated:
+        <list style="symbols">
+          <t>rule type: Depending on rule content, it can be Basic
+          Mapping Rule (BMR), Forwarding Mapping Rule (FMR) or
+          Default Mapping Rule (DMR). See Sections 4.2, 4.3 and 4.4
+          in <xref
+          target="I-D.mdt-softwire-mapping-address-and-port"/> for
+          detailed description of those rules. A CE node can
+          determine, which received rule is the basic rule based on
+          the longest match between End-User IPv6 prefix (received
+          in IAPREFIX option in IA_PD) and the Rule IPv6 prefix
+          (received in Map Rule Option). A Default rule can be
+          determined by the fact that it has Rule IPv4 prefix of
+          0.0.0.0/0.</t>
+          <t>L parameter. It is equal to a length of a prefix
+          delegated to CE, conveyed in OPTION_IA_PD and IAPREFIX, as
+          defined in <xref target="RFC3633"/>.</t>
+          <t>Embedded Address bits (EA-bits) length can be derived
+          as a length of the delegated prefix (specified in
+          prefix-length field in IAPREFIX option) decreased by MAP
+          Domain IPv6 prefix length (specified in prefix6-len of the
+          DMR).</t>
+        </list>
+        </t>
 
         <t>It is expected that in a typical simple scenarios, there
         will be a single BMR with a single DMR (that will also work as
         FMR). For detailed discussion about MAP deployment
         considerations, see <xref target="map-d"/>.</t>
 
-        <t>To form complete MAP Rule information, additional
-        information from other options is needed. In particular,
-        End-User IPv6 Prefix (or Delegated prefix, specified in IA_PD
-        option, see <xref target="RFC3633"/>) and assigned IPv6
-        address (specified in IA_ND option, see <xref
-        target="RFC3315"/>) are needed. In particular, EA-bits
-        (Embedded Address bits) length can be derived as a length of
-        the delegated prefix (specified in prefix-length field in
-        IAPREFIX option) decreased by MAP Domain IPv6 prefix length
-        (specified in prefix6-len of the DMR).</t>
-
         <t>Note that the DMR is a simplified version of BMR. While it
         reuses the same DHCPv6 option format, DMR uses only Rule IPv6
         prefix, Rule IPv6 Prefix Length and IPv4 address that denotes
         BR IPv4 address. All other parameters are ignored for Default
-        Mapping Rule.</t>
+        Mapping Rule. Client MUST ignore those parameters for DMR and
+        server MUST set those parameters to zero.</t>
 
         <!--
         <t>Discussion: Remi Despres pointed out that not all of
@@ -438,8 +460,8 @@
             <t>option-length: 3</t>
 
             <t>excluded-ports: defines upper bound for range of
-            excluded ports.  The lower range is 0. For example, for
-            value 1023, excluded range is 0-1023 ports. Value of 0
+            excluded ports.  The lower range is 0. For example a
+            value 1023 means that excluded range is 0-1023 ports. Value of 0
             (range 0-0) means that no ports are excluded.</t>
             <t>rsvd: This 5-bits long field is currently not used and
             MUST be set to 0 by server. Its value MUST be ingored
@@ -466,24 +488,33 @@
         (DHCPv6 client) will convey the following MAP options in its
         messages:</t>
 
-        <figure align="center" anchor="img-bmr-example" title="BMR Option Example">
-          <preamble></preamble>
-          <artwork align="center"><![CDATA[
-          TODO: Reflect example in section 4.2 of MAP draft
-          ]]></artwork>
-        </figure>
-        <figure align="center" anchor="img-fmr-example" title="FMR Option Example">
-          <preamble></preamble>
-          <artwork align="center"><![CDATA[
-          TODO: Reflect example in section 4.3 of MAP draft
-          ]]></artwork>
-        </figure>
-        <figure align="center" anchor="img-dmr-example" title="DMR Option Examples">
-          <preamble></preamble>
-          <artwork align="center"><![CDATA[
-          TODO: Reflect example in section 4.4 of MAP draft
-          ]]></artwork>
-        </figure>
+        <section title="BMR Option Example">
+          <figure align="center" anchor="img-bmr-example" title="BMR Option Example">
+            <preamble></preamble>
+            <artwork align="center"><![CDATA[
+            TODO: Reflect example in section 4.2 of MAP draft
+            ]]></artwork>
+          </figure>
+        </section>
+        
+        <section title="FMR Option Example">
+          <figure align="center" anchor="img-fmr-example" title="FMR Option Example">
+            <preamble></preamble>
+            <artwork align="center"><![CDATA[
+            TODO: Reflect example in section 4.3 of MAP draft
+            ]]></artwork>
+          </figure>
+        </section>
+
+        <section title="DMR Option Example">
+          <figure align="center" anchor="img-dmr-example" title="DMR Option Examples">
+            <preamble></preamble>
+            <artwork align="center"><![CDATA[
+            TODO: Reflect example in section 4.4 of MAP draft
+            ]]></artwork>
+          </figure>
+        </section>
+
       </section>
 
     </section>
@@ -517,7 +548,7 @@
     </section>
 
     <section title="DHCPv6 Client Behavior">
-      <t>Although other use cases are allowed, in typical use case CE
+      <t>Although other use cases are allowed, in a typical use case CE
       will act as DHCPv6 client and will request MAP configuration to
       be assigned by the DHCPv6 server located in the ISP network. A
       client that supports MAP CE functionality and conforms to this
@@ -528,11 +559,12 @@
       address (OPTION_IA_NA, defined in <xref target="RFC3315"/>) and
       prefix delegation (OPTION_IA_PD, defined in <xref
       target="RFC3633"/>). MAP CE client SHOULD NOT initiate DHCPv4
-      configuration as all parameters are delivered over DHCPv6.</t>
+      configuration for the purpose of MAP configuration as all
+      parameters are delivered over DHCPv6.</t>
 
-      <t>Client SHOULD request OPTION_MAP_RULE and OPTION_MAP_FLAGS
-      options in SOLICIT, REQUEST, RENEW, REBIND and
-      INFORMATION-REQUEST messages.</t>
+      <t>Client supporting MAP functionality SHOULD request
+      OPTION_MAP_RULE and OPTION_MAP_FLAGS options in SOLICIT,
+      REQUEST, RENEW, REBIND and INFORMATION-REQUEST messages.</t>
 
       <t>If client receives more than one OPTION_MAP_RULE option, it
       MUST use all received instances. It MUST NOT use only the first
@@ -554,17 +586,13 @@
     </section>
 
 
-    <!--  SECTION 4:  IANA Considerations           -->
-
     <section title="IANA Considerations">
-      <t>IANA is kindly requested to allocate DHCPv6 three option code
-      referencing this document, delineating OPTION_MAP_FLAGS,
-      OPTION_MAP_RULE and OPTION_MAP_PORTPARAMS.</t>
+      <t>IANA is kindly requested to allocate DHCPv6 option code TBD1 to the
+      OPTION_MAP_FLAGS,TBD2 to OPTION_MAP_RULE and TBD3 to
+      OPTION_MAP_PORTPARAMS. All three values should be added to the
+      DHCPv6 option code space defined in Section 24.3 of <xref
+      target="RFC3315"/>.</t>
     </section>
-
-    <!--  SECTION 6:  Acknowledgements                          -->
-
-    <!--  SECTION 5:  Security Considerations           -->
 
     <section title="Security Considerations">
       <t>Implementation of this document does not present any new
@@ -589,16 +617,8 @@
       related security issues that are partially applicable to MAP mechanism.</t>
     </section>
 
-    <section title="IANA Considerations">
-      <t>IANA is requested to allocate DHCPv6 option code TBD1 to the
-      OPTION_MAP_FLAGS,TBD2 to OPTION_MAP_RULE and TBD3 to
-      OPTION_MAP_PORTPARAMS. All three values should be added to the
-      DHCPv6 option code space defined in Section 24.3 of <xref
-      target="RFC3315"/>.</t>
-    </section>
-
     <section title="Contributors">
-      <t>The members of the MAP design team are:
+      <t>The current members of the MAP design team are:
       Congxiao Bao, Mohamed Boucadair, Gang Chen, Maoke Chen,
       Wojciech Dec, Xiaohong Deng, Jouni Korhonen,
       Xing Li, Satoru Matsushima, Tomasz Mrugalski, Tetsuya
