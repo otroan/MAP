@@ -373,8 +373,8 @@ Internet-Draft                     MAP                      January 2012
 
 4.1.  Port mapping algorithm
 
-   Different Port Set Identificators (PSID) MUST have non-overlapping
-   port sets.  The two extreme cases are: (1) the port number is not
+   Different Port Set Identifiers (PSID) MUST have non-overlapping port
+   sets.  The two extreme cases are: (1) the port number is not
    contiguous for each PSID, but uniformly distributed across the whole
    port range (0-65535); (2) the port number is contiguous in a single
    range for each PSID.  The port mapping algorithm proposed here is
@@ -431,7 +431,6 @@ Internet-Draft                     MAP                      January 2012
           |        A (j)  |   PSID (K)      |        M  (i)     |
           +---------------+----------+------+-------------------+
           |<----a bits--->|<-----k bits---->|<------m bits----->|
-                          |k-c |<--c bits-->|<------m bits----->|
 
 
                        Figure 1: Bit representation
@@ -441,6 +440,7 @@ Internet-Draft                     MAP                      January 2012
 
    For any port number, the PSID can be obtained by bit mask operation.
 
+   For a > 0, A MUST be larger than 0.  This ensures that the algorithm
 
 
 
@@ -449,7 +449,6 @@ Troan                     Expires July 13, 2012                 [Page 8]
 Internet-Draft                     MAP                      January 2012
 
 
-   For a > 0, A MUST be larger than 0.  This ensures that the algorithm
    excludes the well known ports (system ports as documented in
    [I-D.ietf-tsvwg-iana-ports]).  For a = 0, A MAY be 0 to allow for the
    provisioning of the well known ports.
@@ -496,6 +495,7 @@ Internet-Draft                     MAP                      January 2012
    The defaults are:
 
    o  Excluded ports : 0-4095
+
 
 
 
