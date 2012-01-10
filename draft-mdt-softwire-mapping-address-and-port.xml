@@ -309,7 +309,7 @@
       Forwarding Mapping Rules.</t>
 
       <section title="Port mapping algorithm">
-	<t>Different Port Set Identificators (PSID) MUST have
+	<t>Different Port Set Identifiers (PSID) MUST have
 	non-overlapping port sets. The two extreme cases are: (1) the
 	port number is not contiguous for each PSID, but uniformly
 	distributed across the whole port range (0-65535); (2) the
@@ -366,7 +366,6 @@ K = (floor(P/M)) % R
 |        A (j)  |   PSID (K)      |        M  (i)     |
 +---------------+----------+------+-------------------+
 |<----a bits--->|<-----k bits---->|<------m bits----->|
-                |k-c |<--c bits-->|<------m bits----->|
 
 		]]></artwork></figure></t>
 
