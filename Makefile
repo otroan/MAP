@@ -7,7 +7,7 @@ XML2RFC=xml2rfc
 all:	drafts
 
 draft-mdt-softwire-mapping-address-and-port: draft-mdt-softwire-mapping-address-and-port.xml
-	$(XML2RFC) $< $@-02.txt
+	$(XML2RFC) $< $@-03.txt
 draft-mdt-softwire-map-dhcp-option: draft-mdt-softwire-map-dhcp-option.xml
 	$(XML2RFC) $< $@-02.txt
 draft-mdt-softwire-map-deployment: draft-mdt-softwire-map-deployment.xml
