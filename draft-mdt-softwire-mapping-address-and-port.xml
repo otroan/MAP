@@ -15,6 +15,7 @@
 <!ENTITY rfc6147 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6147.xml">
 <!ENTITY rfc6333 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6333.xml">
 <!ENTITY rfc6346 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6346.xml">
+<!ENTITY rfc6269 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6269.xml">
 <!ENTITY I-D.mdt-softwire-map-dhcp-option SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mdt-softwire-map-dhcp-option.xml'>
 <!ENTITY I-D.ietf-softwire-stateless-4v6-motivation SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-stateless-4v6-motivation.xml'>
 <!ENTITY I-D.ietf-tsvwg-iana-ports SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-tsvwg-iana-ports.xml'>
@@ -57,7 +58,7 @@
 
     <abstract>
       <t>This document describes a generic mechanism for mapping
-      between an IPv4 prefix, address or parts thereof, and transport
+      between an IPv4 prefix, address or part thereof, and transport
       layer ports and an IPv6 prefix or address.</t>
     </abstract>
   </front>
@@ -70,7 +71,7 @@
       been described in numerous mechanisms dating back to 1996 <xref
       target="RFC1933"></xref>. The Automatic tunneling mechanism
       described in RFC1933, assigned a globally unique IPv6 address to
-      a host by combining the host's IPv4 address with a well known
+      a host by combining the host's IPv4 address with a well-known
       IPv6 prefix. Given an IPv6 packet with a destination address
       with an embedded IPv4 address, a node could automatically tunnel
       this packet by extracting the IPv4 tunnel end-point address from
@@ -80,13 +81,13 @@
       6over4 <xref target="RFC2529"></xref>, 6to4 <xref
       target="RFC3056"></xref>, ISATAP <xref target="RFC5214"></xref>,
       and 6rd <xref target="RFC5969"></xref>. The differences are the
-      use of well known IPv6 prefixes, or Service Provider assigned
+      use of well-known IPv6 prefixes, or Service Provider assigned
       IPv6 prefixes, and the exact position of the IPv4 bits embedded
       in the IPv6 address. Teredo <xref target="RFC4380"></xref> added
       a twist to this to achieve NAT traversal by also encoding
       transport layer ports into the IPv6 address. 6rd, to achieve
       more efficient encoding, allowed for only the suffix of an IPv4
-      address to be embedded, with the IPv4 prefix being deducted from
+      address to be embedded, with the IPv4 prefix being deduced from
       other provisioning mechanisms.</t>
 
       <t>NAT-PT <xref target="RFC2766"></xref>(deprecated) combined
@@ -100,7 +101,7 @@
       of an IPv6 address to IPv4 address. In particular, <xref
       target="RFC6052"></xref> specifies the address format to build
       IPv4-converted and IPv4-translatable IPv6 addresses. RFC6052
-      discusses the transport of the port set information in an
+      discusses the transport of the port-set information in an
       IPv4-embedded IPv6 address but the conclusion was the following
       (excerpt from [RFC6052]):</t>
 
@@ -108,9 +109,9 @@
       translation with a port range feature. Instead of mapping an
       IPv4 address to exactly one IPv6 prefix, the options would allow
       several IPv6 nodes to share an IPv4 address, with each node
-      managing a different set of ports. If a port set extension is
-      needed, could be defined later, using bits currently reserved as
-      null in the suffix."</t>
+      managing a different set of ports. If a port-set extension is
+      needed, it could be defined later, using bits currently reserved
+      as null in the suffix."</t>
 
       <t>The commonalities of all these mechanisms are:
       <list style="symbols">
@@ -198,24 +199,24 @@
 	may also be referred to simply as a "CE" within the context of
 	MAP.</t>
 
-	<t hangText="Port set:">Each node has a separate part of the
-	transport layer port space; denoted as a port set.</t>
+	<t hangText="Port-set:">Each node has a separate part of the
+	transport layer port space; denoted as a port-set.</t>
+
+	<t hangText="Port-set ID (PSID):">Algorithmically identifies a
+	set of ports exclusively assigned to the CE.</t>
 
 	<t hangText="Shared IPv4 address:">An IPv4 address that is
 	shared among multiple CEs. Only ports that belong to the
-	assigned port set can be used for communication.</t>
+	assigned port-set can be used for communication.</t>
 
 	<t hangText="End-user IPv6 prefix:">The IPv6 prefix assigned
 	to an End-user CE by other means than MAP
 	itself. E.g. provisioned using DHCPv6 PD <xref
-	target="RFC3633"/> or configured manually. IT is unique for
+	target="RFC3633"/> or configured manually. It is unique for
 	each CE.</t>
 
 	<t hangText="MAP IPv6 address:">The IPv6 address used to reach
 	the MAP function of a CE from other CE's and from BR's.</t>
-
-	<t hangText="Port-set ID (PSID):">Algorithmically identifies a
-	set of ports exclusively assigned to the CE.</t>
 
 	<t hangText="Rule IPv6 prefix:">An IPv6 prefix assigned by
 	a Service Provider for a mapping rule.</t>
@@ -226,7 +227,7 @@
 	<t hangText="IPv4 Embedded Address (EA) bits:">The IPv4
 	EA-bits in the IPv6 address identify an IPv4 prefix/address
 	(or part thereof) or a shared IPv4 address (or part thereof)
-	and a port set identifier.</t>
+	and a port-set identifier.</t>
 
       </list></t>
 
@@ -276,6 +277,7 @@
 	<list style="symbols">
 	  <t>Rule IPv6 prefix (including prefix length)</t>
 	  <t>Rule IPv4 prefix (including prefix length)</t>
+	  <t>Rule EA-bits length (in bits)</t>
 	  <t>Rule Port Parameters (optional)</t>
 	</list></t>
 
@@ -309,11 +311,11 @@
       Forwarding Mapping Rules.</t>
 
       <section title="Port mapping algorithm">
-	<t>Different Port Set Identifiers (PSID) MUST have
-	non-overlapping port sets. The two extreme cases are: (1) the
-	port number is not contiguous for each PSID, but uniformly
-	distributed across the whole port range (0-65535); (2) the
-	port number is contiguous in a single range for each PSID. The
+	<t>Different Port-Set Identifiers (PSID) MUST have
+	non-overlapping port-sets. The two extreme cases are: (1) the
+	port numbers are not contiguous for each PSID, but uniformly
+	distributed across the port range (0-65535); (2) the port
+	numbers are contiguous in a single range for each PSID. The
 	port mapping algorithm proposed here is called the Generalized
 	Modulus Algorithm (GMA) and supports both these cases.</t>
 
@@ -356,9 +358,9 @@ K = (floor(P/M)) % R
 	  contiguous ports (M=2^m), for any PSID (K) and available
 	  ports (P) can be represented as:</t>
 
-	<t><figure align="center" title="Bit representation" anchor="bitrepresentation-fig">
+	<t><figure align="left" title="Bit representation" anchor="bitrepresentation-fig">
 	  <preamble></preamble>
-	  <artwork align="center"><![CDATA[
+	  <artwork align="left"><![CDATA[
 0                          8                         15
 +---------------+----------+------+-------------------+
 |                     P                               |
@@ -375,37 +377,34 @@ K = (floor(P/M)) % R
 	  <t>For any port number, the PSID can be obtained by bit mask
 	  operation.</t>
 
-	  <t>For a > 0, A MUST be larger than 0. This ensures that the
-	  algorithm excludes the well known ports (system ports as
-	  documented in <xref
+	  <t>For a > 0, j MUST be larger than 0. This ensures that the
+	  algorithm excludes the system ports (<xref
 	  target="I-D.ietf-tsvwg-iana-ports"/>). For a = 0, A MAY be 0
-	  to allow for the provisioning of the well known ports.</t>
+	  to allow for the provisioning of the system ports.</t>
 
-	  <t>When m = 0, GMA becomes a modulo operation. When a = 0,
-	  GMA becomes division operation.</t>
 	</section>
 
 	<section title="GMA examples">
 
-	<t><figure align="center" title="Example 1:">
+	<t><figure align="left" title="Example 1:">
 	  <preamble>For example, for R = 1024, a = 4 (PSID offset = 4
 	  and PSID length = 10 bits):</preamble>
-	  <artwork align="center">
-          Port set-1                Port set-2
-PSID=0   | 4096, 4097, 4098, 4099, | 8192, 8193, 8194, 8195, | 12288
-PSID=1   | 4100, 4101, 4102, 4103, | 8196, 8197, 8198, 8199, | ....
-PSID=2   | 4104, 4105, 4106, 4107, | 8200, 8201, 8202, 8203, | ....
-PSID=3   | 4108, 4109, 4110, 4111, | 8204, 8205, 8206, 8207, | ....
+	  <artwork align="left">
+          Port-set-1                Port-set-2
+PSID=0   | 4096, 4097, 4098, 4099, | 8192,  8193,  8194,  8195, | ...
+PSID=1   | 4100, 4101, 4102, 4103, | 8196,  8197,  8198,  8199, | ...
+PSID=2   | 4104, 4105, 4106, 4107, | 8200,  8201,  8202,  8203, | ...
+PSID=3   | 4108, 4109, 4110, 4111, | 8204,  8205,  8206,  8207, | ...
 ...
-PSID=127 | 4604, 4605, 4606, 4607, | 8700, 8701, 8702, 8703, | ....
+PSID=1023| 8188, 8189, 8190, 8191, | 12284, 12285, 12286, 12287,| ...
 
 	  </artwork></figure></t>
 
-	<t><figure align="center" title="Example 2: with offset = 0 (a = 0)">
+	<t><figure align="left" title="Example 2: with offset = 0 (a = 0)">
 	  <preamble>For example, for R = 64, a = 0 (PSID offset = 0
 	  and PSID length = 6 bits):</preamble>
-	  <artwork align="center">
-          Port set
+	  <artwork align="left">
+          Port-set
 PSID=0   | [   0 - 1023]
 PSID=1   | [1024 - 2047]
 PSID=2   | [2048 - 3071]
@@ -427,19 +426,19 @@ PSID=63  | [64512 - 65535]
 	    <t>Excluded ports   : 0-4095</t>
 	    <t>Offset bits (A)  : 4</t>
 	  </list></t>
-	  <t>To simplify the port mapping algorithm and easy
-	  readability the defaults are chosen so that the PSID field
-	  starts on a nibble boundary and the priviledged port range
-	  (0-1023) is extended to 0-4095.</t>
+	  <t>To simplify the port mapping algorithm the defaults are
+	  chosen so that the PSID field starts on a nibble boundary
+	  and the excluded port range (0-1023) is extended to
+	  0-4095.</t>
 	</section>
 
       </section>
 
       <section title="Basic mapping rule (BMR)">
-	<t><figure align="center" title="IPv6 address format"
+	<t><figure align="left" title="IPv6 address format"
 		   anchor="addressallocation-fig">
 	  <preamble></preamble>
-	  <artwork align="center"><![CDATA[
+	  <artwork align="left"><![CDATA[
 
 
 |     n bits         |  o bits   | m bits  |   128-n-o-m bits      |
@@ -460,20 +459,24 @@ PSID=63  | [64512 - 65535]
 	the Domain IPv6 prefix. The EA bits encode the CE specific
 	IPv4 address and port information. The EA bits can contain a
 	full or part of an IPv4 prefix or address, and in the shared
-	IPv4 address case contains a Port Set Identifier (PSID).</t>
+	IPv4 address case contains a Port-Set Identifier (PSID).</t>
 
 	<t>The MAP IPv6 address is created by concatenating the
 	End-user IPv6 prefix with the MAP subnet-id and the
-	interface-id as specified in the Interface-id section.</t>
+	interface-id as specified in <xref target="interface-id"/>.</t>
 
-	<t><figure align="center" anchor="addressallocation2-fig" title="">
+	<t>The MAP subnet ID is defined to be the first subnet (all
+	bits set to zero). A MAP node MUST reserve the first IPv6
+	prefix in a End-user IPv6 prefix for the purpose of MAP.</t>
+
+	<t><figure align="left" anchor="addressallocation2-fig" title="">
 	  <preamble>Shared IPv4 address:</preamble>
 
-	  <artwork align="center"><![CDATA[
+	  <artwork align="left"><![CDATA[
 
 |   r bits    |        p bits       |         |   q bits   |
 +-------------+---------------------+         +------------+
-| Domain IPv4 | IPv4 Address suffix |         |Port Set ID |
+| Domain IPv4 | IPv4 Address suffix |         |Port-Set ID |
 +-------------+---------------------+         +------------+
 |            32 bits                |
 
@@ -481,10 +484,10 @@ PSID=63  | [64512 - 65535]
 	  
 	</figure></t>
 
-	<t><figure align="center" anchor="addressallocation3-fig" title="">
+	<t><figure align="left" anchor="addressallocation3-fig" title="">
 	  <preamble>Complete IPv4 address:</preamble>
 
-	  <artwork align="center"><![CDATA[
+	  <artwork align="left"><![CDATA[
 
 |   r bits    |        p bits       |
 +-------------+---------------------+
@@ -496,10 +499,10 @@ PSID=63  | [64512 - 65535]
 	  
 	</figure></t>
 
-	<t><figure align="center" anchor="addressallocation4-fig" title="">
+	<t><figure align="left" anchor="addressallocation4-fig" title="">
 	  <preamble>IPv4 prefix:</preamble>
 
-	  <artwork align="center"><![CDATA[
+	  <artwork align="left"><![CDATA[
 
 |   r bits    |        p bits       |
 +-------------+---------------------+
@@ -523,7 +526,8 @@ PSID=63  | [64512 - 65535]
 	IPv6 prefix length and the the BMR Rule IPv6 prefix
 	length.</t>
 
-	<t>If o + r &lt; 32, then an IPv4 prefix is assigned.</t>
+	<t>If o + r &lt; 32 (length of the IPv4 address in bits), then
+	an IPv4 prefix is assigned.</t>
 
 	<t>If o + r is equal to 32, then a full IPv4 address is
 	to be assigned. The address is created by concatenating the
@@ -532,30 +536,28 @@ PSID=63  | [64512 - 65535]
 	<t>If o + r is > 32, then a shared IPv4 address is to be
 	assigned. The number of IPv4 address bits (p) in the EA bits
 	is given by 32 - r bits. The PSID bits are used to create a
-	port set. The length of the PSID bit field within EA bits is:
+	port-set. The length of the PSID bit field within EA bits is:
 	o - p.</t>
 
 	<t><figure>
 	  <preamble>Example:</preamble>
 	  <artwork align="left"><![CDATA[
   Given:
-   End-user IPv6 prefix: 2001:db8:0012:34::/56
-   Domain IPv6 prefix:   2001:db8:00::/40
-   IPv4 prefix:          192.0.2.0/24
-   Basic Mapping Rule:   {2001:db8:00::/40 (Rule IPv6 prefix),
-                          192.0.2.0/24 (Rule IPv4 prefix),
-                          256 (Sharing ratio),
-                          6 (PSID)}
+   End-user IPv6 prefix:  2001:db8:0012:34::/56
+   Basic Mapping Rule:    {2001:db8:00::/40 (Rule IPv6 prefix),
+                          192.0.2.0/24 (Rule IPv4 prefix)}
+   Sharing ratio:         256
+   PSID:                  6
 
-  We get IPv4 address and port set:
+  We get IPv4 address and port-set:
    EA bits offset:       40
    IPv4 suffix bits (p): Length of IPv4 address (32) -
                          IPv4 prefix length (24) = 8
    IPv4 address:         192.0.2.18
 
    PSID start:           40 + p = 40 + 8 = 48
-   PSID length:          o - p = log2(256) - 8 = 8.
-   PSID:                 0x34.
+   PSID length:          o - p = 16 (56 - 40) - 8 = 8
+   PSID:                 0x34
   ]]></artwork>
 
 	</figure>
@@ -564,17 +566,18 @@ PSID=63  | [64512 - 65535]
       </section>
 
       <section title="Forwarding mapping rule (FMR)">
-	<t>On adding a FMR rule an IPv4 route is installed in the
+	<t>On adding an FMR rule, an IPv4 route is installed in the
 	conceptual routing table for the Rule IPv4 prefix.</t>
 
-	<t>On forwarding an IPv4 packet a lookup is done in the
-	routing table and the correct FMR is used.</t>
+	<t>On forwarding an IPv4 packet, a best matcing prefix lookup
+	is done in the IPv4 routing table and the correct FMR is
+	chosen.</t>
 
 	<t>
-	  <figure align="center" anchor="aplusptoipv6-fig" title="">
+	  <figure align="left" anchor="aplusptoipv6-fig" title="">
 	    <preamble></preamble>
 
-	    <artwork align="center"><![CDATA[
+	    <artwork align="left"><![CDATA[
 
 |        32 bits           |         |    16 bits        |
 +--------------------------+         +-------------------+
@@ -583,7 +586,7 @@ PSID=63  | [64512 - 65535]
                 :          :           ___/       :
                 | p bits   |          /  q bits   :
                 +----------+         +------------+ 
-                |IPv4  sufx|         |Port Set ID |
+                |IPv4  sufx|         |Port-Set ID |
                 +----------+         +------------+
                 \          /    ____/    ________/
                   \       :  __/   _____/                 
@@ -599,12 +602,6 @@ PSID=63  | [64512 - 65535]
 	  </figure>
 	</t>
 
-	<t>The subnet ID for MAP is defined to be the last subnet (all
-	bits set to one) in an End-User IPv6 prefix allocation. A MAP
-	node MUST reserve the topmost IPv6 prefix in a End-user IPv6
-	prefix for the purpose of MAP. This prefix MUST NOT be used
-	for native IPv6 traffic.</t>
-
 	<t><figure>
 	  <preamble>Example:</preamble>
 	  <artwork align="left"><![CDATA[
@@ -613,14 +610,14 @@ PSID=63  | [64512 - 65535]
    IPv4 destination port:    1232
    Forwarding Mapping Rule:  {2001:db8:00::/40 (Rule IPv6 prefix),
                               192.0.2.0/24 (Rule IPv4 prefix),
-                              256 (Sharing ratio)}
+                              8 (Rule EA-bits length)}
 
   We get IPv6 address:
    IPv4 suffix bits (p): 32 - 24 = 8 (18)
-   PSID length:          8 (sharing ratio)
+   PSID length:          8
    PSID:                 0x17 (1232)
    EA bits:              0x1217
-   IPv6 address:         2001:db8:0012:17FF:<interface-identifier>
+   MAP IPv6 address:     2001:db8:0012:17ff:00c0:0002:1217:0000
   ]]></artwork>
 	</figure>
 	</t>
@@ -655,7 +652,7 @@ PSID=63  | [64512 - 65535]
 	<t>In most implementations of a routing table, the next-hop
 	address must be of the same address family as the prefix. To
 	satisfy this requirement a BR IPv4 address is included in the
-	rule. Giving a default route in the routing table:</t>
+	rule. Giving a default route in the IPv4 routing table:</t>
 
 	<t><figure>
 	  <artwork align="left"><![CDATA[
@@ -664,42 +661,9 @@ PSID=63  | [64512 - 65535]
 	</figure></t>
 
       </section>
+    </section>
 
-<!--      <section title="Mapping with complete IPv4 address">-->
-
-<!--  Some Service Providers may reserve an IPv6 prefix for MAP traffic
-  (denoted as MAP IPv6 Prefix).  In this model:
-  o  Each MAP CE is assigned with two prefixes: one for native IPv6
-     communications and another one to transport IPv4 datagrams using
-     IPv6 transfer capabilities.
-  o  The constraint to encode the full IPv4 address and the PSID bits
-     in the first 64 bits is relaxed.
-  o  MAP traffic is unambiguously distinguished from native IPv6
-     traffic without required extra encoding in the address itself.
-  o  Upon receipt of an IPv6 packet, MAP function is invoked only if
-     its is destined to an IPv6 address belonging to the MAP IPv6
-     prefix.
-
-  A MAP CE does not require advanced configuration parameters; indeed
-  o  Only MAP IPv6 Prefix MUST be configured
-  o  MAP CE does not required advanced mapping tables.  A MAP CE only
-     prepends the MAP IPv6 prefix, the destination IPv4 address and
-     destination port according to the address format described in
-     Section XXX.
-  o  MAP traffic is natively forwarded to a MAP CE or BR.
-  o  Minimal configuration tasks are required at the BR: in particular,
-     the BR is not aware of the address sharing ratio.
-  o  A Service Provider can change its address sharing ratio to meet
-     its service objectives without requiring updating network
-     elements.  IPv4-related connectivity is managed using DHCPv6.-->
-
-
-
-<!--      </section>-->
-
-      </section>
-
-    <section title="The IPv6 Interface Identifier">
+    <section title="The IPv6 Interface Identifier" anchor="interface-id">
       <t>The Interface identifier format is based on the format
       specified in section 2.2 of <xref target="RFC6052"/>, with the
       added PSID format field.</t>
@@ -725,16 +689,16 @@ PSID=63  | [64512 - 65535]
       identifier, both for the source and destination IPv6 addresses
       have been shown to be useful for troubleshooting.</t>
 
-      <t><figure align="center" anchor="interfaceid2-fig" title="">
+      <t><figure align="left" anchor="interfaceid2-fig" title="">
 	<preamble></preamble>
 
-	  <artwork align="center"><![CDATA[
+	  <artwork align="left"><![CDATA[
 
-                  +--+---+---+---+---+---+---+---+---+
-                  |PL|   8  16  24  32  40  48  56   |
-                  +--+---+---+---+---+---+---+---+---+
-                  |64| u | IPv4 address  |  PSID | 0 |
-                  +--+---+---+---+---+---+---+---+---+
++--+---+---+---+---+---+---+---+---+
+|PL|   8  16  24  32  40  48  56   |
++--+---+---+---+---+---+---+---+---+
+|64| u | IPv4 address  |  PSID | 0 |
++--+---+---+---+---+---+---+---+---+
  
 ]]></artwork>
 	  
@@ -765,7 +729,11 @@ PSID=63  | [64512 - 65535]
       <t>Specific security considerations with the MAP mechanism are
       detailed in the encapsulation and translation documents
       [I-D.mdt-map-t/I-D.mdt-map-e].</t>
+
+      <t><xref target="RFC6269"/> outlines general issues with IPv4 address sharing.</t>
     </section>
+
+
 
     <!--  SECTION 6:  Contributors     			-->
 
@@ -816,6 +784,7 @@ PSID=63  | [64512 - 65535]
       &rfc6146;
       &rfc6147;
       &rfc3633;
+      &rfc6269;
     </references>
   </back>
 </rfc>
