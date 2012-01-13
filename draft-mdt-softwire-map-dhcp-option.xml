@@ -61,7 +61,7 @@
     </author>
 
     <author initials="X." surname="Deng" fullname="Xiaohong Deng">
-      <organization abbrev="Orange-France Telecom">Orange-France Telecom</organization>
+      <organization>France Telecom</organization>
       <address>
         <postal>
           <street>Haidian district</street>
@@ -89,7 +89,7 @@
 
     <!-- Qiong Sun requested joining author team as well (22.10.2011 12:10) -->
 
-    <date day="9" month="January" year="2012" />
+    <date day="13" month="January" year="2012" />
 
     <area>Internet</area>
     <workgroup>Softwire WG</workgroup>
@@ -325,8 +325,8 @@
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |        OPTION_MAP_RULE        |         option-length         |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|  prefix4-len  |  prefix6-len  |                               |
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               |
+|  prefix4-len  |     ea-len    |  prefix6-len  |               |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+               |
 |                        rule-ipv6-prefix                       |
 |                       (variable length)                       |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -353,6 +353,12 @@
             <t>prefix4-len: 8 bits long field expressing length of the
             IPv4 prefix, specified in the rule-ipv4-prefix field,
             expressed in bits.</t>
+
+	    <t>ea-len: 8-bits long field that specifies
+	    Embedded-Address (EA) - length, expressed in bits. This
+	    field is meaningful only for FMR. For other rules types,
+	    it MUST be set to zero by the server and its content MUST
+	    be ignored by the clients.</t>
 
             <t>prefix6-len: 8 bits long length of the IPv6 prefix,
             specified in the rule-ipv6-prefix field, expressed in
@@ -402,9 +408,10 @@
           (received in Map Rule Option). A Default rule can be
           determined by the fact that it has Rule IPv4 prefix of
           0.0.0.0/0.</t>
+	  <!--
           <t>L parameter. It is equal to a length of a prefix
           delegated to CE, conveyed in OPTION_IA_PD and IAPREFIX, as
-          defined in <xref target="RFC3633"/>.</t>
+          defined in <xref target="RFC3633"/>.</t> -->
           <t>Embedded Address bits (EA-bits) length can be derived
           as a length of the delegated prefix (specified in
           prefix-length field in IAPREFIX option) decreased by MAP
@@ -467,7 +474,7 @@
             MUST be set to 0 by server. Its value MUST be ingored
             by clients.</t>
             <t>off: 3 bits long field that specifies offset
-            bits. Currently defined values are 4 and 6.</t>
+            bits.</t>
           </list>
         </t>
 
@@ -528,7 +535,7 @@
       Request Option.</t>
       <t>Server conformant to this specification MUST allow
       configuration of one or more MAP Rule Options.</t>
-      <t>Server MUST transmist all configured instances of the Mapping
+      <t>Server MUST transmit all configured instances of the Mapping
       Rule Options with all sub-options, if client requested it using
       OPTION_MAP_RULE in its Option Request Option (ORO). Server MUST
       transmit MAP Flags Option if client requested OPTION_MAP_FLAGS

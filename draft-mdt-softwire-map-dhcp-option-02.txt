@@ -4,14 +4,14 @@
 Softwire WG                                            T. Mrugalski, Ed.
 Internet-Draft                                                       ISC
 Intended status: Standards Track                            M. Boucadair
-Expires: July 12, 2012                                    France Telecom
+Expires: July 16, 2012                                    France Telecom
                                                                 O. Troan
                                                                    Cisco
                                                                  X. Deng
-                                                   Orange-France Telecom
+                                                          France Telecom
                                                                   C. Bao
                                                      Tsinghua University
-                                                         January 9, 2012
+                                                        January 13, 2012
 
 
              DHCPv6 Options for Mapping of Address and Port
@@ -45,14 +45,14 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on July 12, 2012.
+   This Internet-Draft will expire on July 16, 2012.
 
 Copyright Notice
 
 
 
 
-Mrugalski, et al.         Expires July 12, 2012                 [Page 1]
+Mrugalski, et al.         Expires July 16, 2012                 [Page 1]
 
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
@@ -108,7 +108,7 @@ Table of Contents
 
 
 
-Mrugalski, et al.         Expires July 12, 2012                 [Page 2]
+Mrugalski, et al.         Expires July 16, 2012                 [Page 2]
 
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
@@ -164,7 +164,7 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
 
-Mrugalski, et al.         Expires July 12, 2012                 [Page 3]
+Mrugalski, et al.         Expires July 16, 2012                 [Page 3]
 
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
@@ -220,7 +220,7 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
 
-Mrugalski, et al.         Expires July 12, 2012                 [Page 4]
+Mrugalski, et al.         Expires July 16, 2012                 [Page 4]
 
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
@@ -276,7 +276,7 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
 
-Mrugalski, et al.         Expires July 12, 2012                 [Page 5]
+Mrugalski, et al.         Expires July 16, 2012                 [Page 5]
 
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
@@ -302,8 +302,8 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
      |        OPTION_MAP_RULE        |         option-length         |
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |  prefix4-len  |  prefix6-len  |                               |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               |
+     |  prefix4-len  |     ea-len    |  prefix6-len  |               |
+     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+               |
      |                        rule-ipv6-prefix                       |
      |                       (variable length)                       |
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -326,17 +326,20 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
    o  prefix4-len: 8 bits long field expressing length of the IPv4
       prefix, specified in the rule-ipv4-prefix field, expressed in
       bits.
-   o  prefix6-len: 8 bits long length of the IPv6 prefix, specified in
-      the rule-ipv6-prefix field, expressed in bits.
+   o  ea-len: 8-bits long field that specifies Embedded-Address (EA) -
+      length, expressed in bits.  This field is meaningful only for FMR.
+      For other rules types, it MUST be set to zero by the server and
 
 
 
-
-Mrugalski, et al.         Expires July 12, 2012                 [Page 6]
+Mrugalski, et al.         Expires July 16, 2012                 [Page 6]
 
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
+      its content MUST be ignored by the clients.
+   o  prefix6-len: 8 bits long length of the IPv6 prefix, specified in
+      the rule-ipv6-prefix field, expressed in bits.
    o  rule-ipv6-prefix: a variable size field that specifies Rule IPv6
       prefix.  Length of the field is defined by prefix6-len field and
       is rounded up to the nearest octet boundary (if case when prefix6-
@@ -369,8 +372,6 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
       the Rule IPv6 prefix (received in Map Rule Option).  A Default
       rule can be determined by the fact that it has Rule IPv4 prefix of
       0.0.0.0/0.
-   o  L parameter.  It is equal to a length of a prefix delegated to CE,
-      conveyed in OPTION_IA_PD and IAPREFIX, as defined in [RFC3633].
    o  Embedded Address bits (EA-bits) length can be derived as a length
       of the delegated prefix (specified in prefix-length field in
       IAPREFIX option) decreased by MAP Domain IPv6 prefix length
@@ -384,15 +385,15 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
    the same DHCPv6 option format, DMR uses only Rule IPv6 prefix, Rule
    IPv6 Prefix Length and IPv4 address that denotes BR IPv4 address.
    All other parameters are ignored for Default Mapping Rule.  Client
-   MUST ignore those parameters for DMR and server MUST set those
 
 
 
-Mrugalski, et al.         Expires July 12, 2012                 [Page 7]
+Mrugalski, et al.         Expires July 16, 2012                 [Page 7]
 
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
+   MUST ignore those parameters for DMR and server MUST set those
    parameters to zero.
 
 4.4.  Port Parameters Option
@@ -424,8 +425,7 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
       no ports are excluded.
    o  rsvd: This 5-bits long field is currently not used and MUST be set
       to 0 by server.  Its value MUST be ingored by clients.
-   o  off: 3 bits long field that specifies offset bits.  Currently
-      defined values are 4 and 6.
+   o  off: 3 bits long field that specifies offset bits.
 
    Map Port Parameters Option is optional.  If it is not present, the
    following default values are assumed:
@@ -444,7 +444,7 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
 
-Mrugalski, et al.         Expires July 12, 2012                 [Page 8]
+Mrugalski, et al.         Expires July 16, 2012                 [Page 8]
 
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
@@ -482,7 +482,7 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
    Server conformant to this specification MUST allow configuration of
    one or more MAP Rule Options.
 
-   Server MUST transmist all configured instances of the Mapping Rule
+   Server MUST transmit all configured instances of the Mapping Rule
    Options with all sub-options, if client requested it using
    OPTION_MAP_RULE in its Option Request Option (ORO).  Server MUST
    transmit MAP Flags Option if client requested OPTION_MAP_FLAGS in its
@@ -500,7 +500,7 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
 
-Mrugalski, et al.         Expires July 12, 2012                 [Page 9]
+Mrugalski, et al.         Expires July 16, 2012                 [Page 9]
 
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
@@ -556,7 +556,7 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
 
-Mrugalski, et al.         Expires July 12, 2012                [Page 10]
+Mrugalski, et al.         Expires July 16, 2012                [Page 10]
 
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
@@ -612,7 +612,7 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
 
-Mrugalski, et al.         Expires July 12, 2012                [Page 11]
+Mrugalski, et al.         Expires July 16, 2012                [Page 11]
 
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
@@ -668,7 +668,7 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
 
-Mrugalski, et al.         Expires July 12, 2012                [Page 12]
+Mrugalski, et al.         Expires July 16, 2012                [Page 12]
 
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
@@ -703,7 +703,7 @@ Authors' Addresses
 
 
    Xiaohong Deng
-   Orange-France Telecom
+   France Telecom
    Haidian district
    Beijing  100190
    China
@@ -724,5 +724,5 @@ Authors' Addresses
 
 
 
-Mrugalski, et al.         Expires July 12, 2012                [Page 13]
+Mrugalski, et al.         Expires July 16, 2012                [Page 13]
 
