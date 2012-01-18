@@ -36,7 +36,7 @@
   <front>
     <title abbrev="MAP">Mapping of Address and Port (MAP)</title>
 
-    <author fullname="Ole Troan" initials="O" surname="Troan" role="editor">
+    <author fullname="Ole Troan" initials="O" surname="Troan">
       <organization abbrev="">cisco</organization>
       <address>
 	<postal>
@@ -47,7 +47,55 @@
         <email>ot@cisco.com</email>
       </address>
     </author>
-   
+
+    <author fullname="Satoru Matsushima" initials="S" surname="Matsushima">
+      <organization abbrev="">SoftBank Telecom</organization>
+      <address>
+	<postal>
+          <street>1-9-1 Higashi-Shinbashi, Munato-ku</street>
+          <city>Tokyo</city>
+          <country>Japan</country>
+        </postal>
+       <email>satoru.matsushima@tm.softbank.co.jp</email>
+      </address>
+    </author>
+
+    <author fullname="Tetsuya Murakami" initials="T" surname="Murakami">
+      <organization abbrev="">IP Infusion</organization>
+      <address>
+	<postal>
+          <street>1188 East Arques Avenue</street>
+          <city>Sunnyvale</city>
+          <country>USA</country>
+        </postal>
+       <email>tetsuya@ipinfusion.com</email>
+      </address>
+    </author>
+  
+    <author fullname="Xing Li" initials="X" surname="Li">
+      <organization abbrev="">CERNET Center/Tsinghua University</organization>
+      <address>
+	<postal>
+          <street>Room 225, Main Building, Tsinghua University</street>
+          <city>Beijing  100084</city>
+          <country>CN</country>
+        </postal>
+        <email>xing@cernet.edu.cn</email>
+      </address>
+    </author>
+
+    <author fullname="Congxiao Bao" initials="C" surname="Bao">
+      <organization abbrev="">CERNET Center/Tsinghua University</organization>
+      <address>
+	<postal>
+          <street>Room 225, Main Building, Tsinghua University</street>
+          <city>Beijing  100084</city>
+          <country>CN</country>
+        </postal>
+        <email>congxiao@cernet.edu.cn</email>
+      </address>
+    </author>
+
     <date year="2012" />
 
     <area>Internet</area>
@@ -58,8 +106,8 @@
 
     <abstract>
       <t>This document describes a generic mechanism for mapping
-      between an IPv4 prefix, address or part thereof, and transport
-      layer ports and an IPv6 prefix or address.</t>
+      between IPv4 addresses and IPv6 addresses and transport layer
+      ports.</t>
     </abstract>
   </front>
 
@@ -67,7 +115,7 @@
     <!--  SECTION 1:  Introduction                  -->
 
     <section title="Introduction">
-      <t>The mechanism of mapping IPv4 addresses in IPv6 address has
+      <t>The mechanism of mapping IPv4 addresses in IPv6 addresses has
       been described in numerous mechanisms dating back to 1996 <xref
       target="RFC1933"></xref>. The Automatic tunneling mechanism
       described in RFC1933, assigned a globally unique IPv6 address to
@@ -80,15 +128,15 @@
       <t>There are numerous variations of this idea, described in
       6over4 <xref target="RFC2529"></xref>, 6to4 <xref
       target="RFC3056"></xref>, ISATAP <xref target="RFC5214"></xref>,
-      and 6rd <xref target="RFC5969"></xref>. The differences are the
-      use of well-known IPv6 prefixes, or Service Provider assigned
-      IPv6 prefixes, and the exact position of the IPv4 bits embedded
-      in the IPv6 address. Teredo <xref target="RFC4380"></xref> added
-      a twist to this to achieve NAT traversal by also encoding
-      transport layer ports into the IPv6 address. 6rd, to achieve
-      more efficient encoding, allowed for only the suffix of an IPv4
-      address to be embedded, with the IPv4 prefix being deduced from
-      other provisioning mechanisms.</t>
+      and 6rd <xref target="RFC5969"></xref>. The differences between
+      these are the use of well-known IPv6 prefixes, or Service
+      Provider assigned IPv6 prefixes, and the position of the
+      embedded IPv4 bits in the IPv6 address. Teredo <xref
+      target="RFC4380"></xref> added a twist to this to achieve NAT
+      traversal by also encoding transport layer ports into the IPv6
+      address. 6rd, to achieve more efficient encoding, allowed for
+      only the suffix of an IPv4 address to be embedded, with the IPv4
+      prefix being deduced from other provisioning mechanisms.</t>
 
       <t>NAT-PT <xref target="RFC2766"></xref>(deprecated) combined
       with a DNS ALG used address mapping to put NAT state, namely the
@@ -113,10 +161,10 @@
       needed, it could be defined later, using bits currently reserved
       as null in the suffix."</t>
 
-      <t>The commonalities of all these mechanisms are:
+      <t>The commonalities of all these IPv6 over IPv4 mechanisms are:
       <list style="symbols">
-	<t>Provisions an IPv6 address for a host or an IPv6 prefix for
-	a site</t>
+	<t>Automatically provisions an IPv6 address for a host or an
+	IPv6 prefix for a site</t>
 	<t>Algorithmic or implicit address resolution for tunneling or
 	encapsulation. Given an IPv6 destination address, an IPv4
 	tunnel endpoint address can be calculated. Likewise for
@@ -160,7 +208,7 @@
       of MAP <xref
       target="I-D.mdt-softwire-map-dhcp-option"></xref>. Deployment
       considerations are described in
-      I-D.mdt-softwire-map-deployment.</t>
+      [I-D.mdt-softwire-map-deployment].</t>
     </section>
 
     <!--  SECTION 2: REQUIREMENTS LANGUAGE          -->
@@ -184,6 +232,8 @@
 	mapping between an IPv4 prefix, IPv4 address or shared IPv4
 	address and an IPv6 prefix or address. Each MAP node in the
 	domain has the same set of rules.</t>
+
+	<t hangText="MAP node">A device that implements MAP.</t>
 
 	<t hangText="MAP Border Relay (BR):">A MAP enabled router
 	managed by the service provider at the edge of a MAP domain.
@@ -252,9 +302,9 @@
 
       <t>Traffic outside of the domain (IPv4 address not matching
       (using longest matching prefix) any Rule IPv4 prefix in the
-      Rules database) will be forward using the Default Rule. The
-      Default Rule maps outside destinations to the BR's IPv6 address
-      or prefix.</t>
+      Rules database) will be forward using the Default mapping
+      rule. The Default mapping rule maps outside destinations to the
+      BR's IPv6 address or prefix.</t>
 
       <t>There are three types of mapping rules:
       <list style="numbers">
@@ -266,6 +316,7 @@
 	<list style="symbols">
 	  <t>Rule IPv6 prefix (including prefix length)</t>
 	  <t>Rule IPv4 prefix (including prefix length)</t>
+	  <t>Rule EA-bits length (in bits)</t>
 	  <t>Rule Port Parameters (optional)</t>
 	</list></t>
 
@@ -379,16 +430,16 @@ K = (floor(P/M)) % R
 
 	  <t>For a > 0, j MUST be larger than 0. This ensures that the
 	  algorithm excludes the system ports (<xref
-	  target="I-D.ietf-tsvwg-iana-ports"/>). For a = 0, A MAY be 0
+	  target="I-D.ietf-tsvwg-iana-ports"/>). For a = 0, j MAY be 0
 	  to allow for the provisioning of the system ports.</t>
 
 	</section>
 
 	<section title="GMA examples">
 
-	<t><figure align="left" title="Example 1:">
-	  <preamble>For example, for R = 1024, a = 4 (PSID offset = 4
-	  and PSID length = 10 bits):</preamble>
+	<t><figure align="left" title="Example 1: with offset = 4 (a = 4)">
+	  <preamble>For example, for R = 1024, PSID offset: a = 4 and
+	  PSID length: k = 10 bits</preamble>
 	  <artwork align="left">
           Port-set-1                Port-set-2
 PSID=0   | 4096, 4097, 4098, 4099, | 8192,  8193,  8194,  8195, | ...
@@ -417,33 +468,33 @@ PSID=63  | [64512 - 65535]
 	</section>
 
 	<section title="GMA Provisioning Considerations">
-	  <t>The number of offset bits (A) and excluded ports are
+	  <t>The number of offset bits (a) and excluded ports are
 	  optionally provisioned via the "Rule Port Mapping
 	  Parameters" in the Basic Mapping Rule.</t>
 
 	  <t>The defaults are:
 	  <list style="symbols">
 	    <t>Excluded ports   : 0-4095</t>
-	    <t>Offset bits (A)  : 4</t>
+	    <t>Offset bits (a)  : 4</t>
 	  </list></t>
-	  <t>To simplify the port mapping algorithm the defaults are
-	  chosen so that the PSID field starts on a nibble boundary
-	  and the excluded port range (0-1023) is extended to
+	  <t>To simplify the GMA port mapping algorithm the defaults
+	  are chosen so that the PSID field starts on a nibble
+	  boundary and the excluded port range (0-1023) is extended to
 	  0-4095.</t>
 	</section>
 
       </section>
 
       <section title="Basic mapping rule (BMR)">
-	<t><figure align="left" title="IPv6 address format"
+	<t><figure align="centre" title="IPv6 address format"
 		   anchor="addressallocation-fig">
 	  <preamble></preamble>
-	  <artwork align="left"><![CDATA[
+	  <artwork align="centre"><![CDATA[
 
 
 |     n bits         |  o bits   | m bits  |   128-n-o-m bits      |
 +--------------------+-----------+---------+------------+----------+
-| Domain IPv6 prefix |  EA bits  |subnet ID|     interface ID      |
+|  Rule IPv6 prefix  |  EA bits  |subnet ID|     interface ID      |
 +--------------------+-----------+---------+-----------------------+
 |<---  End-user IPv6 prefix  --->|
 
@@ -452,14 +503,13 @@ PSID=63  | [64512 - 65535]
 	</figure></t>
 
 	<t>The Embedded Address bits (EA bits) are unique per end user
-	within a Domain IPv6 prefix. The Domain IPv6 prefix is the
-	part of the End-user IPv6 prefix that is common among all CEs
-	using the same Basic Mapping Rule within the MAP domain. There
-	MUST be a Basic Mapping Rule with a Rule IPv6 prefix equal to
-	the Domain IPv6 prefix. The EA bits encode the CE specific
-	IPv4 address and port information. The EA bits can contain a
-	full or part of an IPv4 prefix or address, and in the shared
-	IPv4 address case contains a Port-Set Identifier (PSID).</t>
+	within a Rule IPv6 prefix. The Rule IPv6 prefix is the part of
+	the End-user IPv6 prefix that is common among all CEs using
+	the same Basic Mapping Rule within the MAP domain. The EA bits
+	encode the CE specific IPv4 address and port information. The
+	EA bits can contain a full or part of an IPv4 prefix or
+	address, and in the shared IPv4 address case contains a
+	Port-Set Identifier (PSID).</t>
 
 	<t>The MAP IPv6 address is created by concatenating the
 	End-user IPv6 prefix with the MAP subnet-id and the
@@ -469,10 +519,10 @@ PSID=63  | [64512 - 65535]
 	bits set to zero). A MAP node MUST reserve the first IPv6
 	prefix in a End-user IPv6 prefix for the purpose of MAP.</t>
 
-	<t><figure align="left" anchor="addressallocation2-fig" title="">
+	<t><figure align="centre" anchor="addressallocation2-fig" title="Shared IPv4 address">
 	  <preamble>Shared IPv4 address:</preamble>
 
-	  <artwork align="left"><![CDATA[
+	  <artwork align="centre"><![CDATA[
 
 |   r bits    |        p bits       |         |   q bits   |
 +-------------+---------------------+         +------------+
@@ -484,10 +534,10 @@ PSID=63  | [64512 - 65535]
 	  
 	</figure></t>
 
-	<t><figure align="left" anchor="addressallocation3-fig" title="">
+	<t><figure align="centre" anchor="addressallocation3-fig" title="Complete IPv4 address">
 	  <preamble>Complete IPv4 address:</preamble>
 
-	  <artwork align="left"><![CDATA[
+	  <artwork align="centre"><![CDATA[
 
 |   r bits    |        p bits       |
 +-------------+---------------------+
@@ -499,10 +549,10 @@ PSID=63  | [64512 - 65535]
 	  
 	</figure></t>
 
-	<t><figure align="left" anchor="addressallocation4-fig" title="">
+	<t><figure align="centre" anchor="addressallocation4-fig" title="IPv4 prefix">
 	  <preamble>IPv4 prefix:</preamble>
 
-	  <artwork align="left"><![CDATA[
+	  <artwork align="centre"><![CDATA[
 
 |   r bits    |        p bits       |
 +-------------+---------------------+
@@ -513,18 +563,19 @@ PSID=63  | [64512 - 65535]
 	  
 	</figure></t>
 
-	<t>If only a part of the IPv4 address/prefix is encoded in the
-	EA bits, the Domain IPv4 prefix is provisioned to the CE by
-	other means (e.g. a DHCPv6 option). To create a complete IPv4
-	address (or prefix), the IPv4 address suffix (p) from the EA
-	bits, are concatenated with the Domain IPv4 prefix (r
-	bits).</t>
+	<t>The length of r MAY be zero, in which case the complete
+	IPv4 address or prefix is encoded in the EA bits. If only a
+	part of the IPv4 address/prefix is encoded in the EA bits, the
+	Domain IPv4 prefix is provisioned to the CE by other means
+	(e.g. a DHCPv6 option). To create a complete IPv4 address (or
+	prefix), the IPv4 address suffix (p) from the EA bits, are
+	concatenated with the Domain IPv4 prefix (r bits).</t>
 
 	<t>The offset of the EA bits field in the IPv6 address is
-	equal to the BMR Rule IPv6 prefix length. The length of the EA
-	bits field (o) is given by the difference between the End-user
-	IPv6 prefix length and the the BMR Rule IPv6 prefix
-	length.</t>
+ 	equal to the BMR Rule IPv6 prefix length. The length of the EA
+	bits field (o) is given by the BMR Rule EA-bits length. The
+	sum of the Rule IPv6 Prefix length and the Rule EA-bits length
+	MUST be less or equal than the End-user IPv6 prefix length.</t>
 
 	<t>If o + r &lt; 32 (length of the IPv4 address in bits), then
 	an IPv4 prefix is assigned.</t>
@@ -534,10 +585,15 @@ PSID=63  | [64512 - 65535]
 	Domain IPv4 prefix and the EA-bits.</t>
 
 	<t>If o + r is > 32, then a shared IPv4 address is to be
-	assigned. The number of IPv4 address bits (p) in the EA bits
-	is given by 32 - r bits. The PSID bits are used to create a
-	port-set. The length of the PSID bit field within EA bits is:
-	o - p.</t>
+	assigned. The number of IPv4 address suffix bits (p) in the EA
+	bits is given by 32 - r bits. The PSID bits are used to create
+	a port-set. The length of the PSID bit field within EA bits
+	is: o - p.</t>
+
+	<t>In the following examples, only the suffix (last 8 bits) of
+	the IPv4 address is embedded in the EA bits (r = 24), while
+	the IPv4 prefix (first 24 bits) is given in the BMR Rule IPv4
+	prefix.</t>
 
 	<t><figure>
 	  <preamble>Example:</preamble>
@@ -545,9 +601,10 @@ PSID=63  | [64512 - 65535]
   Given:
    End-user IPv6 prefix:  2001:db8:0012:34::/56
    Basic Mapping Rule:    {2001:db8:00::/40 (Rule IPv6 prefix),
-                          192.0.2.0/24 (Rule IPv4 prefix)}
-   Sharing ratio:         256
-   PSID:                  6
+                          192.0.2.0/24 (Rule IPv4 prefix),
+                          16 (Rule EA-bits length)}
+   Sharing ratio:         256 (16 - (32 - 24) = 8. 2^8 = 256)
+   PSID offset:           4
 
   We get IPv4 address and port-set:
    EA bits offset:       40
@@ -558,6 +615,15 @@ PSID=63  | [64512 - 65535]
    PSID start:           40 + p = 40 + 8 = 48
    PSID length:          o - p = 16 (56 - 40) - 8 = 8
    PSID:                 0x34
+   Port-set-1:           4928, 4929, 4930, 4931, 4932, 4933, 4934, 4935,
+                         4936, 4937, 4938, 4939, 4940, 4941, 4942, 4943
+   Port-set-2:           9024, 9025, 9026, 9027, 9028, 9029, 9030, 9031,
+                         9032, 9033, 9034, 9035, 9036, 9037, 9038, 9039
+   ...
+   Port-set-15:          62272, 62273, 62274, 62275,
+                         62276, 62277, 62278, 62279,
+                         62280, 62281, 62282, 62283,
+                         62284, 62285, 62286, 62287,
   ]]></artwork>
 
 	</figure>
@@ -569,12 +635,12 @@ PSID=63  | [64512 - 65535]
 	<t>On adding an FMR rule, an IPv4 route is installed in the
 	conceptual routing table for the Rule IPv4 prefix.</t>
 
-	<t>On forwarding an IPv4 packet, a best matcing prefix lookup
+	<t>On forwarding an IPv4 packet, a best matching prefix lookup
 	is done in the IPv4 routing table and the correct FMR is
 	chosen.</t>
 
 	<t>
-	  <figure align="left" anchor="aplusptoipv6-fig" title="">
+	  <figure align="left" anchor="aplusptoipv6-fig" title="Deriving of MAP IPv6 address">
 	    <preamble></preamble>
 
 	    <artwork align="left"><![CDATA[
@@ -607,17 +673,17 @@ PSID=63  | [64512 - 65535]
 	  <artwork align="left"><![CDATA[
   Given:
    IPv4 destination address: 192.0.2.18
-   IPv4 destination port:    1232
+   IPv4 destination port:    9030
    Forwarding Mapping Rule:  {2001:db8:00::/40 (Rule IPv6 prefix),
                               192.0.2.0/24 (Rule IPv4 prefix),
-                              8 (Rule EA-bits length)}
+                              16 (Rule EA-bits length)}
 
   We get IPv6 address:
-   IPv4 suffix bits (p): 32 - 24 = 8 (18)
+   IPv4 suffix bits (p): 32 - 24 = 8 (18 (0x12))
    PSID length:          8
-   PSID:                 0x17 (1232)
-   EA bits:              0x1217
-   MAP IPv6 address:     2001:db8:0012:17ff:00c0:0002:1217:0000
+   PSID:                 0x34 (9030 (0x2346))
+   EA bits:              0x1234
+   MAP IPv6 address:     2001:db8:0012:3400:00c0:0002:1200:3400
   ]]></artwork>
 	</figure>
 	</t>
@@ -632,7 +698,7 @@ PSID=63  | [64512 - 65535]
 
 	<t>The Rule IPv4 prefix in the DMR is: 0.0.0.0/0. The Rule
 	IPv6 prefix is the IPv6 address or prefix of the BR. Which is
-	used is dependent on the mode used. For example translation
+	used, is dependent on the mode used. For example translation
 	requires that the IPv4 destination address is encoded in the
 	BR IPv6 address, so only a prefix is used in the DMR to allow
 	for a generated interface identifier. For the encapsulation
@@ -641,13 +707,14 @@ PSID=63  | [64512 - 65535]
 
 	<t>There MUST be only one Default Mapping Rule within a MAP domain.</t>
 
-	<t>An example of a DMR is:</t>
-	<t>
-   Default Mapping Rule:     {2001:db8:0001:0000:&lt;interface-id>:/128 (Rule IPv6 prefix),
-                              0.0.0.0/0 (Rule IPv4 prefix),
-                              192.0.2.1 (BR IPv4 address), }
-
-	</t>
+	<t><figure title="Example 3: Default Mapping Rule">
+	  <artwork align="left"><![CDATA[
+ Default Mapping Rule:     
+      {2001:db8:0001:0000:&lt;interface-id>:/128 (Rule IPv6 prefix),
+       0.0.0.0/0 (Rule IPv4 prefix),
+       192.0.2.1 (BR IPv4 address)}
+       ]]></artwork>
+	</figure></t>
 
 	<t>In most implementations of a routing table, the next-hop
 	address must be of the same address family as the prefix. To
@@ -738,23 +805,21 @@ PSID=63  | [64512 - 65535]
     <!--  SECTION 6:  Contributors     			-->
 
     <section title="Contributors">
-      <t>The members of the MAP design team are:
-      <list>
-
-	<t>Congxiao Bao, Mohamed Boucadair, Gang Chen, Maoke Chen,
-	Wojciech Dec, Xiaohong Deng, Jouni Korhonen,
-	Xing Li, Satoru Matsushima, Tomasz Mrugalski, Tetsuya
-	Murakami, Jacni Qin, Necj Scoberne, Qiong Sun, Tina Tsou, Dan
-	Wing, Leaf Yeh and Jan Zorz.</t>
-
-      </list></t>
-
+      <t>Mohamed Boucadair, Gang Chen, Maoke Chen, Wojciech Dec,
+      Xiaohong Deng, Jouni Korhonen, Tomasz Mrugalski, Jacni Qin,
+      Chunfa Sun, Qiong Sun, Leaf Yeh.</t>
     </section>
 
     <!--  SECTION 7:  Acknowledgements     			-->
 
     <section title="Acknowledgements">
-      <t>The authors would like to thank Guillaume Gottard.</t>
+      <t>This document is based on the ideas of many. In particular
+      Remi Despres, who has tirelessly worked on generalized
+      mechanisms for stateless address mapping.</t>
+
+      <t>The authors would like to thank Guillaume Gottard, Dan Wing,
+      Jan Zorz, Necj Scoberne, Tina Tsou for input, their thorough
+      review and comments.</t>
     </section>
 
   </middle>
