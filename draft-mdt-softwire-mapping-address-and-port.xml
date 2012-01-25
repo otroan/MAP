@@ -16,6 +16,8 @@
 <!ENTITY rfc6333 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6333.xml">
 <!ENTITY rfc6346 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6346.xml">
 <!ENTITY rfc6269 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6269.xml">
+<!ENTITY rfc6250 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6250.xml">
+<!ENTITY rfc2663 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2663.xml">
 <!ENTITY I-D.mdt-softwire-map-dhcp-option SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mdt-softwire-map-dhcp-option.xml'>
 <!ENTITY I-D.ietf-softwire-stateless-4v6-motivation SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-stateless-4v6-motivation.xml'>
 <!ENTITY I-D.ietf-tsvwg-iana-ports SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-tsvwg-iana-ports.xml'>
@@ -197,11 +199,13 @@
       across an IPv6 infrastructure. IPv4 multicast is not considered
       further in this document.</t>
 
-      <t>In particular the architecture of a shared IPv4 address by
-      distributing the port space is described in <xref
-      target="RFC6346"></xref>. The corresponding stateful solution
-      DS-lite is described in <xref target="RFC6333"></xref>. The
-      motivation for work is described in <xref
+      <t>The A+P (Address and Port) architecture of sharing an IPv4
+      address by distributing the port space is described in <xref
+      target="RFC6346"></xref>. Specifically section 4 of <xref
+      target="RFC6346"/> covers stateless mapping. The corresponding
+      stateful solution DS-lite is described in <xref
+      target="RFC6333"></xref>. The motivation for work is described
+      in <xref
       target="I-D.ietf-softwire-stateless-4v6-motivation"></xref>.</t>
 
       <t>A companion document defines a DHCPv6 option for provisioning
@@ -257,7 +261,8 @@
 
 	<t hangText="Shared IPv4 address:">An IPv4 address that is
 	shared among multiple CEs. Only ports that belong to the
-	assigned port-set can be used for communication.</t>
+	assigned port-set can be used for communication. Also known as
+	a Port-Restricted IPv4 address.</t>
 
 	<t hangText="End-user IPv6 prefix:">The IPv6 prefix assigned
 	to an End-user CE by other means than MAP
@@ -279,11 +284,44 @@
 	(or part thereof) or a shared IPv4 address (or part thereof)
 	and a port-set identifier.</t>
 
+	<t hangText="AP RIB:">Address + Port Routing Information
+	Base. The conceptual port-aware routing table used by the MAP
+	forwarding function.</t>
+
       </list></t>
 
     </section>
 
     <!--  SECTION 3: DESCRIPTION                   -->
+
+    <section title="Architecture">
+      <t>A full IPv4 address or IPv4 prefix can be used like today,
+      e.g. for identifying an interface or as a DHCP pool. A shared
+      IPv4 address on the other hand, MUST NOT be used to identify an
+      interface. While it is theoretically possible to make host
+      stacks and applications port-aware, that is considered a too
+      drastic change to the IP model <xref target="RFC6250"/>.</t>
+
+      <t>The MAP architecture described here, restricts the use of the
+      shared IPv4 address to only be used as the global address
+      (outside) of the NAPT <xref target="RFC2663"/> running on the
+      CE. The NAPT MUST in turn be connected to a MAP aware forwarding
+      function, that does encapsulation/decapsulation or translation
+      to IPv6.</t>
+
+      <t>For packets outbound from the private IPv4 network, the CE
+      NAPT MUST translate transport identifiers (e.g. TCP and UDP port
+      numbers) so that they fall within the assigned CE's
+      port-range.</t>
+
+      <t>The forwarding function uses a conceptual port-aware routing
+      table (AP RIB) to make forwarding decisions. The routing table
+      consist of the mapping rules. A route in the table consists of
+      an IPv4 prefix and PSID. The normal best matching prefix
+      algorithm is used. With a maximum key length of 48 (32 +
+      16). E.g. with a sharing ratio of 64 (6 bit PSID length) a host
+      route for this CE would be a /38 (32 + 6).</t>
+    </section>
 
     <section title="Mapping Rules">
       <t>A MAP node is provisioned with one or more mapping rules.</t>
@@ -322,8 +360,8 @@
 
 	<t>Forwarding Mapping Rule - used for forwarding. The Basic
 	Mapping Rule is also a Forwarding Mapping Rule. Each
-	Forwarding Mapping Rule will result in a route in a conceptual
-	routing table for the Rule IPv4 prefix.
+	Forwarding Mapping Rule will result in a route in the AP RIB
+	for the Rule IPv4 prefix.
 
 	<list style="symbols">
 	  <t>Rule IPv6 prefix (including prefix length)</t>
@@ -333,8 +371,8 @@
 	</list></t>
 
 	<t>Default Mapping Rule - used for destinations outside the
-	MAP domain. A 0.0.0.0/0 route is installed in the conceptual
-	routing table for this rule.
+	MAP domain. A 0.0.0.0/0 route is installed in the AP RIB for
+	this rule.
 	<list style="symbols">
 	  <t>Rule IPv6 prefix (including prefix length)</t>
 	  <t>Rule BR IPv4 address</t>
@@ -352,14 +390,12 @@
       the MAP node and is used to terminate all MAP traffic being sent
       or received to the node.</t>
 
-      <t>IPv4 routes in the conceptual routing table are installed for all
+      <t>Port-aware IPv4 routes in the AP RIB are installed for all
       the Forwarding Mapping Rules and an IPv4 default route for the
       Default Mapping Rule.</t>
 
-      <t>In the hub and spoke mode, all traffic should be forwarded
-      using the Default Mapping Rule. Hub and spoke mode is achieved
-      with a BMR IPv4 rule prefix length of 32 and no further
-      Forwarding Mapping Rules.</t>
+      <t>In hub and spoke mode, all traffic MUST be forwarded using
+      the Default Mapping Rule.</t>
 
       <section title="Port mapping algorithm">
 	<t>Different Port-Set Identifiers (PSID) MUST have
@@ -486,10 +522,10 @@ PSID=63  | [64512 - 65535]
       </section>
 
       <section title="Basic mapping rule (BMR)">
-	<t><figure align="centre" title="IPv6 address format"
+	<t><figure align="center" title="IPv6 address format"
 		   anchor="addressallocation-fig">
 	  <preamble></preamble>
-	  <artwork align="centre"><![CDATA[
+	  <artwork align="center"><![CDATA[
 
 
 |     n bits         |  o bits   | m bits  |   128-n-o-m bits      |
@@ -519,14 +555,14 @@ PSID=63  | [64512 - 65535]
 	bits set to zero). A MAP node MUST reserve the first IPv6
 	prefix in a End-user IPv6 prefix for the purpose of MAP.</t>
 
-	<t><figure align="centre" anchor="addressallocation2-fig" title="Shared IPv4 address">
+	<t><figure align="center" anchor="addressallocation2-fig" title="Shared IPv4 address">
 	  <preamble>Shared IPv4 address:</preamble>
 
-	  <artwork align="centre"><![CDATA[
+	  <artwork align="center"><![CDATA[
 
 |   r bits    |        p bits       |         |   q bits   |
 +-------------+---------------------+         +------------+
-| Domain IPv4 | IPv4 Address suffix |         |Port-Set ID |
+|  Rule IPv4  | IPv4 Address suffix |         |Port-Set ID |
 +-------------+---------------------+         +------------+
 |            32 bits                |
 
@@ -534,14 +570,14 @@ PSID=63  | [64512 - 65535]
 	  
 	</figure></t>
 
-	<t><figure align="centre" anchor="addressallocation3-fig" title="Complete IPv4 address">
+	<t><figure align="center" anchor="addressallocation3-fig" title="Complete IPv4 address">
 	  <preamble>Complete IPv4 address:</preamble>
 
-	  <artwork align="centre"><![CDATA[
+	  <artwork align="center"><![CDATA[
 
 |   r bits    |        p bits       |
 +-------------+---------------------+
-| Domain IPv4 | IPv4 Address suffix |
+|  Rule IPv4  | IPv4 Address suffix |
 +-------------+---------------------+
 |            32 bits                |
 
@@ -549,14 +585,14 @@ PSID=63  | [64512 - 65535]
 	  
 	</figure></t>
 
-	<t><figure align="centre" anchor="addressallocation4-fig" title="IPv4 prefix">
+	<t><figure align="center" anchor="addressallocation4-fig" title="IPv4 prefix">
 	  <preamble>IPv4 prefix:</preamble>
 
-	  <artwork align="centre"><![CDATA[
+	  <artwork align="center"><![CDATA[
 
 |   r bits    |        p bits       |
 +-------------+---------------------+
-| Domain IPv4 | IPv4 Address suffix |
+|  Rule IPv4  | IPv4 Address suffix |
 +-------------+---------------------+
 |           < 32 bits               |
 ]]></artwork>
@@ -566,10 +602,10 @@ PSID=63  | [64512 - 65535]
 	<t>The length of r MAY be zero, in which case the complete
 	IPv4 address or prefix is encoded in the EA bits. If only a
 	part of the IPv4 address/prefix is encoded in the EA bits, the
-	Domain IPv4 prefix is provisioned to the CE by other means
+	Rule IPv4 prefix is provisioned to the CE by other means
 	(e.g. a DHCPv6 option). To create a complete IPv4 address (or
 	prefix), the IPv4 address suffix (p) from the EA bits, are
-	concatenated with the Domain IPv4 prefix (r bits).</t>
+	concatenated with the Rule IPv4 prefix (r bits).</t>
 
 	<t>The offset of the EA bits field in the IPv6 address is
  	equal to the BMR Rule IPv6 prefix length. The length of the EA
@@ -582,7 +618,7 @@ PSID=63  | [64512 - 65535]
 
 	<t>If o + r is equal to 32, then a full IPv4 address is
 	to be assigned. The address is created by concatenating the
-	Domain IPv4 prefix and the EA-bits.</t>
+	Rule IPv4 prefix and the EA-bits.</t>
 
 	<t>If o + r is > 32, then a shared IPv4 address is to be
 	assigned. The number of IPv4 address suffix bits (p) in the EA
@@ -632,8 +668,8 @@ PSID=63  | [64512 - 65535]
       </section>
 
       <section title="Forwarding mapping rule (FMR)">
-	<t>On adding an FMR rule, an IPv4 route is installed in the
-	conceptual routing table for the Rule IPv4 prefix.</t>
+	<t>On adding an FMR rule, an IPv4 route is installed in the AP
+	RIB for the Rule IPv4 prefix.</t>
 
 	<t>On forwarding an IPv4 packet, a best matching prefix lookup
 	is done in the IPv4 routing table and the correct FMR is
@@ -659,7 +695,7 @@ PSID=63  | [64512 - 65535]
                     \     : /     /
 |     n bits         |  o bits   | m bits  |   128-n-o-m bits      |
 +--------------------+-----------+---------+------------+----------+
-| Domain IPv6 prefix |  EA bits  |subnet ID|     interface ID      |
+|  Rule IPv6 prefix  |  EA bits  |subnet ID|     interface ID      |
 +--------------------+-----------+---------+-----------------------+
 |<---  End-user IPv6 prefix  --->|
 
@@ -825,6 +861,7 @@ PSID=63  | [64512 - 65535]
   </middle>
 
   <back>
+
     <!--  SECTION 8.1:  Normative References		-->
 
     <references title="Normative References">
@@ -850,6 +887,8 @@ PSID=63  | [64512 - 65535]
       &rfc6147;
       &rfc3633;
       &rfc6269;
+      &rfc6250;
+      &rfc2663;
     </references>
   </back>
 </rfc>
