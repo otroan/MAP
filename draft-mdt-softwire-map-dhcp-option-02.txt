@@ -4,14 +4,13 @@
 Softwire WG                                            T. Mrugalski, Ed.
 Internet-Draft                                                       ISC
 Intended status: Standards Track                            M. Boucadair
-Expires: July 16, 2012                                    France Telecom
+Expires: July 27, 2012                                           X. Deng
+                                                          France Telecom
                                                                 O. Troan
                                                                    Cisco
-                                                                 X. Deng
-                                                          France Telecom
                                                                   C. Bao
                                                      Tsinghua University
-                                                        January 13, 2012
+                                                        January 24, 2012
 
 
              DHCPv6 Options for Mapping of Address and Port
@@ -45,19 +44,19 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on July 16, 2012.
+   This Internet-Draft will expire on July 27, 2012.
 
 Copyright Notice
 
+   Copyright (c) 2012 IETF Trust and the persons identified as the
 
 
 
-Mrugalski, et al.         Expires July 16, 2012                 [Page 1]
+Mrugalski, et al.         Expires July 27, 2012                 [Page 1]
 
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
-   Copyright (c) 2012 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -81,20 +80,20 @@ Table of Contents
      4.2.  MAP Flags Option . . . . . . . . . . . . . . . . . . . . .  5
      4.3.  MAP Rule Option  . . . . . . . . . . . . . . . . . . . . .  6
      4.4.  Port Parameters Option . . . . . . . . . . . . . . . . . .  8
-     4.5.  MAP Options Examples . . . . . . . . . . . . . . . . . . .  8
+     4.5.  MAP Options Examples . . . . . . . . . . . . . . . . . . .  9
        4.5.1.  BMR Option Example . . . . . . . . . . . . . . . . . .  9
        4.5.2.  FMR Option Example . . . . . . . . . . . . . . . . . .  9
        4.5.3.  DMR Option Example . . . . . . . . . . . . . . . . . .  9
    5.  DHCPv6 Server Behavior . . . . . . . . . . . . . . . . . . . .  9
    6.  DHCPv6 Client Behavior . . . . . . . . . . . . . . . . . . . . 10
-   7.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . . 10
-   8.  Security Considerations  . . . . . . . . . . . . . . . . . . . 10
+   7.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . . 11
+   8.  Security Considerations  . . . . . . . . . . . . . . . . . . . 11
    9.  Contributors . . . . . . . . . . . . . . . . . . . . . . . . . 11
    10. Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . 11
-   11. References . . . . . . . . . . . . . . . . . . . . . . . . . . 11
-     11.1. Normative References . . . . . . . . . . . . . . . . . . . 11
+   11. References . . . . . . . . . . . . . . . . . . . . . . . . . . 12
+     11.1. Normative References . . . . . . . . . . . . . . . . . . . 12
      11.2. Informative References . . . . . . . . . . . . . . . . . . 12
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 12
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 13
 
 
 
@@ -108,7 +107,8 @@ Table of Contents
 
 
 
-Mrugalski, et al.         Expires July 16, 2012                 [Page 2]
+
+Mrugalski, et al.         Expires July 27, 2012                 [Page 2]
 
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
@@ -164,7 +164,7 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
 
-Mrugalski, et al.         Expires July 16, 2012                 [Page 3]
+Mrugalski, et al.         Expires July 27, 2012                 [Page 3]
 
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
@@ -220,7 +220,7 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
 
-Mrugalski, et al.         Expires July 16, 2012                 [Page 4]
+Mrugalski, et al.         Expires July 27, 2012                 [Page 4]
 
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
@@ -231,28 +231,30 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
    Section 4.
 
    Discussion: If you want additional parameter added to the
-   OPTION_MAP_RULE option, please update
+   OPTION_MAP_RULE option (or any other option), please update
    [I-D.mdt-softwire-mapping-address-and-port] first.
 
    Server that supports MAP configuration and is configured to provision
-   requesting CE MUST include exactly one OPTION_MAP_FLAGS option in a
-   REPLY message.
+   requesting CE MUST include exactly one OPTION_MAP option in a REPLY
+   message for each MAP domain.  It is envisaged that in typical
+   network, there will be only one MAP domain deployed.
 
-   MAP_FLAGS option MUST include one or more OPTION_MAP_RULE options.
+   OPTION_MAP option MUST include one or more OPTION_MAP_RULE options.
 
 4.2.  MAP Flags Option
 
-   This option specifies MAP flags.  Currently the only defined flag is
-   T that describes transport mode.  Other flags that affect all mapping
-   rules or the whole MAP domain may be specified here at a later date.
+   This option specifies MAP flags and is used to group all rules for
+   specified MAP domain.  Currently the only defined flag is T that
+   describes transport mode.  Other flags that affect all mapping rules
+   or the whole MAP domain may be specified here at a later date.
 
-   Each MAP_FLAGS option MUST contain one or more MAP Rule Options.
+   Each OPTION_MAP option MUST contain one or more MAP Rule Options.
 
 
       0                   1                   2                   3
       0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |        OPTION_MAP_FLAGS       |         option-length         |
+     |        OPTION_MAP             |         option-length         |
      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
      |   reserved  |T|                                               .
      +-+-+-+-+-+-+-+-+                                               .
@@ -261,7 +263,7 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
 
                         Figure 1: MAP Flags Option
 
-   o  option-code: OPTION_MAP_FLAGS (TBD1)
+   o  option-code: OPTION_MAP (TBD1)
    o  option-length: 1
    o  reserved: This 7-bits long reserved field is not used and MUST be
       set to 0 by server.  Its value MUST be ignored by clients.
@@ -271,16 +273,16 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
       one or more MAP_RULE options.
 
    It was suggested to also provision information whether MAP network is
-   working in hub and spoke or full mesh mode.  That is not necessary,
-   as this information can be derived from provisioned MAP rules.  In
 
 
 
-Mrugalski, et al.         Expires July 16, 2012                 [Page 5]
+Mrugalski, et al.         Expires July 27, 2012                 [Page 5]
 
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
+   working in hub and spoke or full mesh mode.  That is not necessary,
+   as this information can be derived from provisioned MAP rules.  In
    the hub and spoke mode, all traffic should be forwarded using DMR.
    Hub and spoke mode is achieved with a BMR IPv4 rule prefix length of
    32 and no further FMR.
@@ -326,17 +328,18 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
    o  prefix4-len: 8 bits long field expressing length of the IPv4
       prefix, specified in the rule-ipv4-prefix field, expressed in
       bits.
-   o  ea-len: 8-bits long field that specifies Embedded-Address (EA) -
-      length, expressed in bits.  This field is meaningful only for FMR.
-      For other rules types, it MUST be set to zero by the server and
 
 
 
-Mrugalski, et al.         Expires July 16, 2012                 [Page 6]
+
+Mrugalski, et al.         Expires July 27, 2012                 [Page 6]
 
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
+   o  ea-len: 8-bits long field that specifies Embedded-Address (EA) -
+      length, expressed in bits.  This field is meaningful only for FMR.
+      For other rules types, it MUST be set to zero by the server and
       its content MUST be ignored by the clients.
    o  prefix6-len: 8 bits long length of the IPv6 prefix, specified in
       the rule-ipv6-prefix field, expressed in bits.
@@ -382,17 +385,17 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
    detailed discussion about MAP deployment considerations, see [map-d].
 
    Note that the DMR is a simplified version of BMR.  While it reuses
-   the same DHCPv6 option format, DMR uses only Rule IPv6 prefix, Rule
-   IPv6 Prefix Length and IPv4 address that denotes BR IPv4 address.
-   All other parameters are ignored for Default Mapping Rule.  Client
 
 
 
-Mrugalski, et al.         Expires July 16, 2012                 [Page 7]
+Mrugalski, et al.         Expires July 27, 2012                 [Page 7]
 
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
+   the same DHCPv6 option format, DMR uses only Rule IPv6 prefix, Rule
+   IPv6 Prefix Length and IPv4 address that denotes BR IPv4 address.
+   All other parameters are ignored for Default Mapping Rule.  Client
    MUST ignore those parameters for DMR and server MUST set those
    parameters to zero.
 
@@ -425,10 +428,27 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
       no ports are excluded.
    o  rsvd: This 5-bits long field is currently not used and MUST be set
       to 0 by server.  Its value MUST be ingored by clients.
-   o  off: 3 bits long field that specifies offset bits.
+   o  off: 3 bits long field that specifies offset bits.  It is referred
+      to as 'a' value and specifies length of a A field, as presented in
+      Fig. 1 in [I-D.mdt-softwire-mapping-address-and-port], Section
+      4.1.1.
+
+   TODO: Ole pointed out that excluded-ports are related to the offset.
+   with a = 6, j > 0 you exclude 0-1023; with a = 4, j > 0 you exclude
+   0-4095; with a = 0, no ports excluded and number of systems ports per
+   user given by PSID/PSID length the flag would allow j = 0.
 
    Map Port Parameters Option is optional.  If it is not present, the
    following default values are assumed:
+
+
+
+
+Mrugalski, et al.         Expires July 27, 2012                 [Page 8]
+
+Internet-Draft             MAP DHCPv6 Options               January 2012
+
+
    1.  Excluded ports: 0-4095 (excluded-ports field value is 4095)
    2.  Offset bits: 4 (off field value is 4)
    If administrator wants to provision only one of those parameters,
@@ -438,16 +458,6 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
 
    DHCPv6 server provisioning a single MAP Rule to a CE (DHCPv6 client)
    will convey the following MAP options in its messages:
-
-
-
-
-
-
-Mrugalski, et al.         Expires July 16, 2012                 [Page 8]
-
-Internet-Draft             MAP DHCPv6 Options               January 2012
-
 
 4.5.1.  BMR Option Example
 
@@ -485,8 +495,15 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
    Server MUST transmit all configured instances of the Mapping Rule
    Options with all sub-options, if client requested it using
    OPTION_MAP_RULE in its Option Request Option (ORO).  Server MUST
-   transmit MAP Flags Option if client requested OPTION_MAP_FLAGS in its
-   ORO.
+   transmit MAP Flags Option if client requested OPTION_MAP in its ORO.
+
+
+
+
+Mrugalski, et al.         Expires July 27, 2012                 [Page 9]
+
+Internet-Draft             MAP DHCPv6 Options               January 2012
+
 
    Rules assignment is a stateless process from the server's
    perspective.  Server does not need to maintain a state of rules
@@ -499,19 +516,13 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
    CEs is outside of scope of this document.
 
 
-
-Mrugalski, et al.         Expires July 16, 2012                 [Page 9]
-
-Internet-Draft             MAP DHCPv6 Options               January 2012
-
-
 6.  DHCPv6 Client Behavior
 
    Although other use cases are allowed, in a typical use case CE will
    act as DHCPv6 client and will request MAP configuration to be
    assigned by the DHCPv6 server located in the ISP network.  A client
    that supports MAP CE functionality and conforms to this specfication
-   MUST include OPTION_MAP_RULE and OPTION_MAP_FLAGS in its ORO.
+   MUST include OPTION_MAP_RULE and OPTION_MAP in its ORO.
 
    For proper operation, MAP CE client MUST also request IPv6 address
    (OPTION_IA_NA, defined in [RFC3315]) and prefix delegation
@@ -520,7 +531,7 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
    all parameters are delivered over DHCPv6.
 
    Client supporting MAP functionality SHOULD request OPTION_MAP_RULE
-   and OPTION_MAP_FLAGS options in SOLICIT, REQUEST, RENEW, REBIND and
+   and OPTION_MAP options in SOLICIT, REQUEST, RENEW, REBIND and
    INFORMATION-REQUEST messages.
 
    If client receives more than one OPTION_MAP_RULE option, it MUST use
@@ -541,26 +552,27 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
    interfaces device are out of scope of this document.
 
 
+
+
+
+
+Mrugalski, et al.         Expires July 27, 2012                [Page 10]
+
+Internet-Draft             MAP DHCPv6 Options               January 2012
+
+
 7.  IANA Considerations
 
    IANA is kindly requested to allocate DHCPv6 option code TBD1 to the
-   OPTION_MAP_FLAGS,TBD2 to OPTION_MAP_RULE and TBD3 to
-   OPTION_MAP_PORTPARAMS.  All three values should be added to the
-   DHCPv6 option code space defined in Section 24.3 of [RFC3315].
+   OPTION_MAP,TBD2 to OPTION_MAP_RULE and TBD3 to OPTION_MAP_PORTPARAMS.
+   All three values should be added to the DHCPv6 option code space
+   defined in Section 24.3 of [RFC3315].
 
 
 8.  Security Considerations
 
    Implementation of this document does not present any new security
    issues, but as with all DHCPv6-derived configuration state, it is
-
-
-
-Mrugalski, et al.         Expires July 16, 2012                [Page 10]
-
-Internet-Draft             MAP DHCPv6 Options               January 2012
-
-
    completely possible that the configuration is being delivered by a
    third party (Man In The Middle).  As such, there is no basis to trust
    that the access over the MAP can be trusted, and it should not
@@ -597,6 +609,14 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
 
 11.  References
 
+
+
+
+Mrugalski, et al.         Expires July 27, 2012                [Page 11]
+
+Internet-Draft             MAP DHCPv6 Options               January 2012
+
+
 11.1.  Normative References
 
    [I-D.mdt-softwire-mapping-address-and-port]
@@ -609,14 +629,6 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
 
    [RFC3315]  Droms, R., Bound, J., Volz, B., Lemon, T., Perkins, C.,
               and M. Carney, "Dynamic Host Configuration Protocol for
-
-
-
-Mrugalski, et al.         Expires July 16, 2012                [Page 11]
-
-Internet-Draft             MAP DHCPv6 Options               January 2012
-
-
               IPv6 (DHCPv6)", RFC 3315, July 2003.
 
    [RFC3633]  Troan, O. and R. Droms, "IPv6 Prefix Options for Dynamic
@@ -653,6 +665,14 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
               specification", draft-murakami-softwire-4rd-01 (work in
               progress), September 2011.
 
+
+
+
+Mrugalski, et al.         Expires July 27, 2012                [Page 12]
+
+Internet-Draft             MAP DHCPv6 Options               January 2012
+
+
    [RFC5226]  Narten, T. and H. Alvestrand, "Guidelines for Writing an
               IANA Considerations Section in RFCs", BCP 26, RFC 5226,
               May 2008.
@@ -660,17 +680,6 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
    [map-d]    Chen, M., Sun, Q., and G. Chen, "Mapping of Address and
               Port (MAP) - Deployment Considerations",
               draft-mdt-softwire-map-deployment 00, 12 2012.
-
-
-
-
-
-
-
-
-Mrugalski, et al.         Expires July 16, 2012                [Page 12]
-
-Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
 Authors' Addresses
@@ -683,6 +692,7 @@ Authors' Addresses
 
    Phone: +1 650 423 1345
    Email: tomasz.mrugalski@gmail.com
+   URI:   http://isc.org/
 
 
    Mohamed Boucadair
@@ -691,15 +701,7 @@ Authors' Addresses
    France
 
    Email: mohamed.boucadair@gmail.com
-
-
-   Ole Troan
-   Cisco Systems, Inc.
-   Telemarksvingen 20
-   Oslo  N-0655
-   Norway
-
-   Email: ot@cisco.com
+   URI:   http://www.francetelecom.com/
 
 
    Xiaohong Deng
@@ -709,6 +711,32 @@ Authors' Addresses
    China
 
    Email: xiaohong.deng@orange.com
+   URI:   http://www.francetelecom.com/
+
+
+
+
+
+
+
+
+
+
+
+
+Mrugalski, et al.         Expires July 27, 2012                [Page 13]
+
+Internet-Draft             MAP DHCPv6 Options               January 2012
+
+
+   Ole Troan
+   Cisco Systems, Inc.
+   Telemarksvingen 20
+   Oslo  N-0655
+   Norway
+
+   Email: ot@cisco.com
+   URI:   http://cisco.com
 
 
    Congxiao Bao
@@ -724,5 +752,33 @@ Authors' Addresses
 
 
 
-Mrugalski, et al.         Expires July 16, 2012                [Page 13]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Mrugalski, et al.         Expires July 27, 2012                [Page 14]
 

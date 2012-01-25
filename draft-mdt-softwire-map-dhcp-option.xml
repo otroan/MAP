@@ -31,6 +31,7 @@
         </postal>
         <phone>+1 650 423 1345</phone>
         <email>tomasz.mrugalski@gmail.com</email>
+	<uri>http://isc.org/</uri>
       </address>
     </author>
 
@@ -38,25 +39,13 @@
       <organization>France Telecom</organization>
       <address>
         <postal>
-          <street></street>
+	  <street></street>
           <city>Rennes</city>
           <code>35000</code>
           <country>France</country>
         </postal>
         <email>mohamed.boucadair@gmail.com</email>
-      </address>
-    </author>
-
-    <author fullname="Ole Troan" initials="O" surname="Troan">
-      <organization abbrev="Cisco">Cisco Systems, Inc.</organization>
-      <address>
-        <postal>
-          <street>Telemarksvingen 20</street>
-          <city>Oslo</city>
-          <code>N-0655</code>
-          <country>Norway</country>
-        </postal>
-        <email>ot@cisco.com</email>
+	<uri>http://www.francetelecom.com/</uri>
       </address>
     </author>
 
@@ -70,8 +59,24 @@
           <country>China</country>
         </postal>
         <email>xiaohong.deng@orange.com</email>
+	<uri>http://www.francetelecom.com/</uri>
       </address>
     </author>
+
+    <author fullname="Ole Troan" initials="O" surname="Troan">
+      <organization abbrev="Cisco">Cisco Systems, Inc.</organization>
+      <address>
+        <postal>
+          <street>Telemarksvingen 20</street>
+          <city>Oslo</city>
+          <code>N-0655</code>
+          <country>Norway</country>
+        </postal>
+        <email>ot@cisco.com</email>
+	<uri>http://cisco.com</uri>
+      </address>
+    </author>
+
 
     <author initials="C.X." surname="Bao" fullname="Congxiao Bao">
       <organization abbrev="Tsinghua University">
@@ -89,7 +94,7 @@
 
     <!-- Qiong Sun requested joining author team as well (22.10.2011 12:10) -->
 
-    <date day="13" month="January" year="2012" />
+    <date day="24" month="January" year="2012" />
 
     <area>Internet</area>
     <workgroup>Softwire WG</workgroup>
@@ -249,23 +254,25 @@
         <t>MAP rule is defined in <xref target="I-D.mdt-softwire-mapping-address-and-port"/>, Section 4.</t>
 
         <t>Discussion: If you want additional parameter added to the
-        OPTION_MAP_RULE option, please update <xref
+        OPTION_MAP_RULE option (or any other option), please update <xref
         target="I-D.mdt-softwire-mapping-address-and-port"/> first.</t>
 
         <t>Server that supports MAP configuration and is configured to
-        provision requesting CE MUST include exactly one
-        OPTION_MAP_FLAGS option in a REPLY message.</t>
+        provision requesting CE MUST include exactly one OPTION_MAP
+        option in a REPLY message for each MAP domain. It is envisaged
+        that in typical network, there will be only one MAP domain deployed.</t>
 
-        <t>MAP_FLAGS option MUST include one or more OPTION_MAP_RULE options.</t>
+        <t>OPTION_MAP option MUST include one or more OPTION_MAP_RULE options.</t>
       </section>
 
       <section anchor="option-flags" title="MAP Flags Option">
-        <t>This option specifies MAP flags. Currently the only
+        <t>This option specifies MAP flags and is used to group all rules for
+	specified MAP domain. Currently the only
         defined flag is T that describes transport mode. Other flags that affect
         all mapping rules or the whole MAP domain may be specified
         here at a later date.</t>
         
-        <t>Each MAP_FLAGS option MUST contain one or more MAP Rule
+        <t>Each OPTION_MAP option MUST contain one or more MAP Rule
         Options.</t>
         <figure align="center" anchor="img-option-flags" title="MAP Flags Option">
           <preamble></preamble>
@@ -273,7 +280,7 @@
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|        OPTION_MAP_FLAGS       |         option-length         |
+|        OPTION_MAP             |         option-length         |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |   reserved  |T|                                               .
 +-+-+-+-+-+-+-+-+                                               .
@@ -283,7 +290,7 @@
         </figure>
         <t>
           <list style="symbols">
-            <t>option-code: OPTION_MAP_FLAGS (TBD1)</t>
+            <t>option-code: OPTION_MAP (TBD1)</t>
 
             <t>option-length: 1</t>
 
@@ -473,10 +480,19 @@
             <t>rsvd: This 5-bits long field is currently not used and
             MUST be set to 0 by server. Its value MUST be ingored
             by clients.</t>
-            <t>off: 3 bits long field that specifies offset
-            bits.</t>
+            <t>off: 3 bits long field that specifies offset bits. It
+            is referred to as 'a' value and specifies length of a A
+            field, as presented in Fig. 1 in <xref
+            target="I-D.mdt-softwire-mapping-address-and-port"/>,
+            Section 4.1.1.</t>
           </list>
         </t>
+
+	<t>TODO: Ole pointed out that excluded-ports are related to the offset.
+	with a = 6, j > 0 you exclude 0-1023;
+	with a = 4, j > 0 you exclude 0-4095;
+	with a = 0, no ports excluded and number of systems ports per user given by PSID/PSID length
+	the flag would allow j = 0.</t>
 
         <t>Map Port Parameters Option is optional. If it is not present,
         the following default values are assumed:
@@ -538,7 +554,7 @@
       <t>Server MUST transmit all configured instances of the Mapping
       Rule Options with all sub-options, if client requested it using
       OPTION_MAP_RULE in its Option Request Option (ORO). Server MUST
-      transmit MAP Flags Option if client requested OPTION_MAP_FLAGS
+      transmit MAP Flags Option if client requested OPTION_MAP
       in its ORO.</t>
 
       <t>Rules assignment is a stateless process from the server's
@@ -559,7 +575,7 @@
       will act as DHCPv6 client and will request MAP configuration to
       be assigned by the DHCPv6 server located in the ISP network. A
       client that supports MAP CE functionality and conforms to this
-      specfication MUST include OPTION_MAP_RULE and OPTION_MAP_FLAGS
+      specfication MUST include OPTION_MAP_RULE and OPTION_MAP
       in its ORO.</t>
 
       <t>For proper operation, MAP CE client MUST also request IPv6
@@ -570,7 +586,7 @@
       parameters are delivered over DHCPv6.</t>
 
       <t>Client supporting MAP functionality SHOULD request
-      OPTION_MAP_RULE and OPTION_MAP_FLAGS options in SOLICIT,
+      OPTION_MAP_RULE and OPTION_MAP options in SOLICIT,
       REQUEST, RENEW, REBIND and INFORMATION-REQUEST messages.</t>
 
       <t>If client receives more than one OPTION_MAP_RULE option, it
@@ -595,7 +611,7 @@
 
     <section title="IANA Considerations">
       <t>IANA is kindly requested to allocate DHCPv6 option code TBD1 to the
-      OPTION_MAP_FLAGS,TBD2 to OPTION_MAP_RULE and TBD3 to
+      OPTION_MAP,TBD2 to OPTION_MAP_RULE and TBD3 to
       OPTION_MAP_PORTPARAMS. All three values should be added to the
       DHCPv6 option code space defined in Section 24.3 of <xref
       target="RFC3315"/>.</t>
