@@ -284,9 +284,9 @@
 	(or part thereof) or a shared IPv4 address (or part thereof)
 	and a port-set identifier.</t>
 
-	<t hangText="AP RIB:">Address + Port Routing Information
-	Base. The conceptual port-aware routing table used by the MAP
-	forwarding function.</t>
+	<t hangText="MRT:">MAP Rule table. Address and Port aware
+	datastructure, supporting longest match lookups. The MRT is
+	used by the MAP forwarding function.</t>
 
       </list></t>
 
@@ -314,13 +314,12 @@
       numbers) so that they fall within the assigned CE's
       port-range.</t>
 
-      <t>The forwarding function uses a conceptual port-aware routing
-      table (AP RIB) to make forwarding decisions. The routing table
-      consist of the mapping rules. A route in the table consists of
-      an IPv4 prefix and PSID. The normal best matching prefix
-      algorithm is used. With a maximum key length of 48 (32 +
-      16). E.g. with a sharing ratio of 64 (6 bit PSID length) a host
-      route for this CE would be a /38 (32 + 6).</t>
+      <t>The forwarding function uses the MRT to make forwarding
+      decisions. The table consist of the mapping rules. An entry in
+      the table consists of an IPv4 prefix and PSID. The normal best
+      matching prefix algorithm is used. With a maximum key length of
+      48 (32 + 16). E.g. with a sharing ratio of 64 (6 bit PSID
+      length) a host route for this CE would be a /38 (32 + 6).</t>
     </section>
 
     <section title="Mapping Rules">
@@ -360,8 +359,8 @@
 
 	<t>Forwarding Mapping Rule - used for forwarding. The Basic
 	Mapping Rule is also a Forwarding Mapping Rule. Each
-	Forwarding Mapping Rule will result in a route in the AP RIB
-	for the Rule IPv4 prefix.
+	Forwarding Mapping Rule will result in an entry in the MRT for
+	the Rule IPv4 prefix.
 
 	<list style="symbols">
 	  <t>Rule IPv6 prefix (including prefix length)</t>
@@ -371,8 +370,8 @@
 	</list></t>
 
 	<t>Default Mapping Rule - used for destinations outside the
-	MAP domain. A 0.0.0.0/0 route is installed in the AP RIB for
-	this rule.
+	MAP domain. A 0.0.0.0/0 entry is installed in the MRT for this
+	rule.
 	<list style="symbols">
 	  <t>Rule IPv6 prefix (including prefix length)</t>
 	  <t>Rule BR IPv4 address</t>
@@ -390,8 +389,8 @@
       the MAP node and is used to terminate all MAP traffic being sent
       or received to the node.</t>
 
-      <t>Port-aware IPv4 routes in the AP RIB are installed for all
-      the Forwarding Mapping Rules and an IPv4 default route for the
+      <t>Port-aware IPv4 entries in the MRT are installed for all the
+      Forwarding Mapping Rules and an IPv4 default route for the
       Default Mapping Rule.</t>
 
       <t>In hub and spoke mode, all traffic MUST be forwarded using
@@ -635,8 +634,8 @@ PSID=63  | [64512 - 65535]
 	  <preamble>Example:</preamble>
 	  <artwork align="left"><![CDATA[
   Given:
-   End-user IPv6 prefix:  2001:db8:0012:34::/56
-   Basic Mapping Rule:    {2001:db8:00::/40 (Rule IPv6 prefix),
+   End-user IPv6 prefix:  2001:db8:0012:3400::/56
+   Basic Mapping Rule:    {2001:db8:0000::/40 (Rule IPv6 prefix),
                           192.0.2.0/24 (Rule IPv4 prefix),
                           16 (Rule EA-bits length)}
    Sharing ratio:         256 (16 - (32 - 24) = 8. 2^8 = 256)
@@ -710,9 +709,10 @@ PSID=63  | [64512 - 65535]
   Given:
    IPv4 destination address: 192.0.2.18
    IPv4 destination port:    9030
-   Forwarding Mapping Rule:  {2001:db8:00::/40 (Rule IPv6 prefix),
+   Forwarding Mapping Rule:  {2001:db8:0000::/40 (Rule IPv6 prefix),
                               192.0.2.0/24 (Rule IPv4 prefix),
                               16 (Rule EA-bits length)}
+   PSID offset:              4
 
   We get IPv6 address:
    IPv4 suffix bits (p): 32 - 24 = 8 (18 (0x12))
