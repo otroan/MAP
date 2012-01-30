@@ -4,14 +4,14 @@
 Network Working Group                                           O. Troan
 Internet-Draft                                                     cisco
 Intended status: Standards Track                           S. Matsushima
-Expires: July 28, 2012                                  SoftBank Telecom
+Expires: August 2, 2012                                 SoftBank Telecom
                                                              T. Murakami
                                                              IP Infusion
                                                                    X. Li
                                                                   C. Bao
                                                   CERNET Center/Tsinghua
                                                               University
-                                                        January 25, 2012
+                                                        January 30, 2012
 
 
                    Mapping of Address and Port (MAP)
@@ -37,7 +37,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on July 28, 2012.
+   This Internet-Draft will expire on August 2, 2012.
 
 Copyright Notice
 
@@ -52,7 +52,7 @@ Copyright Notice
 
 
 
-Troan, et al.             Expires July 28, 2012                 [Page 1]
+Troan, et al.            Expires August 2, 2012                 [Page 1]
 
 Internet-Draft                     MAP                      January 2012
 
@@ -108,7 +108,7 @@ Table of Contents
 
 
 
-Troan, et al.             Expires July 28, 2012                 [Page 2]
+Troan, et al.            Expires August 2, 2012                 [Page 2]
 
 Internet-Draft                     MAP                      January 2012
 
@@ -164,7 +164,7 @@ Internet-Draft                     MAP                      January 2012
 
 
 
-Troan, et al.             Expires July 28, 2012                 [Page 3]
+Troan, et al.            Expires August 2, 2012                 [Page 3]
 
 Internet-Draft                     MAP                      January 2012
 
@@ -220,7 +220,7 @@ Internet-Draft                     MAP                      January 2012
 
 
 
-Troan, et al.             Expires July 28, 2012                 [Page 4]
+Troan, et al.            Expires August 2, 2012                 [Page 4]
 
 Internet-Draft                     MAP                      January 2012
 
@@ -276,7 +276,7 @@ Internet-Draft                     MAP                      January 2012
 
 
 
-Troan, et al.             Expires July 28, 2012                 [Page 5]
+Troan, et al.            Expires August 2, 2012                 [Page 5]
 
 Internet-Draft                     MAP                      January 2012
 
@@ -295,9 +295,10 @@ Internet-Draft                     MAP                      January 2012
                          part thereof) or a shared IPv4 address (or part
                          thereof) and a port-set identifier.
 
-   AP RIB:               Address + Port Routing Information Base.  The
-                         conceptual port-aware routing table used by the
-                         MAP forwarding function.
+   MRT:                  MAP Rule table.  Address and Port aware
+                         datastructure, supporting longest match
+                         lookups.  The MRT is used by the MAP forwarding
+                         function.
 
 
 4.  Architecture
@@ -319,20 +320,19 @@ Internet-Draft                     MAP                      January 2012
    translate transport identifiers (e.g.  TCP and UDP port numbers) so
    that they fall within the assigned CE's port-range.
 
-   The forwarding function uses a conceptual port-aware routing table
-   (AP RIB) to make forwarding decisions.  The routing table consist of
-   the mapping rules.  A route in the table consists of an IPv4 prefix
-   and PSID.  The normal best matching prefix algorithm is used.  With a
-   maximum key length of 48 (32 + 16).  E.g. with a sharing ratio of 64
-   (6 bit PSID length) a host route for this CE would be a 38 (32 + 6).
+   The forwarding function uses the MRT to make forwarding decisions.
+   The table consist of the mapping rules.  An entry in the table
+   consists of an IPv4 prefix and PSID.  The normal best matching prefix
+   algorithm is used.  With a maximum key length of 48 (32 + 16).  E.g.
+   with a sharing ratio of 64 (6 bit PSID length) a host route for this
+   CE would be a /38 (32 + 6).
 
 
 
 
 
 
-
-Troan, et al.             Expires July 28, 2012                 [Page 6]
+Troan, et al.            Expires August 2, 2012                 [Page 6]
 
 Internet-Draft                     MAP                      January 2012
 
@@ -374,8 +374,7 @@ Internet-Draft                     MAP                      January 2012
 
    2.  Forwarding Mapping Rule - used for forwarding.  The Basic Mapping
        Rule is also a Forwarding Mapping Rule.  Each Forwarding Mapping
-       Rule will result in a route in the AP RIB for the Rule IPv4
-       prefix.
+       Rule will result in an entry in the MRT for the Rule IPv4 prefix.
 
        *  Rule IPv6 prefix (including prefix length)
 
@@ -388,14 +387,14 @@ Internet-Draft                     MAP                      January 2012
 
 
 
-Troan, et al.             Expires July 28, 2012                 [Page 7]
+
+Troan, et al.            Expires August 2, 2012                 [Page 7]
 
 Internet-Draft                     MAP                      January 2012
 
 
    3.  Default Mapping Rule - used for destinations outside the MAP
-       domain.  A 0.0.0.0/0 route is installed in the AP RIB for this
-       rule.
+       domain.  A 0.0.0.0/0 entry is installed in the MRT for this rule.
 
        *  Rule IPv6 prefix (including prefix length)
 
@@ -411,7 +410,7 @@ Internet-Draft                     MAP                      January 2012
    node and is used to terminate all MAP traffic being sent or received
    to the node.
 
-   Port-aware IPv4 routes in the AP RIB are installed for all the
+   Port-aware IPv4 entries in the MRT are installed for all the
    Forwarding Mapping Rules and an IPv4 default route for the Default
    Mapping Rule.
 
@@ -444,7 +443,8 @@ Internet-Draft                     MAP                      January 2012
 
 
 
-Troan, et al.             Expires July 28, 2012                 [Page 8]
+
+Troan, et al.            Expires August 2, 2012                 [Page 8]
 
 Internet-Draft                     MAP                      January 2012
 
@@ -500,7 +500,7 @@ Internet-Draft                     MAP                      January 2012
 
 
 
-Troan, et al.             Expires July 28, 2012                 [Page 9]
+Troan, et al.            Expires August 2, 2012                 [Page 9]
 
 Internet-Draft                     MAP                      January 2012
 
@@ -556,7 +556,7 @@ Internet-Draft                     MAP                      January 2012
 
 
 
-Troan, et al.             Expires July 28, 2012                [Page 10]
+Troan, et al.            Expires August 2, 2012                [Page 10]
 
 Internet-Draft                     MAP                      January 2012
 
@@ -612,7 +612,7 @@ Internet-Draft                     MAP                      January 2012
 
 
 
-Troan, et al.             Expires July 28, 2012                [Page 11]
+Troan, et al.            Expires August 2, 2012                [Page 11]
 
 Internet-Draft                     MAP                      January 2012
 
@@ -668,7 +668,7 @@ Internet-Draft                     MAP                      January 2012
 
 
 
-Troan, et al.             Expires July 28, 2012                [Page 12]
+Troan, et al.            Expires August 2, 2012                [Page 12]
 
 Internet-Draft                     MAP                      January 2012
 
@@ -676,8 +676,8 @@ Internet-Draft                     MAP                      January 2012
    Example:
 
   Given:
-   End-user IPv6 prefix:  2001:db8:0012:34::/56
-   Basic Mapping Rule:    {2001:db8:00::/40 (Rule IPv6 prefix),
+   End-user IPv6 prefix:  2001:db8:0012:3400::/56
+   Basic Mapping Rule:    {2001:db8:0000::/40 (Rule IPv6 prefix),
                           192.0.2.0/24 (Rule IPv4 prefix),
                           16 (Rule EA-bits length)}
    Sharing ratio:         256 (16 - (32 - 24) = 8. 2^8 = 256)
@@ -724,7 +724,7 @@ Internet-Draft                     MAP                      January 2012
 
 
 
-Troan, et al.             Expires July 28, 2012                [Page 13]
+Troan, et al.            Expires August 2, 2012                [Page 13]
 
 Internet-Draft                     MAP                      January 2012
 
@@ -755,9 +755,10 @@ Internet-Draft                     MAP                      January 2012
      Given:
       IPv4 destination address: 192.0.2.18
       IPv4 destination port:    9030
-      Forwarding Mapping Rule:  {2001:db8:00::/40 (Rule IPv6 prefix),
+      Forwarding Mapping Rule:  {2001:db8:0000::/40 (Rule IPv6 prefix),
                                  192.0.2.0/24 (Rule IPv4 prefix),
                                  16 (Rule EA-bits length)}
+      PSID offset:              4
 
      We get IPv6 address:
       IPv4 suffix bits (p): 32 - 24 = 8 (18 (0x12))
@@ -776,15 +777,15 @@ Internet-Draft                     MAP                      January 2012
    is the IPv6 address or prefix of the BR.  Which is used, is dependent
    on the mode used.  For example translation requires that the IPv4
    destination address is encoded in the BR IPv6 address, so only a
-   prefix is used in the DMR to allow for a generated interface
 
 
 
-Troan, et al.             Expires July 28, 2012                [Page 14]
+Troan, et al.            Expires August 2, 2012                [Page 14]
 
 Internet-Draft                     MAP                      January 2012
 
 
+   prefix is used in the DMR to allow for a generated interface
    identifier.  For the encapsulation mode the Rule IPv6 prefix can be
    the full IPv6 address of the BR.
 
@@ -835,8 +836,7 @@ Internet-Draft                     MAP                      January 2012
 
 
 
-
-Troan, et al.             Expires July 28, 2012                [Page 15]
+Troan, et al.            Expires August 2, 2012                [Page 15]
 
 Internet-Draft                     MAP                      January 2012
 
@@ -892,12 +892,12 @@ Internet-Draft                     MAP                      January 2012
 
 
 
-Troan, et al.             Expires July 28, 2012                [Page 16]
+Troan, et al.            Expires August 2, 2012                [Page 16]
 
 Internet-Draft                     MAP                      January 2012
 
 
-   Zorz, Necj Scoberne, Tina Tsou for input, their thorough review and
+   Zorz, Necj Scoberne, Tina Tsou for their thorough review and
    comments.
 
 
@@ -948,7 +948,7 @@ Internet-Draft                     MAP                      January 2012
 
 
 
-Troan, et al.             Expires July 28, 2012                [Page 17]
+Troan, et al.            Expires August 2, 2012                [Page 17]
 
 Internet-Draft                     MAP                      January 2012
 
@@ -1004,7 +1004,7 @@ Internet-Draft                     MAP                      January 2012
 
 
 
-Troan, et al.             Expires July 28, 2012                [Page 18]
+Troan, et al.            Expires August 2, 2012                [Page 18]
 
 Internet-Draft                     MAP                      January 2012
 
@@ -1060,5 +1060,5 @@ Authors' Addresses
 
 
 
-Troan, et al.             Expires July 28, 2012                [Page 19]
+Troan, et al.            Expires August 2, 2012                [Page 19]
 

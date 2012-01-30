@@ -854,8 +854,8 @@ PSID=63  | [64512 - 65535]
       mechanisms for stateless address mapping.</t>
 
       <t>The authors would like to thank Guillaume Gottard, Dan Wing,
-      Jan Zorz, Necj Scoberne, Tina Tsou for input, their thorough
-      review and comments.</t>
+      Jan Zorz, Necj Scoberne, Tina Tsou for their thorough review and
+      comments.</t>
     </section>
 
   </middle>
