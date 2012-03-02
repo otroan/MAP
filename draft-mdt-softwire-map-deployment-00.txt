@@ -415,7 +415,7 @@ Internet-Draft               MAP Deployment                   March 2012
    tabe and the correct FMR is chosen.
 
    Basically, operator should firstly determine its own deployment mode
-   for MAP domain: mesh or Hub&spoke, as different considerations for
+   for MAP domain: mesh or Hub & spoke, as different considerations for
    different deployment models should be applied accordingly.
    Afterwards, MAP domain planning, MAP rule provision, addressing and
    routing, etc., for a MAP domain should be taken into consideration.
@@ -1744,7 +1744,7 @@ Internet-Draft               MAP Deployment                   March 2012
    USA
 
    Phone: +1-408-330-4424
-   Email: tena@huawei.com
+   Email: tina.tsou.zouting@huawei.com
 
 
 
