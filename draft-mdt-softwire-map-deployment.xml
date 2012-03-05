@@ -932,11 +932,12 @@ CE IPv4 Address = 63.245.48.236
     <!--  SECTION 10:  Acknowledgements     			-->
 
     <section title="Acknowledgements">
-	Remi Despres contributed the original example of step-by-step 
+     <t>Remi Despres contributed the original example of step-by-step 
 	deployment guidance in discussion with the authors. Ole Troan, as 
 	the head of MAP Design Team, joined the discussion directly and 
 	contributed a lot of ideas and comments. We also thank other members 
 	of the MAP Design Team for their comments and suggestions. 
+     </t>
     </section>
   </middle>
 

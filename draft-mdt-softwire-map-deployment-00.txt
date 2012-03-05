@@ -1459,11 +1459,11 @@ Internet-Draft               MAP Deployment                   March 2012
 
 10.  Acknowledgements
 
-
-
-
-
-
+   Remi Despres contributed the original example of step-by-step
+   deployment guidance in discussion with the authors.  Ole Troan, as
+   the head of MAP Design Team, joined the discussion directly and
+   contributed a lot of ideas and comments.  We also thank other members
+   of the MAP Design Team for their comments and suggestions.
 
 
 
