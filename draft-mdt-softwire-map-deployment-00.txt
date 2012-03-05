@@ -4,14 +4,15 @@
 Network Working Group                                            M. Chen
 Internet-Draft                                                   FreeBit
 Intended status: Informational                                    Q. Sun
-Expires: September 3, 2012                                 China Telecom
+Expires: September 6, 2012                                 China Telecom
                                                                  G. Chen
                                                             China Mobile
                                                                   C. Sun
                                                              Softbank BB
                                                                  T. Tsou
+                                                                S. Simon
                                                      Huawei Technologies
-                                                           March 2, 2012
+                                                           March 5, 2012
 
 
      Mapping of Address and Port (MAP) - Deployment Considerations
@@ -19,9 +20,9 @@ Expires: September 3, 2012                                 China Telecom
 
 Abstract
 
-   This document describes when and how an operator use the generic
-   softwire is Mapping of Address and Port (MAP) for the IPv4 residual
-   deployment in the IPv6-dominant domain.
+   This document describes when and how an operator uses the technique
+   of Mapping of Address and Port (MAP) for the IPv4 residual deployment
+   in the IPv6-dominant domain.
 
 Status of this Memo
 
@@ -38,7 +39,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 3, 2012.
+   This Internet-Draft will expire on September 6, 2012.
 
 Copyright Notice
 
@@ -48,15 +49,15 @@ Copyright Notice
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents
    (http://trustee.ietf.org/license-info) in effect on the date of
-   publication of this document.  Please review these documents
 
 
 
-Chen, et al.            Expires September 3, 2012               [Page 1]
+Chen, et al.            Expires September 6, 2012               [Page 1]
 
 Internet-Draft               MAP Deployment                   March 2012
 
 
+   publication of this document.  Please review these documents
    carefully, as they describe your rights and restrictions with respect
    to this document.  Code Components extracted from this document must
    include Simplified BSD License text as described in Section 4.e of
@@ -107,18 +108,17 @@ Table of Contents
 
 
 
-
-Chen, et al.            Expires September 3, 2012               [Page 2]
+Chen, et al.            Expires September 6, 2012               [Page 2]
 
 Internet-Draft               MAP Deployment                   March 2012
 
 
 1.  Introduction
 
-   IPv4 address exhaustion has becoming world-wide reality and the main
-   stream of deployment since now on is IPv6-only networking.
+   IPv4 address exhaustion has become world-wide reality and the primary
+   solution in the industry is to deploy IPv6-only networking.
    Meanwhile, having access to legacy IPv4 contents and services is a
-   long-term requirement, lasting until the completion of the IPv6
+   long-term requirement, will be so until the completion of the IPv6
    transition.  It demands sharing residual IPv4 address pools for IPv4
    communications across the IPv6-only domain(s).
 
@@ -140,7 +140,7 @@ Internet-Draft               MAP Deployment                   March 2012
    conditions, in the phase of IPv4 residual deployment.  Potential
    readers of this document are those who want to know:
 
-   1.  What kind of deployment requirements does MAP satisfy?
+   1.  What are the requirements of MAP deployment ?
 
    2.  What technical options needs to be considered when deploying MAP,
        and how?
@@ -164,7 +164,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012               [Page 3]
+Chen, et al.            Expires September 6, 2012               [Page 3]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -220,7 +220,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012               [Page 4]
+Chen, et al.            Expires September 6, 2012               [Page 4]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -234,22 +234,22 @@ Internet-Draft               MAP Deployment                   March 2012
 3.1.  Fixed networks
 
    There are typically two network models for fixed broadband access
-   service: one is to access using PPPoE/PPPoA authentication method
-   while the other is to use IPoE.  The first one is usually applied to
+   service: one is to use PPPoE/PPPoA authentication method while the
+   other is to use IPoE.  The first one is usually applied to
    Residential network and SOHO networks.  Subscribers in CPNs can
    access broadband network by PPP dial-up authentication.  BRAS is the
    key network element which takes full responsibility of IP address
    assignment, user authentication, traffic aggregation, PPP session
    termination, etc.  Then IP traffic is forwarded to Core Routers
-   through Metro Area Network, and finally transited to external
-   Internet via Backbone network.The second network scenario is usually
-   applied to large enterprise networks.  Subscribers in CPNs can access
-   broadband network by IPoE authentication.  IP address is normally
-   assigned by DHCP server, or static configuration.
+   through Metro Area Network, and finally transited to Internet via
+   Backbone network.The second network scenario is usually applied to
+   large enterprise networks.  Subscribers in CPNs can access broadband
+   network by IPoE authentication.  IP address is normally assigned by
+   DHCP server, or static configuration.
 
    In either case, a CPE could obtain a prefix via prefix delegation
    procedure, and the hosts behind CPE would get its own IPv6 addresses
-   within the prefix through SLAAC or DHCPv6 stateful.  A MAP CE would
+   within the prefix through SLAAC or DHCPv6 statefully.  A MAP CE would
    also obtain a set of MAP rules from DHCPv6 server.  In MAP solution,
    both encapsulation and double translation can be applied.
 
@@ -276,7 +276,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012               [Page 5]
+Chen, et al.            Expires September 6, 2012               [Page 5]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -289,23 +289,24 @@ Internet-Draft               MAP Deployment                   March 2012
    deploying MAP-based solutions is depicted in
    [I-D.chen-softwire-4v6-pd].  UE could take the rule of MAP CE.  There
    may be three possible cases for a UE performing as a MAP CE.  As
-   shown in Figure 1.  It provides IPv4 only, IPv6 only or IPv6 and IPv4
-   connection to IP devices depicted as H1, H2 and H3.  The MAP CE may
-   implement a internal NAT44 to provide IPv4 connectin for multiple IP
-   devices.  The IP devices get /64 prefix from MAP CE through RS/RA.
-   Such a /64 prefix is generated from the prefix assigned by the
-   network through prefix delegation.  In the process, IPv6 prefix
-   delegation is asked to derive the shared IPv4 address implicitly.
+   shown in Figure 2.  It provides IPv4 only, IPv6 only or IPv6 and IPv4
+   connection to IP devices depicted as H1, H2 and H3, respectively.
+   The MAP CE may implement a internal NAT44 to provide IPv4 connectin
+   for multiple IP devices.  The IP devices get /64 prefix from MAP CE
+   through RS/RA.  Such a /64 prefix is generated from the prefix
+   assigned by the network through prefix delegation.  In the process,
+   IPv6 prefix delegation is asked to derive the shared IPv4 address
+   implicitly.
 
    Prefix delegation is introduced in 3GPP network in Release 10.  A MAP
    CE obtains IPv6 prefix from the mobile network.  It then initiates
-   DHCPv6 for prefix delegation.  There are two phases for a MAP CE
-   performs prefix delegation function.  For the first phase, the MAP CE
+   DHCPv6 for prefix delegation.  There are two phases for a MAP CE to
+   perform prefix delegation function.  For the first phase, the MAP CE
    attaches to the LTE network.  The network provides the UE with IPv6
-   only connection and the UE obtains a /64 rule IPv6 prefix.  For the
-   second phase, the MAP CE initiates prefix delegation procedure.  The
-   network assign a prefix shorter than 64 to the CE.  Figure 1 shows a
-   case that a /56 is assigned to MAP CE during prefix delegation.
+   only connection and the UE obtains a /64 IPv6 prefix.  For the second
+   phase, the MAP CE initiates prefix delegation procedure.  The network
+   assigns a prefix shorter than 64 to the MAP CE.  Figure 2 shows a
+   case where a /56 is assigned to MAP CE during prefix delegation.
 
 
 
@@ -331,8 +332,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-
-Chen, et al.            Expires September 3, 2012               [Page 6]
+Chen, et al.            Expires September 6, 2012               [Page 6]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -360,7 +360,7 @@ Internet-Draft               MAP Deployment                   March 2012
              |  Network    |
              +-------------+
 
-             Figure 1 MAP solutions deployment in mobile network
+             Figure 2 MAP solutions deployment in mobile network
 
 
 
@@ -388,7 +388,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012               [Page 7]
+Chen, et al.            Expires September 6, 2012               [Page 7]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -402,40 +402,40 @@ Internet-Draft               MAP Deployment                   March 2012
    condition.  According to the definition of
    [I-D.mdt-softwire-mapping-address-and-port], a MAP domain is a set of
    MAP CEs and BRs connected to the same virtual link.  One MAP domain
-   share a common BR and have the same set of BMRs, FMRs and DMR, and it
+   shares a common BR and has the same set of BMRs, FMRs and DMR, and it
    can be further divided into multiple sub-domains when multiple IPv4
-   subnets are deployed in one MAP domain.  All CEs in MAP domain are
-   provisioned with the same set of MAP rules by MAP DHCPv6 server
+   subnets are deployed in one MAP domain.  All CEs in the MAP domain
+   are provisioned with the same set of MAP rules by MAP DHCPv6 server
    [I-D.mdt-softwire-map-dhcp-option].  There might be multiple BMRs in
    one MAP domain, and CE would pick up its own BMR by best prefix
    matching lookup.  However, all CEs within the sub-domain will have
-   the same BMR. in which the BMR of all CEs is the same.  In hub&spoke
-   mode, CE would use DMR as its only FMR for outbound traffic; while in
-   mesh mode, a best matching prefix lookup is done in the IPv4 routing
-   tabe and the correct FMR is chosen.
+   the same BMR. in which the BMR of all CEs is the same.  In hub and
+   spoke mode, CE would use DMR as its only FMR for outbound traffic;
+   while in mesh mode, a best matching prefix lookup is done in the IPv4
+   routing table and the correct FMR is chosen.
 
    Basically, operator should firstly determine its own deployment mode
-   for MAP domain: mesh or Hub & spoke, as different considerations for
-   different deployment models should be applied accordingly.
+   for MAP domain: mesh or Hub and spoke, as different considerations
+   for different deployment models should be applied accordingly.
    Afterwards, MAP domain planning, MAP rule provision, addressing and
    routing, etc., for a MAP domain should be taken into consideration.
 
 4.1.1.  MAP deployment model planning
 
    In order to do MAP domain planning, an operator should firstly make
-   the decision to choose Mesh or Hub & Spoke model according to
-   operator's network policy.  In Hub&Spoke mode, all traffic within the
-   same MAP domain has to go through BR which will result in less
+   the decision to choose Mesh or Hub and Spoke model according to
+   operator's network policy.  In Hub and Spoke mode, all traffic within
+   the same MAP domain has to go through BR which will result in less
    optimized traffic; however, it would simplify the CE process since
    there is no need to do FMR lookup for each incoming packet.  Besides,
    it would have enhanced management ability as BR can take full control
-   of all the traffic.  As a result, it is reasonable to deploy Hub&
+   of all the traffic.  As a result, it is reasonable to deploy Hub and
    Spoke mode for network with relatively flat architecture.
 
    In mesh mode, traffic optimization can be achieved by CE to CE direct
    path.  It is recommended to apply mesh mode in case CE to CE traffic
-   occupies a large amount and there are not too many MAP rules, say
-   less than 10 MAP rules, in the specific domain.
+   is high and there are not too many MAP rules, say less than 10 MAP
+   rules, in the specific domain.
 
 4.1.2.  MAP domain planning
 
@@ -444,24 +444,24 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012               [Page 8]
+Chen, et al.            Expires September 6, 2012               [Page 8]
 
 Internet-Draft               MAP Deployment                   March 2012
 
 
-   MAP domain to accomodate more subscribers with less BRs.  Moreover, a
-   larger MAP domain would also be easier for management and
-   maintainace.  However, a larger MAP domain may also result in less
-   optimized traffic in Hub & spoke case, where all traffic has to go
+   MAP domain to accommodate more subscribers with less BRs.  Moreover,
+   a larger MAP domain would also be easier for management and
+   maintenance.  However, a larger MAP domain may also result in less
+   optimized traffic in Hub and spoke case, where all traffic has to go
    through a remote BR.  Besides, it will also result in increased
-   number of MAP rules and highly centralized address mangement, etc.
-   It is a tradeoff to choose an appropriate domain coverage.
+   number of MAP rules and highly centralized address management, etc.
+   It is a tradeoff to choose appropriate domain coverage.
 
    Generally speaking, it is not recommended to use a large MAP domain
-   in Hub & spoke model.  While in mesh model, it is suggested to adopt
-   a relatively larger MAP domain since traffic optimization has already
-   been guaranteed, and the only concern is to make sure that the number
-   of MAP rules is not too many.
+   in Hub and spoke model.  While in mesh model, it is suggested to
+   adopt a relatively larger MAP domain since traffic optimization has
+   already been guaranteed, and the only concern is to make sure that
+   the number of MAP rules is not too big.
 
    Furthermore, MAP sub-domains can be divided for differentiated
    service provision.  Different sub-domains could be distinguished by
@@ -471,36 +471,36 @@ Internet-Draft               MAP Deployment                   March 2012
 
 4.1.3.  MAP rule provisioning
 
-   In stateless MAP, Mesh or Hub/Spoke communications can be achieved
-   among CEs in one MAP domain in terms of assigning appropriate FMR(s)
-   to CEs.  We recommend ISP deploy the full Hub/Spoke mode or full mesh
-   mode describe below, because the DHCPv6 server can simply achieve
-   them.
+   In stateless MAP, Mesh or Hub and Spoke communications can be
+   achieved among CEs in one MAP domain in terms of assigning
+   appropriate FMR(s) to CEs.  We recommend ISP deploy the full Hub and
+   Spoke mode or full mesh mode describe below, because the DHCPv6
+   server can simply achieve them.
 
-4.1.3.1.  full Hub/Spoke Communication among CEs
+4.1.3.1.  Full Hub and Spoke Communication among CEs
 
-   In order to achieve the Hub/Spoke communication fully, none any FMR
-   is assigned to CEs.  In this mode, when CE send packets to other CE
-   in the same MAP domain,using the DMR as FMR, the packets must go
-   though BR before arriving the peer.
+   In order to achieve the full communication in the Hub and Spoke mode,
+   no FMR is assigned to CEs.  In this mode, when a CE sends packets to
+   another CE in the same MAP domain using the DMR as FMR, the packets
+   must go though BR before arriving at the destination.
 
-4.1.3.2.  full Mesh Communication among CEs
+4.1.3.2.  Full Mesh Communication among CEs
 
    Assigning all BMRs in MAP domain to each CE as FMRs, Mesh
    communications can be achieved among all CEs.  In this case, when CE
-   receive IPv4 packets, it looks up appropriate FMR with a specific
-   Rule IPv4 prefix which has the longest match with an IPv4 destination
-   address.  If the FMR is found (destination is one of CEs in the MAP
-   domain), the packets will be forwarded to associated CE directly
-   without going though BR.  If the FMR is no found (destination is out
-   of the MAP domain), the DMR will be selected as FMR, then forward the
-   packets to associated BR(s).
+   receives an IPv4 packet, it looks up for an appropriate FMR with a
+   specific Rule IPv4 prefix which has the longest match with the IPv4
+   destination address.  If the FMR is found (destination is one of the
+   CEs in the MAP domain), the packet will be forwarded to associated CE
+   directly without going though BR.  If the FMR is not found
+   (destination is out of the MAP domain), the DMR will be selected as
+   FMR, the CE then forwards the packet to the associated BR.
 
 
 
 
 
-Chen, et al.            Expires September 3, 2012               [Page 9]
+Chen, et al.            Expires September 6, 2012               [Page 9]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -509,7 +509,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
    Mesh communications among some CEs along with Hub/Spoke
    communications among some other CEs can be achieved by which
-   differentiated FMRs are assigned to CEs.  For instant, as Figure 1
+   differentiated FMRs are assigned to CEs.  For instance, as Figure 1
    shown, Mapping rule 1, Mapping rule 2, Mapping rule 3 is provisioned
    to CE1, CE2, CE3 respectively as BMR, and rule 1 and rule2, and rule
    1 and rule 2 and rule 3, and rule 2 and rule 3 are assigned to CE1,
@@ -534,11 +534,11 @@ Internet-Draft               MAP Deployment                   March 2012
 4.1.4.  MAP DHCPv6 server deployment consideration
 
    All the CEs within a MAP domain will get the same set of MAP rules by
-   DHCPv6 server, including BMR, FMRs and DMR.  In one MAP domian, BMR
+   DHCPv6 server, including BMR, FMRs and DMR.  In one MAP domain, BMR
    for different CEs might be different, but FMRs and DMR are all the
    same.  Each Mapping Rule keeps a record of Rule IPv6 prefix, Rule
-   IPv4 prefix, Rule EA-bits length and Rule Port Parameters.  Section
-   XX would give a step by step example of how to calculate these
+   IPv4 prefix, Rule EA-bits length and Rule Port Parameters.  Section 5
+   would give a step by step example of how to calculate these
    parameters.
 
    In stateless MAP, the deployment of DHCPv6 server is independent with
@@ -556,24 +556,24 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 10]
+Chen, et al.            Expires September 6, 2012              [Page 10]
 
 Internet-Draft               MAP Deployment                   March 2012
 
 
 4.1.4.2.  MAP domain : DHCPv6 server = 1:N
 
-   This might happen when DHCPv6 server is distributely deployed in a
-   large MAP domain.  In this case, all these DHCPv6 server should
-   configure the same set of MAP rules for its MAP domain, including
-   mutiple BMRs, FMRs and DMR.
+   This might happen when DHCPv6 servers are deployed in a large MAP
+   domain in a distributed manner.  In this case, all these DHCPv6
+   servers should be configured with the same set of MAP rules for the
+   MAP domain, including mutiple BMRs, FMRs and DMRs.
 
 4.1.4.3.  MAP domain : DHCPv6 server = N:1
 
-   This might happen when MAP domain is relatively small and MAP DHCPv6
-   server is deployed centralized in the network.  In this case,
-   multiple MAP domains should be distinguished based on CE's IPv6
-   prefix in different MAP domains.
+   This might happen when MAP domain is relatively small and a single
+   MAP DHCPv6 server is deployed in the network.  In this case, multiple
+   MAP domains should be distinguished based on CE's IPv6 prefix in
+   different MAP domains.
 
    Besides, the situation of remaining IPv4 address prefixes may have
    big impact on MAP rule planning, especially for service operators who
@@ -584,7 +584,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 4.1.5.  PSID consideration
 
-   For PSID provnisioning, all the CEs, BR and DHCPv6 server within the
+   For PSID provisioning, all the CEs, BR and DHCPv6 server within the
    same MAP domain should be configured with the same parameter value.
    All CEs with the same BMR should have the same PSID length.  If a
    provider would like to introduce differentiated address sharing
@@ -594,32 +594,31 @@ Internet-Draft               MAP Deployment                   March 2012
 
    The default PSID offset is chosen as 4 in
    [I-D.mdt-softwire-mapping-address-and-port], which will exclude port
-   range of 0-4096.  Operator can adjust the value follow practical
-   usage in reality.
+   range of 0-4096.  Operator can adjust the value based on actual
+   usage, policy, and service mode.
 
-   With regard to PSID format, both continous and non-continuous port
+   With regard to PSID format, both continuous and non-continuous port
    set can be supported in GMA algorithm.  Although non-continuous port
    set has the advantage of better security, UPnP friendly, etc.,
    continuous port set is still the simplest way to implement.  Since
    PSID format should be supported not only in CPEs, BRs and DHCPv6
    server, but also in other supporting systems as well, e.g. traffic
    logging system, user management system, a provider should make the
-   decision based on an comprehensive analysis on its own existing
-   systems.
+   decision based on comprehensive analysis on its existing systems.
 
-   It is note that Some ISPs may need to offer services in a MAP domain
-   with a shared address, e.g. there are hosts FTP server under CEs.
+   Note that some ISPs may need to offer services in a MAP domain with a
+   shared address, e.g. there are hosts FTP server under CEs.  The
+   service provisioning may require well-know port range (i.e. port
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 11]
+Chen, et al.            Expires September 6, 2012              [Page 11]
 
 Internet-Draft               MAP Deployment                   March 2012
 
 
-   The service provisioning may require well-know port range(i.e. port
    range belong to 0-1023).  MAP would provide operators with
-   possibilities to generate a port range including the 0-1023.
+   possibilities to generate a port range including those in 0-1023.
    Afterwards, operators could decide to assign it to any requesting
    user.
 
@@ -645,9 +644,8 @@ Internet-Draft               MAP Deployment                   March 2012
    private customers class which don't need so many ports provision them
    the BMR with high sharing ratio.
 
-   For MAP routing, since it has already prohibited IPv4 routing
-   imported in IPv6, there will be no more impact on IPv6 routing
-   anymore.
+   For MAP routing, since there are no IPv4 routes exported to IPv6
+   networks.
 
 4.1.7.  Translation vs. Encapsulation
 
@@ -661,37 +659,37 @@ Internet-Draft               MAP Deployment                   March 2012
 
    2.  ICMP
 
-   Some IPv4 ICMP codes do not have a corresponding code in ICMPv6, that
-   means some ICMPv4 packets can not be supported in the translation
-   mode, please refer to [RFC6145] for more detail.  Those packets
-   should be dropped sliently.  Encapsulation mode does not have this
+   Some IPv4 ICMP codes do not have a corresponding codes in ICMPv6,
+   that means some ICMPv4 packets can not be supported in the
+   translation mode, please refer to [RFC6145] for more details.  Those
+   packets should be dropped siently.  Encapsulation mode does not have
+   this problem.
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 12]
+
+Chen, et al.            Expires September 6, 2012              [Page 12]
 
 Internet-Draft               MAP Deployment                   March 2012
 
 
-   problem.
-
-   In the encapsulation mode, if an intermediate node generate a ICMPv6
-   error message, the ICMPv6 message should be converted into ICMP
-   message and returnd to the source with the source address set to
-   192.70.192.254 [I-D.xli-behave-icmp-address].
+   In the encapsulation mode, if an intermediate node generates an
+   ICMPv6 error message, the ICMPv6 message should be converted into
+   ICMP message and returned to the source with the source address set
+   to 192.70.192.254 [I-D.xli-behave-icmp-address].
 
    3.  PMTU and fragmentation
 
    Both translation mode and encapsulation mode have PMTU and
-   fragmentation Problem
+   fragmentation problem.
 
-   4.  End-user IPv6 prefix restictions
+   4.  End-user IPv6 prefix restrictions
 
-   Translation mode don't permit the End-user IPv6 prefix to excend
+   Translation mode doen't permit the End-user IPv6 prefix to exceed
    64bits while encapsulation mode doesn't have that restrictions.  If
-   ISP only have long IPv6 prefixes are used as Rule IPv6 prefix, the
-   End-user IPv6 prefix is possible excend 64bits, in this case, the
-   translation mode may be not suited.
+   ISP only has long IPv6 prefixes used as Rule IPv6 prefix, the end-
+   user IPv6 prefix is possible to exceed 64bits, in this case, the
+   translation mode may not be suitable.
 
 4.2.  BR settings
 
@@ -713,7 +711,7 @@ Internet-Draft               MAP Deployment                   March 2012
    size of the IPv4 network that the ISP has to administer would be kept
    to a minimum.  Placing the BR near the CE means that the length of
    the IPv4 network between the BR and the IPv4 Internet would be
-   maximal.
+   longer.
 
    Moreover, in case where the set of CEs is geographically dispersed,
    multiple BRs would be needed, which would further enlarge the IPv4
@@ -721,16 +719,15 @@ Internet-Draft               MAP Deployment                   March 2012
 
    Therefore, we offer the following guideline: BRs should be placed as
    close to the border with the IPv4 Internet as possible while keeping
+   triangle routing to a minimum.  Regional POPs should probably be
+   considered as potential candidates.
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 13]
+Chen, et al.            Expires September 6, 2012              [Page 13]
 
 Internet-Draft               MAP Deployment                   March 2012
 
-
-   triangle routing to a minimum.  Regional POPs should probably be
-   considered as potential candidates.
 
    Note also that MAP being stateless, asymmetric routing is possible,
    meaning that separate BRs can be used for traffic entering and
@@ -754,7 +751,7 @@ Internet-Draft               MAP Deployment                   March 2012
    reliability of traffic from CE to BR.  Since there can be only one
    Default Mapping Rule per MAP domain, traffic from CE to BR will
    always use the same destination address (in encapsulation mode) or
-   prefix (in translation mode).  When this is address or prefix is
+   prefix (in translation mode).  When this address or prefix is
    anycast, reliability is greatly increased.  If a BR goes down, it
    stops advertising the IPv6 anycast address or prefix, and traffic is
    automatically re-routed to other BRs.  For this mechanism to work
@@ -777,20 +774,20 @@ Internet-Draft               MAP Deployment                   March 2012
 
    3.  MTU/Fragmentation
 
+   If the MTU is well-managed such that the IPv6 MTU on the CE WAN side
+   interface is set so that no fragmentation occurs within the boundary
+   of the MAP domain, then the 4rd Tunnel MTU can be set to the known
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 14]
+Chen, et al.            Expires September 6, 2012              [Page 14]
 
 Internet-Draft               MAP Deployment                   March 2012
 
 
-   If the MTU is well-managed such that the IPv6 MTU on the CE WAN side
-   interface is set so that no fragmentation occurs within the boundary
-   of the MAP domain, then the 4rd Tunnel MTU can be set to the known
-   IPv6 MTU minus the size of the encapsulating IPv6 header (40 bytes).
+   IPv6 MTU minus the size of the encapsulating IPv4 header (40 bytes).
    For example, if the IPv6 MTU is known to be 1500 bytes, the 4rd
-   Tunnel MTU might be set to 1460 bytes.  Absent more specific
+   Tunnel MTU might be set to 1460 bytes.  Without more specific
    information, the 4rd Tunnel MTU SHOULD default to 1280 bytes.
 
    When using encapsulation mode, it is important that fragments of a
@@ -803,7 +800,7 @@ Internet-Draft               MAP Deployment                   March 2012
    BRs using an anycast address as source can cause problems.  If
    traffic sent by a BR with a source anycast address causes an ICMP
    error to be returned, that error packet's destination address will be
-   an anycast address, meaning that a different BR could receive it.  In
+   an anycast address, meaning that a different BR might receive it.  In
    the case of a Too Big ICMP error, this could cause a path MTU
    discovery black hole.  Another possible problem could occur if
    fragmented packets from different BRs using the same anycast address
@@ -811,7 +808,7 @@ Internet-Draft               MAP Deployment                   March 2012
    fragment reassembly.
 
    Therefore, when using anycast addresses, it is RECOMMENDED that they
-   be only used as destination addresses, and never as source addresses.
+   be only used as destination address, and never as source addresses.
    BRs SHOULD be configured to accept traffic sent to the anycast
    address, but use an unicast address as source.
 
@@ -833,17 +830,17 @@ Internet-Draft               MAP Deployment                   March 2012
    At domain entrance, this ensures that all pieces of all received IPv4
    datagrams go to the right IPv6 destinations.
 
+   Another peculiarity of shared IPv4 addresses is that, without
+   precaution, a destination could simultaneously receive from different
+   sources fragmented datagrams that have the same Datagram ID (the
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 15]
+Chen, et al.            Expires September 6, 2012              [Page 15]
 
 Internet-Draft               MAP Deployment                   March 2012
 
 
-   Another peculiarity of shared IPv4 addresses is that, without
-   precaution, a destination could simultaneously receive from different
-   sources fragmented datagrams that have the same Datagram ID (the
    Identification field of [RFC0791]).  This would disturb the
    reassembly process.  To eliminate this risk, CE MUST rewrite the
    datagram ID to a unique value among CEs sharing an IPv4 address upon
@@ -867,7 +864,7 @@ Internet-Draft               MAP Deployment                   March 2012
    concentrator.  When receiving an IPv6 packet from the concentrator,
    the initiator decapsulates/translates the IPv6 packet to get the IPv4
    packet with public destination IPv4 address.  Then it performs NAT44
-   function and translates the destination address into private.
+   function and translates the destination address into private one.
 
    The CE is responsible for performing ALG functions (e.g., SIP, FTP),
    as well as supporting NAT Traversal mechanisms (e.g., UPnP, NAT-PMP,
@@ -889,17 +886,17 @@ Internet-Draft               MAP Deployment                   March 2012
    CE directly.  If the application in CE use the public address
    directly, it might conflict with other CEs.  So it is highly
    suggested that CE should also run a local NAT to map a private
+   address to public address in CE.  In this way, the CE IPv4 address
+   passed to local applications would be conflict with other CEs.
+   Moreover, CE should guarantee that every source port number in the
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 16]
+Chen, et al.            Expires September 6, 2012              [Page 16]
 
 Internet-Draft               MAP Deployment                   March 2012
 
 
-   address to public address in CE.  In this way, the CE IPv4 address
-   passed to local applications would be conflict with other CEs.
-   Moreover, CE should guarantee that every source port number in the
    outgoing packets falls into the allocated port-set.
 
 4.4.  Supporting system
@@ -948,7 +945,10 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 17]
+
+
+
+Chen, et al.            Expires September 6, 2012              [Page 17]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -960,7 +960,7 @@ Internet-Draft               MAP Deployment                   March 2012
    in IPv4 residual deployment.
 
    Residual deployment starts from IPv6 address planning.  A simple
-   example is taken inline for easy understanding.
+   example below is used to assist the understanding.
 
    (A) IPv6 considerations
 
@@ -973,8 +973,8 @@ Internet-Draft               MAP Deployment                   March 2012
    (A2)  Choose the length x of IPv6 prefixes to be assigned to ordinary
          customers.
 
-         Considering we have a /32 IPv6 block, it is not a problem for
-         the IPv6 deployment with the given number of CEs.  Let x = 60,
+         Consider we have a /32 IPv6 block, it is not a problem for the
+         IPv6 deployment with the given number of CEs.  Let x = 60,
          allowing subnets inside in each CE delegated networks.
 
    (A3)  Multiply N by a margin coefficient K, a power of two (K = 2 ^
@@ -1004,7 +1004,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 18]
+Chen, et al.            Expires September 6, 2012              [Page 18]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1060,7 +1060,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 19]
+Chen, et al.            Expires September 6, 2012              [Page 19]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1116,7 +1116,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 20]
+Chen, et al.            Expires September 6, 2012              [Page 20]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1132,7 +1132,7 @@ Internet-Draft               MAP Deployment                   March 2012
    progresses it may be simpler for operators to employ a single-version
    network, since deploying both IPv4 and IPv6 in parallel would costs
    more than IPv6-only network.  Therefore switching to an IPv6-only
-   network in realtively small scale will become more prevalent.
+   network in relatively small scale will become more prevalent.
    Meanwhile, a significant part of network will still stay in IPv4 for
    long time, especially at early stage of IPv6 transition.  There may
    not be enough public or private IPv4 addresses to support end-to-end
@@ -1164,7 +1164,7 @@ Internet-Draft               MAP Deployment                   March 2012
    Regarding the case 1, MAP[I-D.mdt-softwire-mapping-address-and-port]
    has provided a good pre-condition, in which a unified address format
    and configuration rules have been documented to facilitate the
-   collocation of MAP-T and MAP-E.  Received date packages on CE or BR
+   collocation of MAP-T and MAP-E.  Received data packets on CE or BR
    could be differentiated and processed accordingly through inspecting
    "Next Header" filed in IP header.
 
@@ -1172,7 +1172,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 21]
+Chen, et al.            Expires September 6, 2012              [Page 21]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1210,7 +1210,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 6.2.  Migration Mode
 
-   IPv4 Residual deployment is a interim phase during IPv6 migration.
+   IPv4 Residual deployment is an interim phase during IPv6 migration.
    It would be beneficial for ISPs, if this phase is as short as
    possible since end-to-end IPv6 traversal is the really goals.  When
    IPv6 is getting more and more mature, MAP solution would be retired
@@ -1228,7 +1228,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 22]
+Chen, et al.            Expires September 6, 2012              [Page 22]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1237,15 +1237,15 @@ Internet-Draft               MAP Deployment                   March 2012
 
 6.2.2.  Active Transition
 
-   Active Transition is targeting to acclerate IPv4 exit and increase
+   Active Transition is targeting to accelerate IPv4 exit and increase
    native IPv6 utilization.  A desirable way deploying MAP solution is
-   only providing IPv6 traversal ability to a IPv4-only host.  However,
-   MAP CE can not determine received traffic is send from a IPv4 node or
-   a dual-stack node.  In the latter case, IPv6 utilization is prefered
-   in a common case.  When a network evolve to a post-IPv6 era.  It
-   might be good for ISP to consider implement enforcements rules to
-   help IPv6 migration.  There is a set of approach would help the
-   situation.
+   only providing IPv6 traversal ability to an IPv4-only host.  However,
+   MAP CE can not determine received traffic is sent from an IPv4 node
+   or a dual-stack node.  In the latter case, IPv6 utilization is
+   prefered in a common case.  When a network evolves to a post-IPv6
+   era, it might be good for ISP to consider implementing enforcements
+   rules to help IPv6 migration.  There is a set of approach would help
+   the situation.
 
    o  ISP could install only IPv6 record (i.e.  AAAA) in DNS server,
       which would provide users with IPv6 steering effects.  When a host
@@ -1284,7 +1284,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 23]
+Chen, et al.            Expires September 6, 2012              [Page 23]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1340,7 +1340,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 24]
+Chen, et al.            Expires September 6, 2012              [Page 24]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1396,7 +1396,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 25]
+Chen, et al.            Expires September 6, 2012              [Page 25]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1452,7 +1452,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 26]
+Chen, et al.            Expires September 6, 2012              [Page 26]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1508,7 +1508,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 27]
+Chen, et al.            Expires September 6, 2012              [Page 27]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1564,7 +1564,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 28]
+Chen, et al.            Expires September 6, 2012              [Page 28]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1620,7 +1620,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 29]
+Chen, et al.            Expires September 6, 2012              [Page 29]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1676,7 +1676,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 30]
+Chen, et al.            Expires September 6, 2012              [Page 30]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1732,7 +1732,7 @@ Authors' Addresses
 
 
 
-Chen, et al.            Expires September 3, 2012              [Page 31]
+Chen, et al.            Expires September 6, 2012              [Page 31]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1747,6 +1747,14 @@ Internet-Draft               MAP Deployment                   March 2012
    Email: tina.tsou.zouting@huawei.com
 
 
+   Simon Perreault
+   Huawei Technologies
+   Quebec, QC  G1R 2E1
+   Santa Clara, Aberdeen  246
+   USA
+
+   Phone: +1 418 656 9254
+   Email: simon.perreault@viagenie.ca
 
 
 
@@ -1780,13 +1788,5 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-
-
-
-
-
-
-
-
-Chen, et al.            Expires September 3, 2012              [Page 32]
+Chen, et al.            Expires September 6, 2012              [Page 32]
 
