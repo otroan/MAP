@@ -1,10 +1,10 @@
 
 
 
-Network Working Group                                            M. Chen
-Internet-Draft                                                   FreeBit
-Intended status: Informational                                    Q. Sun
-Expires: September 6, 2012                                 China Telecom
+Network Working Group                                             Q. Sun
+Internet-Draft                                             China Telecom
+Intended status: Informational                                   M. Chen
+Expires: September 6, 2012                                       FreeBit
                                                                  G. Chen
                                                             China Mobile
                                                                   C. Sun
@@ -52,7 +52,7 @@ Copyright Notice
 
 
 
-Chen, et al.            Expires September 6, 2012               [Page 1]
+Sun, et al.             Expires September 6, 2012               [Page 1]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -108,7 +108,7 @@ Table of Contents
 
 
 
-Chen, et al.            Expires September 6, 2012               [Page 2]
+Sun, et al.             Expires September 6, 2012               [Page 2]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -164,7 +164,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012               [Page 3]
+Sun, et al.             Expires September 6, 2012               [Page 3]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -220,7 +220,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012               [Page 4]
+Sun, et al.             Expires September 6, 2012               [Page 4]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -269,14 +269,14 @@ Internet-Draft               MAP Deployment                   March 2012
               +                   |              |
               +-------------------+--------------+
 
-   Figure 1 Stateless 4over6 overview
+                    Figure 1: Stateless 4over6 overview
 
 
 
 
 
 
-Chen, et al.            Expires September 6, 2012               [Page 5]
+Sun, et al.             Expires September 6, 2012               [Page 5]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -332,7 +332,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012               [Page 6]
+Sun, et al.             Expires September 6, 2012               [Page 6]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -360,7 +360,8 @@ Internet-Draft               MAP Deployment                   March 2012
              |  Network    |
              +-------------+
 
-             Figure 2 MAP solutions deployment in mobile network
+
+                Figure 2: MAP deployment in mobile network
 
 
 
@@ -387,8 +388,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-
-Chen, et al.            Expires September 6, 2012               [Page 7]
+Sun, et al.             Expires September 6, 2012               [Page 7]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -444,7 +444,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012               [Page 8]
+Sun, et al.             Expires September 6, 2012               [Page 8]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -500,7 +500,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012               [Page 9]
+Sun, et al.             Expires September 6, 2012               [Page 9]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -509,7 +509,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
    Mesh communications among some CEs along with Hub/Spoke
    communications among some other CEs can be achieved by which
-   differentiated FMRs are assigned to CEs.  For instance, as Figure 1
+   differentiated FMRs are assigned to CEs.  For instance, as Figure 3
    shown, Mapping rule 1, Mapping rule 2, Mapping rule 3 is provisioned
    to CE1, CE2, CE3 respectively as BMR, and rule 1 and rule2, and rule
    1 and rule 2 and rule 3, and rule 2 and rule 3 are assigned to CE1,
@@ -529,7 +529,7 @@ Internet-Draft               MAP Deployment                   March 2012
               |               |         | rule 3  |         |
               +---------------+---------+---------+---------+
 
-            Figure 1: Mapping rules assigned to CEs in example
+            Figure 3: Mapping rules assigned to CEs in example
 
 4.1.4.  MAP DHCPv6 server deployment consideration
 
@@ -556,7 +556,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 10]
+Sun, et al.             Expires September 6, 2012              [Page 10]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -612,7 +612,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 11]
+Sun, et al.             Expires September 6, 2012              [Page 11]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -668,7 +668,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 12]
+Sun, et al.             Expires September 6, 2012              [Page 12]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -724,7 +724,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 13]
+Sun, et al.             Expires September 6, 2012              [Page 13]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -780,7 +780,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 14]
+Sun, et al.             Expires September 6, 2012              [Page 14]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -836,7 +836,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 15]
+Sun, et al.             Expires September 6, 2012              [Page 15]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -892,7 +892,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 16]
+Sun, et al.             Expires September 6, 2012              [Page 16]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -948,7 +948,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 17]
+Sun, et al.             Expires September 6, 2012              [Page 17]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1004,7 +1004,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 18]
+Sun, et al.             Expires September 6, 2012              [Page 18]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1060,7 +1060,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 19]
+Sun, et al.             Expires September 6, 2012              [Page 19]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1116,7 +1116,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 20]
+Sun, et al.             Expires September 6, 2012              [Page 20]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1172,7 +1172,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 21]
+Sun, et al.             Expires September 6, 2012              [Page 21]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1228,7 +1228,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 22]
+Sun, et al.             Expires September 6, 2012              [Page 22]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1284,7 +1284,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 23]
+Sun, et al.             Expires September 6, 2012              [Page 23]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1340,7 +1340,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 24]
+Sun, et al.             Expires September 6, 2012              [Page 24]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1396,7 +1396,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 25]
+Sun, et al.             Expires September 6, 2012              [Page 25]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1452,7 +1452,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 26]
+Sun, et al.             Expires September 6, 2012              [Page 26]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1508,7 +1508,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 27]
+Sun, et al.             Expires September 6, 2012              [Page 27]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1564,7 +1564,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 28]
+Sun, et al.             Expires September 6, 2012              [Page 28]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1620,7 +1620,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 29]
+Sun, et al.             Expires September 6, 2012              [Page 29]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1676,21 +1676,12 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 30]
+Sun, et al.             Expires September 6, 2012              [Page 30]
 
 Internet-Draft               MAP Deployment                   March 2012
 
 
 Authors' Addresses
-
-   Maoke Chen
-   FreeBit Co., Ltd.
-   13F E-space Tower, Maruyama-cho 3-6
-   Shibuya-ku, Tokyo  150-0044
-   Japan
-
-   Email: fibrib@gmail.com
-
 
    Qiong Sun
    China Telecom
@@ -1700,6 +1691,15 @@ Authors' Addresses
 
    Phone: +86 10 5855 2923
    Email: sunqiong@ctbri.com.cn
+
+
+   Maoke Chen
+   FreeBit Co., Ltd.
+   13F E-space Tower, Maruyama-cho 3-6
+   Shibuya-ku, Tokyo  150-0044
+   Japan
+
+   Email: fibrib@gmail.com
 
 
    Gang Chen
@@ -1732,7 +1732,7 @@ Authors' Addresses
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 31]
+Sun, et al.             Expires September 6, 2012              [Page 31]
 
 Internet-Draft               MAP Deployment                   March 2012
 
@@ -1788,5 +1788,5 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Chen, et al.            Expires September 6, 2012              [Page 32]
+Sun, et al.             Expires September 6, 2012              [Page 32]
 

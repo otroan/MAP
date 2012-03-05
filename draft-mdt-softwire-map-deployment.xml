@@ -55,24 +55,6 @@
     <title abbrev="MAP Deployment">Mapping of Address and Port (MAP) -
     Deployment Considerations</title>
 
-    <author fullname="Maoke Chen" initials="M" surname="Chen">
-      <organization abbrev="FreeBit">FreeBit Co., Ltd.</organization>
-
-      <address>
-        <postal>
-          <street>13F E-space Tower, Maruyama-cho 3-6</street>
-
-          <city>Shibuya-ku, Tokyo</city>
-
-          <code>150-0044</code>
-
-          <country>Japan</country>
-        </postal>
-
-        <email>fibrib@gmail.com</email>
-      </address>
-    </author>
-
     <author fullname="Qiong Sun" initials="Q" surname="Sun">
       <organization>China Telecom</organization>
 
@@ -94,6 +76,24 @@
         <email>sunqiong@ctbri.com.cn</email>
 
         <!-- uri and facsimile elements may also be added -->
+      </address>
+    </author>
+
+    <author fullname="Maoke Chen" initials="M" surname="Chen">
+      <organization abbrev="FreeBit">FreeBit Co., Ltd.</organization>
+
+      <address>
+        <postal>
+          <street>13F E-space Tower, Maruyama-cho 3-6</street>
+
+          <city>Shibuya-ku, Tokyo</city>
+
+          <code>150-0044</code>
+
+          <country>Japan</country>
+        </postal>
+
+        <email>fibrib@gmail.com</email>
       </address>
     </author>
 
@@ -252,7 +252,7 @@
       <section title="Fixed networks">
 <t>There are typically two network models for fixed broadband access service: one is to use PPPoE/PPPoA authentication method while the other is to use IPoE. The first one is usually applied to Residential network and SOHO networks. Subscribers in CPNs can access broadband network by PPP dial-up authentication. BRAS is the key network element which takes full responsibility of IP address assignment, user authentication, traffic aggregation, PPP session termination, etc. Then IP traffic is forwarded to Core Routers through Metro Area Network, and finally transited to Internet via Backbone network.The second network scenario is usually applied to large enterprise networks. Subscribers in CPNs can access broadband network by IPoE authentication. IP address is normally assigned by DHCP server, or static configuration. </t>
 <t>In either case, a CPE could obtain a prefix via prefix delegation procedure, and the hosts behind CPE would get its own IPv6 addresses within the prefix through SLAAC or DHCPv6 statefully. A MAP CE would also obtain a set of MAP rules from DHCPv6 server. In MAP solution, both encapsulation and double translation can be applied. </t>
-    <figure>
+    <figure anchor="FIXED_NET" title="Stateless 4over6 overview">
         <artwork><![CDATA[
                 +------------------------------+
                 |        MAP Domain            |
@@ -270,7 +270,7 @@
             +                   |              |
             +-------------------+--------------+
         ]]></artwork>
-        <postamble>               Figure 1  Stateless 4over6 overview</postamble>
+        <postamble></postamble>
       </figure>
 
       </section>
@@ -302,8 +302,9 @@
         network assigns a prefix shorter than 64 to the MAP CE. Figure 2 shows a
         case where a /56 is assigned to MAP CE during prefix delegation. </t>
 
-        <t><figure>
-            <artwork><![CDATA[               +-------------+
+        <t><figure anchor="MOBILE_NET" title="MAP deployment in mobile network">
+            <artwork><![CDATA[
+               +-------------+
                |Private IPv4 |
                |  Network    | H1
                +-------------+
@@ -326,7 +327,7 @@
           |  Network    |
           +-------------+
 
-          Figure 2 MAP solutions deployment in mobile network]]></artwork>
+          ]]></artwork>
           </figure></t>
       </section>
     </section>
@@ -909,9 +910,9 @@ CE IPv4 Address = 63.245.48.236
 
       &rfc6052;
 
-      <?rfc include='reference.I-D.dec-stateless-4v6'?>
+      &I-D.dec-stateless-4v6;
 
-      <?rfc include='reference.I-D.chen-softwire-4v6-pd'?>
+      &I-D.chen-softwire-4v6-pd;
     </references>
   </back>
 </rfc>
