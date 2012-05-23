@@ -4,15 +4,16 @@
 Network Working Group                                             Q. Sun
 Internet-Draft                                             China Telecom
 Intended status: Informational                                   M. Chen
-Expires: September 6, 2012                                       FreeBit
+Expires: November 25, 2012                                       FreeBit
                                                                  G. Chen
                                                             China Mobile
                                                                   C. Sun
                                                              Softbank BB
                                                                  T. Tsou
-                                                                S. Simon
                                                      Huawei Technologies
-                                                           March 5, 2012
+                                                            S. Perreault
+                                                               Viag"|nie
+                                                            May 24, 2012
 
 
      Mapping of Address and Port (MAP) - Deployment Considerations
@@ -39,7 +40,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 6, 2012.
+   This Internet-Draft will expire on November 25, 2012.
 
 Copyright Notice
 
@@ -48,15 +49,15 @@ Copyright Notice
 
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents
-   (http://trustee.ietf.org/license-info) in effect on the date of
 
 
 
-Sun, et al.             Expires September 6, 2012               [Page 1]
+Sun, et al.             Expires November 25, 2012               [Page 1]
 
-Internet-Draft               MAP Deployment                   March 2012
+Internet-Draft               MAP Deployment                     May 2012
 
 
+   (http://trustee.ietf.org/license-info) in effect on the date of
    publication of this document.  Please review these documents
    carefully, as they describe your rights and restrictions with respect
    to this document.  Code Components extracted from this document must
@@ -73,44 +74,43 @@ Table of Contents
      3.1.  Fixed networks . . . . . . . . . . . . . . . . . . . . . .  5
      3.2.  Mobile networks  . . . . . . . . . . . . . . . . . . . . .  6
    4.  Deployment Consideration . . . . . . . . . . . . . . . . . . .  8
-     4.1.  Building the MAP domain  . . . . . . . . . . . . . . . . .  8
-       4.1.1.  MAP deployment model planning  . . . . . . . . . . . .  8
-       4.1.2.  MAP domain planning  . . . . . . . . . . . . . . . . .  8
-       4.1.3.  MAP rule provisioning  . . . . . . . . . . . . . . . .  9
-       4.1.4.  MAP DHCPv6 server deployment consideration . . . . . . 10
-       4.1.5.  PSID consideration . . . . . . . . . . . . . . . . . . 11
-       4.1.6.  Addressing and routing . . . . . . . . . . . . . . . . 12
-       4.1.7.  Translation vs. Encapsulation  . . . . . . . . . . . . 12
-     4.2.  BR settings  . . . . . . . . . . . . . . . . . . . . . . . 13
-     4.3.  CE settings  . . . . . . . . . . . . . . . . . . . . . . . 16
-     4.4.  Supporting system  . . . . . . . . . . . . . . . . . . . . 17
-   5.  MAP Address Planning, a Step-by-step Guide . . . . . . . . . . 18
-   6.  Migration Methodology  . . . . . . . . . . . . . . . . . . . . 21
-     6.1.  Roadmap for MAP-based Solution . . . . . . . . . . . . . . 21
-       6.1.1.  Start from Scratch . . . . . . . . . . . . . . . . . . 21
-       6.1.2.  Coexiting Phases . . . . . . . . . . . . . . . . . . . 21
-       6.1.3.  Exit Strategy  . . . . . . . . . . . . . . . . . . . . 22
-     6.2.  Migration Mode . . . . . . . . . . . . . . . . . . . . . . 22
-       6.2.1.  Passive Transition . . . . . . . . . . . . . . . . . . 22
-       6.2.2.  Active Transition  . . . . . . . . . . . . . . . . . . 23
-   7.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . . 24
-   8.  Security Considerations  . . . . . . . . . . . . . . . . . . . 25
-   9.  Additional Author List . . . . . . . . . . . . . . . . . . . . 26
-   10. Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . 27
-   11. References . . . . . . . . . . . . . . . . . . . . . . . . . . 28
-     11.1. Normative References . . . . . . . . . . . . . . . . . . . 28
-     11.2. Informative References . . . . . . . . . . . . . . . . . . 28
-   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 30
+     4.1.  Network Models . . . . . . . . . . . . . . . . . . . . . .  8
+     4.2.  Building the MAP domain  . . . . . . . . . . . . . . . . .  9
+       4.2.1.  MAP deployment model planning  . . . . . . . . . . . . 10
+       4.2.2.  MAP domain planning  . . . . . . . . . . . . . . . . . 10
+       4.2.3.  MAP rule provisioning  . . . . . . . . . . . . . . . . 11
+       4.2.4.  MAP DHCPv6 server deployment consideration . . . . . . 12
+       4.2.5.  PSID consideration . . . . . . . . . . . . . . . . . . 13
+       4.2.6.  Addressing and routing . . . . . . . . . . . . . . . . 13
+       4.2.7.  Translation vs. Encapsulation  . . . . . . . . . . . . 14
+     4.3.  BR settings  . . . . . . . . . . . . . . . . . . . . . . . 14
+     4.4.  CE settings  . . . . . . . . . . . . . . . . . . . . . . . 17
+     4.5.  Supporting system  . . . . . . . . . . . . . . . . . . . . 18
+   5.  MAP Address Planning, a Step-by-step Guide . . . . . . . . . . 20
+   6.  Migration Methodology  . . . . . . . . . . . . . . . . . . . . 23
+     6.1.  Roadmap for MAP-based Solution . . . . . . . . . . . . . . 23
+       6.1.1.  Start from Scratch . . . . . . . . . . . . . . . . . . 23
+       6.1.2.  Coexiting Phases . . . . . . . . . . . . . . . . . . . 23
+       6.1.3.  Exit Strategy  . . . . . . . . . . . . . . . . . . . . 24
+     6.2.  Migration Mode . . . . . . . . . . . . . . . . . . . . . . 24
+       6.2.1.  Passive Transition . . . . . . . . . . . . . . . . . . 24
+       6.2.2.  Active Transition  . . . . . . . . . . . . . . . . . . 25
+   7.  IANA Considerations  . . . . . . . . . . . . . . . . . . . . . 26
+   8.  Security Considerations  . . . . . . . . . . . . . . . . . . . 27
+   9.  Acknowledgements . . . . . . . . . . . . . . . . . . . . . . . 28
+   10. References . . . . . . . . . . . . . . . . . . . . . . . . . . 29
+     10.1. Normative References . . . . . . . . . . . . . . . . . . . 29
+     10.2. Informative References . . . . . . . . . . . . . . . . . . 29
+   Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 31
 
 
 
 
 
 
-
-Sun, et al.             Expires September 6, 2012               [Page 2]
+Sun, et al.             Expires November 25, 2012               [Page 2]
 
-Internet-Draft               MAP Deployment                   March 2012
+Internet-Draft               MAP Deployment                     May 2012
 
 
 1.  Introduction
@@ -164,9 +164,9 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Sun, et al.             Expires September 6, 2012               [Page 3]
+Sun, et al.             Expires November 25, 2012               [Page 3]
 
-Internet-Draft               MAP Deployment                   March 2012
+Internet-Draft               MAP Deployment                     May 2012
 
 
 2.  Conventions
@@ -220,9 +220,9 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Sun, et al.             Expires September 6, 2012               [Page 4]
+Sun, et al.             Expires November 25, 2012               [Page 4]
 
-Internet-Draft               MAP Deployment                   March 2012
+Internet-Draft               MAP Deployment                     May 2012
 
 
 3.  Case Studies
@@ -276,9 +276,9 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Sun, et al.             Expires September 6, 2012               [Page 5]
+Sun, et al.             Expires November 25, 2012               [Page 5]
 
-Internet-Draft               MAP Deployment                   March 2012
+Internet-Draft               MAP Deployment                     May 2012
 
 
                   +------------------------------+
@@ -332,9 +332,9 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Sun, et al.             Expires September 6, 2012               [Page 6]
+Sun, et al.             Expires November 25, 2012               [Page 6]
 
-Internet-Draft               MAP Deployment                   March 2012
+Internet-Draft               MAP Deployment                     May 2012
 
 
                   +-------------+
@@ -388,14 +388,92 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Sun, et al.             Expires September 6, 2012               [Page 7]
+Sun, et al.             Expires November 25, 2012               [Page 7]
 
-Internet-Draft               MAP Deployment                   March 2012
+Internet-Draft               MAP Deployment                     May 2012
 
 
 4.  Deployment Consideration
 
-4.1.  Building the MAP domain
+4.1.  Network Models
+
+   MAP domain connects IPv4 subnets, including home networks, enterprise
+   networks, and collective residence faclities, with the IPv4 Internet
+   through the IPv6 routing infrastructure.
+
+   A typical case of home network is shown in Figure 3.
+
+
+            +-------+-------+     +-------+-------+         \
+            |   Service     |     |   Service     |          \
+            |  Provider A   |     |  Provider B   |           | Service
+            |    Router     |     |    Router     |           | Provider
+            +-------+-------+     +-------+-------+           | network
+                     |                 |                     /
+                     |    Customer     |                   /
+                     |    Internet     |                  /
+                     |   connections   |                 |
+                    +---------+---------+                 \
+                    |       IPv6        |                   \
+                    |   Customer Edge   |                    \
+                    |      Router       |                    /
+                    +---------+---------+                   /
+                              |                            /
+                              |                            | End-User
+      ---+------------+-------+--------+-------------+---  | network(s)
+         |            |                |             |      \
+    +----+-----+ +----+-----+     +----+-----+ +-----+----+  \
+    |IPv6 Host | |IPv6 Host |     | IPv6 Host| |IPv6 Host |  /
+    |          | |          |     |          | |          | /
+    +----------+ +----------+     +----------+ +----------+
+
+        Figure 3: Relations between home networking and MAP domain
+
+   Three network models are defined in [I-D.ietf-homenet-arch]: A.
+   single ISP, single CER, internal routers; B. two ISPs, two CERs,
+   shared subnet; C. two ISPs, one CER, shared subnet.  Model A/B is
+   different with model C in MAP technologies.  For model A/B, one CE
+   only need to correspond to a BR, while in model C one CE have to
+   correspond with multiple BRs.  Figure 4 illustrate a typical case,
+   where the home network have multiple connections to multiple
+   providers or multiple logical connections to the same provider.  In
+   any cases, a CE may have different paths towards multiple MAP border
+   relays.
+
+
+
+
+
+Sun, et al.             Expires November 25, 2012               [Page 8]
+
+Internet-Draft               MAP Deployment                     May 2012
+
+
+      +---------------------+------------------------------+
+      |  Home networking1   |        MAP Domain            |
+      +---------------------+---------------+--------------|
+      |     +--------+  +   |               |              |
+      |     |  Host  |  +---------+      +--+--+           |
+      |     +--------+--|   CPE   |      |     |           |
+      |     +--------+--|(MAP CE) |======| BNG | ======+---------+   +-----------+
+      |     |  Host  |  +---------+      +-----+       |         |   |           |
+      |     +--------+      |                          |         |   |           |
+      +---------------------+                          |  Core   |   |   IPv4    |
+      +---------------------+                          |         |---|           |
+      |                     |                          |  Router |   | Internet  |
+      |     +--------+      |                          |         |   |           |
+      |     |  Host  |  +---------+      +-----+       |         |   |           |
+      |     +--------+--|   CPE   |======|     | ======+---------+   +-----------+
+      |     +--------+--|(MAP CE) |      | BNG |           |
+      |     |  Host  |  +---------+      +--+--+           |
+      |     +--------+      |               |              |
+      +---------------------+---------------+--------------+
+      |  Home networking2   |
+      +---------------------+
+
+                 Figure 4: Network Architecture of Model C
+
+4.2.  Building the MAP domain
 
    When deploying stateless MAP in operational network, a provider
    should firstly do MAP domain planning based on its own network
@@ -420,7 +498,21 @@ Internet-Draft               MAP Deployment                   March 2012
    Afterwards, MAP domain planning, MAP rule provision, addressing and
    routing, etc., for a MAP domain should be taken into consideration.
 
-4.1.1.  MAP deployment model planning
+
+
+Sun, et al.             Expires November 25, 2012               [Page 9]
+
+Internet-Draft               MAP Deployment                     May 2012
+
+
+   For the scenario where one CE is corresponding to multiple MAP border
+   relays, it is possible that those MAP BRs belong to different MAP
+   domains.  The CE must pick up its own MAP rules among these domains.
+   It is a typical case of multihoming.  The MAP rules must have the
+   information about BR(s) and the information about the services types
+   and the ISP.
+
+4.2.1.  MAP deployment model planning
 
    In order to do MAP domain planning, an operator should firstly make
    the decision to choose Mesh or Hub and Spoke model according to
@@ -437,18 +529,10 @@ Internet-Draft               MAP Deployment                   March 2012
    is high and there are not too many MAP rules, say less than 10 MAP
    rules, in the specific domain.
 
-4.1.2.  MAP domain planning
+4.2.2.  MAP domain planning
 
    Stateless MAP has its own advantage in terms of scalability, high-
    reliability, etc.  As a result, it is reasonable to apply a larger
-
-
-
-Sun, et al.             Expires September 6, 2012               [Page 8]
-
-Internet-Draft               MAP Deployment                   March 2012
-
-
    MAP domain to accommodate more subscribers with less BRs.  Moreover,
    a larger MAP domain would also be easier for management and
    maintenance.  However, a larger MAP domain may also result in less
@@ -469,7 +553,15 @@ Internet-Draft               MAP Deployment                   March 2012
    domain would have the same Rule IPv4 prefix, Rule IPv6 prefix and
    PSID parameters.
 
-4.1.3.  MAP rule provisioning
+
+
+
+Sun, et al.             Expires November 25, 2012              [Page 10]
+
+Internet-Draft               MAP Deployment                     May 2012
+
+
+4.2.3.  MAP rule provisioning
 
    In stateless MAP, Mesh or Hub and Spoke communications can be
    achieved among CEs in one MAP domain in terms of assigning
@@ -477,14 +569,14 @@ Internet-Draft               MAP Deployment                   March 2012
    Spoke mode or full mesh mode describe below, because the DHCPv6
    server can simply achieve them.
 
-4.1.3.1.  Full Hub and Spoke Communication among CEs
+4.2.3.1.  Full Hub and Spoke Communication among CEs
 
    In order to achieve the full communication in the Hub and Spoke mode,
    no FMR is assigned to CEs.  In this mode, when a CE sends packets to
    another CE in the same MAP domain using the DMR as FMR, the packets
    must go though BR before arriving at the destination.
 
-4.1.3.2.  Full Mesh Communication among CEs
+4.2.3.2.  Full Mesh Communication among CEs
 
    Assigning all BMRs in MAP domain to each CE as FMRs, Mesh
    communications can be achieved among all CEs.  In this case, when CE
@@ -496,20 +588,11 @@ Internet-Draft               MAP Deployment                   March 2012
    (destination is out of the MAP domain), the DMR will be selected as
    FMR, the CE then forwards the packet to the associated BR.
 
-
-
-
-
-Sun, et al.             Expires September 6, 2012               [Page 9]
-
-Internet-Draft               MAP Deployment                   March 2012
-
-
-4.1.3.3.  Mesh or Hub/Spoke communication among some CEs
+4.2.3.3.  Mesh or Hub/Spoke communication among some CEs
 
    Mesh communications among some CEs along with Hub/Spoke
    communications among some other CEs can be achieved by which
-   differentiated FMRs are assigned to CEs.  For instance, as Figure 3
+   differentiated FMRs are assigned to CEs.  For instance, as Figure 5
    shown, Mapping rule 1, Mapping rule 2, Mapping rule 3 is provisioned
    to CE1, CE2, CE3 respectively as BMR, and rule 1 and rule2, and rule
    1 and rule 2 and rule 3, and rule 2 and rule 3 are assigned to CE1,
@@ -517,6 +600,21 @@ Internet-Draft               MAP Deployment                   March 2012
    directly without going though associated BR (Mesh mode), the
    communication between CE1 and CE3 must go though BR before reaching
    peer each other (Hub/Spoke mode).
+
+
+
+
+
+
+
+
+
+
+
+
+Sun, et al.             Expires November 25, 2012              [Page 11]
+
+Internet-Draft               MAP Deployment                     May 2012
 
 
               +---------------+---------+---------+---------+
@@ -529,9 +627,9 @@ Internet-Draft               MAP Deployment                   March 2012
               |               |         | rule 3  |         |
               +---------------+---------+---------+---------+
 
-            Figure 3: Mapping rules assigned to CEs in example
+            Figure 5: Mapping rules assigned to CEs in example
 
-4.1.4.  MAP DHCPv6 server deployment consideration
+4.2.4.  MAP DHCPv6 server deployment consideration
 
    All the CEs within a MAP domain will get the same set of MAP rules by
    DHCPv6 server, including BMR, FMRs and DMR.  In one MAP domain, BMR
@@ -544,45 +642,40 @@ Internet-Draft               MAP Deployment                   March 2012
    In stateless MAP, the deployment of DHCPv6 server is independent with
    MAP domain planning.  So there are three possible ways:
 
-4.1.4.1.  MAP domain : DHCPv6 server = 1:1
+   MAP domain : DHCPv6 server = 1:1  This is the ideal solution that
+         each MAP domain would have its own MAP DHCPv6 server.  In this
+         case, MAP DHCPv6 server only needs to configure parameters for
+         the specific MAP domain.  It is highly recommended to adopt
+         this deployment model in stateless MAP.
 
-   This is the ideal solution that each MAP domain would have its own
-   MAP DHCPv6 server.  In this case, MAP DHCPv6 server only needs to
-   configure parameters for the specific MAP domain.  It is highly
-   recommended to adopt this deployment model in stateless MAP.
+   MAP domain : DHCPv6 server = 1:N  This might happen when DHCPv6
+         servers are deployed in a large MAP domain in a distributed
+         manner.  In this case, all these DHCPv6 servers should be
+         configured with the same set of MAP rules for the MAP domain,
+         including mutiple BMRs, FMRs and DMRs.
 
-
-
-
-
-
-Sun, et al.             Expires September 6, 2012              [Page 10]
-
-Internet-Draft               MAP Deployment                   March 2012
-
-
-4.1.4.2.  MAP domain : DHCPv6 server = 1:N
-
-   This might happen when DHCPv6 servers are deployed in a large MAP
-   domain in a distributed manner.  In this case, all these DHCPv6
-   servers should be configured with the same set of MAP rules for the
-   MAP domain, including mutiple BMRs, FMRs and DMRs.
-
-4.1.4.3.  MAP domain : DHCPv6 server = N:1
-
-   This might happen when MAP domain is relatively small and a single
-   MAP DHCPv6 server is deployed in the network.  In this case, multiple
-   MAP domains should be distinguished based on CE's IPv6 prefix in
-   different MAP domains.
+   MAP domain : DHCPv6 server = N:1  This might happen when MAP domain
+         is relatively small and a single MAP DHCPv6 server is deployed
+         in the network.  In this case, multiple MAP domains should be
+         distinguished based on CE's IPv6 prefix in different MAP
+         domains.
 
    Besides, the situation of remaining IPv4 address prefixes may have
    big impact on MAP rule planning, especially for service operators who
    only have rather scattered address space.  Since the number of
    scattered IPv4 address prefixes would be equal to the number of FMR
    rules within a MAP domain, one should choose as large IPv4 address
+
+
+
+Sun, et al.             Expires November 25, 2012              [Page 12]
+
+Internet-Draft               MAP Deployment                     May 2012
+
+
    pool as possible to reduce the number of FMR rules.
 
-4.1.5.  PSID consideration
+4.2.5.  PSID consideration
 
    For PSID provisioning, all the CEs, BR and DHCPv6 server within the
    same MAP domain should be configured with the same parameter value.
@@ -609,20 +702,12 @@ Internet-Draft               MAP Deployment                   March 2012
 
    Note that some ISPs may need to offer services in a MAP domain with a
    shared address, e.g. there are hosts FTP server under CEs.  The
-
-
-
-Sun, et al.             Expires September 6, 2012              [Page 11]
-
-Internet-Draft               MAP Deployment                   March 2012
-
-
    service provisioning may require well-know port range (i.e. port
    range belong to 0-1023).  MAP would provide operators with an option
    to generate a port range including those in 0-1023.  Afterwards,
    operators could decide to assign it to any requesting user.
 
-4.1.6.  Addressing and routing
+4.2.6.  Addressing and routing
 
    In MAP addressing, it should follow the MAP rule planning in the MAP
    domain.
@@ -636,6 +721,14 @@ Internet-Draft               MAP Deployment                   March 2012
    If ISP has a /24 rule IPv4 prefix with sharing ratio of 64 gives
    16000 customers, and a /16 rule IPv4 prefix supports 4 million
    customer.  If up the sharing ratio to 256, 64000 and 16 million
+
+
+
+Sun, et al.             Expires November 25, 2012              [Page 13]
+
+Internet-Draft               MAP Deployment                     May 2012
+
+
    customers can be supports respectively.  For the ISP who have number
    of scattered IPv4 address prefixes, in order to reduce the FMRs,
    according to needs of ports they can divide different class.  For
@@ -646,7 +739,7 @@ Internet-Draft               MAP Deployment                   March 2012
 
    For MAP routing, there are no IPv4 routes exported to IPv6 networks.
 
-4.1.7.  Translation vs. Encapsulation
+4.2.7.  Translation vs. Encapsulation
 
    1.  Option header
 
@@ -666,13 +759,6 @@ Internet-Draft               MAP Deployment                   March 2012
    messages, while translation can make in-transition access through
    either single or double translations with a unified solution.
 
-
-
-Sun, et al.             Expires September 6, 2012              [Page 12]
-
-Internet-Draft               MAP Deployment                   March 2012
-
-
    In either the encapsulation or translation mode, if an intermediate
    node generates an ICMPv6 error message, it should be converted into
    ICMPv4 version and returned to the source with a special source
@@ -686,11 +772,18 @@ Internet-Draft               MAP Deployment                   March 2012
    for the translation, while [RFC2473] could be a good reference on the
    issue in encapsulation.
 
-4.2.  BR settings
+4.3.  BR settings
 
    1.  BR placement
 
    BR placement has important impacts on the operation of a MAP domain.
+
+
+
+Sun, et al.             Expires November 25, 2012              [Page 14]
+
+Internet-Draft               MAP Deployment                     May 2012
+
 
    A first concern should be the avoidance of "triangle routing".  That
    is, the path from the CE to an IPv4 peer via the BR should be close
@@ -722,13 +815,6 @@ Internet-Draft               MAP Deployment                   March 2012
    exiting a MAP domain.  This option can be considered for its effects
    on traffic engineering.
 
-
-
-Sun, et al.             Expires September 6, 2012              [Page 13]
-
-Internet-Draft               MAP Deployment                   March 2012
-
-
    Anycast can be used to let the network pick BR closest to a CE for
    traffic exiting the MAP domain.  This is accomplished by provisioning
    a Default Mapping Rule containing an anycast IPv6 address or prefix.
@@ -747,6 +833,14 @@ Internet-Draft               MAP Deployment                   March 2012
    Default Mapping Rule per MAP domain, traffic from CE to BR will
    always use the same destination address (in encapsulation mode) or
    prefix (in translation mode).  When this address or prefix is
+
+
+
+Sun, et al.             Expires November 25, 2012              [Page 15]
+
+Internet-Draft               MAP Deployment                     May 2012
+
+
    anycast, reliability is greatly increased.  If a BR goes down, it
    stops advertising the IPv6 anycast address or prefix, and traffic is
    automatically re-routed to other BRs.  For this mechanism to work
@@ -777,14 +871,6 @@ Internet-Draft               MAP Deployment                   March 2012
    Tunnel MTU might be set to 1460 bytes.  Without more specific
    information, the 4rd Tunnel MTU SHOULD default to 1280 bytes.
 
-
-
-
-Sun, et al.             Expires September 6, 2012              [Page 14]
-
-Internet-Draft               MAP Deployment                   March 2012
-
-
    When using encapsulation mode, it is important that fragments of a
    MAP packet sent according to the Default Mapping Rule be handled by
    the same BR.  (This is not required for translation mode.)  This can
@@ -803,6 +889,14 @@ Internet-Draft               MAP Deployment                   March 2012
    fragment reassembly.
 
    Therefore, when using anycast addresses, it is RECOMMENDED that they
+
+
+
+Sun, et al.             Expires November 25, 2012              [Page 16]
+
+Internet-Draft               MAP Deployment                     May 2012
+
+
    be only used as destination address, and never as source addresses.
    BRs SHOULD be configured to accept traffic sent to the anycast
    address, but use an unicast address as source.
@@ -833,19 +927,11 @@ Internet-Draft               MAP Deployment                   March 2012
    datagram ID to a unique value among CEs sharing an IPv4 address upon
    sending the packet over a MAP domain.  This value SHOULD be generated
    locally within the port-range assigned to a given CE.  Note that
-
-
-
-Sun, et al.             Expires September 6, 2012              [Page 15]
-
-Internet-Draft               MAP Deployment                   March 2012
-
-
    replacing a Datagram ID in an IPv4 header implies an update of its
    Header-checksum field, by adding to it the one's complement
    difference between the old and the new values.
 
-4.3.  CE settings
+4.4.  CE settings
 
    1. bridging vs. routing mode
 
@@ -859,6 +945,14 @@ Internet-Draft               MAP Deployment                   March 2012
    concentrator.  When receiving an IPv6 packet from the concentrator,
    the initiator decapsulates/translates the IPv6 packet to get the IPv4
    packet with public destination IPv4 address.  Then it performs NAT44
+
+
+
+Sun, et al.             Expires November 25, 2012              [Page 17]
+
+Internet-Draft               MAP Deployment                     May 2012
+
+
    function and translates the destination address into private one.
 
    The CE is responsible for performing ALG functions (e.g., SIP, FTP),
@@ -886,18 +980,7 @@ Internet-Draft               MAP Deployment                   March 2012
    Moreover, CE should guarantee that every source port number in the
    outgoing packets falls into the allocated port-set.
 
-
-
-
-
-
-
-Sun, et al.             Expires September 6, 2012              [Page 16]
-
-Internet-Draft               MAP Deployment                   March 2012
-
-
-4.4.  Supporting system
+4.5.  Supporting system
 
    1.  Lawful Intercept
 
@@ -917,6 +1000,14 @@ Internet-Draft               MAP Deployment                   March 2012
    Sharing IPv4 addresses among multiple CEs is susceptible to issues
    related to traffic logging.  For details, see [RFC6269] sections 8
    and 13.1.
+
+
+
+
+Sun, et al.             Expires November 25, 2012              [Page 18]
+
+Internet-Draft               MAP Deployment                     May 2012
+
 
    3.  Geo-location aware service
 
@@ -948,9 +1039,30 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Sun, et al.             Expires September 6, 2012              [Page 17]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Sun, et al.             Expires November 25, 2012              [Page 19]
 
-Internet-Draft               MAP Deployment                   March 2012
+Internet-Draft               MAP Deployment                     May 2012
 
 
 5.  MAP Address Planning, a Step-by-step Guide
@@ -1004,9 +1116,9 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Sun, et al.             Expires September 6, 2012              [Page 18]
+Sun, et al.             Expires November 25, 2012              [Page 20]
 
-Internet-Draft               MAP Deployment                   March 2012
+Internet-Draft               MAP Deployment                     May 2012
 
 
    (B2)  Take enough of them, among the shortest ones, to get a total
@@ -1060,9 +1172,9 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Sun, et al.             Expires September 6, 2012              [Page 19]
+Sun, et al.             Expires November 25, 2012              [Page 21]
 
-Internet-Draft               MAP Deployment                   March 2012
+Internet-Draft               MAP Deployment                     May 2012
 
 
          Then we can do that:
@@ -1116,9 +1228,9 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Sun, et al.             Expires September 6, 2012              [Page 20]
+Sun, et al.             Expires November 25, 2012              [Page 22]
 
-Internet-Draft               MAP Deployment                   March 2012
+Internet-Draft               MAP Deployment                     May 2012
 
 
 6.  Migration Methodology
@@ -1172,9 +1284,9 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Sun, et al.             Expires September 6, 2012              [Page 21]
+Sun, et al.             Expires November 25, 2012              [Page 23]
 
-Internet-Draft               MAP Deployment                   March 2012
+Internet-Draft               MAP Deployment                     May 2012
 
 
    serve MAP BR and NAT64 respectively.  In alternative case, MAP BR or
@@ -1228,9 +1340,9 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Sun, et al.             Expires September 6, 2012              [Page 22]
+Sun, et al.             Expires November 25, 2012              [Page 24]
 
-Internet-Draft               MAP Deployment                   March 2012
+Internet-Draft               MAP Deployment                     May 2012
 
 
    off IPv4, MAP would be faded due to IPv4 disappearance.
@@ -1284,9 +1396,9 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Sun, et al.             Expires September 6, 2012              [Page 23]
+Sun, et al.             Expires November 25, 2012              [Page 25]
 
-Internet-Draft               MAP Deployment                   March 2012
+Internet-Draft               MAP Deployment                     May 2012
 
 
 7.  IANA Considerations
@@ -1340,9 +1452,9 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Sun, et al.             Expires September 6, 2012              [Page 24]
+Sun, et al.             Expires November 25, 2012              [Page 26]
 
-Internet-Draft               MAP Deployment                   March 2012
+Internet-Draft               MAP Deployment                     May 2012
 
 
 8.  Security Considerations
@@ -1396,68 +1508,12 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Sun, et al.             Expires September 6, 2012              [Page 25]
+Sun, et al.             Expires November 25, 2012              [Page 27]
 
-Internet-Draft               MAP Deployment                   March 2012
+Internet-Draft               MAP Deployment                     May 2012
 
 
-9.  Additional Author List
-
-   Simon Perreault
-
-   Viagenie
-
-   246 Aberdeen
-
-   Quebec, QC G1R 2E1
-
-   Canada
-
-   Phone: +1 418 656 9254
-
-   Email: simon.perreault@viagenie.ca
-
-   URI: http://viagenie.ca
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Sun, et al.             Expires September 6, 2012              [Page 26]
-
-Internet-Draft               MAP Deployment                   March 2012
-
-
-10.  Acknowledgements
+9.  Acknowledgements
 
    Remi Despres contributed the original example of step-by-step
    deployment guidance in discussion with the authors.  Ole Troan, as
@@ -1508,14 +1564,14 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Sun, et al.             Expires September 6, 2012              [Page 27]
+Sun, et al.             Expires November 25, 2012              [Page 28]
 
-Internet-Draft               MAP Deployment                   March 2012
+Internet-Draft               MAP Deployment                     May 2012
 
 
-11.  References
+10.  References
 
-11.1.  Normative References
+10.1.  Normative References
 
    [I-D.mdt-softwire-map-dhcp-option]
               Mrugalski, T., Boucadair, M., Deng, X., Troan, O., and C.
@@ -1542,12 +1598,17 @@ Internet-Draft               MAP Deployment                   March 2012
    [RFC6346]  Bush, R., "The Address plus Port (A+P) Approach to the
               IPv4 Address Shortage", RFC 6346, August 2011.
 
-11.2.  Informative References
+10.2.  Informative References
 
    [I-D.dec-stateless-4v6]
               Dec, W., Asati, R., and H. Deng, "Stateless 4Via6 Address
               Sharing", draft-dec-stateless-4v6-04 (work in progress),
               October 2011.
+
+   [I-D.ietf-homenet-arch]
+              Chown, T., Arkko, J., Brandt, A., Troan, O., and J. Weil,
+              "Home Networking Architecture for IPv6",
+              draft-ietf-homenet-arch-02 (work in progress), March 2012.
 
    [I-D.murakami-softwire-4rd]
               Murakami, T., Troan, O., and S. Matsushima, "IPv4 Residual
@@ -1556,19 +1617,19 @@ Internet-Draft               MAP Deployment                   March 2012
               progress), September 2011.
 
    [I-D.xli-behave-divi]
+
+
+
+Sun, et al.             Expires November 25, 2012              [Page 29]
+
+Internet-Draft               MAP Deployment                     May 2012
+
+
               Shang, W., Li, X., Zhai, Y., and C. Bao, "dIVI: Dual-
               Stateless IPv4/IPv6 Translation", draft-xli-behave-divi-04
               (work in progress), October 2011.
 
    [I-D.xli-softwire-divi-pd]
-
-
-
-Sun, et al.             Expires September 6, 2012              [Page 28]
-
-Internet-Draft               MAP Deployment                   March 2012
-
-
               Sun, Q., Asati, R., Xie, C., Li, X., Dec, W., and C. Bao,
               "dIVI-pd: Dual-Stateless IPv4/IPv6 Translation with Prefix
               Delegation", draft-xli-softwire-divi-pd-01 (work in
@@ -1615,14 +1676,9 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-
-
-
-
-
-Sun, et al.             Expires September 6, 2012              [Page 29]
+Sun, et al.             Expires November 25, 2012              [Page 30]
 
-Internet-Draft               MAP Deployment                   March 2012
+Internet-Draft               MAP Deployment                     May 2012
 
 
 Authors' Addresses
@@ -1676,9 +1732,9 @@ Authors' Addresses
 
 
 
-Sun, et al.             Expires September 6, 2012              [Page 30]
+Sun, et al.             Expires November 25, 2012              [Page 31]
 
-Internet-Draft               MAP Deployment                   March 2012
+Internet-Draft               MAP Deployment                     May 2012
 
 
    Tina Tsou
@@ -1692,10 +1748,10 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
    Simon Perreault
-   Huawei Technologies
-   Quebec, QC  G1R 2E1
-   Santa Clara, Aberdeen  246
-   USA
+   Viag"|nie
+   246 Aberdeen
+   Qu"|bec, QC  G1R 2E1
+   Canada
 
    Phone: +1 418 656 9254
    Email: simon.perreault@viagenie.ca
@@ -1732,5 +1788,5 @@ Internet-Draft               MAP Deployment                   March 2012
 
 
 
-Sun, et al.             Expires September 6, 2012              [Page 31]
+Sun, et al.             Expires November 25, 2012              [Page 32]
 

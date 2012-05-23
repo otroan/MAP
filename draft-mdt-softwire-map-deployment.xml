@@ -150,15 +150,15 @@
       </address>
      </author>
 	 
-	 <author fullname="Simon Perreault" initials="S" surname="Simon">
-      <organization>Huawei Technologies</organization>
+	 <author fullname="Simon Perreault" initials="S." surname="Perreault">
+      <organization>Viag¨¦nie</organization>
       <address>
       <postal>
-      <street>Quebec, QC  G1R 2E1</street>
-		  <city>Santa Clara</city>
-		  <region>Aberdeen</region>
-      <code>246</code>
-      <country>USA</country>
+      <street>246 Aberdeen</street>
+		  <city>Qu¨¦bec</city>
+		  <region>QC</region>
+      <code>G1R 2E1</code>
+      <country>Canada</country>
       </postal>
 	  <phone>+1 418 656 9254</phone>
       <email>simon.perreault@viagenie.ca</email>
@@ -366,9 +366,30 @@
 	through the IPv6 routing infrastructure.</t> 
 
 	<t>A typical case of home network is shown in <xref target="HOMENET" />.</t>
-        <t><figure anchor="HOMENET" title="MAP deployment in mobile network">
+        <t><figure anchor="HOMENET" title="Relations between home networking and MAP domain">
             <artwork><![CDATA[
-
+           +-------+-------+     +-------+-------+         \
+           |   Service     |     |   Service     |          \
+           |  Provider A   |     |  Provider B   |           | Service
+           |    Router     |     |    Router     |           | Provider
+           +-------+-------+     +-------+-------+           | network
+                    |                 |                     /
+                    |    Customer     |                   /
+                    |    Internet     |                  /
+                    |   connections   |                 |
+                   +---------+---------+                 \
+                   |       IPv6        |                   \
+                   |   Customer Edge   |                    \
+                   |      Router       |                    /
+                   +---------+---------+                   /
+                             |                            /
+                             |                            | End-User
+     ---+------------+-------+--------+-------------+---  | network(s)
+        |            |                |             |      \
+   +----+-----+ +----+-----+     +----+-----+ +-----+----+  \
+   |IPv6 Host | |IPv6 Host |     | IPv6 Host| |IPv6 Host |  /
+   |          | |          |     |          | |          | /
+   +----------+ +----------+     +----------+ +----------+
           ]]></artwork>
           </figure></t>
 
@@ -382,9 +403,29 @@
 	connections to the same provider. In any cases, a CE may have different 
 	paths towards multiple MAP border relays. </t>  
 
-        <t><figure anchor="HOMENET_C" title="MAP deployment in mobile network">
+        <t><figure anchor="HOMENET_C" title="Network Architecture of Model C">
             <artwork><![CDATA[
-
+      +---------------------+------------------------------+
+      |  Home networking1   |        MAP Domain            |
+      +---------------------+---------------+--------------|
+      |     +--------+  +   |               |              |
+      |     |  Host  |  +---------+      +--+--+           |
+      |     +--------+--|   CPE   |      |     |           |
+      |     +--------+--|(MAP CE) |======| BNG | ======+---------+   +-----------+
+      |     |  Host  |  +---------+      +-----+       |         |   |           |
+      |     +--------+      |                          |         |   |           | 
+      +---------------------+                          |  Core   |   |   IPv4    |
+      +---------------------+                          |         |---|           |
+      |                     |                          |  Router |   | Internet  | 
+      |     +--------+      |                          |         |   |           |
+      |     |  Host  |  +---------+      +-----+       |         |   |           |
+      |     +--------+--|   CPE   |======|     | ======+---------+   +-----------+
+      |     +--------+--|(MAP CE) |      | BNG |           |
+      |     |  Host  |  +---------+      +--+--+           |
+      |     +--------+      |               |              |
+      +---------------------+---------------+--------------+
+      |  Home networking2   |                       
+      +---------------------+        
           ]]></artwork>
           </figure></t>
       </section>
@@ -937,18 +978,6 @@ CE IPv4 Address = 63.245.48.236
       document.</t>
     </section>
 	
-	<section title="Additional Author List">
-	<t>Simon Perreault</t>
-    <t>Viagenie</t>
-    <t>246 Aberdeen</t>
-    <t>Quebec, QC  G1R 2E1</t>
-    <t>Canada</t>
-
-    <t>Phone: +1 418 656 9254</t>
-    <t>Email: simon.perreault@viagenie.ca</t>
-    <t>URI:   http://viagenie.ca</t>
-	</section>
-
     <!--  SECTION 9:  Contributors     			-->
 
     <!-- section title="Contributors">
