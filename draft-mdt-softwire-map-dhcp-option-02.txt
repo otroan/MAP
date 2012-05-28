@@ -3,11 +3,8 @@
 
 Softwire WG                                            T. Mrugalski, Ed.
 Internet-Draft                                                       ISC
-Intended status: Standards Track                            M. Boucadair
-Expires: July 27, 2012                                           X. Deng
-                                                          France Telecom
-                                                                O. Troan
-                                                                   Cisco
+Intended status: Standards Track                                O. Troan
+Expires: July 27, 2012                                             Cisco
                                                                   C. Bao
                                                      Tsinghua University
                                                         January 24, 2012
@@ -49,6 +46,9 @@ Status of this Memo
 Copyright Notice
 
    Copyright (c) 2012 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
 
 
 
@@ -57,9 +57,6 @@ Mrugalski, et al.         Expires July 27, 2012                 [Page 1]
 Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
-   document authors.  All rights reserved.
-
-   This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents
    (http://trustee.ietf.org/license-info) in effect on the date of
    publication of this document.  Please review these documents
@@ -94,6 +91,9 @@ Table of Contents
      11.1. Normative References . . . . . . . . . . . . . . . . . . . 12
      11.2. Informative References . . . . . . . . . . . . . . . . . . 12
    Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 13
+
+
+
 
 
 
@@ -603,12 +603,12 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
 
 10.  Acknowledgements
 
-   Authors would like to thank Jacni Qin, Qiong Sun and Remi Despres for
-   their comments and suggestions.
+   Authors would like to thank Jacni Qin, Qiong Sun, Remi Despres,
+   Xiaohong Deng and Mohamed Boucadair for their comments and
+   suggestions.
 
 
 11.  References
-
 
 
 
@@ -620,9 +620,10 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
 11.1.  Normative References
 
    [I-D.mdt-softwire-mapping-address-and-port]
-              Troan, O., "Mapping of Address and Port (MAP)",
-              draft-mdt-softwire-mapping-address-and-port-02 (work in
-              progress), November 2011.
+              Bao, C., Troan, O., Matsushima, S., Murakami, T., and X.
+              Li, "Mapping of Address and Port (MAP)",
+              draft-mdt-softwire-mapping-address-and-port-03 (work in
+              progress), January 2012.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
@@ -651,8 +652,8 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
 
    [I-D.ietf-dhc-secure-dhcpv6]
               Jiang, S. and S. Shen, "Secure DHCPv6 Using CGAs",
-              draft-ietf-dhc-secure-dhcpv6-04 (work in progress),
-              December 2011.
+              draft-ietf-dhc-secure-dhcpv6-06 (work in progress),
+              March 2012.
 
    [I-D.mrugalski-dhc-dhcpv6-4rd]
               Mrugalski, T., "DHCPv6 Options for IPv4 Residual
@@ -664,7 +665,6 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
               Deployment on IPv6 infrastructure - protocol
               specification", draft-murakami-softwire-4rd-01 (work in
               progress), September 2011.
-
 
 
 
@@ -693,40 +693,6 @@ Authors' Addresses
    Phone: +1 650 423 1345
    Email: tomasz.mrugalski@gmail.com
    URI:   http://isc.org/
-
-
-   Mohamed Boucadair
-   France Telecom
-   Rennes  35000
-   France
-
-   Email: mohamed.boucadair@gmail.com
-   URI:   http://www.francetelecom.com/
-
-
-   Xiaohong Deng
-   France Telecom
-   Haidian district
-   Beijing  100190
-   China
-
-   Email: xiaohong.deng@orange.com
-   URI:   http://www.francetelecom.com/
-
-
-
-
-
-
-
-
-
-
-
-
-Mrugalski, et al.         Expires July 27, 2012                [Page 13]
-
-Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
    Ole Troan
@@ -758,27 +724,5 @@ Internet-Draft             MAP DHCPv6 Options               January 2012
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Mrugalski, et al.         Expires July 27, 2012                [Page 14]
+Mrugalski, et al.         Expires July 27, 2012                [Page 13]
 

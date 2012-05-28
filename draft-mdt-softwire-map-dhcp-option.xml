@@ -35,7 +35,7 @@
       </address>
     </author>
 
-    <author fullname="Mohamed Boucadair" initials="M." surname="Boucadair">
+    <!--<author fullname="Mohamed Boucadair" initials="M." surname="Boucadair">
       <organization>France Telecom</organization>
       <address>
         <postal>
@@ -47,9 +47,9 @@
         <email>mohamed.boucadair@gmail.com</email>
 	<uri>http://www.francetelecom.com/</uri>
       </address>
-    </author>
+    </author>-->
 
-    <author initials="X." surname="Deng" fullname="Xiaohong Deng">
+    <!--<author initials="X." surname="Deng" fullname="Xiaohong Deng">
       <organization>France Telecom</organization>
       <address>
         <postal>
@@ -61,7 +61,7 @@
         <email>xiaohong.deng@orange.com</email>
 	<uri>http://www.francetelecom.com/</uri>
       </address>
-    </author>
+    </author>-->
 
     <author fullname="Ole Troan" initials="O" surname="Troan">
       <organization abbrev="Cisco">Cisco Systems, Inc.</organization>
@@ -651,8 +651,9 @@
     </section>
 
     <section title="Acknowledgements">
-      <t>Authors would like to thank Jacni Qin, Qiong Sun and Remi
-      Despres for their comments and suggestions.</t>
+      <t>Authors would like to thank Jacni Qin, Qiong Sun, Remi
+      Despres, Xiaohong Deng and Mohamed Boucadair for their comments
+      and suggestions.</t>
     </section>
   </middle>
 
