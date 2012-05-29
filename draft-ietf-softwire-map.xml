@@ -811,10 +811,10 @@ PSID=63  | [64512 - 65535]
    PSID start:           40 + p = 40 + 8 = 48
    PSID length:          o - p = 16 (56 - 40) - 8 = 8
    PSID:                 0x34
-   Port-set-1:           4928, 4929, 4930, 4931, 4932, 4933, 4934, 4935,
-                         4936, 4937, 4938, 4939, 4940, 4941, 4942, 4943
-   Port-set-2:           9024, 9025, 9026, 9027, 9028, 9029, 9030, 9031,
-                         9032, 9033, 9034, 9035, 9036, 9037, 9038, 9039
+   Port-set-1:        4928, 4929, 4930, 4931, 4932, 4933, 4934, 4935,
+                      4936, 4937, 4938, 4939, 4940, 4941, 4942, 4943
+   Port-set-2:        9024, 9025, 9026, 9027, 9028, 9029, 9030, 9031,
+                      9032, 9033, 9034, 9035, 9036, 9037, 9038, 9039
    ...
    Port-set-15:          62272, 62273, 62274, 62275,
                          62276, 62277, 62278, 62279,
@@ -1458,121 +1458,111 @@ PSID=63  | [64512 - 65535]
     </references>
 
     <section title="Example of MAP-T translation">
-      <pre>
-   
-Example 1.
+      <t><figure>
+	<preamble>Example 1:</preamble>
+	<artwork align="left"><![CDATA[
 
-   Given the MAP domain information and an IPv6 address of an endpoint:
+   Given the MAP domain information and an IPv6 address of
+   an endpoint:
 
    IPv6 prefix assigned to the end user:  2001:db8:0012:3400::/56
-
    Basic Mapping Rule:  {2001:db8:0000::/40 (Rule IPv6 prefix),
       192.0.2.0/24 (Rule IPv4 prefix), 16 (Rule EA-bits length)}
-
    Sharing ratio:  256 (16 - (32 - 24) = 8. 2^8 = 256)
-
    PSID offset:  4
 
-   A MAP node (CE or BR) can via the BMR determine the IPv4 address and
-   port-set as shown below:
+   A MAP node (CE or BR) can via the BMR determine the IPv4 address
+   and port-set as shown below:
 
    EA bits offset:  40
-
    IPv4 suffix bits (p)  Length of IPv4 address (32) - IPv4 prefix
       length (24) = 8
-
    IPv4 address  192.0.2.18 (0xc0000212)
-
    PSID start:  40 + p = 40 + 8 = 48
-
    PSID length:  o - p = 16 (56 - 40) - 8 = 8
-
    PSID:  0x34
 
    Port-set-1:  4928, 4929, 4930, 4931, 4932, 4933, 4934, 4935, 4936,
       4937, 4938, 4939, 4940, 4941, 4942, 4943
-
    Port-set-2:  9024, 9025, 9026, 9027, 9028, 9029, 9030, 9031, 9032,
       9033, 9034, 9035, 9036, 9037, 9038, 9039
-
    ...  ...
-
-   Port-set-15  62272, 62273, 62274, 62275, 62276, 62277, 62278, 62279,
-      62280, 62281, 62282, 62283, 62284, 62285, 62286, 62287
+   Port-set-15  62272, 62273, 62274, 62275, 62276, 62277, 62278,
+      62279, 62280, 62281, 62282, 62283, 62284, 62285, 62286, 62287
 
    The BMR information allows a MAP CE also to determine (complete)
    its IPv6 address within the indicated IPv6 prefix.
 
-
    IPv6 address of MAP-T CE:  2001:db8:0012:3400:00c0:0002:1200:3400
 
-  
- Example 2.
+  ]]></artwork>
+	</figure>
+	</t>
 
-   Another example can be made of a hypothetical MAP-T BR, configured
-   with the following FMR when receiving a packet with the following
-   characteristics:
+      <t><figure>
+	<preamble>Example 2:</preamble>
+	<artwork align="left"><![CDATA[
+
+   Another example can be made of a hypothetical MAP-T BR,
+   configured with the following FMR when receiving a packet
+   with the following characteristics:
 
    IPv4 source address:  1.2.3.4 (0x01020304)
-
    IPv4 source port:  80
-
    IPv4 destination address:  192.0.2.18 (0xc0000212)
-
    IPv4 destination port:  9030
 
-   Configured Forwarding Mapping Rule:  {2001:db8:0000::/40 (Rule IPv6
-      prefix), 192.0.2.0/24 (Rule IPv4 prefix), 16 (Rule EA-bits
-      length)}
+   Configured Forwarding Mapping Rule:  {2001:db8:0000::/40
+      (Rule IPv6 prefix), 192.0.2.0/24 (Rule IPv4 prefix),
+      16 (Rule EA-bits length)}
 
    MAP-T BR Prefix  2001:db8:ffff::/64
 
-   The above information allows the BR to derive as follows the mapped
-   destination IPv6 address for the corresponding MAP-T CE, and also the
-   mapped source IPv6 address for the IPv4 source.
+   The above information allows the BR to derive as follows
+   the mapped destination IPv6 address for the corresponding
+   MAP-T CE, and also the mapped source IPv6 address for
+   the IPv4 source.
 
    IPv4 suffix bits (p)  32 - 24 = 8 (18 (0x12))
-
    PSID length:  8
-
    PSID:  0x34 (9030 (0x2346))
 
-   The resulting IPv6 packet will have the following key fields
+   The resulting IPv6 packet will have the following key fields:
 
    IPv6 source address  2001:db8:ffff:0:0001:0203:0400::
-
    IPv6 destination address:  2001:db8:0012:3400:00c0:0002:1200:3400
-
    IPv6 source Port:  80
-
    IPv6 destination Port:  9030
 
+  ]]></artwork>
+      </figure>
+      </t>
+
+      <t><figure>
+	<preamble>Example 3:</preamble>
+	<artwork align="left"><![CDATA[
    
-Example 3:
-
    An IPv4 host behind the MAP-T CE (addressed as per the previous
-   examples) corresponding with IPv4 host 1.2.3.4 will have its packets
-   converted into IPv6 using the DMR configured on the MAP-T CE as
-   follows:
+   examples) corresponding with IPv4 host 1.2.3.4 will have its
+   packets converted into IPv6 using the DMR configured on the MAP-T
+   CE as follows:
 
-   Default Mapping Rule used by MAP-T CE:  {2001:db8:ffff::/64 (Rule
-      IPv6 prefix), 0.0.0.0/0 (Rule IPv4 prefix), null (BR IPv4
+   Default Mapping Rule used by MAP-T CE:  {2001:db8:ffff::/64
+   (Rule IPv6 prefix), 0.0.0.0/0 (Rule IPv4 prefix), null (BR IPv4
       address)}
 
    IPv4 source address (post NAT44 if present)  192.0.2.18
-
    IPv4 destination address:  1.2.3.4
-
    IPv4 source port (post NAT44 if present):  9030
-
    IPv4 destination port:  80
-
-   IPv6 source address of MAP-T CE:  2001:db8:0012:3400:00c0:0002:1200:
-      3400
-
+   IPv6 source address of MAP-T CE:
+                        2001:db8:0012:3400:00c0:0002:1200:3400
    IPv6 destination address:  2001:db8:ffff:0:0001:0203:0400::
    
-    </pre>
+  ]]></artwork>
+	</figure>
+	</t>
+
   </section>
 </back>
 </rfc>
