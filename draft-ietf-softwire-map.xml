@@ -475,6 +475,12 @@ O---.--------------O
       parameters) the operation of the NAT44 must be restricted to the
       available port numbers derived via BMR.</t>
 
+      <t>MAP can also be provisioned in 1:1 mode. In 1:1 mode the BR
+      has a MAP domain per subscriber, and the CE is configured in hub
+      and spoke mode, with only a DMR and no other mapping rules. This
+      allows for a mode where the BR has one rule per subscriber and
+      the provisioning of IPv4 address or prefix and port sets is
+      independent of the End-User IPv6 prefix.</t>
     </section>
 
     <section title="Mapping Algorithm">
@@ -906,7 +912,8 @@ PSID=63  | [64512 - 65535]
     <section title="The IPv6 Interface Identifier" anchor="interface-id">
       <t>The Interface identifier format of a MAP node is based on the
       format specified in section 2.2 of <xref target="RFC6052"/>,
-      with the added PSID field if present, as shown in figure 8.</t>
+      with the added PSID field if present, as shown in figure <xref
+      target="interfaceid2-fig"/>.</t>
 
       <t><figure align="left" anchor="interfaceid2-fig" title="">
 	<preamble></preamble>
@@ -930,10 +937,12 @@ PSID=63  | [64512 - 65535]
       BR. For MAP-E this is the IPv6 tunnel end point address of the
       BR, while for MAP-T this is the IPv6 converted representation of
       the IPv6 address per RFC6052, shown in the form of an example in
-      figure 9 below. Note that the BR prefix-length is variable and
-      can be both shorter or longer than 64 bits, up to 96 bits.</t>
+      figure <xref target="interfaceid3-fig"/> below. Note that the BR
+      prefix-length is variable and can be both shorter or longer than
+      64 bits, up to 96 bits.</t>
 
-        <t><figure>
+        <t><figure anchor="interfaceid3-fig" title="">
+	  <preamble></preamble>
             <artwork><![CDATA[
 <---------- 64 ------------>< 8 ><----- 32 -----><--- 24 --->
 +--------------------------+----+---------------+-----------+
@@ -1009,6 +1018,10 @@ PSID=63  | [64512 - 65535]
 
         <t>The MAP DHCP option is specified in <xref
         target="I-D.mdt-softwire-map-dhcp-option"></xref>.</t>
+
+	<t>In 1:1 mode, the MAP CE is provisioned with only a Default
+	Mapping Rule, and the full IPv4 address/prefix and port range
+	is provisioned using the DHCP option.</t>
       </section>
 
       <section title="MAP BR">
@@ -1111,17 +1124,17 @@ PSID=63  | [64512 - 65535]
     </section>
 
     <section title="ICMP">
-      <t>ICMP message should be supported in MAP-E domain. Hence, the
-      NAT44 in MAP-E CE must implement the behavior for ICMP message
+      <t>ICMP message should be supported in MAP domain. Hence, the
+      NAT44 in MAP CE must implement the behavior for ICMP message
       conforming to the best current practice documented in
       <xref target="RFC5508"></xref>.</t>
 
-      <t> If a MAP-E CE receives an ICMP message having ICMP
-      identifier field in ICMP header, NAT44 in the MAP CE must
-      rewrite this field to a specific value assigned from the
-      port-set. BR and other CEs must handle this field similar to the
-      port number in the TCP/UDP header upon receiving the ICMP
-      message with ICMP identifier field.</t>
+      <t> If a MAP CE receives an ICMP message having ICMP identifier
+      field in ICMP header, NAT44 in the MAP CE must rewrite this
+      field to a specific value assigned from the port-set. BR and
+      other CEs must handle this field similar to the port number in
+      the TCP/UDP header upon receiving the ICMP message with ICMP
+      identifier field.</t>
 
       <t>If a MAP node receives an ICMP error message without the ICMP
       identifier field for some errors that is detected inside a IPv6
@@ -1156,19 +1169,17 @@ PSID=63  | [64512 - 65535]
         the MAP-T BR MUST derive the destination IPv6 address by simply
         mapping the destination IPv4 address without additional port info.</t>
 
-
-
-      <t>If a MAP-E BR receives an ICMP error message on its IPv4 interface,
-      the MAP-E BR should replay the ICMP message to an appropriate MAP-E
-      CE. If IPv4 address is not shared, the MAP-E BR generates a CE IPv6
-      address from the IPv4 destination address in the ICMP error message
-      and encapsulates the ICMP message in IPv6. If IPv4 address is shared,
-      the MAP-E BR derives an original IPv4 packet from the ICMP payload and
-      generates a CE IPv6 address from the source address and the source
-      port in the original IPv4 packet. If the MAP-E BR can generate the CE
-      IPv6 address, the MAP-E BR encapsulates the ICMP error message in IPv6
-      and then forward it to its IPv6 interface.</t>
-
+	<t>If a MAP BR receives an ICMP error message on its IPv4
+	interface, the MAP BR should replay the ICMP message to an
+	appropriate MAP CE. If IPv4 address is not shared, the MAP BR
+	generates a CE IPv6 address from the IPv4 destination address
+	in the ICMP error message and encapsulates the ICMP message in
+	IPv6. If IPv4 address is shared, the MAP BR derives an
+	original IPv4 packet from the ICMP payload and generates a CE
+	IPv6 address from the source address and the source port in
+	the original IPv4 packet. If the MAP BR can generate the CE
+	IPv6 address, the MAP BR encapsulates the ICMP error message
+	in IPv6 and then forward it to its IPv6 interface.</t>
 
       </section>
 
