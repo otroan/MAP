@@ -4,7 +4,7 @@
 Network Working Group                                           O. Troan
 Internet-Draft                                                    W. Dec
 Intended status: Standards Track                           Cisco Systems
-Expires: December 2, 2012                                          X. Li
+Expires: December 3, 2012                                          X. Li
                                                                   C. Bao
                                                                  Y. Zhai
                                                   CERNET Center/Tsinghua
@@ -13,7 +13,7 @@ Expires: December 2, 2012                                          X. Li
                                                         SoftBank Telecom
                                                              T. Murakami
                                                              IP Infusion
-                                                            May 31, 2012
+                                                            June 1, 2012
 
 
                    Mapping of Address and Port (MAP)
@@ -40,7 +40,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on December 2, 2012.
+   This Internet-Draft will expire on December 3, 2012.
 
 Copyright Notice
 
@@ -52,9 +52,9 @@ Copyright Notice
 
 
 
-Troan, et al.           Expires December 2, 2012                [Page 1]
+Troan, et al.           Expires December 3, 2012                [Page 1]
 
-Internet-Draft                     MAP                          May 2012
+Internet-Draft                     MAP                         June 2012
 
 
    (http://trustee.ietf.org/license-info) in effect on the date of
@@ -108,9 +108,9 @@ Internet-Draft                     MAP                          May 2012
 
 
 
-Troan, et al.           Expires December 2, 2012                [Page 2]
+Troan, et al.           Expires December 3, 2012                [Page 2]
 
-Internet-Draft                     MAP                          May 2012
+Internet-Draft                     MAP                         June 2012
 
 
 Table of Contents
@@ -122,31 +122,32 @@ Table of Contents
    5.  Mapping Algorithm  . . . . . . . . . . . . . . . . . . . . . .  9
      5.1.  Port mapping algorithm . . . . . . . . . . . . . . . . . . 10
        5.1.1.  Bit Representation of the Algorithm  . . . . . . . . . 11
-       5.1.2.  GMA examples . . . . . . . . . . . . . . . . . . . . . 12
+       5.1.2.  GMA examples . . . . . . . . . . . . . . . . . . . . . 11
        5.1.3.  GMA Provisioning Considerations  . . . . . . . . . . . 12
-     5.2.  Basic mapping rule (BMR) . . . . . . . . . . . . . . . . . 13
+     5.2.  Basic mapping rule (BMR) . . . . . . . . . . . . . . . . . 12
      5.3.  Forwarding mapping rule (FMR)  . . . . . . . . . . . . . . 15
      5.4.  Default mapping rule (DMR) . . . . . . . . . . . . . . . . 16
    6.  The IPv6 Interface Identifier  . . . . . . . . . . . . . . . . 17
    7.  MAP Configuration  . . . . . . . . . . . . . . . . . . . . . . 18
      7.1.  MAP CE . . . . . . . . . . . . . . . . . . . . . . . . . . 18
      7.2.  MAP BR . . . . . . . . . . . . . . . . . . . . . . . . . . 19
+     7.3.  Backwards compatibility  . . . . . . . . . . . . . . . . . 19
    8.  Forwarding Considerations  . . . . . . . . . . . . . . . . . . 19
      8.1.  Receiving rules  . . . . . . . . . . . . . . . . . . . . . 20
      8.2.  MAP BR . . . . . . . . . . . . . . . . . . . . . . . . . . 20
        8.2.1.  IPv6 to IPv4 . . . . . . . . . . . . . . . . . . . . . 20
-       8.2.2.  IPv4 to IPv6 . . . . . . . . . . . . . . . . . . . . . 20
+       8.2.2.  IPv4 to IPv6 . . . . . . . . . . . . . . . . . . . . . 21
    9.  ICMP . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 21
      9.1.  Translating ICMP/ICMPv6 Headers  . . . . . . . . . . . . . 21
    10. Fragmentation and Path MTU Discovery . . . . . . . . . . . . . 22
      10.1. Fragmentation in the MAP domain  . . . . . . . . . . . . . 22
-     10.2. Receiving IPv4 Fragments on the MAP domain borders . . . . 22
+     10.2. Receiving IPv4 Fragments on the MAP domain borders . . . . 23
      10.3. Sending IPv4 fragments to the outside  . . . . . . . . . . 23
    11. NAT44 Considerations . . . . . . . . . . . . . . . . . . . . . 23
    12. Deployment Considerations  . . . . . . . . . . . . . . . . . . 23
      12.1. Choice of forwarding mode  . . . . . . . . . . . . . . . . 23
-     12.2. Use cases  . . . . . . . . . . . . . . . . . . . . . . . . 23
-       12.2.1. Hub and spoke with per subscriber rules  . . . . . . . 23
+     12.2. Use cases  . . . . . . . . . . . . . . . . . . . . . . . . 24
+       12.2.1. Hub and spoke with per subscriber rules  . . . . . . . 24
        12.2.2. Communication with IPv6 servers in the MAP-T domain  . 24
    13. IANA Considerations  . . . . . . . . . . . . . . . . . . . . . 24
    14. Security Considerations  . . . . . . . . . . . . . . . . . . . 24
@@ -155,7 +156,7 @@ Table of Contents
    17. References . . . . . . . . . . . . . . . . . . . . . . . . . . 26
      17.1. Normative References . . . . . . . . . . . . . . . . . . . 26
      17.2. Informative References . . . . . . . . . . . . . . . . . . 27
-   Appendix A.  Example of MAP-T translation  . . . . . . . . . . . . 29
+   Appendix A.  Example of MAP-T translation  . . . . . . . . . . . . 30
    Authors' Addresses . . . . . . . . . . . . . . . . . . . . . . . . 32
 
 
@@ -163,10 +164,9 @@ Table of Contents
 
 
 
-
-Troan, et al.           Expires December 2, 2012                [Page 3]
+Troan, et al.           Expires December 3, 2012                [Page 3]
 
-Internet-Draft                     MAP                          May 2012
+Internet-Draft                     MAP                         June 2012
 
 
 1.  Introduction
@@ -220,9 +220,9 @@ Internet-Draft                     MAP                          May 2012
 
 
 
-Troan, et al.           Expires December 2, 2012                [Page 4]
+Troan, et al.           Expires December 3, 2012                [Page 4]
 
-Internet-Draft                     MAP                          May 2012
+Internet-Draft                     MAP                         June 2012
 
 
    This document describes delivery of IPv4 unicast service across an
@@ -276,9 +276,9 @@ Internet-Draft                     MAP                          May 2012
 
 
 
-Troan, et al.           Expires December 2, 2012                [Page 5]
+Troan, et al.           Expires December 3, 2012                [Page 5]
 
-Internet-Draft                     MAP                          May 2012
+Internet-Draft                     MAP                         June 2012
 
 
    MAP Border Relay (BR):  A MAP enabled router managed by the service
@@ -316,8 +316,7 @@ Internet-Draft                     MAP                          May 2012
                            CE.
 
    MAP IPv6 address:       The IPv6 address used to reach the MAP
-                           function of a CE from other CE's and from
-                           BR's.
+                           function of a CE from other CEs and from BRs.
 
    Rule IPv6 prefix:       An IPv6 prefix assigned by a Service Provider
                            for a mapping rule.
@@ -332,19 +331,20 @@ Internet-Draft                     MAP                          May 2012
 
 
 
-Troan, et al.           Expires December 2, 2012                [Page 6]
+
+Troan, et al.           Expires December 3, 2012                [Page 6]
 
-Internet-Draft                     MAP                          May 2012
+Internet-Draft                     MAP                         June 2012
 
 
-   MRT:                    MAP Rule table.  Address and Port aware
-                           datastructure, supporting longest match
-                           lookups.  The MRT is used by the MAP
-                           forwarding function.
+   MRT:                    MAP Rule table.  Address and Port aware data
+                           structure, supporting longest match lookups.
+                           The MRT is used by the MAP forwarding
+                           function.
 
    MAP-T:                  Mapping of Address and Port - Translation
-                           mode.  MAP-T utilizes IPv4/IP6 translation as
-                           per [RFC6145].
+                           mode.  MAP-T utilizes IPv4/IPv6 translation
+                           as per [RFC6145].
 
    MAP-E:                  Mapping of Address and Port - Encapsulation
                            mode.  MAP-E utilizes a simple IPv4-in-IPv6
@@ -358,7 +358,7 @@ Internet-Draft                     MAP                          May 2012
    additional support for restricting transport protocol ports, ICMP
    identifiers and fragment identifiers to the configured port set.  MAP
    supports two forwarding modes, one using stateless NAT64 as specified
-   in [RFC6145] and one encapsulation mode specifed in [RFC2473].  In
+   in [RFC6145] and one encapsulation mode specified in [RFC2473].  In
    addition MAP specifies an algorithm to do "address resolution" from
    an IPv4 address and port to an IPv6 address.  This algorithmic
    mapping is specified in section 5.
@@ -388,9 +388,9 @@ Internet-Draft                     MAP                          May 2012
 
 
 
-Troan, et al.           Expires December 2, 2012                [Page 7]
+Troan, et al.           Expires December 3, 2012                [Page 7]
 
-Internet-Draft                     MAP                          May 2012
+Internet-Draft                     MAP                         June 2012
 
 
    entry in the table consists of an IPv4 prefix and PSID.  The normal
@@ -444,16 +444,10 @@ Internet-Draft                     MAP                          May 2012
 
 
 
-Troan, et al.           Expires December 2, 2012                [Page 8]
+Troan, et al.           Expires December 3, 2012                [Page 8]
 
-Internet-Draft                     MAP                          May 2012
+Internet-Draft                     MAP                         June 2012
 
-
-   The NAT44 implemented in MAP-T CE SHOULD conform with the behavior
-   and best current practice documented in [RFC4787], [RFC5508] and
-   [RFC5382].  In MAP-T address sharing mode (determined by the MAP-T
-   configuration parameters) the operation of the NAT44 must be
-   restricted to the available port numbers derived via BMR.
 
    MAP can also be provisioned in 1:1 mode.  In 1:1 mode the BR has a
    MAP domain per subscriber, and the CE is configured in hub and spoke
@@ -496,15 +490,6 @@ Internet-Draft                     MAP                          May 2012
 
        *  Rule EA-bits length (in bits)
 
-
-
-
-
-Troan, et al.           Expires December 2, 2012                [Page 9]
-
-Internet-Draft                     MAP                          May 2012
-
-
        *  Rule Port Parameters (optional)
 
        *  Forwarding mode
@@ -512,6 +497,14 @@ Internet-Draft                     MAP                          May 2012
    2.  Forwarding Mapping Rule - used for forwarding.  The Basic Mapping
        Rule is also a Forwarding Mapping Rule.  Each Forwarding Mapping
        Rule will result in an entry in the MRT for the Rule IPv4 prefix.
+
+
+
+Troan, et al.           Expires December 3, 2012                [Page 9]
+
+Internet-Draft                     MAP                         June 2012
+
+
        The FMR consists of the same parameters as the BMR.
 
    3.  Default Mapping Rule - used for destinations outside the MAP
@@ -552,15 +545,6 @@ Internet-Draft                     MAP                          May 2012
    For a given sharing ratio (R) and the maximum number of contiguous
    ports (M), the GMA algorithm is defined as:
 
-
-
-
-
-Troan, et al.           Expires December 2, 2012               [Page 10]
-
-Internet-Draft                     MAP                          May 2012
-
-
    1.  The port number (P) of a given PSID (K) is composed of:
 
    P = R * M * j + M * K + i
@@ -568,6 +552,14 @@ Internet-Draft                     MAP                          May 2012
        Where:
 
        *  PSID: K = 0 to R - 1
+
+
+
+
+Troan, et al.           Expires December 3, 2012               [Page 10]
+
+Internet-Draft                     MAP                         June 2012
+
 
        *  Port range index: j = (4096 / M) / R to ((65536 / M) / R) - 1,
           if the port numbers (0 - 4095) are excluded.
@@ -609,18 +601,21 @@ Internet-Draft                     MAP                          May 2012
    For any port number, the PSID can be obtained by bit mask operation.
 
    For a > 0, j MUST be larger than 0.  This ensures that the algorithm
-
-
-
-Troan, et al.           Expires December 2, 2012               [Page 11]
-
-Internet-Draft                     MAP                          May 2012
-
-
    excludes the system ports ([I-D.ietf-tsvwg-iana-ports]).  For a = 0,
    j MAY be 0 to allow for the provisioning of the system ports.
 
 5.1.2.  GMA examples
+
+
+
+
+
+
+
+Troan, et al.           Expires December 3, 2012               [Page 11]
+
+Internet-Draft                     MAP                         June 2012
+
 
    For example, for R = 1024, PSID offset: a = 4 and PSID length: k = 10
    bits
@@ -666,16 +661,16 @@ Internet-Draft                     MAP                          May 2012
    that the PSID field starts on a nibble boundary and the excluded port
    range (0-1023) is extended to 0-4095.
 
-
-
-Troan, et al.           Expires December 2, 2012               [Page 12]
-
-Internet-Draft                     MAP                          May 2012
-
-
 5.2.  Basic mapping rule (BMR)
 
 
+
+
+
+
+Troan, et al.           Expires December 3, 2012               [Page 12]
+
+Internet-Draft                     MAP                         June 2012
 
 
     |     n bits         |  o bits   | s bits  |   128-n-o-s bits      |
@@ -724,9 +719,14 @@ Internet-Draft                     MAP                          May 2012
 
 
 
-Troan, et al.           Expires December 2, 2012               [Page 13]
+
+
+
+
+
+Troan, et al.           Expires December 3, 2012               [Page 13]
 
-Internet-Draft                     MAP                          May 2012
+Internet-Draft                     MAP                         June 2012
 
 
                           Complete IPv4 address:
@@ -780,16 +780,16 @@ Internet-Draft                     MAP                          May 2012
 
 
 
-Troan, et al.           Expires December 2, 2012               [Page 14]
+Troan, et al.           Expires December 3, 2012               [Page 14]
 
-Internet-Draft                     MAP                          May 2012
+Internet-Draft                     MAP                         June 2012
 
 
    The length of r MAY be 32, with no part of the IPv4 address embedded
    in the EA bits.  This results in a mapping with no dependence between
    the IPv4 address and the IPv6 address.  In addition the length of o
    MAY be zero (no EA bits embedded in the End-User IPv6 prefix),
-   meaning that also the PSID is provisioned.
+   meaning that also the PSID is provisioned using e.g. the DHCP option.
 
    In the following examples, only the suffix (last 8 bits) of the IPv4
    address is embedded in the EA bits (r = 24), while the IPv4 prefix
@@ -836,9 +836,9 @@ Internet-Draft                     MAP                          May 2012
 
 
 
-Troan, et al.           Expires December 2, 2012               [Page 15]
+Troan, et al.           Expires December 3, 2012               [Page 15]
 
-Internet-Draft                     MAP                          May 2012
+Internet-Draft                     MAP                         June 2012
 
 
    |        32 bits           |         |    16 bits        |
@@ -892,9 +892,9 @@ Internet-Draft                     MAP                          May 2012
 
 
 
-Troan, et al.           Expires December 2, 2012               [Page 16]
+Troan, et al.           Expires December 3, 2012               [Page 16]
 
-Internet-Draft                     MAP                          May 2012
+Internet-Draft                     MAP                         June 2012
 
 
    interface identifier.  For the encapsulation mode the complete IPv6
@@ -948,9 +948,9 @@ Internet-Draft                     MAP                          May 2012
 
 
 
-Troan, et al.           Expires December 2, 2012               [Page 17]
+Troan, et al.           Expires December 3, 2012               [Page 17]
 
-Internet-Draft                     MAP                          May 2012
+Internet-Draft                     MAP                         June 2012
 
 
    If the End-user IPv6 prefix length is larger than 64, the most
@@ -1004,9 +1004,9 @@ Internet-Draft                     MAP                          May 2012
 
 
 
-Troan, et al.           Expires December 2, 2012               [Page 18]
+Troan, et al.           Expires December 3, 2012               [Page 18]
 
-Internet-Draft                     MAP                          May 2012
+Internet-Draft                     MAP                         June 2012
 
 
    The MAP DHCP option is specified in
@@ -1032,6 +1032,20 @@ Internet-Draft                     MAP                          May 2012
    BGP.  However, if anycast is used for the MAP IPv6 relays, the
    anycast addresses must be advertised in the service provider's IGP.
 
+7.3.  Backwards compatibility
+
+   A MAP-E CE provisioned with only a Default Mapping Rule, as in the
+   1:1 case, and with no IPv4 address and port range configured by other
+   means, MUST disable its NAT44 functionality.  This characteristic
+   makes a MAP-E CE compatible for use with with DS-Lite [RFC6333]
+   AFTRs, whose addresses are configured as the MAP BR.
+
+   A MAP-T CE, in all configuration modes, is by default compatible with
+   stateful NAT64 gateways, whose prefixes are passed as the BR
+   prefixes.  Furthermore, when a MAP-T CE configured to operate without
+   address sharing (no PSID), is compatible with stateless NAT64
+   elements acting as BRs.
+
 
 8.  Forwarding Considerations
 
@@ -1043,6 +1057,14 @@ Internet-Draft                     MAP                          May 2012
 
    A MAP CE forwarding IPv4 packets from the LAN SHOULD perform NAT44
    functions first and create appropriate NAT44 bindings.  The resulting
+
+
+
+Troan, et al.           Expires December 3, 2012               [Page 19]
+
+Internet-Draft                     MAP                         June 2012
+
+
    IPv4 packets MUST contain the source IPv4 address and source
    transport number defined by MAP.  The resulting IPv4 packet is
    forwarded to the CE's MAP forwarding function.  The IPv6 source and
@@ -1057,14 +1079,6 @@ Internet-Draft                     MAP                          May 2012
    an IPv4 header in accordance with [RFC6145].  The resulting IPv4
    packet is then forwarded to the CE's NAT44 function where the
    destination port number MUST be checked against the stateful port
-
-
-
-Troan, et al.           Expires December 2, 2012               [Page 19]
-
-Internet-Draft                     MAP                          May 2012
-
-
    mapping session table and the destination port number MUST be mapped
    to its original value.
 
@@ -1098,6 +1112,15 @@ Internet-Draft                     MAP                          May 2012
    [RFC6145].  The resulting IPv4 packets are then passed to regular
    IPv4 forwarding.
 
+
+
+
+
+Troan, et al.           Expires December 3, 2012               [Page 20]
+
+Internet-Draft                     MAP                         June 2012
+
+
 8.2.2.  IPv4 to IPv6
 
    A MAP BR receiving IPv4 packets uses a longest match IPv4 lookup to
@@ -1111,14 +1134,6 @@ Internet-Draft                     MAP                          May 2012
    Note that the operation of a BR when forwarding to MAP domains that
    do not utilize IPv4 address sharing, is the same as stateless IPv4/
    IPv6 translation.
-
-
-
-
-
-Troan, et al.           Expires December 2, 2012               [Page 20]
-
-Internet-Draft                     MAP                          May 2012
 
 
 9.  ICMP
@@ -1154,6 +1169,14 @@ Internet-Draft                     MAP                          May 2012
    message is originated from an IPv4 host behind a MAP-T CE, the ICMP
    ID field SHOULD be used to exclusively identify that IPv4 host.  This
    means that the MAP-T CE SHOULD rewrite the ID field to a port-set
+
+
+
+Troan, et al.           Expires December 3, 2012               [Page 21]
+
+Internet-Draft                     MAP                         June 2012
+
+
    value obtained via the BMR during the IPv4 to IPv6 ICMPv6 translation
    operation.  A BR can translate the resulting ICMPv6 packets back to
    ICMP preserving the ID field on its way to an IPv4 destination.  In
@@ -1169,14 +1192,6 @@ Internet-Draft                     MAP                          May 2012
    MAP BR should replay the ICMP message to an appropriate MAP CE.  If
    IPv4 address is not shared, the MAP BR generates a CE IPv6 address
    from the IPv4 destination address in the ICMP error message and
-
-
-
-Troan, et al.           Expires December 2, 2012               [Page 21]
-
-Internet-Draft                     MAP                          May 2012
-
-
    encapsulates the ICMP message in IPv6.  If IPv4 address is shared,
    the MAP BR derives an original IPv4 packet from the ICMP payload and
    generates a CE IPv6 address from the source address and the source
@@ -1210,6 +1225,14 @@ Internet-Draft                     MAP                          May 2012
 
    The use of an anycast source address could lead to any ICMP error
    message generated on the path being sent to a different BR.
+
+
+
+Troan, et al.           Expires December 3, 2012               [Page 22]
+
+Internet-Draft                     MAP                         June 2012
+
+
    Therefore, using dynamic tunnel MTU Section 6.7 of [RFC2473] is
    subject to IPv6 Path MTU blackholes.
 
@@ -1225,17 +1248,9 @@ Internet-Draft                     MAP                          May 2012
    protocol destination port.  The transport protocol information is
    only available in the first fragment received.  As described in
    section 5.3.3 of [RFC6346] a MAP node receiving an IPv4 fragmented
-
-
-
-Troan, et al.           Expires December 2, 2012               [Page 22]
-
-Internet-Draft                     MAP                          May 2012
-
-
    packet from outside has to reassemble the packet before sending the
    packet onto the MAP link.  If the first packet received contains the
-   transport protocol information, it is possible to optmize this
+   transport protocol information, it is possible to optimize this
    behaviour by using a cache and forwarding the fragments unchanged.  A
    description of this algorithm is outside the scope of this document.
 
@@ -1253,17 +1268,26 @@ Internet-Draft                     MAP                          May 2012
 
 11.  NAT44 Considerations
 
-   The NAT44 implementedf in the MAP CE SHOULD conform with the behavior
-   and best current practice documented in [RFC4787], [RFC5508] and
-   [RFC5383].  In MAP address sharing mode (determined by the MAP
-   domain/rule configuration parameters) the operation of the NAT44 MUST
-   be restricted to the available port numbers derived via the basic
-   mapping rule.
+   The NAT44 implemented in the MAP CE SHOULD conform with the behavior
+   and best current practice documented in [RFC4787], [RFC5508],
+   [RFC5382] and [RFC5383].  In MAP address sharing mode (determined by
+   the MAP domain/rule configuration parameters) the operation of the
+   NAT44 MUST be restricted to the available port numbers derived via
+   the basic mapping rule.
 
 
 12.  Deployment Considerations
 
 12.1.  Choice of forwarding mode
+
+
+
+
+
+Troan, et al.           Expires December 3, 2012               [Page 23]
+
+Internet-Draft                     MAP                         June 2012
+
 
 12.2.  Use cases
 
@@ -1281,14 +1305,6 @@ Internet-Draft                     MAP                          May 2012
    in the DHCPv6 option.  A hybrid of this use case is to provision the
    full IPv4 address in the DHCPv6 option, while embedding the PSID in
    the IPv6 prefix.  That will result in one mapping rule per IPv4
-
-
-
-Troan, et al.           Expires December 2, 2012               [Page 23]
-
-Internet-Draft                     MAP                          May 2012
-
-
    address, e.g. with a sharing ratio of 64, one rule per 64 customers.
 
 12.2.2.  Communication with IPv6 servers in the MAP-T domain
@@ -1297,9 +1313,9 @@ Internet-Draft                     MAP                          May 2012
    enabled end hosts, with native IPv6-only servers which are using
    IPv4-mapped IPv6 address based on DMR in the MAP-T domain.  In this
    mode, the IPv6-only servers SHOULD have both A and AAAA records in
-   the authorities DNS server [RFC6219].  DNS64 [RFC6147] become
-   required only when IPv6 servers in the MAP-T domain are expected
-   themselves to initiate communication to external IPv4-only hosts.
+   DNS [RFC6219].  DNS64 [RFC6147] become required only when IPv6
+   servers in the MAP-T domain are expected themselves to initiate
+   communication to external IPv4-only hosts.
 
 
 13.  IANA Considerations
@@ -1321,6 +1337,14 @@ Internet-Draft                     MAP                          May 2012
       approaches such as DS-Lite and NAT64/DNS64.  The best protection
       against such attacks is to accelerate IPv6 enablement in both
       clients and servers so that, where MAP is supported, it is less
+
+
+
+Troan, et al.           Expires December 3, 2012               [Page 24]
+
+Internet-Draft                     MAP                         June 2012
+
+
       and less used.
 
    Routing-loop attacks:  This attack may exist in some automatic
@@ -1337,14 +1361,6 @@ Internet-Draft                     MAP                          May 2012
       target hosts, and using an unrestricted port set is preferable,
       i.e. using native IPv6 connections that are not subject to MAP
       port range restrictions.  To minimize this type of attacks when
-
-
-
-Troan, et al.           Expires December 2, 2012               [Page 24]
-
-Internet-Draft                     MAP                          May 2012
-
-
       using a restricted port set, the MAP CE's NAT44 filtering behavior
       SHOULD be "Address-Dependent Filtering".  Furthermore, the MAP CEs
       SHOULD use a DNS transport proxy function to handle DNS traffic,
@@ -1377,6 +1393,14 @@ Internet-Draft                     MAP                          May 2012
 
       Qiong Sun (China Telecom)
 
+
+
+
+Troan, et al.           Expires December 3, 2012               [Page 25]
+
+Internet-Draft                     MAP                         June 2012
+
+
       Room 708, No.118, Xizhimennei Street Beijing 100035 CN
 
       Phone: +86-10-58552936
@@ -1392,14 +1416,6 @@ Internet-Draft                     MAP                          May 2012
       Wentao Shang (CERNET Center/Tsinghua University)
 
       Room 225, Main Building, Tsinghua University Beijing 100084 CN
-
-
-
-
-Troan, et al.           Expires December 2, 2012               [Page 25]
-
-Internet-Draft                     MAP                          May 2012
-
 
       Email: wentaoshang@gmail.com
 
@@ -1433,6 +1449,14 @@ Internet-Draft                     MAP                          May 2012
 
    [I-D.mdt-softwire-map-dhcp-option]
               Mrugalski, T., Boucadair, M., Deng, X., Troan, O., and C.
+
+
+
+Troan, et al.           Expires December 3, 2012               [Page 26]
+
+Internet-Draft                     MAP                         June 2012
+
+
               Bao, "DHCPv6 Options for Mapping of Address and Port",
               draft-mdt-softwire-map-dhcp-option-02 (work in progress),
               January 2012.
@@ -1449,13 +1473,6 @@ Internet-Draft                     MAP                          May 2012
 
    [RFC6145]  Li, X., Bao, C., and F. Baker, "IP/ICMP Translation
               Algorithm", RFC 6145, April 2011.
-
-
-
-Troan, et al.           Expires December 2, 2012               [Page 26]
-
-Internet-Draft                     MAP                          May 2012
-
 
    [RFC6346]  Bush, R., "The Address plus Port (A+P) Approach to the
               IPv4 Address Shortage", RFC 6346, August 2011.
@@ -1488,6 +1505,14 @@ Internet-Draft                     MAP                          May 2012
               draft-murakami-softwire-4v6-translation-00 (work in
               progress), July 2011.
 
+
+
+
+Troan, et al.           Expires December 3, 2012               [Page 27]
+
+Internet-Draft                     MAP                         June 2012
+
+
    [I-D.xli-behave-divi]
               Shang, W., Li, X., Zhai, Y., and C. Bao, "dIVI: Dual-
               Stateless IPv4/IPv6 Translation", draft-xli-behave-divi-04
@@ -1504,14 +1529,6 @@ Internet-Draft                     MAP                          May 2012
 
    [RFC2529]  Carpenter, B. and C. Jung, "Transmission of IPv6 over IPv4
               Domains without Explicit Tunnels", RFC 2529, March 1999.
-
-
-
-
-Troan, et al.           Expires December 2, 2012               [Page 27]
-
-Internet-Draft                     MAP                          May 2012
-
 
    [RFC2663]  Srisuresh, P. and M. Holdrege, "IP Network Address
               Translator (NAT) Terminology and Considerations",
@@ -1544,6 +1561,14 @@ Internet-Draft                     MAP                          May 2012
               March 2008.
 
    [RFC5382]  Guha, S., Biswas, K., Ford, B., Sivakumar, S., and P.
+
+
+
+Troan, et al.           Expires December 3, 2012               [Page 28]
+
+Internet-Draft                     MAP                         June 2012
+
+
               Srisuresh, "NAT Behavioral Requirements for TCP", BCP 142,
               RFC 5382, October 2008.
 
@@ -1561,13 +1586,6 @@ Internet-Draft                     MAP                          May 2012
    [RFC5969]  Townsley, W. and O. Troan, "IPv6 Rapid Deployment on IPv4
               Infrastructures (6rd) -- Protocol Specification",
               RFC 5969, August 2010.
-
-
-
-Troan, et al.           Expires December 2, 2012               [Page 28]
-
-Internet-Draft                     MAP                          May 2012
-
 
    [RFC6056]  Larsen, M. and F. Gont, "Recommendations for Transport-
               Protocol Port Randomization", BCP 156, RFC 6056,
@@ -1599,31 +1617,15 @@ Internet-Draft                     MAP                          May 2012
               Exhaustion", RFC 6333, August 2011.
 
 
-Appendix A.  Example of MAP-T translation
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Troan, et al.           Expires December 2, 2012               [Page 29]
+Troan, et al.           Expires December 3, 2012               [Page 29]
 
-Internet-Draft                     MAP                          May 2012
+Internet-Draft                     MAP                         June 2012
 
+
+Appendix A.  Example of MAP-T translation
 
    Example 1:
 
@@ -1674,11 +1676,9 @@ Internet-Draft                     MAP                          May 2012
 
 
 
-
-
-Troan, et al.           Expires December 2, 2012               [Page 30]
+Troan, et al.           Expires December 3, 2012               [Page 30]
 
-Internet-Draft                     MAP                          May 2012
+Internet-Draft                     MAP                         June 2012
 
 
    Example 2:
@@ -1732,9 +1732,9 @@ Internet-Draft                     MAP                          May 2012
 
 
 
-Troan, et al.           Expires December 2, 2012               [Page 31]
+Troan, et al.           Expires December 3, 2012               [Page 31]
 
-Internet-Draft                     MAP                          May 2012
+Internet-Draft                     MAP                         June 2012
 
 
    Example 3:
@@ -1788,9 +1788,9 @@ Authors' Addresses
 
 
 
-Troan, et al.           Expires December 2, 2012               [Page 32]
+Troan, et al.           Expires December 3, 2012               [Page 32]
 
-Internet-Draft                     MAP                          May 2012
+Internet-Draft                     MAP                         June 2012
 
 
    Xing Li
@@ -1844,5 +1844,5 @@ Internet-Draft                     MAP                          May 2012
 
 
 
-Troan, et al.           Expires December 2, 2012               [Page 33]
+Troan, et al.           Expires December 3, 2012               [Page 33]
 

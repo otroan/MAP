@@ -345,7 +345,7 @@
 	each CE.</t>
 
 	<t hangText="MAP IPv6 address:">The IPv6 address used to reach
-	the MAP function of a CE from other CEs and from BRs.</t>
+	the MAP function of a CE from other CE's and from BR's.</t>
 
 	<t hangText="Rule IPv6 prefix:">An IPv6 prefix assigned by
 	a Service Provider for a mapping rule.</t>
@@ -359,11 +359,11 @@
 	port-set identifier.</t>
 
 	<t hangText="MRT:">MAP Rule table. Address and Port aware
-	data structure, supporting longest match lookups. The MRT is
+	datastructure, supporting longest match lookups. The MRT is
 	used by the MAP forwarding function.</t>
 
 	<t hangText="MAP-T:">Mapping of Address and Port &ndash;
-	Translation mode. MAP-T utilizes IPv4/IPv6 translation as per
+	Translation mode. MAP-T utilizes IPv4/IP6 translation as per
 	<xref target="RFC6145"/>.</t>
 
 	<t hangText="MAP-E:">Mapping of Address and Port &ndash;
@@ -383,7 +383,7 @@
       ICMP identifiers and fragment identifiers to the configured port
       set. MAP supports two forwarding modes, one using stateless
       NAT64 as specified in <xref target="RFC6145"/> and one
-      encapsulation mode specified in <xref target="RFC2473"/>. In
+      encapsulation mode specifed in <xref target="RFC2473"/>. In
       addition MAP specifies an algorithm to do "address resolution"
       from an IPv4 address and port to an IPv6 address. This
       algorithmic mapping is specified in section 5.</t>
@@ -1239,7 +1239,7 @@ PSID=63  | [64512 - 65535]
        packet from outside has to reassemble the packet before sending
        the packet onto the MAP link. If the first packet received
        contains the transport protocol information, it is possible to
-       optimize this behaviour by using a cache and forwarding the
+       optmize this behaviour by using a cache and forwarding the
        fragments unchanged. A description of this algorithm is outside
        the scope of this document.</t>
      </section>
@@ -1262,11 +1262,11 @@ PSID=63  | [64512 - 65535]
     <section title="NAT44 Considerations">
       <t>The NAT44 implemented in the MAP CE SHOULD conform with the
       behavior and best current practice documented in <xref
-      target="RFC4787"/>, <xref target="RFC5508"/>, <xref
-      target="RFC5382"/> and <xref target="RFC5383"/>. In MAP address
-      sharing mode (determined by the MAP domain/rule configuration
-      parameters) the operation of the NAT44 MUST be restricted to the
-      available port numbers derived via the basic mapping rule.</t>
+      target="RFC4787"/>, <xref target="RFC5508"/> and <xref
+      target="RFC5383"/>. In MAP address sharing mode (determined by
+      the MAP domain/rule configuration parameters) the operation of
+      the NAT44 MUST be restricted to the available port numbers
+      derived via the basic mapping rule.</t>
     </section>
 
     <section title="Deployment Considerations">
