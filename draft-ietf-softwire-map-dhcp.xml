@@ -527,32 +527,36 @@
 
             <t>option-length: 4</t>
 
-            <t>rsvd: This 4-bits long field is currently not used and MUST be
-            set to 0 by server. Its value MUST be ignored by clients.</t>
+            <t>rsvd: This 4-bits long field is currently not used and
+            MUST be set to 0 by server. Its value MUST be ignored by
+            clients.</t>
 
-            <t>offset: (PSID offset) 4 bits long field that specifies the numeric value for
-            the MAP algorithm's excluded port range/offset bits (A-bits), as
-            per section 5.1.1 in <xref target="I-D.ietf-softwire-map"></xref>.
-            Default must be set to 4.</t>
+            <t>offset: (PSID offset) 4 bits long field that specifies
+            the numeric value for the MAP algorithm's excluded port
+            range/offset bits (A-bits), as per section 5.1.1 in <xref
+            target="I-D.ietf-softwire-map"></xref>.  Default must be
+            set to 4.</t>
 
-            <t>PSID-len: Bit length value of the number of significant bits in
-            the PSID field. (also known as 'k'). When set to 0, the PSID field is to be
-            ignored. After the first 'a' bits, there are k bits in the 
-	port number representing valid of PSID. Subsequently, the address sharing ratio would be 2 ^k.</t>
+            <t>PSID-len: Bit length value of the number of significant
+            bits in the PSID field. (also known as 'k'). When set to
+            0, the PSID field is to be ignored. After the first 'a'
+            bits, there are k bits in the port number representing
+            valid of PSID. Subsequently, the address sharing ratio
+            would be 2 ^k.</t>
 
-            <t>PSID: Explicit 16-bit (unsigned word) PSID value. The PSID 
-            value algorithmically identifies a set of ports assigned to a 
-            CE. The first k-bits on the left of this 2-octets field is the PSID value.  The remaining
-            (16-k) bits on the right are padding zeros.
+            <t>PSID: Explicit 16-bit (unsigned word) PSID value. The
+            PSID value algorithmically identifies a set of ports
+            assigned to a CE. The first k-bits on the left of this
+            2-octets field is the PSID value.  The remaining (16-k)
+            bits on the right are padding zeros.
 	  </t>
 
-          </list>Note: If the MAP Port Paramters option is not present, the
-        following default values are assumed by MAP: <list style="empty">
-            <t>Excluded ports: 0-4095 (excluded-ports field value is 4095) = 4
-            offset-bits</t>
-          </list>When receiveing the Port Parameters option with an explicit
-        PSID, the client MUST use this explicit PSID in configuring its MAP
-        interface. </t>
+          </list>
+        </t>
+
+        <t>When receiveing the Port Parameters option with an explicit
+        PSID, the client MUST use this explicit PSID in configuring
+        its MAP interface. </t>
       </section>
     </section>
 
