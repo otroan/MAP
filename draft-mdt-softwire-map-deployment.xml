@@ -151,7 +151,11 @@
      </author>
 	 
 	 <author fullname="Simon Perreault" initials="S." surname="Perreault">
+<<<<<<< HEAD
       <organization>Viagenie</organization>
+=======
+      <organization>Viag¨¦nie</organization>
+>>>>>>> e4043905542f48529ebdf9c6c5a438a3a9e69599
       <address>
       <postal>
       <street>246 Aberdeen</street>
