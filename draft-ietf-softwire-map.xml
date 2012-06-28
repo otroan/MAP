@@ -479,7 +479,10 @@ O---.--------------O
       does not match (using longest matching prefix) any Rule IPv4 prefix in
       the Rules database) will be forward using the Default mapping rule. The
       Default mapping rule maps outside destinations to the BR's IPv6 address
-      or prefix. A forwarding mode is defined on a per domain basis.</t>
+      or prefix. </t>
+
+      <t>Note: The forwarding mode is intended to apply uniformly for rules in
+      a domain - subject to further WG feedback in this area.</t>
 
       <t>There are three types of mapping rules: <list style="numbers">
           <t>Basic Mapping Rule - used for IPv4 prefix, address or port set
@@ -493,6 +496,8 @@ O---.--------------O
               <t>Rule EA-bits length (in bits)</t>
 
               <t>Rule Port Parameters (optional)</t>
+
+              <t>Forwarding mode</t>
             </list></t>
 
           <t>Forwarding Mapping Rule - used for forwarding. The Basic Mapping
@@ -504,6 +509,8 @@ O---.--------------O
           domain. A 0.0.0.0/0 entry is installed in the MRT for this rule.
           <list style="symbols">
               <t>IPv6 prefix of address of BR</t>
+
+              <t>Forwarding mode</t>
             </list></t>
         </list></t>
 
@@ -1188,6 +1195,8 @@ PSID=63  | [64512 - 65535]
 
     <section title="Deployment Considerations">
       <section title="Use cases">
+        <t></t>
+
         <section title="Mesh Model">
           <t>MAP allows the mesh model in order for all CEs to communicate
           each others directly. If one mapping rules is applied to a given MAP
@@ -1211,12 +1220,6 @@ PSID=63  | [64512 - 65535]
           side and then CE must encapsulate the IPv4 packet with IPv6 whose
           destination must be a given BR using the Default Mapping Rule
           (DMR).</t>
-        </section>
-
-        <section title="Full or shared IPv4 address service">
-          <t>The operator has the choice of provisioning a full IPv4 address
-          to the end-user, or a shared IPv4 address by also provisioning the
-          PSID.</t>
         </section>
 
         <section title="Communication with IPv6 servers in the MAP-T domain">
