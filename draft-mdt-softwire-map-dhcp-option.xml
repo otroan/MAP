@@ -13,7 +13,7 @@
 
 ]>
 
-<rfc category="std" docName="draft-ietf-softwire-map-dhcp-00"
+<rfc category="std" docName="draft-mdt-softwire-map-dhcp-option-03"
      ipr="trust200902">
   <front>
     <title abbrev="MAP DHCPv6 Options">DHCPv6 Options for Mapping of Address
@@ -124,10 +124,10 @@
     <!--  SECTION 0:  Abstract                      -->
 
     <abstract>
-      <t>This document specifies DHCPv6 options for the provisioning of
-      Mapping of Address and Port (MAP Customer Edge (CE) devices, based on
-      the MAP paramaters derfined in <xref
-      target="I-D.ietf-softwire-map"></xref></t>
+      <t>This document specifies DHCPv6 options for the provisioning
+      of Mapping of Address and Port (MAP) Customer Edge (CE) devices,
+      based on the MAP paramaters defined in <xref
+      target="I-D.ietf-softwire-map"></xref>.</t>
 
       <t></t>
     </abstract>
