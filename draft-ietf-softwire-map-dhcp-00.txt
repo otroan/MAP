@@ -4,22 +4,22 @@
 Softwire WG                                                 T. Mrugalski
 Internet-Draft                                                       ISC
 Intended status: Standards Track                                O. Troan
-Expires: December 23, 2012                                         Cisco
+Expires: January 5, 2013                                           Cisco
                                                                   C. Bao
                                                      Tsinghua University
                                                                   W. Dec
                                                                    Cisco
-                                                           June 21, 2012
+                                                            July 4, 2012
 
 
              DHCPv6 Options for Mapping of Address and Port
-                    draft-ietf-softwire-map-dhcp-00
+                 draft-mdt-softwire-map-dhcp-option-03
 
 Abstract
 
    This document specifies DHCPv6 options for the provisioning of
-   Mapping of Address and Port (MAP Customer Edge (CE) devices, based on
-   the MAP paramaters derfined in [I-D.ietf-softwire-map]
+   Mapping of Address and Port (MAP) Customer Edge (CE) devices, based
+   on the MAP paramaters defined in [I-D.ietf-softwire-map].
 
 
 Status of this Memo
@@ -37,7 +37,7 @@ Status of this Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on December 23, 2012.
+   This Internet-Draft will expire on January 5, 2013.
 
 Copyright Notice
 
@@ -52,9 +52,9 @@ Copyright Notice
 
 
 
-Mrugalski, et al.       Expires December 23, 2012               [Page 1]
+Mrugalski, et al.        Expires January 5, 2013                [Page 1]
 
-Internet-Draft             MAP DHCPv6 Options                  June 2012
+Internet-Draft             MAP DHCPv6 Options                  July 2012
 
 
    to this document.  Code Components extracted from this document must
@@ -108,9 +108,9 @@ Table of Contents
 
 
 
-Mrugalski, et al.       Expires December 23, 2012               [Page 2]
+Mrugalski, et al.        Expires January 5, 2013                [Page 2]
 
-Internet-Draft             MAP DHCPv6 Options                  June 2012
+Internet-Draft             MAP DHCPv6 Options                  July 2012
 
 
 1.  Introduction
@@ -164,9 +164,9 @@ Internet-Draft             MAP DHCPv6 Options                  June 2012
 
 
 
-Mrugalski, et al.       Expires December 23, 2012               [Page 3]
+Mrugalski, et al.        Expires January 5, 2013                [Page 3]
 
-Internet-Draft             MAP DHCPv6 Options                  June 2012
+Internet-Draft             MAP DHCPv6 Options                  July 2012
 
 
 3.  MAP Information
@@ -220,9 +220,9 @@ Internet-Draft             MAP DHCPv6 Options                  June 2012
 
 
 
-Mrugalski, et al.       Expires December 23, 2012               [Page 4]
+Mrugalski, et al.        Expires January 5, 2013                [Page 4]
 
-Internet-Draft             MAP DHCPv6 Options                  June 2012
+Internet-Draft             MAP DHCPv6 Options                  July 2012
 
 
    to be updated and follow change in the [I-D.ietf-softwire-map].
@@ -276,9 +276,9 @@ Internet-Draft             MAP DHCPv6 Options                  June 2012
 
 
 
-Mrugalski, et al.       Expires December 23, 2012               [Page 5]
+Mrugalski, et al.        Expires January 5, 2013                [Page 5]
 
-Internet-Draft             MAP DHCPv6 Options                  June 2012
+Internet-Draft             MAP DHCPv6 Options                  July 2012
 
 
                               0 1 2 3 4 5 6 7
@@ -332,9 +332,9 @@ Internet-Draft             MAP DHCPv6 Options                  June 2012
 
 
 
-Mrugalski, et al.       Expires December 23, 2012               [Page 6]
+Mrugalski, et al.        Expires January 5, 2013                [Page 6]
 
-Internet-Draft             MAP DHCPv6 Options                  June 2012
+Internet-Draft             MAP DHCPv6 Options                  July 2012
 
 
    o  option-length: length of the option, excluding option-code and
@@ -388,9 +388,9 @@ Internet-Draft             MAP DHCPv6 Options                  June 2012
 
 
 
-Mrugalski, et al.       Expires December 23, 2012               [Page 7]
+Mrugalski, et al.        Expires January 5, 2013                [Page 7]
 
-Internet-Draft             MAP DHCPv6 Options                  June 2012
+Internet-Draft             MAP DHCPv6 Options                  July 2012
 
 
 4.3.  MAP DMR Option
@@ -444,9 +444,9 @@ Internet-Draft             MAP DHCPv6 Options                  June 2012
 
 
 
-Mrugalski, et al.       Expires December 23, 2012               [Page 8]
+Mrugalski, et al.        Expires January 5, 2013                [Page 8]
 
-Internet-Draft             MAP DHCPv6 Options                  June 2012
+Internet-Draft             MAP DHCPv6 Options                  July 2012
 
 
       0                   1                   2                   3
@@ -500,9 +500,9 @@ Internet-Draft             MAP DHCPv6 Options                  June 2012
 
 
 
-Mrugalski, et al.       Expires December 23, 2012               [Page 9]
+Mrugalski, et al.        Expires January 5, 2013                [Page 9]
 
-Internet-Draft             MAP DHCPv6 Options                  June 2012
+Internet-Draft             MAP DHCPv6 Options                  July 2012
 
 
 5.2.  FMR Option Example
@@ -556,9 +556,9 @@ Internet-Draft             MAP DHCPv6 Options                  June 2012
 
 
 
-Mrugalski, et al.       Expires December 23, 2012              [Page 10]
+Mrugalski, et al.        Expires January 5, 2013               [Page 10]
 
-Internet-Draft             MAP DHCPv6 Options                  June 2012
+Internet-Draft             MAP DHCPv6 Options                  July 2012
 
 
    o  A client MUST support processing multiple received OPTION_MAP_RULE
@@ -612,9 +612,9 @@ Internet-Draft             MAP DHCPv6 Options                  June 2012
 
 
 
-Mrugalski, et al.       Expires December 23, 2012              [Page 11]
+Mrugalski, et al.        Expires January 5, 2013               [Page 11]
 
-Internet-Draft             MAP DHCPv6 Options                  June 2012
+Internet-Draft             MAP DHCPv6 Options                  July 2012
 
 
    o  The EA_LEN parameter, along with the length of the IPv4 prefix in
@@ -668,9 +668,9 @@ Internet-Draft             MAP DHCPv6 Options                  June 2012
 
 
 
-Mrugalski, et al.       Expires December 23, 2012              [Page 12]
+Mrugalski, et al.        Expires January 5, 2013               [Page 12]
 
-Internet-Draft             MAP DHCPv6 Options                  June 2012
+Internet-Draft             MAP DHCPv6 Options                  July 2012
 
 
 11.  Security Considerations
@@ -710,7 +710,7 @@ Internet-Draft             MAP DHCPv6 Options                  June 2012
    [I-D.ietf-softwire-map]
               Troan, O., Dec, W., Li, X., Bao, C., Zhai, Y., Matsushima,
               S., and T. Murakami, "Mapping of Address and Port (MAP)",
-              draft-ietf-softwire-map-00 (work in progress), June 2012.
+              draft-ietf-softwire-map-01 (work in progress), June 2012.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119, March 1997.
@@ -724,9 +724,9 @@ Internet-Draft             MAP DHCPv6 Options                  June 2012
 
 
 
-Mrugalski, et al.       Expires December 23, 2012              [Page 13]
+Mrugalski, et al.        Expires January 5, 2013               [Page 13]
 
-Internet-Draft             MAP DHCPv6 Options                  June 2012
+Internet-Draft             MAP DHCPv6 Options                  July 2012
 
 
               December 2003.
@@ -754,7 +754,7 @@ Internet-Draft             MAP DHCPv6 Options                  June 2012
    [I-D.ietf-homenet-arch]
               Chown, T., Arkko, J., Brandt, A., Troan, O., and J. Weil,
               "Home Networking Architecture for IPv6",
-              draft-ietf-homenet-arch-02 (work in progress), March 2012.
+              draft-ietf-homenet-arch-03 (work in progress), June 2012.
 
    [I-D.ietf-tsvwg-iana-ports]
               Cotton, M., Eggert, L., Touch, J., Westerlund, M., and S.
@@ -765,10 +765,10 @@ Internet-Draft             MAP DHCPv6 Options                  June 2012
               February 2011.
 
    [I-D.mdt-softwire-map-deployment]
-              Sun, Q., Chen, M., Chen, G., Sun, C., and T. Tsou,
-              "Mapping of Address and Port (MAP) - Deployment
-              Considerations", draft-mdt-softwire-map-deployment-00
-              (work in progress), March 2012.
+              Sun, Q., Chen, M., Chen, G., Sun, C., Tsou, T., and S.
+              Perreault, "Mapping of Address and Port (MAP) - Deployment
+              Considerations", draft-mdt-softwire-map-deployment-02
+              (work in progress), June 2012.
 
    [I-D.mrugalski-dhc-dhcpv6-4rd]
               Mrugalski, T., "DHCPv6 Options for IPv4 Residual
@@ -780,9 +780,9 @@ Internet-Draft             MAP DHCPv6 Options                  June 2012
 
 
 
-Mrugalski, et al.       Expires December 23, 2012              [Page 14]
+Mrugalski, et al.        Expires January 5, 2013               [Page 14]
 
-Internet-Draft             MAP DHCPv6 Options                  June 2012
+Internet-Draft             MAP DHCPv6 Options                  July 2012
 
 
               Deployment on IPv6 infrastructure - protocol
@@ -836,9 +836,9 @@ Authors' Addresses
 
 
 
-Mrugalski, et al.       Expires December 23, 2012              [Page 15]
+Mrugalski, et al.        Expires January 5, 2013               [Page 15]
 
-Internet-Draft             MAP DHCPv6 Options                  June 2012
+Internet-Draft             MAP DHCPv6 Options                  July 2012
 
 
    Wojciech Dec
@@ -892,5 +892,5 @@ Internet-Draft             MAP DHCPv6 Options                  June 2012
 
 
 
-Mrugalski, et al.       Expires December 23, 2012              [Page 16]
+Mrugalski, et al.        Expires January 5, 2013               [Page 16]
 
