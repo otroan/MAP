@@ -13,7 +13,7 @@
 
 ]>
 
-<rfc category="std" docName="draft-mdt-softwire-map-dhcp-option-03"
+<rfc category="std" docName="draft-ietf-softwire-map-dhcp-option-00"
      ipr="trust200902">
   <front>
     <title abbrev="MAP DHCPv6 Options">DHCPv6 Options for Mapping of Address
@@ -108,6 +108,23 @@
         <phone></phone>
         <facsimile></facsimile>
         <email>wdec@cisco.com</email>
+        <uri></uri>
+      </address>
+    </author>
+
+    <author fullname="Leaf Y. Yeh" initials="L." surname="Yeh">
+      <organization abbrev="Huawei">Huawei Technologies</organization>
+      <address>
+        <postal>
+          <street></street>
+          <city>Shenzhen</city>
+          <region></region>
+          <code></code>
+          <country>P. R. China</country>
+        </postal>
+        <phone></phone>
+        <facsimile></facsimile>
+        <email>leaf.y.yeh@huawei.com</email>
         <uri></uri>
       </address>
     </author>
