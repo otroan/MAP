@@ -13,7 +13,7 @@
 
 ]>
 
-<rfc category="std" docName="draft-ietf-softwire-map-dhcp-option-00"
+<rfc category="std" docName="draft-ietf-softwire-map-dhcp-00"
      ipr="trust200902">
   <front>
     <title abbrev="MAP DHCPv6 Options">DHCPv6 Options for Mapping of Address
@@ -588,7 +588,7 @@
                   title="BMR Option Example">
             <preamble></preamble>
             <artwork align="center"><![CDATA[
-            TODO: Reflect example in section 5.2 of MAP draft
+TODO: Reflect example in section 5.2 of MAP draft
             ]]></artwork>
           </figure>
         </section>
@@ -598,7 +598,7 @@
                   title="FMR Option Example">
             <preamble></preamble>
             <artwork align="center"><![CDATA[
-            TODO: Reflect example in section 5.3 of MAP draft
+TODO: Reflect example in section 5.3 of MAP draft
             ]]></artwork>
           </figure>
         </section>
@@ -608,7 +608,7 @@
                   title="DMR Option Examples">
             <preamble></preamble>
             <artwork align="center"><![CDATA[
-            TODO: Reflect example in section 5.4 of MAP draft
+TODO: Reflect example in section 5.4 of MAP draft
             ]]></artwork>
           </figure>
         </section>
@@ -705,8 +705,9 @@
 
           <t>The MAP domain ipv6-prefix in the BMR should correspond to a
           service prefix assigned to the CPE by the operator, with the latter
-          being assigned using regular IPv6 means, eg DHCP PD or SLAAC. This
-          parameter allows the CPE to select the prefix for MAP operation.</t>
+          being assigned using regular IPv6 means, e.g. DHCP PD <xref
+          target="RFC3633"/> or SLAAC. This parameter allows the CPE to select
+          the prefix for MAP operation.</t>
 
           <t>The EA_LEN parameter, along with the length of the IPv4 prefix in
           the BMR option, allows the MAP CE to determine whether address
@@ -803,8 +804,8 @@
     <!--  SECTION 8.2:  Informative References		-->
     <references title="Informative References">
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5226" ?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6335"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mdt-softwire-map-deployment.xml" ?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-tsvwg-iana-ports"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-homenet-arch"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-dhc-option-guidelines.xml" ?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mrugalski-dhc-dhcpv6-4rd.xml" ?>
