@@ -242,8 +242,8 @@
           flexibility in the level of automation a CE uses to derive its IPv4
           address and port-sharing (PSID), ranging from full derivation of
           these parameters from the CE's IPv6 prefix, to full parametrization
-          of MAP configuration independent of the CE's IPv6 prefix. Optional
-          parameters such as the PSID allow this flexibility.</t>
+          of MAP configuration independent of the CE's IPv6 prefix.<!-- Optional
+          parameters such as the PSID allow this flexibility. --></t>
         </list></t>
 
       <!--
@@ -433,9 +433,11 @@
 
             <t>rule sub-options: a variable field that may contain zero or
             more options that specify additional parameters for this MAP
-            BMR/FMR rule. Currently there is only one option defined that may
+            BMR/FMR rule. Currently there are no such options defined,
+	    but they may be defined in the future.
+	    <!-- only one option defined that may
             appear in rule sub-options field, eg the OPTION_MAP_PORTPARAMS,
-            defined in section <xref target="option-portparams"></xref>.</t>
+            defined in section <xref target="option-portparams"></xref>.--></t>
           </list></t>
 
         <t>The value of the EA-len and prefix4-len SHOULD be equal to or
@@ -517,6 +519,7 @@
           </list></t>
       </section>
 
+      <!--
       <section anchor="option-portparams" title="MAP Port Parameters Option">
         <t>Port Parameters Option specifies optional Rule Port Parameters that
         MAY be provided as part of the Mapping Rule. It MAY appear as
@@ -574,7 +577,7 @@
         <t>When receiveing the Port Parameters option with an explicit
         PSID, the client MUST use this explicit PSID in configuring
         its MAP interface. </t>
-      </section>
+      </section> -->
     </section>
 
 
@@ -731,11 +734,11 @@ TODO: Reflect example in section 5.4 of MAP draft
     </section>
 
     <section title="Deployment considerations">
-      <t>Usage of PSID Option should be avoided if possible and PSID
+      <!-- <t>Usage of PSID Option should be avoided if possible and PSID
       embedded in the delegated prefix should be used instead. This
       allows MAP deployment to not introduce any additional state in
       DHCP server. PSID Option must be assigned on a per CE basis,
-      thus requiring more complicated server configuration.</t>
+      thus requiring more complicated server configuration.</t> -->
 
       <t>In a typical environment, there will be only one MAP domain,
       so server will provide only a single instance of MAP option that
@@ -754,10 +757,9 @@ TODO: Reflect example in section 5.4 of MAP draft
 
     <section title="IANA Considerations">
       <t>IANA is kindly requested to allocate DHCPv6 option codes for TBD1 for
-      OPTION_MAP, TBD2 for OPTION_MAP_RULE, TBD3 for OPTION_MAP_DMR, and TBD4
-      for OPTION_MAP_Port. All values should be added to the DHCPv6 option
-      code space defined in Section 24.3 of <xref
-      target="RFC3315"></xref>.</t>
+      OPTION_MAP, TBD2 for OPTION_MAP_RULE, and TBD3 for OPTION_MAP_DMR. All
+      values should be added to the DHCPv6 option code space defined in Section
+      24.3 of <xref target="RFC3315"></xref>.</t>
     </section>
 
     <section title="Security Considerations">
