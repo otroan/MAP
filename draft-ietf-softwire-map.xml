@@ -1195,7 +1195,8 @@ PSID=63  | [64512 - 65535]
 
     <section title="Deployment Considerations">
       <section title="Use cases">
-        <t></t>
+        <t>Editorial Note: Carried over from Use-cases/forwarding
+        considerations in previous drafts.</t>
 
         <section title="Mesh Model">
           <t>MAP allows the mesh model in order for all CEs to communicate
