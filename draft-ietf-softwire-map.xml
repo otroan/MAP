@@ -44,7 +44,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc comments="yes" ?>
 <?rfc inline="yes" ?>
-<rfc category="std" docName="draft-ietf-softwire-map-02" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-softwire-map-04" ipr="trust200902">
   <front>
     <title abbrev="MAP">Mapping of Address and Port with Encapsulation
     (MAP)</title>
@@ -161,8 +161,9 @@
 
     <abstract>
       <t>This document describes a mechanism for transporting IPv4 packets
-      across an IPv6 network, and a generic mechanism for mapping between IPv6
-      addresses and IPv4 addresses and transport layer ports.</t>
+      across an IPv6 network using IP tunneling, and a generic mechanism for
+      mapping between IPv6 addresses and IPv4 addresses and transport layer
+      ports.</t>
     </abstract>
   </front>
 
@@ -291,7 +292,7 @@
           address.</t>
 
           <t hangText="End-user IPv6 prefix:">The IPv6 prefix assigned to an
-          End-user CE by other means than MAP itself. E.g. provisioned using
+          End-user CE by other means than MAP itself. E.g. Provisioned using
           DHCPv6 PD <xref target="RFC3633"></xref> or configured manually. It
           is unique for each CE.</t>
 
@@ -322,7 +323,7 @@
       IPv6 address. This algorithmic mapping is specified in <xref
       target="mapping_algorithm"></xref>.</t>
 
-      <t>A full IPv4 address or IPv4 prefix can be used like today, e.g. for
+      <t>A full IPv4 address or IPv4 prefix can be used like today, e.g. For
       identifying an interface or as a DHCP pool. A shared IPv4 address on the
       other hand, MUST NOT be used to identify an interface. While it is
       theoretically possible to make host stacks and applications port-aware,
@@ -404,7 +405,7 @@ O---.--------------O
       for multiple different IPv4 sub-nets to exist within the domain and
       optimize forwarding between them.</t>
 
-      <t>Traffic outside of the domain (i.e. when the destination IPv4 address
+      <t>Traffic outside of the domain (i.e. When the destination IPv4 address
       does not match (using longest matching prefix) any Rule IPv4 prefix in
       the Rules database) will be forward using the Default mapping rule. The
       Default mapping rule maps outside destinations to the BR's IPv6
@@ -665,9 +666,9 @@ PSID=63  | [64512 - 65535]
 
         <t>The offset of the EA bits field in the IPv6 address is equal to the
         BMR Rule IPv6 prefix length. The length of the EA bits field (o) is
-        given by the BMR Rule EA-bits length. The sum of the Rule IPv6 Prefix
-        length and the Rule EA-bits length MUST be less or equal than the
-        End-user IPv6 prefix length.</t>
+        given by the BMR Rule EA-bits length, and can be between 0 and 48. The
+        sum of the Rule IPv6 Prefix length and the Rule EA-bits length MUST be
+        less or equal than the End-user IPv6 prefix length.</t>
 
         <t>If o + r &lt; 32 (length of the IPv4 address in bits), then an IPv4
         prefix is assigned.</t>
@@ -685,7 +686,7 @@ PSID=63  | [64512 - 65535]
         embedded in the EA bits. This results in a mapping with no dependence
         between the IPv4 address and the IPv6 address. In addition the length
         of o MAY be zero (no EA bits embedded in the End-User IPv6 prefix),
-        meaning that also the PSID is provisioned using e.g. the DHCP
+        meaning that also the PSID is provisioned using e.g. The DHCP
         option.</t>
 
         <t>In the following examples, only the suffix (last 8 bits) of the
@@ -893,28 +894,34 @@ PSID=63  | [64512 - 65535]
         configured as the MAP BR.</t>
       </section>
 
-      <section title="Address Independece">
-        <t>The documented MAP mechanism supports use and configuration of
-        domains in so called 1:1 mode (meaning 1 domain per CPE), which allows
-        independence between the IPv4 and IPv6 addresses. The constraint
-        imposed is that each MAP domain be configured to be composed of just 1
-        MAP CE, ie the BR would contain a DMR and FMR per CPE, while the CPE
-        contains only a DMR and a BMR. It should be noted that mesh mode
-        communication is still possible by configuring appropiate FMRs on the
-        CE, with one FMR per correspondent CE</t>
+      <section title="Address Independence">
+        <t>The MAP solution supports use and configuration of domains in so
+        called 1:1 mode (meaning 1 mapping rule set per CE), which allows
+        complete independence between the IPv6 prefix assigned to the CE and
+        the IPv4 address and/or port-range it uses. This is achieved in all
+        cases when the EA-bit length is set to 0. </t>
+
+        <t>The constraint imposed is that each such MAP domain be composed of
+        just 1 MAP CE which has a pre-determined IPv6 prefix, i.e. The BR
+        would be configured with a rule-set per CPE, where the FMR would
+        uniquely describe the IPv6 prefix of a given CE. Each CE would have a
+        distinct BMR, that would fully describe that CE's IPv4 address, and
+        PSID if any. Note: All rules are provisioned on the CE using means
+        like the DHCPv6 MAP option, or other provisioning mechanism . It
+        should also be noted that mesh mode communication is still possible in
+        1:1 mode domains by configuring appropriate FMRs on each CE, with one
+        FMR per correspondent CE.</t>
 
         <t>There are two specific cases of the 1:1 mode supported by MAP that
-        deserve to be described. Both cases feature the common characteristinc
-        of the BMR and FMR for the domain to have a setting where the EA bit
-        length is equal to 0.</t>
+        deserve to be described.</t>
 
         <section title="1:1 mode with no address sharing">
           <t>A domain rule (BMR or FMR) with a setting of EA-bit length of 0,
-          and a sharing ratio of 0, indicates that in that domain no part of
+          and a sharing ratio of 1, indicates that in that domain no part of
           the IPv4 address is derived from the IPv6 prefix. Instead the IPv4
           address is entirely derived from the Rule IPv4-prefix conveyed in
           the BMR for a CE. In other words, with an EA-bit length of 0 and a
-          sharing ratio of 0, the CE would form its IPv4 address entirely out
+          sharing ratio of 1, the CE would form its IPv4 address entirely out
           of the IPv4-prefix received in the BMR (which would be 32 bits
           long).</t>
 
@@ -923,12 +930,12 @@ PSID=63  | [64512 - 65535]
 
         <section title="1:1 mode with address sharing">
           <t>A domain rule (BMR or FMR) with a setting of EA-bit length of 0,
-          and a sharing ratio &gt;0, indicates that in that domain no part of
+          and a sharing ratio &gt;1, indicates that in that domain no part of
           the IPv4 address is derived from the IPv6 prefix. Instead the IPv4
           address and PSID are respectively entirely derived from the Rule
           IPv4-prefix and the Rule port parameters, both conveyed in the BMR
           to a CE. In other words, with an EA-bit length of 0 and a sharing
-          ratio &gt; 0, the CE would form its IPv4 address entirely out of the
+          ratio &gt; 1, the CE would form its IPv4 address entirely out of the
           IPv4-prefix received in the BMR (which could be 32 bits long) and
           derive its port set from the PSID also conveyed in the BMR.</t>
 
@@ -1130,7 +1137,7 @@ PSID=63  | [64512 - 65535]
           (<xref target="RFC4953"></xref>, <xref target="RFC5961"></xref>,
           <xref target="RFC6056"></xref>. The attacks depend on guessing which
           ports are currently used by target hosts, and using an unrestricted
-          port set is preferable, i.e. using native IPv6 connections that are
+          port set is preferable, i.e. Using native IPv6 connections that are
           not subject to MAP port range restrictions. To minimize this type of
           attacks when using a restricted port set, the MAP CE's NAT44
           filtering behavior SHOULD be "Address-Dependent Filtering".
@@ -1289,7 +1296,7 @@ PSID=63  | [64512 - 65535]
 
     <section title="Example of MAP">
       <t><figure>
-          <preamble>Example 1:</preamble>
+          <preamble>Example 1 - BMR</preamble>
 
           <artwork align="left"><![CDATA[
 
@@ -1302,7 +1309,7 @@ PSID=63  | [64512 - 65535]
    Sharing ratio:  256 (16 - (32 - 24) = 8. 2^8 = 256)
    PSID offset:  4
 
-   A MAP node (CE or BR) can via the BMR determine the IPv4 address
+   A MAP node (CE or BR) can via the BMR, or equivalent FMR, determine the IPv4 address
    and port-set as shown below:
 
    EA bits offset:  40
@@ -1310,7 +1317,7 @@ PSID=63  | [64512 - 65535]
       length (24) = 8
    IPv4 address  192.0.2.18 (0xc0000212)
    PSID start:  40 + p = 40 + 8 = 48
-   PSID length:  o - p = 16 (56 - 40) - 8 = 8
+   PSID length:  o - p = (56 - 40) - 8 = 8
    PSID:  0x34
 
    Port-set-1:  4928, 4929, 4930, 4931, 4932, 4933, 4934, 4935, 4936,
@@ -1369,7 +1376,7 @@ PSID=63  | [64512 - 65535]
         </figure></t>
 
       <t><figure>
-          <preamble>Example 3:</preamble>
+          <preamble>Example 3 - FMR:</preamble>
 
           <artwork align="left"><![CDATA[
    
@@ -1391,6 +1398,71 @@ PSID=63  | [64512 - 65535]
    IPv6 destination address:  2001:db8:ffff:0:0001:0203:0400::
    
   ]]></artwork>
+        </figure><figure>
+          <preamble>Example 4 - 1:1 Rule with no address sharing</preamble>
+
+          <artwork><![CDATA[   IPv6 prefix assigned to the end user:  2001:db8:0012:3400::/56
+   Basic Mapping Rule:  {2001:db8:0000::/56 (Rule IPv6 prefix),
+      192.0.2.1/32 (Rule IPv4 prefix), 0 (Rule EA-bits length)}
+   Sharing ratio:  1
+   PSID offset:  n/a
+
+   A MAP node (CE or BR) can via the BMR or equivalent FMR, determine the IPv4 address
+   and port-set as shown below:
+
+   EA bits offset:  0
+   IPv4 suffix bits (p)  Length of IPv4 address (32) - IPv4 prefix
+      length (32) = 0
+   IPv4 address  192.0.2.1 (0xc0000201)
+   PSID start:  0
+   PSID length: 0
+   PSID:  null
+
+   The BMR information allows a MAP CE also to determine (complete)
+   its full IPv6 address by combining the IPv6 prefix with the MAP interface
+   identifier (that embeds the IPv4 address).
+
+   IPv6 address of MAP CE:  2001:db8:0012:3400:00c0:0002:0100:0000
+
+]]></artwork>
+        </figure><figure>
+          <preamble>Example 5 - 1:1 Rule with address sharing (sharing ratio
+          256)</preamble>
+
+          <artwork><![CDATA[   IPv6 prefix assigned to the end user:  2001:db8:0012:3400::/56
+   Basic Mapping Rule:  {2001:db8:0000::/56 (Rule IPv6 prefix),
+      192.0.2.1/32 (Rule IPv4 prefix), 0 (Rule EA-bits length)}
+   Sharing ratio:  256 (16 - (32 - 24) = 8. 2^8 = 256)
+   PSID offset:  4
+
+   A MAP node (CE or BR) can via the BMR or equivalent FMR determine the IPv4 address
+   and port-set as shown below:
+
+   EA bits offset:  0
+   IPv4 suffix bits (p)  Length of IPv4 address (32) - IPv4 prefix
+      length (32) = 0
+   IPv4 address  192.0.2.1 (0xc0000201)
+   PSID start:  0
+   PSID length: 8
+   PSID:  0x34
+
+   Port-set-1:  4928, 4929, 4930, 4931, 4932, 4933, 4934, 4935, 4936,
+      4937, 4938, 4939, 4940, 4941, 4942, 4943
+   Port-set-2:  9024, 9025, 9026, 9027, 9028, 9029, 9030, 9031, 9032,
+      9033, 9034, 9035, 9036, 9037, 9038, 9039
+   ...  ...
+   Port-set-15  62272, 62273, 62274, 62275, 62276, 62277, 62278,
+      62279, 62280, 62281, 62282, 62283, 62284, 62285, 62286, 62287
+
+   The BMR information allows a MAP CE also to determine (complete)
+   its full IPv6 address by combining the IPv6 prefix with the MAP interface
+   identifier (that embeds the IPv4 address and PSID).
+
+   IPv6 address of MAP CE:  2001:db8:0012:3400:00c0:0002:1200:3400
+
+   Note that the IPv4 address and PSID is not derived from the IPv6 prefix assigned to the CE.
+
+]]></artwork>
         </figure></t>
     </section>
   </back>
