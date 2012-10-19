@@ -161,9 +161,9 @@
 
     <abstract>
       <t>This document describes a mechanism for transporting IPv4 packets
-      across an IPv6 network using IP tunneling, and a generic mechanism for
-      mapping between IPv6 addresses and IPv4 addresses and transport layer
-      ports.</t>
+      across an IPv6 network using IP encapsulation, and a generic mechanism
+      for mapping between IPv6 addresses and IPv4 addresses and transport
+      layer ports.</t>
     </abstract>
   </front>
 
@@ -574,6 +574,9 @@ PSID=63  | [64512 - 65535]
           <t>To simplify the GMA port mapping algorithm the defaults are
           chosen so that the PSID field starts on a nibble boundary and the
           excluded port range (0-1023) is extended to 0-4095.</t>
+
+          <t>For (a) offset bits, the range of excluded ports is 0 to 2 ^
+          (16-a) - 1.</t>
         </section>
       </section>
 
@@ -790,7 +793,7 @@ PSID=63  | [64512 - 65535]
         of the MAP domain. Traffic using this rule will be sent from a CE to a
         BR.</t>
 
-        <t>The DMR consist of the IPv6 address of the BR.</t>
+        <t>The DMR consists of the IPv6 address of the BR.</t>
       </section>
     </section>
 
@@ -901,7 +904,7 @@ PSID=63  | [64512 - 65535]
         called 1:1 mode (meaning 1 mapping rule set per CE), which allows
         complete independence between the IPv6 prefix assigned to the CE and
         the IPv4 address and/or port-range it uses. This is achieved in all
-        cases when the EA-bit length is set to 0. </t>
+        cases when the EA-bit length is set to 0.</t>
 
         <t>The constraint imposed is that each such MAP domain be composed of
         just 1 MAP CE which has a pre-determined IPv6 prefix, i.e. The BR
