@@ -594,13 +594,15 @@ PSID=63  | [64512 - 65535]
 ]]></artwork>
           </figure></t>
 
-        <t>The Embedded Address bits (EA bits) are unique per end user within
-        a Rule IPv6 prefix. The Rule IPv6 prefix is the part of the End-user
-        IPv6 prefix that is common among all CEs using the same Basic Mapping
-        Rule within the MAP domain. The EA bits encode the CE specific IPv4
-        address and port information. The EA bits can contain a full or part
-        of an IPv4 prefix or address, and in the shared IPv4 address case
-        contains a Port-Set Identifier (PSID).</t>
+        <t>The Rule IPv6 prefix is the part of the End-user IPv6 prefix that
+        is common among all CEs using the same Basic Mapping Rule within the
+        MAP domain. The EA bits encode the CE specific IPv4 address and port
+        information. The EA bits, which are unique for a given Rule IPv6
+        prefix, can contain a full or part of an IPv4 address and, in the
+        shared IPv4 address case, a Port-Set Identifier (PSID). An EA-bit
+        length of 0 signifies that all relevant MAP IPv4 addressing
+        information is passed directly in the BMR rule, and not derived from
+        the End-user IPv6 prefix.</t>
 
         <t>The MAP IPv6 address is created by concatenating the End-user IPv6
         prefix with the MAP subnet-id and the interface-id as specified in
