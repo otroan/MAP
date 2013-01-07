@@ -52,19 +52,19 @@
       </address>
     </author>-->
 
-    <!--<author initials="X." surname="Deng" fullname="Xiaohong Deng">
-      <organization>France Telecom</organization>
+    <author initials="X." surname="Deng" fullname="Xiaohong Deng">
+      <organization></organization>
       <address>
         <postal>
-          <street>Haidian district</street>
-          <code>100190</code>
-          <city>Beijing</city>
-          <country>China</country>
+          <street>6 Cordelia St.</street>
+          <code>QLD 4101</code>
+          <city>South Brisbane</city>
+          <country>Australia</country>
         </postal>
-        <email>xiaohong.deng@orange.com</email>
-	<uri>http://www.francetelecom.com/</uri>
+        <phone>+61 3858 3128</phone>
+        <email>dxhbupt@gmail.com</email>
       </address>
-    </author>-->
+    </author>
 
     <author fullname="Ole Troan" initials="O" surname="Troan">
       <organization abbrev="Cisco">Cisco Systems, Inc.</organization>
