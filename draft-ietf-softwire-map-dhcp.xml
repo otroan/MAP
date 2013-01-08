@@ -80,21 +80,6 @@
       </address>
     </author>
 
-
-    <author initials="C.X." surname="Bao" fullname="Congxiao Bao">
-      <organization abbrev="Tsinghua University">
-      CERNET Center/Tsinghua University</organization>
-      <address>
-        <postal>
-          <street>Room 225, Main Building, Tsinghua University</street>
-          <city>Beijing</city> <code>100084</code>
-          <country>CN</country>
-        </postal>
-        <phone>+86 10-62785983</phone>
-        <email>congxiao@cernet.edu.cn</email>
-      </address>
-    </author>
-
     <author fullname="Wojciech Dec" initials="W" surname="Dec">
       <organization abbrev="Cisco">Cisco Systems, Inc.</organization>
       <address>
@@ -108,7 +93,21 @@
         <phone></phone>
         <facsimile></facsimile>
         <email>wdec@cisco.com</email>
-        <uri></uri>
+        <uri>http://cisco.com</uri>
+      </address>
+    </author>
+
+    <author initials="C.X." surname="Bao" fullname="Congxiao Bao">
+      <organization abbrev="Tsinghua University">
+      CERNET Center/Tsinghua University</organization>
+      <address>
+        <postal>
+          <street>Room 225, Main Building, Tsinghua University</street>
+          <city>Beijing</city> <code>100084</code>
+          <country>CN</country>
+        </postal>
+        <phone>+86 10-62785983</phone>
+        <email>congxiao@cernet.edu.cn</email>
       </address>
     </author>
 
