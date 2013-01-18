@@ -31,6 +31,7 @@
 <!ENTITY rfc5382 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5382.xml">
 <!ENTITY rfc2473 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2473.xml">
 <!ENTITY rfc5383 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5383.xml">
+<!ENTITY rfc4861 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4861.xml">
 <!ENTITY I-D.ietf-softwire-map-dhcp SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map-dhcp.xml">
 <!ENTITY I-D.ietf-softwire-stateless-4v6-motivation SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-stateless-4v6-motivation.xml">
 <!ENTITY I-D.ietf-tsvwg-iana-ports SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-tsvwg-iana-ports.xml">
@@ -44,117 +45,88 @@
 <?rfc sortrefs="yes" ?>
 <?rfc comments="yes" ?>
 <?rfc inline="yes" ?>
-<rfc category="std" docName="draft-ietf-softwire-map-04" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-softwire-map-03" ipr="trust200902">
   <front>
     <title abbrev="MAP">Mapping of Address and Port with Encapsulation
     (MAP)</title>
 
     <author fullname="Ole Troan" initials="O" surname="Troan">
       <organization>Cisco Systems</organization>
-
       <address>
         <postal>
           <street>Philip Pedersens vei 1</street>
-
           <city>Lysaker</city>
-
           <code>1366</code>
-
           <country>Norway</country>
         </postal>
-
         <email>ot@cisco.com</email>
       </address>
     </author>
 
     <author fullname="Wojciech Dec" initials="W" surname="Dec">
       <organization>Cisco Systems</organization>
-
       <address>
         <postal>
           <street>Haarlerbergpark Haarlerbergweg 13-19</street>
-
           <city>Amsterdam, NOORD-HOLLAND</city>
-
           <code>1101 CH</code>
-
           <country>Netherlands</country>
         </postal>
-
         <phone></phone>
-
         <email>wdec@cisco.com</email>
       </address>
     </author>
 
     <author fullname="Xing Li" initials="X" surname="Li">
       <organization abbrev="">CERNET Center/Tsinghua University</organization>
-
       <address>
         <postal>
           <street>Room 225, Main Building, Tsinghua University</street>
-
           <city>Beijing 100084</city>
-
           <country>CN</country>
         </postal>
-
         <email>xing@cernet.edu.cn</email>
       </address>
     </author>
 
     <author fullname="Congxiao Bao" initials="C" surname="Bao">
       <organization abbrev="">CERNET Center/Tsinghua University</organization>
-
       <address>
         <postal>
           <street>Room 225, Main Building, Tsinghua University</street>
-
           <city>Beijing 100084</city>
-
           <country>CN</country>
         </postal>
-
         <email>congxiao@cernet.edu.cn</email>
       </address>
     </author>
 
     <author fullname="Satoru Matsushima" initials="S" surname="Matsushima">
       <organization abbrev="">SoftBank Telecom</organization>
-
       <address>
         <postal>
           <street>1-9-1 Higashi-Shinbashi, Munato-ku</street>
-
           <city>Tokyo</city>
-
           <country>Japan</country>
         </postal>
-
         <email>satoru.matsushima@g.softbank.co.jp</email>
       </address>
     </author>
 
     <author fullname="Tetsuya Murakami" initials="T" surname="Murakami">
       <organization abbrev="">IP Infusion</organization>
-
       <address>
         <postal>
           <street>1188 East Arques Avenue</street>
-
           <city>Sunnyvale</city>
-
           <country>USA</country>
         </postal>
-
         <email>tetsuya@ipinfusion.com</email>
       </address>
     </author>
 
     <date year="2012" />
-
     <area>Internet</area>
-
     <workgroup>Network Working Group</workgroup>
 
     <!--  SECTION 0:  Abstract                      -->
@@ -291,10 +263,12 @@
           can be used for communication. Also known as a Port-Restricted IPv4
           address.</t>
 
-          <t hangText="End-user IPv6 prefix:">The IPv6 prefix assigned to an
-          End-user CE by other means than MAP itself. E.g. Provisioned using
-          DHCPv6 PD <xref target="RFC3633"></xref> or configured manually. It
-          is unique for each CE.</t>
+          <t hangText="End-user IPv6 prefix:">The IPv6 prefix assigned
+          to an End-user CE by other means than MAP
+          itself. E.g. Provisioned using DHCPv6 PD <xref
+          target="RFC3633"></xref>, assigned via SLAAC <xref
+          target="RFC4861"/>, or configured manually. It is unique for
+          each CE.</t>
 
           <t hangText="MAP IPv6 address:">The IPv6 address used to reach the
           MAP function of a CE from other CEs and from BRs.</t>
@@ -454,6 +428,13 @@ O---.--------------O
       Default Mapping Rule.</t>
 
       <section title="Port mapping algorithm">
+	                      (by default)          (If WKPs authorized)
+                         :    :                     :    :
+                     +---+----+---------+           +----+-------------+
+       Ports in      |> 0|PSID|any value|    OR     |PSID|  any value  |
+    the CE port set  +---+----+---------+           +----+-------------+
+                     : 4 :     12       :           :        16        :
+
         <t>The port mapping algorithm is used in domains whose rules allow
         IPv4 address sharing. Different Port-Set Identifiers (PSID) MUST have
         non-overlapping port-sets. The two extreme cases are: (1) the port
@@ -561,15 +542,11 @@ PSID=63  | [64512 - 65535]
         </section>
 
         <section title="Port Offset">
-          <t>The number of offset bits (a) and excluded ports are optionally
-          provisioned via the "Rule Port Mapping Parameters" in the Basic
-          Mapping Rule.</t>
+          <t>The number of offset bits (excluded ports) are optionally
+          provisioned via the "Rule Port Mapping Parameters" in the
+          Basic Mapping Rule.</t>
 
-          <t>The defaults are: <list style="symbols">
-              <t>Excluded ports : 0-4095</t>
-
-              <t>Offset bits (a) : 4</t>
-            </list></t>
+          <t>The default Offset bits (a) are: 4</t>
 
           <t>To simplify the GMA port mapping algorithm the defaults are
           chosen so that the PSID field starts on a nibble boundary and the
@@ -607,13 +584,15 @@ PSID=63  | [64512 - 65535]
         information is passed directly in the BMR rule, and not derived from
         the End-user IPv6 prefix.</t>
 
-        <t>The MAP IPv6 address is created by concatenating the End-user IPv6
-        prefix with the MAP subnet-id and the interface-id as specified in
-        <xref target="interface-id"></xref>.</t>
+        <t>The MAP IPv6 address is created by concatenating the
+        End-user IPv6 prefix with the MAP subnet-id (if the End-user
+        IPv6 prefix is shorter than 64 bits) and the interface-id as
+        specified in <xref target="interface-id"></xref>.</t>
 
-        <t>The MAP subnet ID is defined to be the first subnet (all bits set
-        to zero). A MAP node MUST reserve the first IPv6 prefix in an End-user
-        IPv6 prefix for the purpose of MAP.</t>
+        <t>The MAP subnet ID is defined to be the first subnet (all
+        bits set to zero). Unless configured differently, a MAP node
+        MUST reserve the first IPv6 prefix in an End-user IPv6 prefix
+        for the purpose of MAP.</t>
 
         <t>The MAP IPv6 is created by combining the End-User IPv6 prefix with
         the all zeros subnet-id and the MAP IPv6 interface identifier.</t>
@@ -1233,13 +1212,9 @@ PSID=63  | [64512 - 65535]
 
     <references title="Normative References">
       &rfc2119;
-
       &rfc6346;
-
       &rfc2473;
-
       &I-D.ietf-softwire-map-dhcp;
-
       &rfc6052;
     </references>
 
@@ -1247,56 +1222,34 @@ PSID=63  | [64512 - 65535]
 
     <references title="Informative References">
       &I-D.ietf-softwire-stateless-4v6-motivation;
-
       &I-D.ietf-tsvwg-iana-ports;
-
       &rfc6333;
-
       &rfc1933;
-
       &rfc5969;
-
       &rfc3056;
-
       &rfc2529;
-
       &rfc5214;
 
       <!--      &rfc4380;-->
-
       <!--      &rfc2766;-->
-
       <!--      &rfc6146;-->
 
       &rfc3633;
-
       &rfc6269;
-
       &rfc6250;
-
       &rfc2663;
-
       &rfc0897;
-
       &rfc6324;
-
       &rfc2827;
-
       &rfc4953;
-
       &rfc5961;
-
       &rfc6056;
-
       &rfc4787;
-
       &rfc5508;
-
       &rfc5382;
-
       &I-D.dec-stateless-4v6;
-
       &rfc5383;
+      &rfc4861;
     </references>
 
     <section title="Example of MAP">
@@ -1470,5 +1423,129 @@ PSID=63  | [64512 - 65535]
 ]]></artwork>
         </figure></t>
     </section>
+
+      <section title="Port mapping algorithm">
+        <t>The port mapping algorithm is used in domains whose rules allow
+        IPv4 address sharing. Different Port-Set Identifiers (PSID) MUST have
+        non-overlapping port-sets. The two extreme cases are: (1) the port
+        numbers are not contiguous for each PSID, but uniformly distributed
+        across the port range (0-65535); (2) the port numbers are contiguous
+        in a single range for each PSID. The port mapping algorithm proposed
+        here is called the Generalized Modulus Algorithm (GMA) and supports
+        both these cases.</t>
+
+        <t>For a given sharing ratio (R) and the maximum number of contiguous
+        ports (M), the GMA algorithm is defined as:</t>
+
+        <t><list style="numbers">
+            <t>The port number (P) of a given PSID (K) is composed of: <figure>
+                <artwork><![CDATA[
+P = R * M * j + M * K + i
+	  ]]></artwork>
+              </figure> Where:<list style="symbols">
+                <t>PSID: K = 0 to R - 1</t>
+
+                <t>Port range index: j = (4096 / M) / R to ((65536 / M) / R) -
+                1, if the port numbers (0 - 4095) are excluded.</t>
+
+                <t>Contiguous Port index: i = 0 to M - 1</t>
+              </list></t>
+
+            <t>The PSID (K) of a given port number (P) is determined by:
+            <figure>
+                <artwork><![CDATA[
+K = (floor(P/M)) % R
+	  ]]></artwork>
+              </figure> Where:<list style="symbols">
+                <t>% is the modulus operator</t>
+
+                <t>floor(arg) is a function that returns the largest integer
+                not greater than arg.</t>
+              </list></t>
+          </list></t>
+
+        <section title="Bit Representation of the Algorithm">
+          <t>Given a sharing ratio (R=2^k), the maximum number of contiguous
+          ports (M=2^m), for any PSID (K) and available ports (P) can be
+          represented as:</t>
+
+          <t><figure align="left" anchor="bitrepresentation2-fig"
+              title="Bit representation">
+              <preamble></preamble>
+
+              <artwork align="left"><![CDATA[
+0                          8                         15
++---------------+----------+------+-------------------+
+|                     P                               |
+----------------+-----------------+-------------------+
+|        A (j)  |   PSID (K)      |        M  (i)     |
++---------------+----------+------+-------------------+
+|<----a bits--->|<-----k bits---->|<------m bits----->|
+
+		]]></artwork>
+            </figure></t>
+
+          <t>Where j and i are the same indexes defined in the port mapping
+          algorithm.</t>
+
+          <t>For any port number, the PSID can be obtained by bit mask
+          operation.</t>
+
+          <t>For a &gt; 0, j MUST be larger than 0. This ensures that the
+          algorithm excludes the system ports (<xref
+          target="I-D.ietf-tsvwg-iana-ports"></xref>). For a = 0, j MAY be 0
+          to allow for the provisioning of the system ports.</t>
+        </section>
+
+        <section title="GMA examples">
+          <t><figure align="left" title="Example 1: with offset = 4 (a = 4)">
+              <preamble>For example, for R = 1024, PSID offset: a = 4 and PSID
+              length: k = 10 bits</preamble>
+
+              <artwork align="left"><![CDATA[
+          Port-set-1                Port-set-2
+PSID=0   | 4096, 4097, 4098, 4099, | 8192,  8193,  8194,  8195, | ...
+PSID=1   | 4100, 4101, 4102, 4103, | 8196,  8197,  8198,  8199, | ...
+PSID=2   | 4104, 4105, 4106, 4107, | 8200,  8201,  8202,  8203, | ...
+PSID=3   | 4108, 4109, 4110, 4111, | 8204,  8205,  8206,  8207, | ...
+...
+PSID=1023| 8188, 8189, 8190, 8191, | 12284, 12285, 12286, 12287,| ...
+
+	  ]]></artwork>
+            </figure></t>
+
+          <t><figure align="left" title="Example 2: with offset = 0 (a = 0)">
+              <preamble>For example, for R = 64, a = 0 (PSID offset = 0 and
+              PSID length = 6 bits):</preamble>
+
+              <artwork align="left"><![CDATA[
+          Port-set
+PSID=0   | [   0 - 1023]
+PSID=1   | [1024 - 2047]
+PSID=2   | [2048 - 3071]
+PSID=3   | [3072 - 4095]
+...
+PSID=63  | [64512 - 65535]
+
+	  ]]></artwork>
+            </figure></t>
+        </section>
+
+        <section title="Port Offset">
+          <t>The number of offset bits (excluded ports) are optionally
+          provisioned via the "Rule Port Mapping Parameters" in the
+          Basic Mapping Rule.</t>
+
+          <t>The default Offset bits (a) are: 4</t>
+
+          <t>To simplify the GMA port mapping algorithm the defaults are
+          chosen so that the PSID field starts on a nibble boundary and the
+          excluded port range (0-1023) is extended to 0-4095.</t>
+
+          <t>For (a) offset bits, the range of excluded ports is 0 to 2 ^
+          (16-a) - 1.</t>
+        </section>
+      </section>
+
   </back>
 </rfc>
