@@ -30,7 +30,7 @@
 <!ENTITY rfc5508 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5508.xml">
 <!ENTITY rfc5382 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5382.xml">
 <!ENTITY rfc2473 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2473.xml">
-<!ENTITY rfc4861 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4861.xml">
+<!ENTITY rfc4862 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4862.xml">
 <!ENTITY rfc4632 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4632.xml">
 <!ENTITY rfc4459 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4459.xml">
 
@@ -47,7 +47,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc comments="yes" ?>
 <?rfc inline="yes" ?>
-<rfc category="std" docName="draft-ietf-softwire-map-03" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-softwire-map-04" ipr="trust200902">
   <front>
     <title abbrev="MAP">Mapping of Address and Port with Encapsulation
     (MAP)</title>
@@ -269,7 +269,7 @@
           to an End-user CE by other means than MAP
           itself. E.g. Provisioned using DHCPv6 PD <xref
           target="RFC3633"></xref>, assigned via SLAAC <xref
-          target="RFC4861"/>, or configured manually. It is unique for
+          target="RFC4862"/>, or configured manually. It is unique for
           each CE.</t>
 
           <t hangText="MAP IPv6 address:">The IPv6 address used to reach the
@@ -299,7 +299,7 @@
       IPv6 address. This algorithmic mapping is specified in <xref
       target="mapping_algorithm"></xref>.</t>
 
-      <t>A full IPv4 address or IPv4 prefix can be used like today, e.g. For
+      <t>A full IPv4 address or IPv4 prefix can be used like today, e.g. for
       identifying an interface or as a DHCP pool. A shared IPv4 address on the
       other hand, MUST NOT be used to identify an interface. While it is
       theoretically possible to make host stacks and applications port-aware,
@@ -434,6 +434,9 @@ O---.--------------O
 	bit field (A) is greater than 0, the well known ports are
 	excluded.</t>
 
+	<t>This algorithm allocates ports to a given CE as a series of
+	contiguous ranges.</t>
+
         <t><figure align="left" anchor="psid-fig"
 		   title="PSID">
           <preamble></preamble>
@@ -473,6 +476,9 @@ O---.--------------O
           <t hangText="m bits">The size contiguous ports. The number
           of contiguous ports is given by 2^m.</t>
 	</list></t>
+
+	<t>This algorithm allocates ports to a given CE as a series of
+	contiguous ranges.</t>
 
       </section>
 
@@ -651,10 +657,10 @@ O---.--------------O
     </section>
 
     <section anchor="interface-id" title="The IPv6 Interface Identifier">
-      <t>The Interface identifier format of a MAP node is based on the format
-      specified in section 2.2 of <xref target="RFC6052"></xref>, with the
-      added PSID field if present, as shown in figure <xref
-      target="interfaceid2-fig"></xref>.</t>
+      <t>The Interface identifier format of a MAP node is similar to
+      the format specified in section 2.2 of <xref
+      target="RFC6052"></xref>, with the added PSID field if present,
+      as shown in figure <xref target="interfaceid2-fig"></xref>.</t>
 
       <t><figure align="left" anchor="interfaceid2-fig" title="">
           <preamble></preamble>
@@ -1074,14 +1080,14 @@ O---.--------------O
       <t>This document is based on the ideas of many, including
       Masakazu Asama, Mohamed Boucadair, Gang Chen, Maoke Chen,
       Wojciech Dec, Xiaohong Deng, Jouni Korhonen, Tomasz Mrugalski,
-      Jacni Qin, Chunfa Sun, Qiong Sun, and Leaf Yeh. The authors want
-      in particular to recognize Remi Despres, who has tirelessly
-      worked on generalized mechanisms for stateless address
-      mapping.</t>
+      Jacni Qin, Chunfa Sun, Qiong Sun, and Leaf Yeh. The
+      authors want in particular to recognize Remi Despres, who has
+      tirelessly worked on generalized mechanisms for stateless
+      address mapping.</t>
 
-      <t>The authors would like to thank Guillaume Gottard, Dan Wing, Jan
-      Zorz, Necj Scoberne, Tina Tsou for their thorough review and
-      comments.</t>
+      <t>The authors would like to thank Guillaume Gottard, Dan Wing,
+      Jan Zorz, Necj Scoberne, Tina Tsou and Tom Taylor for their
+      thorough review and comments.</t>
     </section>
   </middle>
 
@@ -1126,7 +1132,7 @@ O---.--------------O
       &rfc5508;
       &rfc5382;
       &I-D.dec-stateless-4v6;
-      &rfc4861;
+      &rfc4862;
       &rfc4632;
       &rfc4459;
     </references>
@@ -1191,7 +1197,7 @@ O---.--------------O
       (Rule IPv6 prefix), 192.0.2.0/24 (Rule IPv4 prefix),
       16 (Rule EA-bits length)}
 
-   MAP BR Prefix  2001:db8:ffff::/64
+   IPv6 address of MAP BR: 2001:db8:ffff::1
 
    The above information allows the BR to derive as follows
    the mapped destination IPv6 address for the corresponding
@@ -1204,7 +1210,7 @@ O---.--------------O
 
    The resulting IPv6 packet will have the following key fields:
 
-   IPv6 source address  2001:db8:ffff:0:0001:0203:0400::
+   IPv6 source address: 2001:db8:ffff::1
    IPv6 destination address:  2001:db8:0012:3400:00c0:0002:1200:3400
    IPv6 source Port:  80
    IPv6 destination Port:  9030
@@ -1229,7 +1235,7 @@ O---.--------------O
    IPv4 destination port:  80
    IPv6 source address of MAP CE:
                         2001:db8:0012:3400:00c0:0002:1200:3400
-   IPv6 destination address:  2001:db8:ffff:0:0001:0203:0400::
+   IPv6 destination address:  2001:db8:ffff::1
    
   ]]></artwork>
         </figure><figure>
