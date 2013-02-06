@@ -290,38 +290,44 @@
     <!--  SECTION 3: DESCRIPTION                   -->
 
     <section title="Architecture">
-      <t>The MAP mechanism uses existing standard building blocks. The
-      existing NAPT on the CE is used with additional support for restricting
-      transport protocol ports, ICMP identifiers and fragment identifiers to
-      the configured port set. MAP supports the encapsulation mode specified
-      in <xref target="RFC2473"></xref>. In addition MAP specifies an
-      algorithm to do "address resolution" from an IPv4 address and port to an
-      IPv6 address. This algorithmic mapping is specified in <xref
-      target="mapping_algorithm"></xref>.</t>
+      <t>In accordance with the requirements stated above, the MAP
+      mechanism can operate with shared IPv4 addresses, full IPv4
+      addresses or IPv4 prefixes. Operation with shared IPv4
+      addresses is described now, and the differences for full IPv4
+      addresses and prefixes are described below.</t>
 
-      <t>A full IPv4 address or IPv4 prefix can be used like today, e.g. for
-      identifying an interface or as a DHCP pool. A shared IPv4 address on the
-      other hand, MUST NOT be used to identify an interface. While it is
-      theoretically possible to make host stacks and applications port-aware,
-      that is considered a too drastic change to the IP model <xref
-      target="RFC6250"></xref>.</t>
+      <t>The MAP mechanism uses existing standard building blocks.
+      The existing NAPT on the CE is used with additional support for
+      restricting transport protocol ports, ICMP identifiers and
+      fragment identifiers to the configured port set.  For packets
+      outbound from the private IPv4 network, the CE NAPT MUST
+      translate transport identifiers (e.g.  TCP and UDP port numbers)
+      so that they fall within the CE's assigned port-range.</t>
 
-      <t>The MAP architecture described here, restricts the use of the shared
-      IPv4 address to only be used as the global address (outside) of the NAPT
-      <xref target="RFC2663"></xref> running on the CE. The NAPT MUST in turn
-      be connected to a MAP aware forwarding function, that does
-      encapsulation/decapsulation of IPv4 packets in IPv6.</t>
+      <t>The NAPT MUST in turn be connected to a MAP aware forwarding
+      function, that does encapsulation/ decapsulation of IPv4 packets
+      in IPv6.  MAP supports the encapsulation mode specified in <xref
+      target="RFC2473"/>.  In addition MAP specifies an algorithm to
+      do "address resolution" from an IPv4 address and port to an IPv6
+      address.  This algorithmic mapping is specified in <xref
+      target="mapping_algorithm"/>.</t>
 
-      <t>When MAP is used to provision a full IPv4 address or an IPv4 prefix
-      to the CE, these restrictions do not apply.</t>
+      <t>The MAP architecture described here, restricts the use of the
+      shared IPv4 address to only be used as the global address
+      (outside) of the NAPT <xref target="RFC2663"/> running on the
+      CE. A shared IPv4 address MUST NOT be used to identify an
+      interface. While it is theoretically possible to make host
+      stacks and applications port-aware, that is considered too
+      drastic a change to the IP model <xref target="RFC6250"/>.</t>
 
-      <t>For packets outbound from the private IPv4 network, the CE NAPT MUST
-      translate transport identifiers (e.g. TCP and UDP port numbers) so that
-      they fall within the assigned CE's port-range.</t>
+      <t>For full IPv4 addresses and IPv4 prefixes, the architecture
+      just described applies with two differences.  First, a full IPv4
+      address or IPv4 prefix can be used as it is today, e.g., for
+      identifying an interface or as a DHCP pool,
+      respectively. Secondly, the NAPT is not required to restrict the
+      ports used on outgoing packets.</t>
 
-<!--      <t>The forwarding function uses the Rules table to make forwarding
-      decisions. The table consists of the mapping rules. An entry in the
-      table consists of an IPv4 prefix and PSID.</t>-->
+      <t>This architecture is illustrated in <xref target="topology"/>.</t>
 
       <figure align="center" anchor="topology" title="Network Topology">
         <preamble></preamble>
@@ -395,7 +401,7 @@ O---.--------------O
       <t>Rule IPv6 prefix (including prefix length)</t>
       <t>Rule IPv4 prefix (including prefix length)</t>
       <t>Rule EA-bits length (in bits)</t>
-      <t>Rule Port Parameters (optional)</t>
+<!--      <t>Rule Port Parameters (optional)</t>-->
       </list></t>
 
       <t>A MAP node finds its Basic Mapping Rule by doing a longest match
@@ -455,16 +461,21 @@ O---.--------------O
 	<t><list style="hanging">
           <t hangText="A">For a &gt; 0, A MUST be larger than
           0. This ensures that the algorithm excludes the system
-          ports. For a = 0, A MAY be 0 to allow for the provisioning
-          of the system ports.</t>
+          ports.</t>
 
-          <t hangText="a-bits">The number of offset bits (excluded
+          <t hangText="a-bits">The number of offset bits. The default
+          Offset bits (a) are: 4. To simplify the port mapping
+          algorithm the defaults are chosen so that the PSID field
+          starts on a nibble boundary and the excluded port range
+          (0-1023) is extended to 0-4095.</t>
+
+<!--          <t hangText="a-bits">The number of offset bits (excluded
           ports) are optionally provisioned via the "Rule Port Mapping
           Parameters" in the Basic Mapping Rule. The default Offset
           bits (a) are: 4. To simplify the port mapping algorithm the
           defaults are chosen so that the PSID field starts on a
           nibble boundary and the excluded port range (0-1023) is
-          extended to 0-4095.</t>
+          extended to 0-4095.</t>-->
 
           <t hangText="PSID">The Port Set Identifier. Different
           Port-Set Identifiers (PSID) MUST have non-overlapping
@@ -657,21 +668,19 @@ O---.--------------O
     </section>
 
     <section anchor="interface-id" title="The IPv6 Interface Identifier">
-      <t>The Interface identifier format of a MAP node is similar to
-      the format specified in section 2.2 of <xref
-      target="RFC6052"></xref>, with the added PSID field if present,
-      as shown in figure <xref target="interfaceid2-fig"></xref>.</t>
+      <t>The Interface identifier format of a MAP node is described
+      below.</t>
 
       <t><figure align="left" anchor="interfaceid2-fig" title="">
           <preamble></preamble>
 
           <artwork align="left"><![CDATA[
 
-+--+---+---+---+---+---+---+---+---+
-|PL|   8  16  24  32  40  48  56   |
-+--+---+---+---+---+---+---+---+---+
-|64| u | IPv4 address  |  PSID | 0 |
-+--+---+---+---+---+---+---+---+---+
+|        128-n-o-s bits            |
+| 16 bits|    32 bits     | 16 bits|
++--------+----------------+--------+
+|   0    |  IPv4 address  |  PSID  |
++--------+----+-----------+--------+
  
 ]]></artwork>
         </figure></t>
@@ -681,9 +690,9 @@ O---.--------------O
       bit field. For an IPv4 prefix or a complete IPv4 address, the PSID field
       is zero.</t>
 
-      <t>If the End-user IPv6 prefix length is larger than 64, the most
-      significant parts of the interface identifier is overwritten by the
-      prefix.</t>
+      <t>If the End-user IPv6 prefix length is larger than 64, the
+      most significant parts of the interface identifier is
+      overwritten by the prefix.</t>
     </section>
 
     <section title="MAP Configuration">
@@ -1086,8 +1095,8 @@ O---.--------------O
       address mapping.</t>
 
       <t>The authors would like to thank Guillaume Gottard, Dan Wing,
-      Jan Zorz, Necj Scoberne, Tina Tsou and Tom Taylor for their
-      thorough review and comments.</t>
+      Jan Zorz, Necj Scoberne, Tina Tsou and especially Tom Taylor for
+      the thorough review and comments of this document.</t>
     </section>
   </middle>
 
@@ -1416,6 +1425,7 @@ PSID=63  | [64512 - 65535]
             </figure></t>
         </section>
 
+<!--
         <section title="Port Offset">
           <t>The number of offset bits (excluded ports) are optionally
           provisioned via the "Rule Port Mapping Parameters" in the
@@ -1430,6 +1440,8 @@ PSID=63  | [64512 - 65535]
           <t>For (a) offset bits, the range of excluded ports is 0 to 2 ^
           (16-a) - 1.</t>
         </section>
+
+-->
       </section>
 
   </back>
