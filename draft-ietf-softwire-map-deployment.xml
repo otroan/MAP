@@ -53,7 +53,7 @@
 <?rfc comments="yes" ?>
 <?rfc inline="yes" ?>
 
-<rfc category="info" docName="draft-mdt-softwire-map-deployment-03"
+<rfc category="info" docName="draft-ietf-softwire-map-deployment-01"
      ipr="trust200902">
   <front>
     <title abbrev="MAP Deployment">Mapping of Address and Port (MAP) -
@@ -431,10 +431,7 @@
         
 
         <section title="Translation vs. Encapsulation">
-	Basically, encapsulation provides an architectural building block of 
-  virtual link where the underlay behavior is fully hidden, while translation 
-  does a delivery participating into the end-to-end transferring path where 
-  behaviors are exposed. It is reflected in the following aspects. 
+	<t>Basically, encapsulation provides an architectural building block of virtual link where the underlay behavior is fully hidden, while translation does a delivery participating into the end-to-end transferring path where behaviors are exposed. It is reflected in the following aspects. </t>
   
   <t>1. Option header</t>
   <t>There may be some options in the IPv4 header, and some of them may
@@ -468,7 +465,7 @@
   while encapsulation mode doesn't have that restrictions. If ISP only has long 
   IPv6 prefixes used as Rule IPv6 prefix, the end-user IPv6 prefix is possible 
   to exceed 64bits, in this case, the translation mode may not be suitable.</t
-  -- unfair and not consistent to MAP doc -- commented by maoke -->
+  - unfair and not consistent to MAP doc - commented by maoke -->
         </section>
 
       </section>
@@ -922,9 +919,9 @@ CE IPv4 Address = 63.245.48.236
           Matsushima, Tomasz Mrugalski, Tetsuya Murakami, Jacni Qin, Qiong
           Sun, Tina Tsou, Dan Wing, Leaf Yeh, and Jan Zorz.</t>
         </list></t>
-	  <t>Thanks to Chunfa Sun who has be an active 
+	  <t>Thanks to Chunfa Sun who was an active 
 		  co-author of some earlier versions of this draft. </t>
-    </section -->
+    </section>
 
     <!--  SECTION 10:  Acknowledgements     			-->
 
@@ -941,26 +938,26 @@ CE IPv4 Address = 63.245.48.236
   <back>
     <!--  SECTION 8.1:  Normative References		-->
 
-    <references title="References">
-    <!-- references title="Normative References" -->
+    <!-- references title="References" -->
+    <references title="Normative References">
       &rfc2119;
 
       &rfc5342;
 
       &rfc6145;
 
-      &rfc6204;
+      <!-- &rfc6204; -->
 
       &rfc6346;
 
       &I-D.mdt-softwire-map-dhcp-option;
 
       &I-D.ietf-softwire-map;
-    <!-- /references -->
+    </references>
 
     <!--  SECTION 8.2:  Informative References		-->
 
-    <!-- references title="Informative References" -->
+    <references title="Informative References">
       &I-D.xli-softwire-divi-pd;
 
       &I-D.xli-behave-divi;
