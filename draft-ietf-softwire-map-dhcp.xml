@@ -603,7 +603,8 @@
         (DHCPv6 client) will convey the following MAP options in its
         messages:</t>
 
-        <section title="BMR Option Example">
+        <section title="Example 1: BMR Option">
+          <!-- contributed by Xiaohong -->
           <t>
             Given the MAP domain information and an IPv6 address of an endpoint:
           </t>
@@ -623,82 +624,47 @@
             </list>
           </t>
 
-          <t>
-            Assume use an independent container and with port sub-option.
-          </t>
+          <t>This configuration example includes one MAP Container Option
+          (OPTION_MAP) that has two nested options: one MAP Rule Option
+          (OPTION_MAP_RULE) and one MAP Port Parameters Option
+          (OPTION_MAP_PORTPARAMS).</t>
 
           <figure align="center" anchor="img-bmr-example"
                   title="BMR Option Example">
             <preamble></preamble>
             <artwork align="center"><![CDATA[
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |        OPTION_MAP             |         option-length         |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |     flags     |                                               .
-     +-+-+-+-+-+-+-+-+    encapsulated-options (variable length)     .
-     .                                                               .
-     +---------------------------------------------------------------+
 OPTION_MAP=TBD1
-option-length=26
-flags=0x01 # encapsulation
+option-length=26 # (i.e. 1(OPTION_MAP) + suboptions: 17(OPTION_MAP_RULE) 
+                 #  and 8 (OPTION_MAP_PORT_PARAMS)
+flags=0x01       # encapsulation
+encapsulated-options: 2 options specified below
 
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |        OPTION_MAP_RULE        |         option-length         |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |  prefix4-len  |               rule-ipv4-prefix                |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     | (continued)   |     ea-len    |  rule-flags  |  prefix6-len   |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |                       rule-ipv6-prefix                        |
-     |                       (variable length)                       |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |                                                               |
-     .             encapsulated-options (variable length)            .
-     .                                                               .
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 OPTION_MAP_RULE=TBD2
-option-length=21
+option-length=17
 prefix4-len=24
-rule-ipv4-prefix=192.0.2.0
+rule-ipv4-prefix=192.0.2.0       # rules-ipv4-prefix length is always
+                                 # 4 bytes
 ea-len=16
-rule-flags=0x01 # BMR and FMR
-prefix6-length=40
-rule-ipv6-prefix=2001:db8:0000::
+rule-flags=0x01                  # BMR and FMR
+prefix6-length=40                # prefix length implies that 
+                                 # rule-ipv6-prefix is a 5 bytes(40bits)
+rule-ipv6-prefix=2001:db8:0000:: # long field.
+encapsulated-options: none       # no nested options in MAP_RULE
 
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |     OPTION_MAP_PORTPARAMS     |         option-length         |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |   offset      |    PSID-len   |              PSID             |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 OPTION_MAP_PORTPARAMS=TBD4
 option-length=4
 offset=4
 PSID-len=8
-PSID=52
-            ]]></artwork>
+PSID=52]]></artwork>
           </figure>
         </section>
 
-        <section title="FMR Option Example">
-          <figure align="center" anchor="img-fmr-example"
-                  title="FMR Option Example">
-            <preamble></preamble>
-            <artwork align="center"><![CDATA[
-TODO: Reflect example in section 5.3 of MAP draft
-            ]]></artwork>
-          </figure>
-        </section>
-
-        <section title="DMR Option Example">
+        <section title="Example 2: DMR Option">
+          <!-- contributed by Xiaohong -->
           <t>
             An IPv4 host behind the MAP CE (addressed as per the previous examples) 
-            corresponding with IPv4 host 1.2.3.4 will have its packets converted into IPv6 using the DMR configured on the MAP CE as follows:
+            corresponding with IPv4 host 1.2.3.4 will have its packets converted
+            into IPv6 using the DMR configured on the MAP CE as follows:
           </t>
 
           <t>
@@ -711,48 +677,29 @@ TODO: Reflect example in section 5.3 of MAP draft
             </list>
           </t>
           <t>
-            Assume use an independent container.
+            This configuration example uses one MAP Container Option (OPTION_MAP)
+            with a single MAP DMR Option (OPTION_MAP_DMR) in it.
           </t>
 
           <figure align="center" anchor="img-dmr-example"
                   title="DMR Option Examples">
             <preamble></preamble>
             <artwork align="center"><![CDATA[
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |        OPTION_MAP             |         option-length         |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |     flags     |                                               .
-     +-+-+-+-+-+-+-+-+    encapsulated-options (variable length)     .
-     .                                                               .
-     +---------------------------------------------------------------+
 OPTION_MAP=TBD1
-option-length=22
-flags=0x01 # encapsulation
+option-length=22 # 1 + nested option (MAP_DMR, 21 bytes)
+flags=0x01       # encapsulation
+encapsulated-options=one MAP_DMR option specified below
 
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |        OPTION_MAP_DMR         |         option-length         |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |dmr-prefix6-len|            dmr-ipv6-prefix                    |
-     +-+-+-+-+-+-+-+-+           (variable length)                   |
-     .                                                               .
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |                                                               |
-     .            encapsulated-options (variable length)             .
-     .                                                               .
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 OPTION_MAP_DMR=TDB3
 option-length=17
-dmr-prefix6-len=128
+dmr-prefix6-len=128  #dmr-ipv6-prefix is 16bytes(128 bits) long
 dmr-ipv6-prefix=2001:db8:ffff::1
-            ]]></artwork>
+encapsulated-options: none]]></artwork>
           </figure>
         </section>
 
-        <section title="1:1 Rule with No Address Sharing Example">
+        <section title="Example 3: 1:1 Rule with No Address Sharing">
+          <!-- contributed by Congxiao -->
           <t>
             Given the MAP domain information and an IPv6 address of an endpoint:
           </t>
@@ -773,56 +720,33 @@ dmr-ipv6-prefix=2001:db8:ffff::1
           </t>
           
           <t>
-            Assume use an independent container.
+            This configuration uses one MAP Container Option (OPTION_MAP)
+            that includes one nested MAP Rule Option (OPTION_MAP_RULE).
           </t>
           
           <figure align="center" anchor="img-11-nosharing-example"
                   title="1:1 Rule with No Address Sharing Examples">
             <preamble></preamble>
             <artwork align="center"><![CDATA[
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |        OPTION_MAP             |         option-length         |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |     flags     |                                               .
-     +-+-+-+-+-+-+-+-+    encapsulated-options (variable length)     .
-     .                                                               .
-     +---------------------------------------------------------------+
 OPTION_MAP=TBD1
-option-length=20
-flags=0x00 # just for BMR, not for FMR 
+option-length=20 # 1 for OPTION_MAP and 19 for (OPTION_MAP_RULE)
+flags=0x00       # just for BMR, not for FMR 
+encapsulated-options: one MAP Rule option, specified below
 
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |        OPTION_MAP_RULE        |         option-length         |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |  prefix4-len  |               rule-ipv4-prefix                |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     | (continued)   |     ea-len    |  rule-flags  |  prefix6-len   |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |                       rule-ipv6-prefix                        |
-     |                       (variable length)                       |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |                                                               |
-     .             encapsulated-options (variable length)            .
-     .                                                               .
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 OPTION_MAP_RULE=TBD2
 option-length=15
 prefix4-len=32
 rule-ipv4-prefix=192.0.2.1
 ea-len=0
-rule-flags=0x00	# for BMR only
-prefix6-length=56
+rule-flags=0x00	   # for BMR only
+prefix6-length=56  # length of the rule-ipv6-prefix is 7 bytes (56bits)
 rule-ipv6-prefix=2001:db8:0012:3400::            
+encapsulated-options: none
 ]]></artwork>
           </figure>
         </section>
 
-
-        <section title="1:1 Rule with Address Sharing Example">
+        <section title="Example 4: 1:1 Rule with Address Sharing">
 
 <t>
 Given the MAP domain information and an IPv6 address of an endpoint:
@@ -845,62 +769,34 @@ Given the MAP domain information and an IPv6 address of an endpoint:
 </t>
 
 <t>
-Assume use an independent container and with port sub-option.
+  This configuration example features one MAP Container Option (OPTION_MAP)
+  that includes two nested options: one MAP Rule Option (OPTION_MAP_RULE)
+  and one MAP Port Parameters Option (OPTION_MAP_PORTPARAMS).
 </t>
           <figure align="center" anchor="img-11-sharing-example"
                   title="1:1 Rule with no Address Sharing Examples">
             <preamble></preamble>
             <artwork align="center"><![CDATA[
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |        OPTION_MAP             |         option-length         |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |     flags     |                                               .
-     +-+-+-+-+-+-+-+-+    encapsulated-options (variable length)     .
-     .                                                               .
-     +---------------------------------------------------------------+
 OPTION_MAP=TBD1
 option-length=28
 flags=0x01
+encapsulated-options: includes two options specified below
 
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |        OPTION_MAP_RULE        |         option-length         |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |  prefix4-len  |               rule-ipv4-prefix                |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     | (continued)   |     ea-len    |  rule-flags  |  prefix6-len   |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |                       rule-ipv6-prefix                        |
-     |                       (variable length)                       |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |                                                               |
-     .             encapsulated-options (variable length)            .
-     .                                                               .
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 OPTION_MAP_RULE=TBD2
-option-length=23
+option-length=15
 rule-ipv4-prefix=192.0.2.1
 rule-flags=0x00 # for BMR only
 ea-len=0
 prefix4-len=32
-prefix6-length=56
-rule-ipv6-prefix=2001:db8:0012:3400::
+prefix6-length=56 # rule-ipv6-prefix length is 7 bytes(56 bits)
+rule-ipv6-prefix=2001:db8:0012:3400:: 
+encapsulated-options: none
 
-      0                   1                   2                   3
-      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |     OPTION_MAP_PORTPARAMS     |         option-length         |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-     |   offset      |    PSID-len   |              PSID             |
-     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 OPTION_MAP_PORTPARAMS=TDB4
 option-length=4
 offset=4
 PSID-len=8
-PSID=11            ]]></artwork>
+PSID=11]]></artwork>
           </figure>
         </section>
 
