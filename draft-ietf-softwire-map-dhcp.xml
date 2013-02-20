@@ -77,27 +77,6 @@
       </address>
     </author>
 
-    <author fullname="Congxiao Bao" initials="C.X." surname="Bao">
-      <organization abbrev="Tsinghua University">CERNET Center/Tsinghua
-      University</organization>
-
-      <address>
-        <postal>
-          <street>Room 225, Main Building, Tsinghua University</street>
-
-          <city>Beijing</city>
-
-          <code>100084</code>
-
-          <country>CN</country>
-        </postal>
-
-        <phone>+86 10-62785983</phone>
-
-        <email>congxiao@cernet.edu.cn</email>
-      </address>
-    </author>
-
     <author fullname="Wojciech Dec" initials="W" surname="Dec">
       <organization abbrev="Cisco">Cisco Systems, Inc.</organization>
 
@@ -123,8 +102,29 @@
       </address>
     </author>
 
+    <author fullname="Congxiao Bao" initials="C.X." surname="Bao">
+      <organization abbrev="Tsinghua University">CERNET Center/Tsinghua
+      University</organization>
+
+      <address>
+        <postal>
+          <street>Room 225, Main Building, Tsinghua University</street>
+
+          <city>Beijing</city>
+
+          <code>100084</code>
+
+          <country>CN</country>
+        </postal>
+
+        <phone>+86 10-62785983</phone>
+
+        <email>congxiao@cernet.edu.cn</email>
+      </address>
+    </author>
+
     <author fullname="Leaf Y. Yeh" initials="L." surname="Yeh">
-      <organization abbrev="Huawei">Huawei Technologies</organization>
+      <organization>Freelancer Technologies</organization>
 
       <address>
         <postal>
@@ -132,7 +132,7 @@
 
           <city>Shenzhen</city>
 
-          <region></region>
+          <region>Guangdong</region>
 
           <code></code>
 
