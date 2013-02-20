@@ -11,7 +11,7 @@
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
 <!ENTITY rfc2119 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
 ]>
-<rfc category="std" docName="draft-ietf-softwire-map-dhcp-02"
+<rfc category="std" docName="draft-ietf-softwire-map-dhcp-03"
      ipr="trust200902">
   <front>
     <title abbrev="MAP DHCPv6 Options">DHCPv6 Options for Mapping of Address
@@ -274,8 +274,10 @@
           indicates that the CE is to simply use its default mapping rule for
           all destinations.</t>
 
-          <t>Transport mode; encapsulation (MAP-E) or translation (MAP-T)
-          modes to be used for the MAP CE Domain.</t>
+          <t>Transport mode; encapsulation (MAP-E, <xref
+          target="I-D.ietf-softwire-map"/>) or translation (MAP-T, <xref
+          target="I-D.ietf-softwire-map-t"/>) modes to be used for the MAP CE
+          Domain.</t>
 
           <t>Additional parameters. The MAP specification allows great
           flexibility in the level of automation a CE uses to derive its IPv4
@@ -818,16 +820,20 @@
 
       <t>Authors would like to thank Bernie Volz for his insightful comments
       and suggestions.</t>
+
+      <t>This work draws ideas from previous drafts:
+      <xref target="I-D.boucadair-dhcpv6-shared-address-option"/>,
+      <xref target="I-D.mrugalski-dhc-dhcpv6-4rd"/>,
+      <xref target="I-D.murakami-softwire-4rd"/> and others.</t>
     </section>
   </middle>
 
   <back>
-    <!--  SECTION 8.1:  Normative References		-->
+    <!-- SECTION 8.1: Normative References -->
 
     <references title="Normative References">
       <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map.xml" ?>
 
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map-t.xml" ?>
 
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3315"?>
 
@@ -839,9 +845,8 @@
     <!--  SECTION 8.2:  Informative References		-->
 
     <references title="Informative References">
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.5226" ?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6335"?>
+      <!-- MAP-T is experimental, it must not be put as normative reference -->
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map-t.xml" ?>
 
       <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mdt-softwire-map-deployment.xml" ?>
 
@@ -893,8 +898,8 @@
         <preamble></preamble>
         <artwork align="center"><![CDATA[
 OPTION_MAP=TBD1
-option-length=26 # (i.e. 1(OPTION_MAP) + suboptions: 17(OPTION_MAP_RULE)
-                 #  and 8 (OPTION_MAP_PORT_PARAMS)
+option-length=26 # (i.e. 1(OPTION_MAP) + suboptions: 17
+                 # (OPTION_MAP_RULE) and 8 (OPTION_MAP_PORT_PARAMS)
 flags=0x01       # encapsulation
 encapsulated-options: 2 options specified below
 
@@ -905,8 +910,8 @@ rule-ipv4-prefix=192.0.2.0       # rules-ipv4-prefix length is always
                                  # 4 bytes
 ea-len=16
 rule-flags=0x01                  # BMR and FMR
-prefix6-length=40                # prefix length implies that
-                                 # rule-ipv6-prefix is a 5 bytes(40bits)
+prefix6-length=40                # prefix-length implies rule-ipv6-
+                                 # prefix is a 5 bytes(40bits)
 rule-ipv6-prefix=2001:db8:0000:: # long field.
 encapsulated-options: none       # no nested options in MAP_RULE
 
@@ -998,7 +1003,8 @@ prefix4-len=32
 rule-ipv4-prefix=192.0.2.1
 ea-len=0
 rule-flags=0x00	   # for BMR only
-prefix6-length=56  # length of the rule-ipv6-prefix is 7 bytes (56bits)
+prefix6-length=56  # length of the rule-ipv6-prefix
+                   # is 7 bytes (56bits)
 rule-ipv6-prefix=2001:db8:0012:3400::
 encapsulated-options: none
 ]]></artwork>
