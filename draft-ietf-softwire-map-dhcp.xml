@@ -926,8 +926,10 @@ PSID=52]]></artwork>
         <section title="Example 2: DMR Option">
           <!-- contributed by Xiaohong -->
           <t>
+            <!-- it used to be 1.2.3.4 IPv4 address. Changed to 203.0.113.1 as
+            203.0.113.0/24 is a TEST-NET-3, as specified in RFC5735 -->
             An IPv4 host behind the MAP CE (addressed as per the previous examples)
-            corresponding with IPv4 host 1.2.3.4 will have its packets converted
+            corresponding with IPv4 host 203.0.113.1 will have its packets converted
             into IPv6 using the DMR configured on the MAP CE as follows:
           </t>
 
