@@ -373,7 +373,7 @@
 	and it can be further divided into multiple sub-domains when multiple 
 	IPv4 subnets are deployed in one MAP domain. All CEs in the MAP domain 
 	are provisioned with the same set of MAP rules by MAP DHCPv6 server 
-	<xref target="I-D.mdt-softwire-map-dhcp-option"></xref>. There might 
+	<xref target="I-D.ietf-softwire-map-dhcp"></xref>. There might 
 	be multiple BMRs in one MAP domain, and CE would pick up its own BMR by 
 	longest prefix matching lookup. However, all CEs within the sub-domain 
 	will have the same BMR. in which the BMR of all CEs is the same. In hub 
@@ -652,14 +652,22 @@
 	  <xref target="RFC2473"></xref> could be a reference on the 
 	  issue in encapsulation. </t>
 
-	  <t>When the anycast BR is applied, however, the ... </t>
+	  <t>If the fragment happens in the IPv6 stack, then only the first 
+	  fragement contains full IPv4 destination address so that BR cannot 
+	  to the decapsulation well until all fragments has been received. 
+	  This disables the funtionality of anycast BR. To prevent this 
+	  problem, MAP require the fragmentation is done in the IPv4 stack to 
+	  fit the IPv6 domain path MTU. MAP-T and 4rd has not this problem as
+	  every IPv6 packet contains the full IPv4 address embedded into the 
+	  IPv6 address and end-point reassembly is ensured.</t>
 
-  <!-- t>4. End-user IPv6 prefix restrictions</t>
-  <t>Translation mode doen't permit the End-user IPv6 prefix to exceed 64bits 
-  while encapsulation mode doesn't have that restrictions. If ISP only has long 
-  IPv6 prefixes used as Rule IPv6 prefix, the end-user IPv6 prefix is possible 
-  to exceed 64bits, in this case, the translation mode may not be suitable.</t
-  - unfair and not consistent to MAP doc - commented by maoke -->
+ 	  <!-- t>4. End-user IPv6 prefix restrictions</t>
+	  <t>Translation mode doen't permit the End-user IPv6 prefix to 
+	  exceed 64bits while encapsulation mode doesn't have that 
+	  restrictions. If ISP only has long IPv6 prefixes used as Rule IPv6 
+	  prefix, the end-user IPv6 prefix is possible to exceed 64bits, in 
+	  this case, the translation mode may not be suitable.
+	  </t - unfair and not consistent to MAP doc - commented by maoke -->
         </section>
 
       </section>
