@@ -19,9 +19,11 @@
 <!ENTITY rfc6147 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6147.xml">
 <!ENTITY rfc6333 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6333.xml">
 <!ENTITY rfc6346 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6346.xml">
-<!ENTITY I-D.mrugalski-dhc-dhcpv6-4rd SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mrugalski-dhc-dhcpv6-4rd.xml'>
-<!ENTITY I-D.mdt-softwire-map-dhcp-option SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mdt-softwire-map-dhcp-option.xml'>
+<!ENTITY rfc6791 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6791.xml">
+<!ENTITY I-D.ietf-softwire-map-dhcp SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map-dhcp.xml'>
 <!ENTITY I-D.ietf-softwire-map SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map.xml'>
+<!ENTITY I-D.ietf-softwire-map-t SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map-t.xml'>
+<!ENTITY I-D.ietf-softwire-4rd SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-4rd.xml'>
 <!ENTITY I-D.despres-softwire-sam SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.despres-softwire-sam.xml'>
 <!ENTITY I-D.chen-softwire-4v6-pd SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.chen-softwire-4v6-pd.xml'>
 <!ENTITY I-D.boucadair-softwire-stateless-requirements SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.boucadair-softwire-stateless-requirements.xml'>
@@ -35,7 +37,6 @@
 <!ENTITY I-D.xli-softwire-divi-pd SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.xli-softwire-divi-pd.xml'>
 <!ENTITY I-D.xli-behave-divi SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.xli-behave-divi.xml'>
 <!ENTITY I-D.despres-softwire-4rd-addmapping SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.despres-softwire-4rd-addmapping.xml'>
-<!ENTITY I-D.despres-softwire-4rd-u SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.despres-softwire-4rd-u.xml'>
 <!ENTITY I-D.murakami-softwire-4rd SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.murakami-softwire-4rd.xml'>
 <!ENTITY I-D.chen-softwire-4v6-add-format SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.chen-softwire-4v6-add-format.xml'>
 <!ENTITY I-D.bcx-address-fmt-extension SYSTEM 'http://xml.resource.org/public/rfc/bibxml3/reference.I-D.bcx-address-fmt-extension.xml'>
@@ -206,10 +207,20 @@
 
       <t>Terminology of this document, unless it is intentionally specified,
       follows the definitions and abbreviations of <xref
-      target="I-D.ietf-softwire-map"></xref>. 
-      <!-- (&gt;
-      co-authors: we may change this if later we find any new terms need to be
-      added.) -->
+      target="I-D.ietf-softwire-map"></xref>.</t>
+
+      <t>Unless it is specifically specified, the deployment 
+      considerations and guidance proposed in this document are also applied to 
+      MAP-T <xref target="I-D.ietf-softwire-map-t"></xref>, the translation 
+      variation of MAP, and 4rd <xref target="I-D.ietf-softwire-4rd"></xref>, 
+      the reversible translation approach that aims to improve end-to-end 
+      consistency of double translation.   
+      <!-- 
+      (&gt; co-authors: we may change this if later we find any new terms need 
+      to be added.) 
+      (&gt; co-authors: some terminology is changed in the 4rd doc, we may 
+      list them in correspondence to the MAP terms.) 
+      -->
       </t>
     </section>
 
@@ -251,7 +262,8 @@
 <t><xref target="FIXED_NET" /> depicts a generic model of stateless IPv4-over-IPv6
    communication for broadband access services. </t>
   
-    <figure anchor="FIXED_NET" title="Stateless IPv4-over-IPv6 broadband access network architecture">
+    <figure anchor="FIXED_NET" title="Stateless IPv4-over-IPv6 broadband access 
+    network architecture">
         <artwork><![CDATA[
                 +------------------------------+
                 |        MAP Domain            |
@@ -352,37 +364,116 @@
 	
       <section title="Building the MAP domain">
       	
-		<t>When deploying stateless MAP in operational network, a provider should firstly do MAP domain planning based on its own network condition. According to the definition of  <xref target="I-D.ietf-softwire-map"></xref>, a MAP domain is a set of MAP CEs and BRs connected to the same virtual link. One MAP domain shares a common BR and has the same set of BMRs, FMRs and DMR, and it can be further divided into multiple sub-domains when multiple IPv4 subnets are deployed in one MAP domain. All CEs in the MAP domain are provisioned with the same set of MAP rules by MAP DHCPv6 server <xref target="I-D.mdt-softwire-map-dhcp-option"></xref>. There might be multiple BMRs in one MAP domain, and CE would pick up its own BMR by longest prefix matching lookup. However, all CEs within the sub-domain will have the same BMR. in which the BMR of all CEs is the same. In hub and spoke mode, CE would use DMR as its only FMR for outbound traffic; while in mesh mode, a longest-matching prefix lookup is done in the IPv4 routing table and the correct FMR is chosen.</t>
-		<t>Basically, operator should firstly determine its own deployment topology for MAP domain: mesh or Hub and spoke, as different considerations for different deployment models should be applied accordingly. Afterwards, MAP domain planning, MAP rule provision, addressing and routing, etc., for a MAP domain should be taken into consideration.</t>
-	<t>For the scenario where one CE is corresponding to multiple MAP border relays, 
-	it is possible that those MAP BRs belong to different MAP domains. The CE must
-	pick up its own MAP rules among these domains. It is a typical case of multihoming. 
-	The MAP rules must have the information about BR(s) and the information about the 
+	<t>When deploying stateless MAP in operational network, a provider 
+	should firstly do MAP domain planning based on its own network 
+	condition. According to the definition of  
+	<xref target="I-D.ietf-softwire-map"></xref>, a MAP domain is a 
+	set of MAP CEs and BRs connected to the same virtual link. One MAP 
+	domain shares a common BR and has the same set of BMRs, FMRs and DMR, 
+	and it can be further divided into multiple sub-domains when multiple 
+	IPv4 subnets are deployed in one MAP domain. All CEs in the MAP domain 
+	are provisioned with the same set of MAP rules by MAP DHCPv6 server 
+	<xref target="I-D.mdt-softwire-map-dhcp-option"></xref>. There might 
+	be multiple BMRs in one MAP domain, and CE would pick up its own BMR by 
+	longest prefix matching lookup. However, all CEs within the sub-domain 
+	will have the same BMR. in which the BMR of all CEs is the same. In hub 
+	and spoke mode, CE would use DMR as its only FMR for outbound traffic; 
+	while in mesh mode, a longest-matching prefix lookup is done in the 
+	IPv4 routing table and the correct FMR is chosen.</t>
+	<t>Basically, operator should firstly determine its own deployment 
+	topology for MAP domain: mesh or Hub and spoke, as different 
+	considerations for different deployment models should be applied 
+	accordingly. Afterwards, MAP domain planning, MAP rule provision, 
+	addressing and routing, etc., for a MAP domain should be taken into 
+	consideration.</t>
+	<t>For the scenario where one CE is corresponding to multiple MAP 
+	border relays, it is possible that those MAP BRs belong to different 
+	MAP domains. The CE must pick up its own MAP rules among these 
+	domains. It is a typical case of multihoming.  The MAP rules must 
+	have the information about BR(s) and the information about the 
 	services types and the ISP.</t> 
 		
-		<section title="MAP deployment model planning">
-		  <t>In order to do MAP domain planning, an operator should firstly make the decision to choose Mesh or Hub and Spoke topology according to operator's network policy. In Hub and Spoke topology, all traffic within the same MAP domain has to go through BR which will result in less optimized traffic; however, it would simplify the CE process since there is no need to do FMR lookup for each incoming packet. Besides, it would have enhanced management ability as BR can take full control of all the traffic. As a result, it is reasonable to deploy Hub and Spoke topology for network with relatively flat architecture. </t>
-		  <t>In mesh topology, traffic optimization can be achieved by CE to CE direct path. It is recommended to apply mesh topology in case CE to CE traffic is high and there are not too many MAP rules, say less than 10 MAP rules, in the specific domain.</t>
-		</section>
+	<section title="MAP deployment model planning">
+	  <t>In order to do MAP domain planning, an operator should firstly 
+	  make the decision to choose Mesh or Hub and Spoke topology according 
+	  to operator's network policy. In Hub and Spoke topology, all traffic 
+	  within the same MAP domain has to go through BR which will result in 
+	  less optimized traffic; however, it would simplify the CE process 
+	  since there is no need to do FMR lookup for each incoming packet. 
+	  Besides, it would have enhanced management ability as BR can take 
+	  full control of all the traffic. As a result, it is reasonable to 
+	  deploy Hub and Spoke topology for network with relatively flat 
+	  architecture. </t>
+	  <t>In mesh topology, traffic optimization can be achieved by CE to 
+	  CE direct path. It is recommended to apply mesh topology in case CE 
+	  to CE traffic is high and there are not too many MAP rules, say 
+	  less than 10 MAP rules, in the specific domain.</t>
+	</section>
 		
         <section title="MAP domain planning">
-		  <t>Stateless MAP has its own advantage in terms of scalability, high-reliability, etc. As a result, it is reasonable to apply a larger MAP domain to accommodate more subscribers with less BRs. Moreover, a larger MAP domain would also be easier for management and maintenance. However, a larger MAP domain may also result in less optimized traffic in Hub and spoke case, where all traffic has to go through a remote BR. Besides, it will also result in increased number of MAP rules and highly centralized address management, etc. It is a tradeoff to choose appropriate domain coverage.</t>
-		  <t>Generally speaking, it is not recommended to use a large MAP domain in Hub and spoke topology. While in mesh topology, it is suggested to adopt a relatively larger MAP domain since traffic optimization has already been guaranteed, and the only concern is to make sure that the number of MAP rules is not too big.</t>
-		  <t>Furthermore, MAP sub-domains can be divided for differentiated service provision. Different sub-domains could be distinguished by different Rule IPv4 prefixes. But all CEs within the same MAP sub-domain would have the same Rule IPv4 prefix, Rule IPv6 prefix and PSID parameters. </t>
+	  <t>Stateless MAP has its own advantage in terms of scalability, 
+	  high-reliability, etc. As a result, it is reasonable to apply a 
+	  larger MAP domain to accommodate more subscribers with less BRs. 
+	  Moreover, a larger MAP domain would also be easier for management 
+	  and maintenance. However, a larger MAP domain may also result in 
+	  less optimized traffic in Hub and spoke case, where all traffic 
+	  has to go through a remote BR. Besides, it will also result in 
+	  increased number of MAP rules and highly centralized address 
+	  management, etc. It is a tradeoff to choose appropriate domain 
+	  coverage.</t>
+	  <!-- t>Generally speaking, it is not recommended to use a large MAP 
+	  domain in Hub and spoke topology. While in mesh topology, it is 
+	  suggested to adopt a relatively larger MAP domain since traffic 
+	  optimization has already been guaranteed, and the only concern 
+	  is to make sure that the number of MAP rules is not too big.</t 
+	  - not needed - maoke 20130221 -->
+	  <t>Furthermore, MAP sub-domains can be divided for differentiated 
+	  service provision. Different sub-domains could be distinguished 
+	  by different Rule IPv4 prefixes. But all CEs within the same MAP 
+	  sub-domain would have the same Rule IPv4 prefix, Rule IPv6 prefix 
+	  and PSID parameters. </t>
         </section>
     
 	<section title="MAP rule provisioning">
-		<t> In stateless MAP, Mesh or Hub and Spoke communications can be achieved among CEs in one MAP domain in terms of assigning appropriate FMR(s) to CEs. We recommend ISP deploy the full Hub and Spoke topology or full mesh topology describe below, because the DHCPv6 server can simply achieve them.</t> 
-		  <section title="Full Hub and Spoke Communication among CEs">
-            <t>In order to achieve the full communication in the Hub and Spoke topology, no FMR is assigned to CEs. In this topology, when a CE sends packets to another CE in the same MAP domain using the DMR as FMR, the packets must go though BR before arriving at the destination.</t>
+	  <t> In stateless MAP, Mesh or Hub and Spoke communications can be 
+	  achieved among CEs in one MAP domain in terms of assigning 
+	  appropriate FMR(s) to CEs. We recommend ISP deploy the full Hub and 
+	  Spoke topology or full mesh topology describe below, because the 
+	  DHCPv6 server can simply achieve them.</t> 
+	  
+	  <section title="Full Hub and Spoke Communication among CEs">
+            <t>In order to achieve the full communication in the Hub and Spoke 
+          topology, no FMR is assigned to CEs. In this topology, when a CE 
+          sends packets to another CE in the same MAP domain using the DMR 
+          as FMR, the packets must go though BR before arriving at the 
+          destination.</t>
           </section>
           
           <section title="Full Mesh Communication among CEs">
-            <t>Assigning all BMRs in MAP domain to each CE as FMRs, Mesh communications can be achieved among all CEs.  In this case, when CE receives an IPv4 packet, it looks up  for an appropriate FMR with a specific Rule IPv4 prefix which has the longest match with the IPv4 destination address.  If the FMR is found (destination is one of the CEs in the MAP domain), the packet will be forwarded to associated CE directly without going though BR. If the FMR is not found (destination is out of the MAP domain), the DMR will be selected as FMR, the CE then forwards the packet to the associated BR.</t>
+            <t>Assigning all BMRs in MAP domain to each CE as FMRs, Mesh 
+            communications can be achieved among all CEs.  In this case, when 
+            CE receives an IPv4 packet, it looks up  for an appropriate FMR 
+            with a specific Rule IPv4 prefix which has the longest match with 
+            the IPv4 destination address.  If the FMR is found (destination 
+            is one of the CEs in the MAP domain), the packet will be 
+            forwarded to associated CE directly without going though BR. If 
+            the FMR is not found (destination is out of the MAP domain), the 
+            DMR will be selected as FMR, the CE then forwards the packet to 
+            the associated BR.</t>
           </section>
           
           <section title="Mesh or Hub/Spoke communication among some CEs">
-            <t>Mesh communications among some CEs along with Hub/Spoke communications among some other CEs can be achieved by which differentiated FMRs are assigned to CEs. For instance, as <xref target="MESH-HUB-EXA"></xref> shown, Mapping rule 1, Mapping rule 2, Mapping rule 3 is provisioned to CE1, CE2, CE3 respectively as BMR, and rule 1 and rule2, and rule 1 and rule 2 and rule 3, and rule 2 and rule 3 are assigned to CE1, CE2, CE3 respectively, then CE1 and CE2, CE2 and CE3 communicate directly without going though associated BR (Mesh topology), the communication between CE1 and CE3 must go though BR before reaching peer each other (Hub/Spoke topology).</t>
+            <t>Mesh communications among some CEs along with Hub/Spoke 
+            communications among some other CEs can be achieved by which 
+            differentiated FMRs are assigned to CEs. For instance, as 
+            <xref target="MESH-HUB-EXA"></xref> shown, Mapping rule 1, 
+            Mapping rule 2, Mapping rule 3 is provisioned to CE1, CE2, CE3 
+            respectively as BMR, and rule 1 and rule2, and rule 1 and rule 2 
+            and rule 3, and rule 2 and rule 3 are assigned to CE1, CE2, CE3 
+            respectively, then CE1 and CE2, CE2 and CE3 communicate directly 
+            without going though associated BR (Mesh topology), the 
+            communication between CE1 and CE3 must go though BR before 
+            reaching peer each other (Hub/Spoke topology).</t>
             <t>
               <figure anchor="MESH-HUB-EXA" title="Mapping rules assigned to CEs in example">
                 <preamble></preamble>
@@ -400,65 +491,168 @@
                <postamble></postamble>
              </figure>                              
             </t>
+            <t>There is also a suggestion that an implementation may allow 
+            the CE sends packet with destination address and port pointing 
+            to itself. The hairpinning supported by the BR for the Hub/Spokes 
+            mode delivers the packet back to the sender CE itself. Through 
+            this the probe on the connection between CE and BR is enabled. 
+            </t>
           </section>
         </section>
 		
         <section title="MAP DHCPv6 server deployment consideration">
-         <t>All the CEs within a MAP domain will get the same set of MAP rules by DHCPv6 server, including BMR, FMRs and DMR. In one MAP domain, BMR for different CEs might be different, but FMRs and DMR are all the same. Each Mapping Rule keeps a record of Rule IPv6 prefix, Rule IPv4 prefix, Rule EA-bits length and Rule Port Parameters. Section 5 would give a step by step example of how to calculate these parameters. </t>
-	<t>In stateless MAP, the deployment of DHCPv6 server is independent with MAP domain planning. So there are three possible ways: </t>
+         <t>All the CEs within a MAP domain will get the same set of MAP 
+         rules by DHCPv6 server, including BMR, FMRs and DMR. In one MAP 
+         domain, BMR for different CEs might be different, but FMRs and DMR 
+         are all the same. Each Mapping Rule keeps a record of Rule IPv6 
+         prefix, Rule IPv4 prefix, Rule EA-bits length and Rule Port 
+         Parameters. Section 5 would give a step by step example of how to 
+         calculate these parameters. </t>
+	<t>As the MAP is stateless, the deployment of DHCPv6 server is 
+	independent of MAP domain planning. So there are three possible cases:
+	</t>
 	<t><list hangIndent="6" style="hanging">
-	  <t hangText="MAP domain : DHCPv6 server = 1:1">This is the ideal solution that each MAP domain would have its own MAP DHCPv6 server. In this case, MAP DHCPv6 server only needs to configure parameters for the specific MAP domain. It is highly recommended to adopt this deployment model in stateless MAP. </t>
-	  <t hangText="MAP domain : DHCPv6 server = 1:N">This might happen when DHCPv6 servers are deployed in a large MAP domain in a distributed manner. In this case, all these DHCPv6 servers should be configured with the same set of MAP rules for the MAP domain, including mutiple BMRs, FMRs and DMRs.</t>
-	  <t hangText="MAP domain : DHCPv6 server = N:1">This might happen when MAP domain is relatively small and a single MAP DHCPv6 server is deployed in the network. In this case, multiple MAP domains should be distinguished based on CE's IPv6 prefix in different MAP domains. </t>
+	  <t hangText="MAP domain : DHCPv6 server = 1:1">This is the ideal 
+	  solution that each MAP domain would have its own MAP DHCPv6 server. 
+	  In this case, MAP DHCPv6 server only needs to configure parameters 
+	  for the specific MAP domain. It is highly recommended to adopt 
+	  this deployment model in stateless MAP. </t>
+	  <t hangText="MAP domain : DHCPv6 server = 1:N">This might happen 
+	  when DHCPv6 servers are deployed in a large MAP domain in a 
+	  distributed manner. In this case, all these DHCPv6 servers should 
+	  be configured with the same set of MAP rules for the MAP domain, 
+	  including mutiple BMRs, FMRs and DMRs.</t>
+	  
+	  <t hangText="MAP domain : DHCPv6 server = N:1">This might happen 
+	  when MAP domain is relatively small and a single MAP DHCPv6 server 
+	  is deployed in the network. In this case, multiple MAP domains 
+	  should be distinguished based on CE's IPv6 prefix in different MAP 
+	  domains. </t>
 	</list></t>
 	
-	<t>Besides, the situation of remaining IPv4 address prefixes may have big impact on MAP rule planning, especially for service operators who only have rather scattered address space. Since the number of scattered IPv4 address prefixes would be equal to the number of FMR rules within a MAP domain, one should choose as large IPv4 address pool as possible to reduce the number of FMR rules.</t>	
+	<t>Besides, the situation of remaining IPv4 address prefixes may have 
+	big impact on MAP rule planning, especially for service operators who 
+	only have rather scattered address space. Since the number of 
+	scattered IPv4 address prefixes would be equal to the number of FMR 
+	rules within a MAP domain, one should choose as large IPv4 address 
+	pool as possible to reduce the number of FMR rules.</t>	
         </section>
         
         <section title="PSID consideration">
-          <t>For PSID provisioning, all the CEs, BR and DHCPv6 server within the same MAP domain should be configured with the same parameter value. All CEs with the same BMR should have the same PSID length. If a provider would like to introduce differentiated address sharing ratios for different CEs, it is better to define multiple MAP sub-domains with different Rule IPv4 prefixes. In this way, MAP domain division is only a logical method, rather than a geographical one.</t> 
-		  <t> The default PSID offset is chosen as 4 in <xref target="I-D.ietf-softwire-map"></xref>, which will exclude port range of 0-4096. Operator may adjust the value based on actual usage, policy, and service model.</t>
-		  <t>With regard to PSID format, both continuous and non-continuous port set can be supported in GMA algorithm. Non-continuous port set has the advantage of better security, UPnP friendly, etc., while continuous port set is the simplest way to implement. Since PSID format should be supported not only in CPEs, BRs and DHCPv6 server, but also in other sustaining systems as well, e.g. traffic logging system, user management system, a provider should make the decision based on a comprehensive investigation on its demand and the reality of existing equipments. </t>
-		  <t>Note that some ISPs may need to offer services in a MAP domain with a shared address, e.g. there are hosts FTP server under CEs.  The service provisioning may require well-know port range (i.e. port range belong to 0-1023). MAP would provide operators with an option to generate a port range including those in 0-1023.  Afterwards, operators could decide to assign it to any requesting user.</t>
+          <t>For PSID provisioning, all the CEs, BR and DHCPv6 server within 
+          the same MAP domain should be configured with the same parameter 
+          value. All CEs with the same BMR should have the same PSID length. 
+          If a provider would like to introduce differentiated address sharing 
+          ratios for different CEs, it is better to define multiple MAP 
+          sub-domains with different Rule IPv4 prefixes. In this way, MAP 
+          domain division is only a logical method, rather than a geographical 
+          one.</t> 
+	  <t> The default PSID offset is chosen as 4 in 
+	  <xref target="I-D.ietf-softwire-map"></xref> and full-zero PSID is 
+	  not permitted to use, which excludes the use of port range 0~4096. 
+	  Operator may adjust the value based on actual usage, policy, and 
+	  service model.</t>
+	  <t>With regard to PSID format, both continuous and non-continuous 
+	  port set can be supported in GMA algorithm. Non-continuous port 
+	  set has the advantage of better security, UPnP friendly, etc., 
+	  while continuous port set is the simplest way to implement. Since 
+	  PSID format should be supported not only in CPEs, BRs and DHCPv6 
+	  server, but also in other sustaining systems as well, e.g. traffic 
+	  logging system, user management system, a provider should make the 
+	  decision based on a comprehensive investigation on its demand and 
+	  the reality of existing equipments. </t>
+	  <t>Note that some ISPs may need to offer services in a MAP domain 
+	  with a shared address, e.g. there are hosts FTP server under CEs.  
+	  The service provisioning may require well-know port range (i.e. 
+	  port range belong to 0-1023). MAP would provide operators with an 
+	  option to generate a port range including those in 0-1023.  
+	  Afterwards, operators could decide to assign it to any requesting 
+	  user. However, if the port-set is too small, it is not suggested 
+	  to assign one with only the port set 0~1023 or even less. 
+	  Considerable non-well-known ports are surely needed. Another easier 
+	  approach is assigning a dedicated IPv4 address to such a CE if the 
+	  demand really exists. 
+	  </t>
         </section>
         
         <section title="Addressing and routing">
-          <t> In MAP addressing, it should follow the MAP rule planning in the MAP domain. </t>
-		  <t> For IPv4 addressing, since the number of scattered IPv4 address prefixes would be equal to the number of FMR rules within a MAP domain, one should choose as large IPv4 address pool as possible to reduce the number of FMR rules.For IPv6 address, the Rule IPv6 prefixes should be equal to the end user IPv6 prefix in MAP domain. </t>
-		  <t>If ISP has a /24 rule IPv4 prefix with sharing ratio of 64 gives 16000 customers, and a /16 rule IPv4 prefix supports 4 million customer. If up the sharing ratio to 256, 64000 and 16 million customers can be supports respectively. For the ISP who have number of scattered IPv4 address prefixes, in order to reduce the FMRs, according to needs of ports they can divide different class. For instance, for the enterprise customers class which need many ports to use, provision them the BMR with low sharing ratio while for the private customers class which don't need so many ports provision them the BMR with high sharing ratio.</t>
-		  <t>For MAP routing, there are no IPv4 routes exported to IPv6 networks. </t>
+          <t> In MAP addressing, it should follow the MAP rule planning in 
+          the MAP domain. </t>
+	  <t> For IPv4 addressing, since the number of scattered IPv4 address 
+	  prefixes would be equal to the number of FMR rules within a MAP 
+	  domain, one should choose as large IPv4 address pool as possible 
+	  to reduce the number of FMR rules.For IPv6 address, the Rule IPv6 
+	  prefixes should be equal to the end user IPv6 prefix in MAP domain. 
+	  </t>
+	  <t>If ISP has a /24 rule IPv4 prefix with sharing ratio of 64 gives 
+	  16000 customers, and a /16 rule IPv4 prefix supports 4 million 
+	  customer. If up the sharing ratio to 256, 64000 and 16 million 
+	  customers can be supports respectively. For the ISP who have number 
+	  of scattered IPv4 address prefixes, in order to reduce the FMRs, 
+	  according to needs of ports they can divide different class. For 
+	  instance, for the enterprise customers class which need many 
+	  ports to use, provision them the BMR with low sharing ratio while 
+	  for the private customers class which don't need so many ports 
+	  provision them the BMR with high sharing ratio.</t>
+	  <t>For MAP routing, there are no IPv4 routes exported to IPv6 
+	  networks. </t>
         </section>
         
 
-        <section title="Translation vs. Encapsulation">
-	<t>Basically, encapsulation provides an architectural building block of virtual link where the underlay behavior is fully hidden, while translation does a delivery participating into the end-to-end transferring path where behaviors are exposed. It is reflected in the following aspects. </t>
-  
-  <t>1. Option header</t>
-  <t>There may be some options in the IPv4 header, and some of them may
-  not be able to mapped to IPv6 option headers accurately [RFC791][RFC2460].
-  If Translation is used, those options can not be supported, and
-  packets with those options SHOULD be dropped. Encapsulation does
-  not have this problem. </t>
+        <section title="MAP vs. MAP-T vs. 4rd">
+	  <t>Basically, encapsulation provides an architectural building block 
+	  of virtual link where the underlay behavior is fully hidden, while 
+	  translation does a delivery participating into the end-to-end 
+	  transferring path where behaviors are exposed. It is reflected in 
+	  the following aspects. </t>
 
-  <t>2. ICMP</t>
-  <t>Some IPv4 ICMP codes do not have a corresponding codes in ICMPv6, a 
-  detailed analysis on the double translation behavior suggest that some 
-  ICMPv4 messages, when they are translated to ICMPv6 and back to ICMPv4 
-  across the IPv6 domain, the accuracy might be sacrificed to some extent.  
-  Encapsulation keeps the full transparency of ICMPv4 messages, while translation
-  can make in-transition access through either single or double translations 
-  with a unified solution. </t>
+	  <t>1. Option header</t>
+	  <t>There may be some options in the IPv4 header, and some of them 
+	  may not be able to mapped to IPv6 option headers accurately 
+	  [RFC791][RFC2460]. If translation or 4rd ``reversible translation''
+	  is applied, those options can not be supported, and packets with 
+	  those options SHOULD be dropped. Encapsulation does not have this 
+	  problem. </t>
 
-  <t>In either the encapsulation or translation mode, if an intermediate node 
-  generates an ICMPv6 error message, it should be converted into ICMPv4 version 
-  and returned to the source with a special source address set to 192.70.192.254
-  [I-D.xli-behave-icmp-address], in the stateless MAP architecture.</t>
+	  <t>2. ICMP</t> 
+	  <t>Some IPv4 ICMP codes do not have a corresponding codes in ICMPv6, 
+	  a detailed analysis on the double translation behavior suggest that 
+	  some ICMPv4 messages, when they are translated to ICMPv6 and back to 
+	  ICMPv4 across the IPv6 domain, the accuracy might be sacrificed to 
+	  some extent. Encapsulation keeps the full transparency of ICMPv4 
+	  messages. </t>
+	  <t>Reversible translation approach of 4rd, however, does not 
+	  translate ICMPv4 messages into ICMPv6 version. Instead, it treats 
+	  ICMP as same as a transport layer protocol data unit. This behavior 
+	  is similar to the encapsulation and keeps ICMP end-to-end 
+	  transparency as well. </t>
+	  <t>Only MAP-T translator is compatible with single translation 
+	  approach, while the 4rd translator must be used in pair between a 
+	  peer of ends in communication. </t> 
 
-  <t>3. PMTU and fragmentation</t>
-  <t>Both translation mode and encapsulation mode have PMTU and fragmentation
-  problem. <xref target="RFC6145"></xref> discusses the problem in details for the 
-  translation, while <xref target="RFC2473"></xref> could be a good reference on the 
-  issue in encapsulation. </t>
+  	  <t>In either the encapsulation or translation mode, if an 
+  	  intermediate node generates an ICMPv6 error message, it should be 
+  	  converted into ICMPv4 version and returned to the source with a 
+  	  special source address and following the bevior specified in  
+  	  <xref target="RFC6791"></xref>. However, the behavior and semantics 
+  	  of the translation from ICMPv6 to ICMPv4 is different among 
+  	  encapsulation, translation and 4rd reversible translation 
+  	  approaches. Encapsulation treats routing error in the IPv6 domain 
+  	  as an (virtual)link error between the tunnel end points, while 
+  	  translation translate IPv6 routing error into corresponding IPv4 
+  	  version, and 4rd, however, behaves according to whether the Tunnel 
+  	  Traffic Class option is set. The TTL behavior also reflect the 
+  	  differences among different approaches, which is worth paying 
+  	  attention to for the operating engineers. </t>
+
+	  <t>3. PMTU and fragmentation</t> 
+	  <t>Both translation mode and encapsulation mode have PMTU and 
+	  fragmentation problem. <xref target="RFC6145"></xref> discusses 
+	  the problem in details for the translation, while 
+	  <xref target="RFC2473"></xref> could be a reference on the 
+	  issue in encapsulation. </t>
+
+	  <t>When the anycast BR is applied, however, the ... </t>
 
   <!-- t>4. End-user IPv6 prefix restrictions</t>
   <t>Translation mode doen't permit the End-user IPv6 prefix to exceed 64bits 
@@ -950,27 +1144,25 @@ CE IPv4 Address = 63.245.48.236
 
       &rfc6346;
 
-      &I-D.mdt-softwire-map-dhcp-option;
+      &rfc6791;
+
+      &I-D.ietf-softwire-map-dhcp;
 
       &I-D.ietf-softwire-map;
+
+      &I-D.ietf-softwire-map-t; 
+
+      &I-D.ietf-softwire-4rd;
     </references>
 
     <!--  SECTION 8.2:  Informative References		-->
 
     <references title="Informative References">
-      &I-D.xli-softwire-divi-pd;
-
-      &I-D.xli-behave-divi;
-
-      &I-D.murakami-softwire-4rd;
-
       &rfc2473; 
 
       &rfc3194;
 
       &rfc6052;
-
-      &I-D.dec-stateless-4v6;
 
       <!-- &I-D.chen-softwire-4v6-pd; already expired -->
 
