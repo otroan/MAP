@@ -47,7 +47,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc comments="yes" ?>
 <?rfc inline="yes" ?>
-<rfc category="std" docName="draft-ietf-softwire-map-04" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-softwire-map-05" ipr="trust200902">
   <front>
     <title abbrev="MAP">Mapping of Address and Port with Encapsulation
     (MAP)</title>
@@ -292,9 +292,9 @@
     <section title="Architecture">
       <t>In accordance with the requirements stated above, the MAP
       mechanism can operate with shared IPv4 addresses, full IPv4
-      addresses or IPv4 prefixes. Operation with shared IPv4
-      addresses is described now, and the differences for full IPv4
-      addresses and prefixes are described below.</t>
+      addresses or IPv4 prefixes. Operation with shared IPv4 addresses
+      is described here, and the differences for full IPv4 addresses
+      and prefixes are described below.</t>
 
       <t>The MAP mechanism uses existing standard building blocks.
       The existing NAPT on the CE is used with additional support for
@@ -385,15 +385,20 @@ O---.--------------O
 
       <t>There are two types of mapping rules: <list style="numbers">
 
-      <t>Basic Mapping Rule (BMR) - mandatory, used for IPv4 prefix,
-      address or port set assignment. There can only be one Basic
-      Mapping Rule per End-user IPv6 prefix. The Basic Mapping Rule is
-      used to configure the MAP IPv6 address or prefix.</t>
+      <t>Basic Mapping Rule (BMR) - mandatory.  There can only be one
+      Basic Mapping Rule per End-user IPv6 prefix.  In combination
+      with the End-user IPv6 prefix, the Basic Mapping Rule is used
+      to derive the IPv4 prefix, address, or shared address and
+      the PSID assigned to the CE.</t>
 
       <t>Forwarding Mapping Rule (FMR) - optional, used for
       forwarding. The Basic Mapping Rule is also a Forwarding Mapping
       Rule. Each Forwarding Mapping Rule will result in an entry in
-      the Rules table for the Rule IPv4 prefix.</t>
+      the Rules table for the Rule IPv4 prefix. Given a destination
+      IPv4 address and port within the MAP domain, a MAP node can use
+      the matching FMR to derive the End-user IPv6 address of the
+      interface through which that IPv4 destination address and port
+      combination can be reached.</t>
 
       </list></t>
 
@@ -450,11 +455,11 @@ O---.--------------O
           <artwork align="left"><![CDATA[
                      0                   1
                      0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6
-                     +-------+-----------+-----------+ 
-       Ports in      |   A   |    PSID   |     M     |
-    the CE port set  |  > 0  |           | any value | 
-                     +-------+-----------+-----------+ 
-                     |a bits |  k bits   |  m bits   |
+                     +-----------+-----------+-------+ 
+       Ports in      |     A     |    PSID   |   M   |
+    the CE port set  |    > 0    |           |       | 
+                     +-----------+-----------+-------+ 
+                     |  a bits   |  k bits   |m bits |
 		     ]]></artwork>
         </figure></t>
 
@@ -464,18 +469,8 @@ O---.--------------O
           ports.</t>
 
           <t hangText="a-bits">The number of offset bits. The default
-          Offset bits (a) are: 4. To simplify the port mapping
-          algorithm the defaults are chosen so that the PSID field
-          starts on a nibble boundary and the excluded port range
-          (0-1023) is extended to 0-4095.</t>
-
-<!--          <t hangText="a-bits">The number of offset bits (excluded
-          ports) are optionally provisioned via the "Rule Port Mapping
-          Parameters" in the Basic Mapping Rule. The default Offset
-          bits (a) are: 4. To simplify the port mapping algorithm the
-          defaults are chosen so that the PSID field starts on a
-          nibble boundary and the excluded port range (0-1023) is
-          extended to 0-4095.</t>-->
+          Offset bits (a) are 6, this excludes the system ports
+          (0-1023).</t>
 
           <t hangText="PSID">The Port Set Identifier. Different
           Port-Set Identifiers (PSID) MUST have non-overlapping
@@ -506,7 +501,7 @@ O---.--------------O
 
 
 |     n bits         |  o bits   | s bits  |   128-n-o-s bits      |
-+--------------------+-----------+---------+------------+----------+
++--------------------+-----------+---------+-----------------------+
 |  Rule IPv6 prefix  |  EA bits  |subnet ID|     interface ID      |
 +--------------------+-----------+---------+-----------------------+
 |<---  End-user IPv6 prefix  --->|
@@ -588,11 +583,16 @@ O---.--------------O
         a complete IPv4 address (or prefix), the IPv4 address suffix (p) from
         the EA bits, are concatenated with the Rule IPv4 prefix (r bits).</t>
 
-        <t>The offset of the EA bits field in the IPv6 address is equal to the
-        BMR Rule IPv6 prefix length. The length of the EA bits field (o) is
-        given by the BMR Rule EA-bits length, and can be between 0 and 48. The
-        sum of the Rule IPv6 Prefix length and the Rule EA-bits length MUST be
-        less or equal than the End-user IPv6 prefix length.</t>
+        <t>The offset of the EA bits field in the IPv6 address is
+        equal to the BMR Rule IPv6 prefix length. The length of the EA
+        bits field (o) is given by the BMR Rule EA-bits length, and
+        can be between 0 and 48. A length of 48 means that the
+        complete IPv4 address and port is embedded in the End-user
+        IPv6 prefix (a single port is assigned). A length of 0 means
+        that no part of the IPv4 address or port is embedded in the
+        address. The sum of the Rule IPv6 Prefix length and the Rule
+        EA-bits length MUST be less or equal than the End-user IPv6
+        prefix length.</t>
 
         <t>If o + r &lt; 32 (length of the IPv4 address in bits), then an IPv4
         prefix is assigned.</t>
@@ -676,7 +676,7 @@ O---.--------------O
 
           <artwork align="left"><![CDATA[
 
-|        128-n-o-s bits            |
+|          128-n-o-s bits          |
 | 16 bits|    32 bits     | 16 bits|
 +--------+----------------+--------+
 |   0    |  IPv4 address  |  PSID  |
@@ -701,9 +701,6 @@ O---.--------------O
       identical for all CEs and BRs within a given MAP domain.</t>
 
       <t><list style="symbols">
-          <t>The End-User IPv6 prefix (Part of the normal IPv6
-          provisioning).</t>
-
           <t>The Basic Mapping Rule and optionally the Forwarding Mapping
           Rules, including the Rule IPv6 prefix, Rule IPv4 prefix, and Length
           of EA bits</t>
@@ -770,6 +767,7 @@ O---.--------------O
         as the MAP BR.</t>
       </section>
 
+<!--
       <section title="Address Independence">
         <t>The MAP solution supports use and configuration of domains in so
         called 1:1 mode (meaning 1 mapping rule set per CE), which allows
@@ -784,7 +782,6 @@ O---.--------------O
         a given CE. Each CE would have a distinct BMR, that would
         fully describe that CE's IPv4 address, and PSID if any.</t>
 
-<!--
         <section title="1:1 mode with no address sharing">
           <t>A domain rule (BMR or FMR) with a setting of EA-bit length of 0,
           and a sharing ratio of 1, indicates that in that domain no part of
@@ -811,8 +808,9 @@ O---.--------------O
 
           <t>Appendix A gives an example of this configuration.</t>
         </section>
--->
+
       </section>
+-->
     </section>
 
     <section title="Forwarding Considerations">
@@ -951,30 +949,6 @@ O---.--------------O
       numbers derived via the basic mapping rule.</t>
     </section>
 
-    <!--
-    <section title="Deployment Considerations">
-      <section title="Use cases">
-	<section title="Hub and spoke with per subscriber rules">
-	  <t>Existing IPv4 service can be realized with MAP using a
-	  mapping rule per subscriber. By embedding no part of the
-	  IPv4 address in the IPv6 prefix, no dependency between the
-	  two address families is created. This may be useful in cases
-	  where the IPv6 address allocation is sparse, or for other
-	  reasons it is difficult to create efficient mapping rules.</t>
-
-	  <t>The operator has the choice of provisioning a full IPv4
-	  address to the end-user, or a shared IPv4 address by also
-	  provisioning the PSID in the DHCPv6 option. A hybrid of this
-	  use case is to provision the full IPv4 address in the DHCPv6
-	  option, while embedding the PSID in the IPv6 prefix. That
-	  will result in one mapping rule per IPv4 address, e.g. with
-	  a sharing ratio of 64, one rule per 64 customers.</t>
-	</section>
-
-      </section>
-    </section>
--->
-
     <!--  SECTION 4:  IANA Considerations           -->
 
     <section title="IANA Considerations">
@@ -1089,14 +1063,15 @@ O---.--------------O
       <t>This document is based on the ideas of many, including
       Masakazu Asama, Mohamed Boucadair, Gang Chen, Maoke Chen,
       Wojciech Dec, Xiaohong Deng, Jouni Korhonen, Tomasz Mrugalski,
-      Jacni Qin, Chunfa Sun, Qiong Sun, and Leaf Yeh. The
-      authors want in particular to recognize Remi Despres, who has
-      tirelessly worked on generalized mechanisms for stateless
-      address mapping.</t>
+      Jacni Qin, Chunfa Sun, Qiong Sun, and Leaf Yeh. The authors want
+      in particular to recognize Remi Despres, who has tirelessly
+      worked on generalized mechanisms for stateless address
+      mapping.</t>
 
       <t>The authors would like to thank Guillaume Gottard, Dan Wing,
-      Jan Zorz, Necj Scoberne, Tina Tsou and especially Tom Taylor for
-      the thorough review and comments of this document.</t>
+      Jan Zorz, Necj Scoberne, Tina Tsou, Kristian Poscic, and
+      especially Tom Taylor for the thorough review and comments of
+      this document.</t>
     </section>
   </middle>
 
@@ -1155,35 +1130,31 @@ O---.--------------O
    Given the MAP domain information and an IPv6 address of
    an endpoint:
 
-   IPv6 prefix assigned to the end user:  2001:db8:0012:3400::/56
-   Basic Mapping Rule:  {2001:db8:0000::/40 (Rule IPv6 prefix),
-      192.0.2.0/24 (Rule IPv4 prefix), 16 (Rule EA-bits length)}
-   PSID length:  (16 - (32 - 24) = 8. (Sharing ratio of 256)
-   PSID offset:  4
+   End-user IPv6 prefix: 2001:db8:0012:3400::/56
+   Basic Mapping Rule:   {2001:db8:0000::/40 (Rule IPv6 prefix),
+                          192.0.2.0/24 (Rule IPv4 prefix),
+                          16 (Rule EA-bits length)}
+   PSID length:          (16 - (32 - 24) = 8. (Sharing ratio of 256)
+   PSID offset:          6
 
    A MAP node (CE or BR) can via the BMR, or equivalent FMR,
    determine the IPv4 address and port-set as shown below:
 
-   EA bits offset:  40
-   IPv4 suffix bits (p)  Length of IPv4 address (32) - IPv4 prefix
-      length (24) = 8
-   IPv4 address  192.0.2.18 (0xc0000212)
-   PSID start:  40 + p = 40 + 8 = 48
-   PSID length:  o - p = (56 - 40) - 8 = 8
-   PSID:  0x34
+   EA bits offset:       40
+   IPv4 suffix bits (p)  Length of IPv4 address (32) -
+                         IPv4 prefix length (24) = 8
+   IPv4 address:         192.0.2.18 (0xc0000212)
+   PSID start:           40 + p = 40 + 8 = 48
+   PSID length:          o - p = (56 - 40) - 8 = 8
+   PSID:                 0x34
 
-   Port-set-1:  4928, 4929, 4930, 4931, 4932, 4933, 4934, 4935, 4936,
-      4937, 4938, 4939, 4940, 4941, 4942, 4943
-   Port-set-2:  9024, 9025, 9026, 9027, 9028, 9029, 9030, 9031, 9032,
-      9033, 9034, 9035, 9036, 9037, 9038, 9039
-   ...  ...
-   Port-set-15  62272, 62273, 62274, 62275, 62276, 62277, 62278,
-      62279, 62280, 62281, 62282, 62283, 62284, 62285, 62286, 62287
+   Available ports (63 ranges) : 1232-1235, 2256-2259, ...... , 
+                                 63696-63699, 64720-64723
 
    The BMR information allows a MAP CE also to determine (complete)
    its IPv6 address within the indicated IPv6 prefix.
 
-   IPv6 address of MAP CE:  2001:db8:0012:3400:00c0:0002:1200:3400
+   IPv6 address of MAP CE:  2001:db8:0012:3400:0000:c000:0212:0034
 
   ]]></artwork>
         </figure></t>
@@ -1197,32 +1168,32 @@ O---.--------------O
    configured with the following FMR when receiving a packet
    with the following characteristics:
 
-   IPv4 source address:  1.2.3.4 (0x01020304)
-   IPv4 source port:  80
+   IPv4 source address:       1.2.3.4 (0x01020304)
+   IPv4 source port:          80
    IPv4 destination address:  192.0.2.18 (0xc0000212)
-   IPv4 destination port:  9030
+   IPv4 destination port:     1232
 
-   Configured Forwarding Mapping Rule:  {2001:db8:0000::/40
-      (Rule IPv6 prefix), 192.0.2.0/24 (Rule IPv4 prefix),
-      16 (Rule EA-bits length)}
+   Configured Forwarding Mapping Rule:  {2001:db8:0000::/40 (Rule IPv6 prefix),
+                                         192.0.2.0/24 (Rule IPv4 prefix),
+                                         16 (Rule EA-bits length)}
 
-   IPv6 address of MAP BR: 2001:db8:ffff::1
+   IPv6 address of MAP BR:              2001:db8:ffff::1
 
    The above information allows the BR to derive as follows
    the mapped destination IPv6 address for the corresponding
    MAP CE, and also the mapped source IPv6 address for
    the IPv4 source.
 
-   IPv4 suffix bits (p)  32 - 24 = 8 (18 (0x12))
-   PSID length:  8
-   PSID:  0x34 (9030 (0x2346))
+   IPv4 suffix bits (p):  32 - 24 = 8 (18 (0x12))
+   PSID length:           8
+   PSID:                  0x34 (1232)
 
    The resulting IPv6 packet will have the following key fields:
 
-   IPv6 source address: 2001:db8:ffff::1
-   IPv6 destination address:  2001:db8:0012:3400:00c0:0002:1200:3400
-   IPv6 source Port:  80
-   IPv6 destination Port:  9030
+   IPv6 source address:       2001:db8:ffff::1
+   IPv6 destination address:  2001:db8:0012:3400:0000:c000:0212:0034
+   IPv6 source Port:          80
+   IPv6 destination Port:     1232
 
   ]]></artwork>
         </figure></t>
@@ -1237,79 +1208,75 @@ O---.--------------O
    packets converted into IPv6 using the IPv6 address of the BR
    configured on the MAP CE as follows:
 
-   IPv6 address of BR used by MAP CE:  2001:db8:ffff::1
+   IPv6 address of BR used by MAP CE:           2001:db8:ffff::1
    IPv4 source address (post NAT44 if present)  192.0.2.18
-   IPv4 destination address:  1.2.3.4
-   IPv4 source port (post NAT44 if present):  9030
-   IPv4 destination port:  80
-   IPv6 source address of MAP CE:
-                        2001:db8:0012:3400:00c0:0002:1200:3400
-   IPv6 destination address:  2001:db8:ffff::1
+   IPv4 destination address:                    1.2.3.4
+   IPv4 source port (post NAT44 if present):    1232
+   IPv4 destination port:                       80
+   IPv6 source address of MAP CE:               2001:db8:0012:3400:0000:c000:0212:0034
+   IPv6 destination address:                    2001:db8:ffff::1
    
   ]]></artwork>
         </figure><figure>
-          <preamble>Example 4 - 1:1 Rule with no address sharing</preamble>
+          <preamble>Example 4 - Rule with no embedded address bits and no address sharing</preamble>
 
           <artwork><![CDATA[
-   IPv6 prefix assigned to the end user:  2001:db8:0012:3400::/56
-   Basic Mapping Rule:  {2001:db8:0012:3400::/56 (Rule IPv6 prefix),
-      192.0.2.1/32 (Rule IPv4 prefix), 0 (Rule EA-bits length)}
-   PSID length: 0 (Sharing ratio is 1)
-   PSID offset:  n/a
+   End-User IPv6 prefix:  2001:db8:0012:3400::/56
+   Basic Mapping Rule:    {2001:db8:0012:3400::/56 (Rule IPv6 prefix),
+                           192.0.2.1/32 (Rule IPv4 prefix),
+                           0 (Rule EA-bits length)}
+   PSID length:            0 (Sharing ratio is 1)
+   PSID offset:            n/a
 
    A MAP node (CE or BR) can via the BMR or equivalent FMR, determine
    the IPv4 address and port-set as shown below:
 
-   EA bits offset:  0
-   IPv4 suffix bits (p)  Length of IPv4 address (32) - IPv4 prefix
-      length (32) = 0
-   IPv4 address  192.0.2.1 (0xc0000201)
-   PSID start:  0
-   PSID length: 0
-   PSID:  null
+   EA bits offset:       0
+   IPv4 suffix bits (p): Length of IPv4 address (32) -
+                         IPv4 prefix length (32) = 0
+   IPv4 address:         192.0.2.1 (0xc0000201)
+   PSID start:           0
+   PSID length:          0
+   PSID:                 null
 
    The BMR information allows a MAP CE also to determine (complete)
    its full IPv6 address by combining the IPv6 prefix with the MAP
    interface identifier (that embeds the IPv4 address).
 
-   IPv6 address of MAP CE:  2001:db8:0012:3400:00c0:0002:0100:0000
+   IPv6 address of MAP CE:  2001:db8:0012:3400:0000:c000:0201:0000
 
 ]]></artwork>
         </figure><figure>
-        <preamble>Example 5 - 1:1 Rule with address sharing (sharing
+        <preamble>Example 5 - Rule with no embedded address bits and address sharing (sharing
         ratio 256)</preamble>
 
           <artwork><![CDATA[
-   IPv6 prefix assigned to the end user:  2001:db8:0012:3400::/56
-   Basic Mapping Rule:  {2001:db8:0012:3400::/56 (Rule IPv6 prefix),
-      192.0.2.1/32 (Rule IPv4 prefix), 0 (Rule EA-bits length)}
-   PSID length: (16 - (32 - 24) = 8. (Sharing ratio of 256)
-   PSID offset:  4
+   End-User IPv6 prefix:  2001:db8:0012:3400::/56
+   Basic Mapping Rule:    {2001:db8:0012:3400::/56 (Rule IPv6 prefix),
+                           192.0.2.1/32 (Rule IPv4 prefix),
+                           0 (Rule EA-bits length)}
+   PSID length:           (16 - (32 - 24) = 8. (Sharing ratio of 256)
+   PSID offset:           6
 
    A MAP node (CE or BR) can via the BMR or equivalent FMR determine
    the IPv4 address and port-set as shown below:
 
-   EA bits offset:  0
-   IPv4 suffix bits (p)  Length of IPv4 address (32) - IPv4 prefix
-      length (32) = 0
-   IPv4 address  192.0.2.1 (0xc0000201)
-   PSID start:  0
-   PSID length: 8
-   PSID:  0x34
+   EA bits offset:        0
+   IPv4 suffix bits (p):  Length of IPv4 address (32) -
+                          IPv4 prefix length (32) = 0
+   IPv4 address:          192.0.2.1 (0xc0000201)
+   PSID start:            0
+   PSID length:           8
+   PSID:                  0x34
 
-   Port-set-1:  4928, 4929, 4930, 4931, 4932, 4933, 4934, 4935, 4936,
-      4937, 4938, 4939, 4940, 4941, 4942, 4943
-   Port-set-2:  9024, 9025, 9026, 9027, 9028, 9029, 9030, 9031, 9032,
-      9033, 9034, 9035, 9036, 9037, 9038, 9039
-   ...  ...
-   Port-set-15  62272, 62273, 62274, 62275, 62276, 62277, 62278,
-      62279, 62280, 62281, 62282, 62283, 62284, 62285, 62286, 62287
+   Available ports (63 ranges): 1232-1235, 2256-2259, ...... ,
+                                63696-63699, 64720-64723
 
    The BMR information allows a MAP CE also to determine (complete)
    its full IPv6 address by combining the IPv6 prefix with the MAP
    interface identifier (that embeds the IPv4 address and PSID).
 
-   IPv6 address of MAP CE:  2001:db8:0012:3400:00c0:0002:1200:3400
+   IPv6 address of MAP CE: 2001:db8:0012:3400:0000:c000:0212:0034
 
    Note that the IPv4 address and PSID is not derived from the IPv6
    prefix assigned to the CE.
@@ -1392,56 +1359,27 @@ K = (floor(P/M)) % R
         </section>
 
         <section title="GMA examples">
-          <t><figure align="left" title="Example 1: with offset = 4 (a = 4)">
-              <preamble>For example, for R = 1024, PSID offset: a = 4 and PSID
-              length: k = 10 bits</preamble>
+          <t><figure align="left" title="Example 1: with offset = 6 (a = 6)">
+              <preamble>For example, for R = 256, PSID = 0, offset: a = 6 and PSID
+              length: k = 8 bits</preamble>
 
               <artwork align="left"><![CDATA[
-          Port-set-1                Port-set-2
-PSID=0   | 4096, 4097, 4098, 4099, | 8192,  8193,  8194,  8195, | ...
-PSID=1   | 4100, 4101, 4102, 4103, | 8196,  8197,  8198,  8199, | ...
-PSID=2   | 4104, 4105, 4106, 4107, | 8200,  8201,  8202,  8203, | ...
-PSID=3   | 4108, 4109, 4110, 4111, | 8204,  8205,  8206,  8207, | ...
-...
-PSID=1023| 8188, 8189, 8190, 8191, | 12284, 12285, 12286, 12287,| ...
 
+Available ports (63 ranges) : 1024-1027, 2048-2051, ...... ,
+                              63488-63491, 64512-64515
 	  ]]></artwork>
             </figure></t>
 
           <t><figure align="left" title="Example 2: with offset = 0 (a = 0)">
-              <preamble>For example, for R = 64, a = 0 (PSID offset = 0 and
+              <preamble>For example, for R = 64, PSID = 0, a = 0 (PSID offset = 0 and
               PSID length = 6 bits):</preamble>
-
               <artwork align="left"><![CDATA[
-          Port-set
-PSID=0   | [   0 - 1023]
-PSID=1   | [1024 - 2047]
-PSID=2   | [2048 - 3071]
-PSID=3   | [3072 - 4095]
-...
-PSID=63  | [64512 - 65535]
+Available ports (1 range) : 0-1023
 
 	  ]]></artwork>
             </figure></t>
         </section>
 
-<!--
-        <section title="Port Offset">
-          <t>The number of offset bits (excluded ports) are optionally
-          provisioned via the "Rule Port Mapping Parameters" in the
-          Basic Mapping Rule.</t>
-
-          <t>The default Offset bits (a) are: 4</t>
-
-          <t>To simplify the GMA port mapping algorithm the defaults are
-          chosen so that the PSID field starts on a nibble boundary and the
-          excluded port range (0-1023) is extended to 0-4095.</t>
-
-          <t>For (a) offset bits, the range of excluded ports is 0 to 2 ^
-          (16-a) - 1.</t>
-        </section>
-
--->
       </section>
 
   </back>
