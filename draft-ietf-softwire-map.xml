@@ -389,7 +389,10 @@ O---.--------------O
       Basic Mapping Rule per End-user IPv6 prefix.  In combination
       with the End-user IPv6 prefix, the Basic Mapping Rule is used
       to derive the IPv4 prefix, address, or shared address and
-      the PSID assigned to the CE.</t>
+      the PSID assigned to the CE. More than one MAP CE can be
+      assigned the same BMR, thus reducing the number of rules
+      that need to be provisioned in a MAP domain.
+      </t>
 
       <t>Forwarding Mapping Rule (FMR) - optional, used for
       forwarding. The Basic Mapping Rule is also a Forwarding Mapping
@@ -435,21 +438,28 @@ O---.--------------O
 	notation similar to CIDR <xref target="RFC4632"/>. For example
 	the first 256 ports are represented as port prefix
 	0.0/8. The last 256 ports as 255.0/8. In hexadecimal, 0x0000/8 (PSID = 0)
-	and 0xFF00/8 (PSID = 0xFF).</t>
+	and 0xFF00/8 (PSID = 0xFF). Using this technique, but wishing
+        to avoid allocating the system ports <xref
+	target="I-D.ietf-tsvwg-iana-ports"/> to the user, one would have to exclude
+        the use of one or more PSIDs (e.g., PSIDs 0 to 3 in the example
+        just given).
+	</t>
 
-	<t>To minimise dependencies between the End-user IPv6 prefix
-	and the resulting port set, a PSID of 0, would, in the naive
-	representation assign the system ports <xref
-	target="I-D.ietf-tsvwg-iana-ports"/> to the user. Instead
-	using an infix representation, and requiring that the first
-	bit field (A) is greater than 0, the well known ports are
-	excluded.</t>
+	<t>As will be seen shortly, the PSID forms a portion of the
+	End-user IPv6 prefix. To minimise dependencies between the 
+	End-user IPv6 prefix and the assigned port set, it is desirable
+	to minimize the restrictions on the possible PSID values. This
+	is achieved by using an infix representation of the port value.
+	Using such a representation, the well known ports are
+	excluded by restrictions on the value of the first bit field (A)
+	rather than the PSID.</t>
 
-	<t>This algorithm allocates ports to a given CE as a series of
-	contiguous ranges.</t>
+	<t>The infix algorithm allocates ports to a given CE as a series of
+	contiguous ranges spaced at regular intervals throughout the
+	complete range of possible port set values.</t>
 
         <t><figure align="left" anchor="psid-fig"
-		   title="PSID">
+		   title="Structure of a MAP-Assigned Port Number">
           <preamble></preamble>
 
           <artwork align="left"><![CDATA[
@@ -464,27 +474,42 @@ O---.--------------O
         </figure></t>
 
 	<t><list style="hanging">
-          <t hangText="A">For a &gt; 0, A MUST be larger than
-          0. This ensures that the algorithm excludes the system
-          ports.</t>
+          <t hangText="A">Index over the set of contiguous ranges assigned
+          to the user.</t>
 
           <t hangText="a-bits">The number of offset bits. The default
-          Offset bits (a) are 6, this excludes the system ports
-          (0-1023).</t>
-
-          <t hangText="PSID">The Port Set Identifier. Different
-          Port-Set Identifiers (PSID) MUST have non-overlapping
-          port-sets.</t>
+          value of a is 6.
+          For this value of a, the system ports, but no others, are excluded by
+          requiring that A be greater than 0. For smaller values of a, A still
+          has to be greater than 0, but this excludes ports above 1023. For
+          larger values of a, the minimum value of A has to be higher to exclude
+          all the system ports. The interval between successive contiguous ranges
+          assigned to the same user is 2^a.
+          </t>
+          
+          <t hangText="PSID">The Port Set Identifier. Selects the specific
+          port set. The structure shown in <xref target="psid-fig"/> ensures
+          that different Port-Set Identifiers (PSIDs) correspond to
+          non-overlapping port sets.</t>
+          
           <t hangText="k-bits">The length in bits of the PSID
-          field. The sharing ratio is k^2. The number of ports
-          assigned to the user is 2^(16-k) - 2^m (excluded ports)</t>
-          <t hangText="M">The contiguous ports.</t>
-          <t hangText="m bits">The size contiguous ports. The number
-          of contiguous ports is given by 2^m.</t>
+          field. The sharing ratio (number of MAP CEs sharing the same 
+          IPv4 address) is 2^k. The number of ports
+          assigned to the user is 2^(16-k) minus the number of
+          excluded ports for that user.
+          </t>
+          
+          <t hangText="M">Index over the contiguous range of port values 
+          defined by the values of A and the PSID.          
+          </t>
+          
+          <t hangText="m-bits">The size of the port index M. The number
+          of contiguous ports in one range is given by 2^m. For a less
+          than or equal to 6, this is also the number of excluded ports
+          for the user.
+          </t>
 	</list></t>
 
-	<t>This algorithm allocates ports to a given CE as a series of
-	contiguous ranges.</t>
 
       </section>
 
