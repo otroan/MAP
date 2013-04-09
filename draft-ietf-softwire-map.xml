@@ -491,10 +491,21 @@ O---.--------------O
       <section title="Basic mapping rule (BMR)">
 	<t>The Basic Mapping Rule is mandatory, used by the CE to
 	provision itself with an IPv4 prefix, IPv4 address or shared
-	IPv4 address.</t>
+	IPv4 address. Recall from <xref target="mapping_algorithm"/>
+	that the BMR consists of the following parameters:
+	<list style="symbols">
+          <t>Rule IPv6 prefix (including prefix length)</t>
+          <t>Rule IPv4 prefix (including prefix length)</t>
+          <t>Rule EA-bits length (in bits)</t>
+        </list>
+	</t>
+	
+	<t><xref target="addressallocation-fig"/> shows the structure 
+	of the complete MAP IPv6 address as specified in this document.
+	</t>
 
         <t><figure align="center" anchor="addressallocation-fig"
-            title="IPv6 address format">
+            title="MAP IPv6 Address Format">
             <preamble></preamble>
 
             <artwork align="center"><![CDATA[
@@ -516,36 +527,62 @@ O---.--------------O
         prefix, can contain a full or part of an IPv4 address and, in the
         shared IPv4 address case, a Port-Set Identifier (PSID). An EA-bit
         length of 0 signifies that all relevant MAP IPv4 addressing
-        information is passed directly in the BMR rule, and not derived from
+        information is passed directly in the BMR, and not derived from
         the End-user IPv6 prefix.</t>
 
         <t>The MAP IPv6 address is created by concatenating the
-        End-user IPv6 prefix with the MAP subnet-id (if the End-user
-        IPv6 prefix is shorter than 64 bits) and the interface-id as
+        End-user IPv6 prefix with the MAP subnet identifier (if the End-user
+        IPv6 prefix is shorter than 64 bits) and the interface identifier as
         specified in <xref target="interface-id"></xref>.</t>
 
-        <t>The MAP subnet ID is defined to be the first subnet (all
-        bits set to zero). Unless configured differently, a MAP node
-        MUST reserve the first IPv6 prefix in an End-user IPv6 prefix
-        for the purpose of MAP.</t>
+        <t>The MAP subnet identifier is defined to be the first subnet (all
+        bits set to zero).</t>
+        
+        <t>Define:
+        <list style="empty">
+          <t>r = length of the IPv4 prefix given by the BMR;</t>
+          <t>o = length of the EA bit field as given by the BMR;</t>
+          <t>p = length of the IPv4 suffix contained in the EA bit field.</t>
+        </list></t>
+        
+        <t>The length r MAY be zero, in which case the complete IPv4
+        address or prefix is encoded in the EA bits. If only a part of the
+        IPv4 address/prefix is encoded in the EA bits, the Rule IPv4 prefix is
+        provisioned to the CE by other means (e.g. a DHCPv6 option). To create
+        a complete IPv4 address (or prefix), the IPv4 address suffix (p) from
+        the EA bits, is concatenated with the Rule IPv4 prefix (r bits).</t>
 
-        <t>The MAP IPv6 is created by combining the End-User IPv6 prefix with
-        the all zeros subnet-id and the MAP IPv6 interface identifier.</t>
+        <t>The offset of the EA bits field in the IPv6 address is
+        equal to the BMR Rule IPv6 prefix length. The length of the EA
+        bits field (o) is given by the BMR Rule EA-bits length, and
+        can be between 0 and 48. A length of 48 means that the
+        complete IPv4 address and port is embedded in the End-user
+        IPv6 prefix (a single port is assigned). A length of 0 means
+        that no part of the IPv4 address or port is embedded in the
+        address. The sum of the Rule IPv6 Prefix length and the Rule
+        EA-bits length MUST be less or equal than the End-user IPv6
+        prefix length.</t>
 
-        <t><figure align="center" anchor="addressallocation2-fig"
-            title="Shared IPv4 address">
-            <preamble>Shared IPv4 address:</preamble>
+        <t>If o + r &lt; 32 (length of the IPv4 address in bits), then an IPv4
+        prefix is assigned. This case is shown in <xref target="addressallocation4-fig"/>.</t>
+
+        <t><figure align="center" anchor="addressallocation4-fig"
+            title="IPv4 prefix">
+            <preamble>IPv4 prefix:</preamble>
 
             <artwork align="center"><![CDATA[
 
-|   r bits    |        p bits       |         |   q bits   |
-+-------------+---------------------+         +------------+
-|  Rule IPv4  | IPv4 Address suffix |         |Port-Set ID |
-+-------------+---------------------+         +------------+
-|            32 bits                |
-
+|   r bits    |        p bits       |
++-------------+---------------------+
+|  Rule IPv4  | IPv4 Address suffix |
++-------------+---------------------+
+|           < 32 bits               |
 ]]></artwork>
           </figure></t>
+
+        <t>If o + r is equal to 32, then a full IPv4 address is to be
+        assigned. The address is created by concatenating the Rule IPv4 prefix
+        and the EA-bits. This case is shown in <xref target="addressallocation3-fig"/>.</t>
 
         <t><figure align="center" anchor="addressallocation3-fig"
             title="Complete IPv4 address">
@@ -562,49 +599,25 @@ O---.--------------O
 ]]></artwork>
           </figure></t>
 
-        <t><figure align="center" anchor="addressallocation4-fig"
-            title="IPv4 prefix">
-            <preamble>IPv4 prefix:</preamble>
-
-            <artwork align="center"><![CDATA[
-
-|   r bits    |        p bits       |
-+-------------+---------------------+
-|  Rule IPv4  | IPv4 Address suffix |
-+-------------+---------------------+
-|           < 32 bits               |
-]]></artwork>
-          </figure></t>
-
-        <t>The length of r MAY be zero, in which case the complete IPv4
-        address or prefix is encoded in the EA bits. If only a part of the
-        IPv4 address/prefix is encoded in the EA bits, the Rule IPv4 prefix is
-        provisioned to the CE by other means (e.g. a DHCPv6 option). To create
-        a complete IPv4 address (or prefix), the IPv4 address suffix (p) from
-        the EA bits, are concatenated with the Rule IPv4 prefix (r bits).</t>
-
-        <t>The offset of the EA bits field in the IPv6 address is
-        equal to the BMR Rule IPv6 prefix length. The length of the EA
-        bits field (o) is given by the BMR Rule EA-bits length, and
-        can be between 0 and 48. A length of 48 means that the
-        complete IPv4 address and port is embedded in the End-user
-        IPv6 prefix (a single port is assigned). A length of 0 means
-        that no part of the IPv4 address or port is embedded in the
-        address. The sum of the Rule IPv6 Prefix length and the Rule
-        EA-bits length MUST be less or equal than the End-user IPv6
-        prefix length.</t>
-
-        <t>If o + r &lt; 32 (length of the IPv4 address in bits), then an IPv4
-        prefix is assigned.</t>
-
-        <t>If o + r is equal to 32, then a full IPv4 address is to be
-        assigned. The address is created by concatenating the Rule IPv4 prefix
-        and the EA-bits.</t>
-
         <t>If o + r is &gt; 32, then a shared IPv4 address is to be assigned.
         The number of IPv4 address suffix bits (p) in the EA bits is given by
         32 - r bits. The PSID bits are used to create a port-set. The length
-        of the PSID bit field within EA bits is: o - p.</t>
+        of the PSID bit field within EA bits is: q = o - p.</t>
+
+         <t><figure align="center" anchor="addressallocation2-fig"
+            title="Shared IPv4 address">
+            <preamble>Shared IPv4 address:</preamble>
+
+            <artwork align="center"><![CDATA[
+
+|   r bits    |        p bits       |         |   q bits   |
++-------------+---------------------+         +------------+
+|  Rule IPv4  | IPv4 Address suffix |         |Port-Set ID |
++-------------+---------------------+         +------------+
+|            32 bits                |
+
+]]></artwork>
+          </figure></t>
 
         <t>The length of r MAY be 32, with no part of the IPv4 address
         embedded in the EA bits. This results in a mapping with no
