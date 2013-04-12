@@ -47,7 +47,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc comments="yes" ?>
 <?rfc inline="yes" ?>
-<rfc category="std" docName="draft-ietf-softwire-map-05" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-softwire-map-06" ipr="trust200902">
   <front>
     <title abbrev="MAP">Mapping of Address and Port with Encapsulation
     (MAP)</title>
@@ -420,7 +420,7 @@ O---.--------------O
 
       <t>Port-aware IPv4 entries in the Rules table are installed for
       all the Forwarding Mapping Rules and an IPv4 default route to
-      the MAP BR.</t>
+      the MAP BR (see section <xref target="outside-domain"/>.</t>
 
       <t>Forwarding rules are used to allow direct communication
       between MAP CEs, known as mesh mode. In hub and spoke mode,
@@ -433,23 +433,30 @@ O---.--------------O
 
 	<t>The simplest way to represent a port range is using a
 	notation similar to CIDR <xref target="RFC4632"/>. For example
-	the first 256 ports are represented as port prefix
-	0.0/8. The last 256 ports as 255.0/8. In hexadecimal, 0x0000/8 (PSID = 0)
-	and 0xFF00/8 (PSID = 0xFF).</t>
-
-	<t>To minimise dependencies between the End-user IPv6 prefix
-	and the resulting port set, a PSID of 0, would, in the naive
-	representation assign the system ports <xref
-	target="I-D.ietf-tsvwg-iana-ports"/> to the user. Instead
-	using an infix representation, and requiring that the first
-	bit field (A) is greater than 0, the well known ports are
-	excluded.</t>
-
-	<t>This algorithm allocates ports to a given CE as a series of
-	contiguous ranges.</t>
+	the first 256 ports are represented as port prefix 0.0/8. The
+	last 256 ports as 255.0/8. In hexadecimal, 0x0000/8 (PSID = 0)
+	and 0xFF00/8 (PSID = 0xFF). Using this technique, but wishing
+	to avoid allocating the system ports <xref
+	target="I-D.ietf-tsvwg-iana-ports"/> to the user, one would
+	have to exclude the use of one or more PSIDs (e.g., PSIDs 0 to
+	3 in the example just given).
+ 	</t>
+ 	
+ 	<t>As will be seen shortly, the PSID forms a portion of the
+ 	End-user IPv6 prefix. To minimise dependencies between the
+ 	End-user IPv6 prefix and the assigned port set, it is
+ 	desirable to minimize the restrictions on the possible PSID
+ 	values. This is achieved by using an infix representation of
+ 	the port value. Using such a representation, the well-known
+ 	ports are excluded by restrictions on the value of the first
+ 	bit field (A) rather than the PSID.</t>
+ 	
+ 	<t>The infix algorithm allocates ports to a given CE as a series of
+ 	contiguous ranges spaced at regular intervals throughout the
+ 	complete range of possible port set values.</t>
 
         <t><figure align="left" anchor="psid-fig"
-		   title="PSID">
+		   title="Structure of a port-restricted port field">
           <preamble></preamble>
 
           <artwork align="left"><![CDATA[
@@ -464,27 +471,35 @@ O---.--------------O
         </figure></t>
 
 	<t><list style="hanging">
-          <t hangText="A">For a &gt; 0, A MUST be larger than
-          0. This ensures that the algorithm excludes the system
-          ports.</t>
-
           <t hangText="a-bits">The number of offset bits. The default
           Offset bits (a) are 6, this excludes the system ports
           (0-1023).</t>
 
-          <t hangText="PSID">The Port Set Identifier. Different
-          Port-Set Identifiers (PSID) MUST have non-overlapping
-          port-sets.</t>
-          <t hangText="k-bits">The length in bits of the PSID
-          field. The sharing ratio is k^2. The number of ports
-          assigned to the user is 2^(16-k) - 2^m (excluded ports)</t>
-          <t hangText="M">The contiguous ports.</t>
-          <t hangText="m bits">The size contiguous ports. The number
-          of contiguous ports is given by 2^m.</t>
-	</list></t>
+          <t hangText="A">Selects the range of the port number. For a
+          &gt; 0, A MUST be larger than 0. This ensures that the
+          algorithm excludes the system ports.  For this value of a,
+          the system ports, but no others, are excluded by requiring
+          that A be greater than 0. For smaller values of a, A still
+          has to be greater than 0, but this excludes ports above
+          1023. For larger values of a, the minimum value of A has to
+          be higher to exclude all the system ports. The interval
+          between successive contiguous ranges assigned to the same
+          user is 2^a.</t>
 
-	<t>This algorithm allocates ports to a given CE as a series of
-	contiguous ranges.</t>
+          <t hangText="PSID">The Port Set Identifier. Different
+          Port-Set Identifiers (PSID) guarantee non-overlapping
+          port-sets.</t>
+
+          <t hangText="k-bits">The length in bits of the PSID
+          field. The sharing ratio is 2^k. The number of ports
+          assigned to the user is 2^(16-k) - 2^m (excluded ports)</t>
+
+          <t hangText="M">Selects the specific port within the
+          particular range specified by the concatenation of A and the
+          PSID.</t>
+
+	  <t hangText="m bits">The size contiguous ports. The
+          number of contiguous ports is given by 2^m.</t> </list></t>
 
       </section>
 
@@ -659,11 +674,25 @@ O---.--------------O
 
       </section>
 
-      <section title="Destinations outside the MAP domain">
+      <section anchor="outside-domain" title="Destinations outside the MAP domain">
         <t>To reach IPv4 destinations outside of the MAP domain,
-        traffic is sent to the configured address of the MAP BR. On
-        the CE, the default can be represented as a point to point
-        IPv4 over IPv6 tunnel <xref target="RFC2473"/> to the BR.</t>
+        traffic is sent to the IPv6 address of the MAP BR. On the CE,
+        the default can be represented as a point to point IPv4 over
+        IPv6 tunnel <xref target="RFC2473"/> to the BR.</t>
+
+	<t>TODO TODO TODO</t>
+	<t>When MAP is enabled, a typical CE router will install a
+	default route to the BR. For example, using a CE IPv4 address of
+	10.100.100.1, a BR IPv4 address of 10.0.0.1, an IPv4MaskLen of
+	8, 2001:db8::/32 as the 6rdPrefix, and one /64 prefix assigned
+	to a LAN side interface, a typical CE routing table will look
+	like:
+
+    ::/0 -> 6rd-virtual-int0 via 2001:db8:0:100:: (default route)
+    2001:db8::/32 -> 6rd-virtual-int0 (direct connect to 6rd)
+    2001:db8:6464:100::/56 -> Null0 (delegated prefix null route)
+    2001:db8:6464:100::/64 -> Ethernet0 (LAN interface)</t>
+
       </section>
     </section>
 
@@ -705,11 +734,14 @@ O---.--------------O
           Rules, including the Rule IPv6 prefix, Rule IPv4 prefix, and Length
           of EA bits</t>
 
-          <t>The IPv6 address of the MAP BR.</t>
-
           <t>Hub and spoke mode or Mesh mode. (If all traffic should be sent
           to the BR, or if direct CE to CE traffic should be supported).</t>
         </list></t>
+
+        <t>In addition the MAP CE MUST be configured with the IPv6
+        address(es) of the MAP BR (<xref
+        target="outside-domain"/>).</t>
+
 
       <section title="MAP CE">
         <t>The MAP elements are set to values that are the same across
