@@ -52,7 +52,7 @@
     <title abbrev="MAP">Mapping of Address and Port with Encapsulation
     (MAP)</title>
 
-    <author fullname="Ole Troan" initials="O" surname="Troan">
+    <author fullname="Ole Troan" initials="O" surname="Troan" role="editor">
       <organization>Cisco Systems</organization>
       <address>
         <postal>
@@ -127,6 +127,18 @@
       </address>
     </author>
 
+    <author fullname="Tom Taylor" initials="T" surname="Taylor" role="editor">
+      <organization abbrev="">Huawei Technologies</organization>
+      <address>
+        <postal>
+	  <street></street>
+          <city>Ottawa</city>
+          <country>Canada</country>
+        </postal>
+        <email>tom.taylor.stds@gmail.com</email>
+      </address>
+    </author>
+   
     <date year="2013" />
     <area>Internet</area>
     <workgroup>Network Working Group</workgroup>
@@ -385,11 +397,14 @@ O---.--------------O
 
       <t>There are two types of mapping rules: <list style="numbers">
 
-      <t>Basic Mapping Rule (BMR) - mandatory.  There can only be one
-      Basic Mapping Rule per End-user IPv6 prefix.  In combination
-      with the End-user IPv6 prefix, the Basic Mapping Rule is used
-      to derive the IPv4 prefix, address, or shared address and
-      the PSID assigned to the CE.</t>
+      <t>Basic Mapping Rule (BMR) - mandatory. A CE can be provisioned
+      with multiple End-user IPv6 prefixes. There can only be one
+      Basic Mapping Rule per End-user IPv6 prefix. However all CE's
+      having End-user IPv6 prefixes within (aggregated by) the same
+      Rule IPv6 prefix may share the same Basic Mapping Rule. In
+      combination with the End-user IPv6 prefix, the Basic Mapping
+      Rule is used to derive the IPv4 prefix, address, or shared
+      address and the PSID assigned to the CE.</t>
 
       <t>Forwarding Mapping Rule (FMR) - optional, used for
       forwarding. The Basic Mapping Rule is also a Forwarding Mapping
@@ -419,8 +434,8 @@ O---.--------------O
       terminate all MAP traffic being sent or received to the node.</t>
 
       <t>Port-aware IPv4 entries in the Rules table are installed for
-      all the Forwarding Mapping Rules and an IPv4 default route to
-      the MAP BR (see section <xref target="outside-domain"/>.</t>
+      all the Forwarding Mapping Rules and an default route to the MAP
+      BR (see section <xref target="outside-domain"/>.</t>
 
       <t>Forwarding rules are used to allow direct communication
       between MAP CEs, known as mesh mode. In hub and spoke mode,
@@ -688,23 +703,23 @@ O---.--------------O
       </section>
 
       <section anchor="outside-domain" title="Destinations outside the MAP domain">
-        <t>To reach IPv4 destinations outside of the MAP domain,
-        traffic is sent to the IPv6 address of the MAP BR. On the CE,
-        the default can be represented as a point to point IPv4 over
-        IPv6 tunnel <xref target="RFC2473"/> to the BR.</t>
+	<t>IPv4 traffic between MAP nodes that are all within one MAP
+	domain is encapsulated in IPv6, with the senders MAP IPv6
+	address as the IPv6 source address and the receiving MAP
+	node's MAP IPv6 address as the IPv6 destination address. To
+	reach IPv4 destinations outside of the MAP domain, traffic is
+	also encapsulated in IPv6, but the destination IPv6 address is
+	set to the configured IPv6 address of the MAP BR.</t>
 
-	<t>TODO TODO TODO</t>
-	<t>When MAP is enabled, a typical CE router will install a
-	default route to the BR. For example, using a CE IPv4 address of
-	10.100.100.1, a BR IPv4 address of 10.0.0.1, an IPv4MaskLen of
-	8, 2001:db8::/32 as the 6rdPrefix, and one /64 prefix assigned
-	to a LAN side interface, a typical CE routing table will look
-	like:
+        <t>On the CE, the path to the BR can be represented as a point
+        to point IPv4 over IPv6 tunnel <xref target="RFC2473"/> with
+        the source address of the tunnel being the CE's MAP IPv6
+        address and the BR IPv6 address as the remote tunnel
+        address. When MAP is enabled, a typical CE router will install
+        a default route to the BR.</t>
 
-    ::/0 -> 6rd-virtual-int0 via 2001:db8:0:100:: (default route)
-    2001:db8::/32 -> 6rd-virtual-int0 (direct connect to 6rd)
-    2001:db8:6464:100::/56 -> Null0 (delegated prefix null route)
-    2001:db8:6464:100::/64 -> Ethernet0 (LAN interface)</t>
+	<t>The BR forwards traffic received from the outside to CE's
+	using the normal MAP forwarding rules.</t>
 
       </section>
     </section>
@@ -869,41 +884,52 @@ O---.--------------O
       from the LAN performs NAT44 functions first and creates
       appropriate NAT44 bindings. The resulting IPv4 packets MUST
       contain the source IPv4 address and source transport identifiers
-      defined by MAP. The resulting IPv4 packet is forwarded to the
-      CE's MAP forwarding function. The IPv6 source and destination
-      addresses MUST then be derived as per <xref
+      defined by MAP. The IPv4 packet is forwarded using the CE's MAP
+      forwarding function. The IPv6 source and destination addresses
+      MUST then be derived as per <xref
       target="mapping_algorithm"></xref> of this draft.</t>
 
-      <t>A MAP CE receiving an IPv6 packet to its MAP IPv6 address sends this
-      packet to the CE's MAP function. All other IPv6 traffic is forwarded as
-      per the CE's IPv6 routing rules. The resulting IPv4 packet is then
-      forwarded to the CE&rsquo;s NAT44 function where the destination port
-      number MUST be checked against the stateful port mapping session table
-      and the destination port number MUST be mapped to its original
-      value.</t>
+      <section title="Receiving Rules">
 
-      <section title="Receiving rules">
-        <t>The CE SHOULD check that MAP received packets' transport-layer
-        destination port number is in the range configured by MAP for the CE
-        and the CE SHOULD drop any non conforming packet and respond with an
-        ICMPv6 "Address Unreachable" (Type 1, Code 3).</t>
-      </section>
+      <t>A MAP CE receiving an IPv6 packet to its MAP IPv6 address
+      sends this packet to the CE's MAP function where it is
+      decapsulated. All other IPv6 traffic is forwarded as per the
+      CE's IPv6 routing rules. The resulting IPv4 packet is then
+      forwarded to the CE&rsquo;s NAT44 function where the destination
+      port number MUST be checked against the stateful port mapping
+      session table and the destination port number MUST be mapped to
+      its original value.</t>
 
-      <section title="MAP BR">
-        <t>A MAP BR receiving IPv6 packets selects a best matching MAP
-        domain rule based on a longest address match of the packets'
-        source address against the BR's configured MAP BMR prefix(es),
-        as well as a match of the packet destination address against
-        the configured BR IPv6 address or FMR prefix(es). The selected
-        MAP rule allows the BR to determine the EA-bits from the
-        source IPv6 address. The BR MUST perform a validation of the
-        consistency of the source IPv6 address and source port number
-        for the packet using BMR. If the packets source port number is
-        found to be outside the range allowed for this CE and the BMR,
-        the BR MUST drop the packet and respond with an ICMPv6
-        "Destination Unreachable, Source address failed ingress/egress
-        policy" (Type 1, Code 5).</t>
-      </section>
+      <t>A MAP BR receiving IPv6 packets selects a best matching MAP
+      domain rule based on a longest address match of the packets'
+      source address against the BR's configured MAP BMR prefix(es),
+      as well as a match of the packet destination address against the
+      configured BR IPv6 address or FMR prefix(es). The selected MAP
+      rule allows the BR to determine the EA-bits from the source IPv6
+      address. The BR MUST perform a validation of the consistency of
+      the source IPv6 address and source port number for the packet
+      using BMR. If the packets source port number is found to be
+      outside the range allowed for this CE and the BMR, the BR MUST
+      drop the packet and respond with an ICMPv6 "Destination
+      Unreachable, Source address failed ingress/egress policy" (Type
+      1, Code 5).</t>
+
+
+      <t>In order to prevent spoofing of IPv4 addresses, the MAP node
+      MUST validate the embedded IPv4 source address of the
+      encapsulated IPv6 packet with the IPv4 source address it is
+      encapsulated by according to the parameters of the matching
+      mapping rule. If the two source addresses do not match, the
+      packet MUST be dropped and a counter incremented to indicate
+      that a potential spoofing attack may be underway.  Additionally,
+      a CE MUST allow forwarding of packets sourced by the configured
+      BR IPv6 address.</t>
+
+      <t>By default, the CE router MUST drop packets received on the
+      MAP virtual interface (i.e., after decapsulation of IPv6) for
+      IPv4 destinations not for its own IPv4 shared address, full IPv4
+      address or IPv4 prefix.</t>
+
     </section>
 
     <section title="ICMP">
@@ -983,7 +1009,7 @@ O---.--------------O
         IPv4 fragmentation identifier to be within its allocated port set.</t>
       </section>
     </section>
-
+  </section>
     <section title="NAT44 Considerations">
       <t>The NAT44 implemented in the MAP CE SHOULD conform with the
       behavior and best current practice documented in <xref
@@ -1168,7 +1194,7 @@ O---.--------------O
 
     <section title="Examples" anchor="appendixA">
       <t><figure>
-          <preamble>Example 1 - BMR</preamble>
+          <preamble>Example 1 - Basic Mapping Rule</preamble>
 
           <artwork align="left"><![CDATA[
 
@@ -1180,7 +1206,7 @@ O---.--------------O
                           192.0.2.0/24 (Rule IPv4 prefix),
                           16 (Rule EA-bits length)}
    PSID length:          (16 - (32 - 24) = 8. (Sharing ratio of 256)
-   PSID offset:          6
+   PSID offset:          6 (default)
 
    A MAP node (CE or BR) can via the BMR, or equivalent FMR,
    determine the IPv4 address and port-set as shown below:
@@ -1196,7 +1222,7 @@ O---.--------------O
    Available ports (63 ranges) : 1232-1235, 2256-2259, ...... , 
                                  63696-63699, 64720-64723
 
-   The BMR information allows a MAP CE also to determine (complete)
+   The BMR information allows a MAP CE to determine (complete)
    its IPv6 address within the indicated IPv6 prefix.
 
    IPv6 address of MAP CE:  2001:db8:0012:3400:0000:c000:0212:0034
@@ -1205,11 +1231,11 @@ O---.--------------O
         </figure></t>
 
       <t><figure>
-          <preamble>Example 2:</preamble>
+          <preamble>Example 2 - BR:</preamble>
 
           <artwork align="left"><![CDATA[
 
-   Another example can be made of a hypothetical MAP BR,
+   Another example can be made of a MAP BR,
    configured with the following FMR when receiving a packet
    with the following characteristics:
 
@@ -1218,16 +1244,16 @@ O---.--------------O
    IPv4 destination address:  192.0.2.18 (0xc0000212)
    IPv4 destination port:     1232
 
-   Configured Forwarding Mapping Rule:  {2001:db8:0000::/40 (Rule IPv6 prefix),
-                                         192.0.2.0/24 (Rule IPv4 prefix),
-                                         16 (Rule EA-bits length)}
+   Configured Forwarding Mapping Rule: {2001:db8::/40 (Rule IPv6 prefix),
+                                        192.0.2.0/24 (Rule IPv4 prefix),
+                                        16 (Rule EA-bits length)}
 
    IPv6 address of MAP BR:              2001:db8:ffff::1
 
    The above information allows the BR to derive as follows
    the mapped destination IPv6 address for the corresponding
    MAP CE, and also the mapped source IPv6 address for
-   the IPv4 source.
+   the IPv4 source address.
 
    IPv4 suffix bits (p):  32 - 24 = 8 (18 (0x12))
    PSID length:           8
@@ -1237,8 +1263,6 @@ O---.--------------O
 
    IPv6 source address:       2001:db8:ffff::1
    IPv6 destination address:  2001:db8:0012:3400:0000:c000:0212:0034
-   IPv6 source Port:          80
-   IPv6 destination Port:     1232
 
   ]]></artwork>
         </figure></t>
@@ -1250,16 +1274,16 @@ O---.--------------O
    
    An IPv4 host behind the MAP CE (addressed as per the previous
    examples) corresponding with IPv4 host 1.2.3.4 will have its
-   packets converted into IPv6 using the IPv6 address of the BR
+   packets encapsulated by IPv6 using the IPv6 address of the BR
    configured on the MAP CE as follows:
 
-   IPv6 address of BR used by MAP CE:           2001:db8:ffff::1
-   IPv4 source address (post NAT44 if present)  192.0.2.18
-   IPv4 destination address:                    1.2.3.4
-   IPv4 source port (post NAT44 if present):    1232
-   IPv4 destination port:                       80
-   IPv6 source address of MAP CE:               2001:db8:0012:3400:0000:c000:0212:0034
-   IPv6 destination address:                    2001:db8:ffff::1
+   IPv6 address of BR used by MAP CE: 2001:db8:ffff::1
+   IPv4 source address:               192.0.2.18
+   IPv4 destination address:          1.2.3.4
+   IPv4 source port:                  1232
+   IPv4 destination port:             80
+   IPv6 source address of MAP CE:     2001:db8:0012:3400:0000:c000:0212:0034
+   IPv6 destination address:          2001:db8:ffff::1
    
   ]]></artwork>
         </figure><figure>
@@ -1300,22 +1324,23 @@ O---.--------------O
    Basic Mapping Rule:    {2001:db8:0012:3400::/56 (Rule IPv6 prefix),
                            192.0.2.1/32 (Rule IPv4 prefix),
                            0 (Rule EA-bits length)}
-   PSID length:           (16 - (32 - 24) = 8. (Sharing ratio of 256)
-   PSID offset:           6
+   PSID length:           8. (Provisioned with DHCP. Sharing ratio of 256)
+   PSID offset:           6  (Default)
+   PSID       :           0x20 (Provisioned with DHCP.)
 
-   A MAP node (CE or BR) can via the BMR or equivalent FMR determine
-   the IPv4 address and port-set as shown below:
+   A MAP node can via the BMR determine the IPv4 address and port-set
+   as shown below:
 
    EA bits offset:        0
    IPv4 suffix bits (p):  Length of IPv4 address (32) -
                           IPv4 prefix length (32) = 0
    IPv4 address:          192.0.2.1 (0xc0000201)
-   PSID start:            0
+   PSID offset:           6
    PSID length:           8
-   PSID:                  0x34
+   PSID:                  0x20
 
-   Available ports (63 ranges): 1232-1235, 2256-2259, ...... ,
-                                63696-63699, 64720-64723
+   Available ports (63 ranges) : 1536-1551, 2560-2575, ...... ,
+                                 64000-64015, 65024-65039
 
    The BMR information allows a MAP CE also to determine (complete)
    its full IPv6 address by combining the IPv6 prefix with the MAP
@@ -1324,7 +1349,8 @@ O---.--------------O
    IPv6 address of MAP CE: 2001:db8:0012:3400:0000:c000:0212:0034
 
    Note that the IPv4 address and PSID is not derived from the IPv6
-   prefix assigned to the CE.
+   prefix assigned to the CE, but provisioned separately using
+   e.g. DHCP.
 
 ]]></artwork>
         </figure></t>
