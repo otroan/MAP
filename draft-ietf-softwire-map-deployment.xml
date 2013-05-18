@@ -293,7 +293,7 @@
     <section title="Deployment Consideration">
 
       <section title="Network Models"> 
-	<t>MAP domain connects IPv4 subnets, including home networks, enterprise 
+	<t>A MAP domain connects IPv4 subnets, including home networks, enterprise 
 	networks, and collective residence faclities, with the IPv4 Internet 
 	through the IPv6 routing infrastructure.</t> 
 
@@ -326,13 +326,13 @@
           </figure></t>
 
  	<t>Three network models are defined in <xref target="I-D.ietf-homenet-arch" 
-	/>: A. single ISP, single CER, internal routers; B. two ISPs, two CERs, 
-	shared subnet; C. two ISPs, one CER, shared subnet. Model A/B is different 
-	with model C in MAP technologies. For model A/B, one CE only need to 
-	correspond to a BR, while in model C one CE have to correspond with multiple
-	BRs. <xref target="HOMENET_C" /> illustrate a typical case, where the home 
-	network have multiple connections to multiple providers or multiple logical 
-	connections to the same provider. In any cases, a CE may have different 
+	/>: A. single ISP, single customer edge router (CER), internal routers; B. two ISPs, two CERs, 
+	shared subnet; C. two ISPs, one CER, shared subnet. Models A and B are different 
+	from model C when using MAP. For models A and B, the CE (=CER) needs to 
+	correspond with only one BR, while in model C one CE has to correspond with multiple
+	BRs. <xref target="HOMENET_C" /> illustrates a typical case, where the home 
+	network has multiple connections to multiple providers or multiple logical 
+	connections to the same provider. In general, a CE may have different 
 	paths towards multiple MAP border relays. </t>  
 
         <t><figure anchor="HOMENET_C" title="Network Architecture of Model C">
@@ -362,75 +362,79 @@
           </figure></t>
       </section>
 	
-      <section title="Building the MAP domain">
+      <section title="Building the MAP Domain">
       	
-	<t>When deploying stateless MAP in operational network, a provider 
-	should firstly do MAP domain planning based on its own network 
-	condition. According to the definition of  
+	<t>When deploying stateless MAP in an operational network, a provider 
+	should firstly do MAP domain planning based on that existing network. 
+	According to the definition of  
 	<xref target="I-D.ietf-softwire-map"></xref>, a MAP domain is a 
 	set of MAP CEs and BRs connected to the same virtual link. One MAP 
-	domain shares a common BR and has the same set of BMRs, FMRs and DMR, 
-	and it can be further divided into multiple sub-domains when multiple 
-	IPv4 subnets are deployed in one MAP domain. All CEs in the MAP domain 
-	are provisioned with the same set of MAP rules by MAP DHCPv6 server 
-	<xref target="I-D.ietf-softwire-map-dhcp"></xref>. There might 
-	be multiple BMRs in one MAP domain, and CE would pick up its own BMR by 
-	longest prefix matching lookup. However, all CEs within the sub-domain 
-	will have the same BMR. in which the BMR of all CEs is the same. In hub 
-	and spoke mode, CE would use DMR as its only FMR for outbound traffic; 
-	while in mesh mode, a longest-matching prefix lookup is done in the 
-	IPv4 routing table and the correct FMR is chosen.</t>
+	domain shares a common BR and each node within it has the same set of Basic Mapping Rules (BMRs),
+	Forwarding Mapping Rules (FMRs) and default mapping rule (DMR). 
+	The MAP DHCPv6 server 
+	<xref target="I-D.ietf-softwire-map-dhcp"></xref> provisions the common set 
+	of MAP rules to all CEs in the MAP domain. If there are 
+	multiple BMRs in one MAP domain, the CE will pick up its own BMR by 
+	longest prefix matching lookup. A MAP domain can be further divided into multiple subdomains when multiple 
+	IPv4 subnets are deployed in the domain.
+	All CEs within the same subdomain 
+	will have the same BMR. In hub 
+	and spoke mode, the CE will use the default mapping rule as its only FMR for outbound traffic, 
+	while in mesh mode, the correct FMR is chosen by a longest-matching prefix lookup in the 
+	IPv4 routing table and.</t>
+	
 	<t>Basically, operator should firstly determine its own deployment 
-	topology for MAP domain: mesh or Hub and spoke, as different 
-	considerations for different deployment models should be applied 
-	accordingly. Afterwards, MAP domain planning, MAP rule provision, 
+	topology for MAP domain as described in <xref target="depMod"/>, as different 
+	considerations apply for different deployment models. 
+	Next, MAP domain planning, MAP rule provision, 
 	addressing and routing, etc., for a MAP domain should be taken into 
-	consideration.</t>
-	<t>For the scenario where one CE is corresponding to multiple MAP 
+	consideration, as discussed in the sections following <xref target="depMod"/>.</t>
+	
+	<t>For the scenario where one CE is corresponding with multiple MAP 
 	border relays, it is possible that those MAP BRs belong to different 
-	MAP domains. The CE must pick up its own MAP rules among these 
-	domains. It is a typical case of multihoming.  The MAP rules must 
-	have the information about BR(s) and the information about the 
-	services types and the ISP.</t> 
+	MAP domains. The CE must pick up its own MAP rules and domain parameters in each 
+	domain. This is a typical case of multihoming.  The MAP rules must 
+	have the information about BR(s) and information about the 
+	service types and the ISP [PTT - this last bit doesn't seem to be part of MAP and should probably be dropped].</t> 
 		
-	<section title="MAP deployment model planning">
+	<section anchor="depMod" title="MAP Deployment Model Planning">
 	  <t>In order to do MAP domain planning, an operator should firstly 
-	  make the decision to choose Mesh or Hub and Spoke topology according 
-	  to operator's network policy. In Hub and Spoke topology, all traffic 
-	  within the same MAP domain has to go through BR which will result in 
-	  less optimized traffic; however, it would simplify the CE process 
+	  make the decision to choose mesh or hub and spoke topology according 
+	  to the operator's network policy. In the hub and spoke topology, all traffic 
+	  within the same MAP domain has to go through the BR, result in 
+	  less optimal traffic flow; however, it simplifies CE processing
 	  since there is no need to do FMR lookup for each incoming packet. 
-	  Besides, it would have enhanced management ability as BR can take 
+	  Moreover, it provides enhanced manageability as the BR can take 
 	  full control of all the traffic. As a result, it is reasonable to 
-	  deploy Hub and Spoke topology for network with relatively flat 
+	  deploy hub and spoke topology for a network with a relatively flat 
 	  architecture. </t>
-	  <t>In mesh topology, traffic optimization can be achieved by CE to 
-	  CE direct path. It is recommended to apply mesh topology in case CE 
+	  <t>In mesh topology, CE to CE traffic flows are optimized since they pass directly 
+	  between the two nodes. Mesh topology is recommended when CE 
 	  to CE traffic is high and there are not too many MAP rules, say 
-	  less than 10 MAP rules, in the specific domain.</t>
+	  fewer than 10 MAP rules, in the given domain.</t>
 	</section>
 		
-        <section title="MAP domain planning">
-	  <t>Stateless MAP has its own advantage in terms of scalability, 
-	  high-reliability, etc. As a result, it is reasonable to apply a 
-	  larger MAP domain to accommodate more subscribers with less BRs. 
-	  Moreover, a larger MAP domain would also be easier for management 
+        <section title="MAP Domain Planning">
+	  <t>Stateless MAP offers advantages in terms of scalability, 
+	  high reliability, etc. As a result, it is reasonable to plan for a 
+	  larger MAP domain to accommodate more subscribers with fewer BRs. 
+	  Moreover, a larger MAP domain will also be easier for management 
 	  and maintenance. However, a larger MAP domain may also result in 
-	  less optimized traffic in Hub and spoke case, where all traffic 
-	  has to go through a remote BR. Besides, it will also result in 
-	  increased number of MAP rules and highly centralized address 
-	  management, etc. It is a tradeoff to choose appropriate domain 
-	  coverage.</t>
+	  less optimized traffic in the hub and spoke case, where all traffic 
+	  has to go through a remote BR. In addition, it will also result in 
+	  an increased number of MAP rules and highly centralized address 
+	  management. Choosing appropriate domain 
+	  coverage requires the evaluation of tradeoffs.</t>
 	  <!-- t>Generally speaking, it is not recommended to use a large MAP 
 	  domain in Hub and spoke topology. While in mesh topology, it is 
 	  suggested to adopt a relatively larger MAP domain since traffic 
 	  optimization has already been guaranteed, and the only concern 
 	  is to make sure that the number of MAP rules is not too big.</t 
 	  - not needed - maoke 20130221 -->
-	  <t>Furthermore, MAP sub-domains can be divided for differentiated 
-	  service provision. Different sub-domains could be distinguished 
-	  by different Rule IPv4 prefixes. But all CEs within the same MAP 
-	  sub-domain would have the same Rule IPv4 prefix, Rule IPv6 prefix 
+	  <t>MAP subdomains can be defined to support provision of differentiated 
+	  service. Different subdomains could be distinguished 
+	  by different Rule IPv4 prefixes. As stated previously, all CEs within the same MAP 
+	  subdomain will have the same Rule IPv4 prefix, Rule IPv6 prefix 
 	  and PSID parameters. </t>
         </section>
     
