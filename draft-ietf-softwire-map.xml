@@ -47,7 +47,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc comments="yes" ?>
 <?rfc inline="yes" ?>
-<rfc category="std" docName="draft-ietf-softwire-map-06" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-softwire-map-07" ipr="trust200902">
   <front>
     <title abbrev="MAP">Mapping of Address and Port with Encapsulation
     (MAP)</title>
@@ -662,7 +662,7 @@ O---.--------------O
 
       <section title="Forwarding mapping rule (FMR)">
 	<t>The Forwarding Mapping Rule is optional, and used in mesh
-	mode to merit direct CE to CE connectivity.</t>
+	mode to enable direct CE to CE connectivity.</t>
 
         <t>On adding an FMR rule, an IPv4 route is installed in the Rules
         table for the Rule IPv4 prefix.</t>
@@ -778,18 +778,26 @@ O---.--------------O
         Broadband Forum's "TR-69" Residential Gateway management
         interface, an XML-based object retrieved after IPv6
         connectivity is established, or manual configuration by an
-        administrator. This document describes how to configure the
-        necessary parameters via a single IPv6 DHCP option. A CE that
-        allows IPv6 configuration by DHCP SHOULD implement this
-        option.  Other configuration and management methods may use
-        the format described by this option for consistency and
-        convenience of implementation on CEs that support multiple
-        configuration methods.</t>
+        administrator. This document focuses on how to configure the
+        necessary parameters via an IPv6 DHCP option. A CE that allows
+        IPv6 configuration by DHCP SHOULD implement this option.
+        Other configuration and management methods may use the format
+        described by this option for consistency and convenience of
+        implementation on CEs that support multiple configuration
+        methods.</t>
 
-        <t>The only remaining provisioning information the CE requires in
-        order to calculate the MAP IPv4 address and enable IPv4 connectivity
-        is the IPv6 prefix for the CE. The End-user IPv6 prefix is configured
-        as part of obtaining IPv6 Internet access.</t>
+	<t>The only remaining provisioning information the CE requires
+	in order to calculate the MAP IPv4 address and enable IPv4
+	connectivity is the IPv6 prefix for the CE. The End-user IPv6
+	prefix is configured as part of obtaining IPv6 Internet
+	access.</t>
+
+	<t>MAP IPv4 address assignment, and hence the IPv4 service
+	itself, is tied to the End-user IPv6 prefix lease; thus, the
+	MAP service is also tied to this in terms of authorization,
+	accounting, etc. The MAP IPv4 address, prefix or shared IPv4
+	address and port set has the same lifetime as its associated
+	End-user IPv6 prefix.</t>
 
         <t>A single MAP CE MAY be connected to more than one MAP domain, just
         as any router may have more than one IPv4-enabled service provider
