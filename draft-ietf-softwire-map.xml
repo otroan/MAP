@@ -779,9 +779,9 @@ O---.--------------O
         interface, an XML-based object retrieved after IPv6
         connectivity is established, or manual configuration by an
         administrator. This document focuses on how to configure the
-        necessary parameters via an IPv6 DHCP option. A CE that allows
-        IPv6 configuration by DHCP SHOULD implement this option.
-        Other configuration and management methods may use the format
+        necessary parameters via IPv6 DHCP. A CE that allows IPv6
+        configuration by DHCP SHOULD implement this option.  Other
+        configuration and management methods may use the format
         described by this option for consistency and convenience of
         implementation on CEs that support multiple configuration
         methods.</t>
@@ -792,7 +792,7 @@ O---.--------------O
 	prefix is configured as part of obtaining IPv6 Internet
 	access.</t>
 
-	<t>MAP IPv4 address assignment, and hence the IPv4 service
+	<t>The MAP provisioning parameters, and hence the IPv4 service
 	itself, is tied to the End-user IPv6 prefix lease; thus, the
 	MAP service is also tied to this in terms of authorization,
 	accounting, etc. The MAP IPv4 address, prefix or shared IPv4
