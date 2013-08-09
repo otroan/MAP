@@ -47,7 +47,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc comments="yes" ?>
 <?rfc inline="yes" ?>
-<rfc category="std" docName="draft-ietf-softwire-map-07" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-softwire-map-08" ipr="trust200902">
   <front>
     <title abbrev="MAP">Mapping of Address and Port with Encapsulation
     (MAP)</title>
@@ -200,10 +200,10 @@
           shared IPv4 address and an IPv6 address.</t>
         </list></t>
 
-      <t>The mapping scheme described here supports encapsulation of IPv4
-      packets in IPv6 in both mesh and hub and spoke topologies, including
-      address mappings with full independence between IPv6 and IPv4
-      addresses.</t>
+      <t>The mapping scheme described here supports encapsulation of
+      IPv4 packets in IPv6 in both mesh and hub and spoke topologies,
+      including address mappings with full independence between IPv6
+      and IPv4 addresses.</t>
 
       <t>This document describes delivery of IPv4 unicast service across an
       IPv6 infrastructure. IPv4 multicast is not considered further in this
@@ -457,15 +457,15 @@ O---.--------------O
 	3 in the example just given).
  	</t>
  	
- 	<t>As will be seen shortly, the PSID forms a portion of the
- 	End-user IPv6 prefix. To minimise dependencies between the
- 	End-user IPv6 prefix and the assigned port set, it is
- 	desirable to minimize the restrictions on the possible PSID
- 	values. This is achieved by using an infix representation of
- 	the port value. Using such a representation, the well-known
- 	ports are excluded by restrictions on the value of the first
- 	bit field (A) rather than the PSID.</t>
- 	
+ 	<t>When the PSID is embedded in the End-user IPv6 prefix, then
+ 	to minimise dependencies between the End-user IPv6 prefix and
+ 	the assigned port set, it is desirable to minimize the
+ 	restrictions of possible PSID values. This is achieved by
+ 	using an infix representation of the port value. Using such a
+ 	representation, the well-known ports are excluded by
+ 	restrictions on the value of the high-order bitfield (A)
+ 	rather than the PSID.</t>
+
  	<t>The infix algorithm allocates ports to a given CE as a series of
  	contiguous ranges spaced at regular intervals throughout the
  	complete range of possible port set values.</t>
@@ -922,16 +922,16 @@ O---.--------------O
       Unreachable, Source address failed ingress/egress policy" (Type
       1, Code 5).</t>
 
-
       <t>In order to prevent spoofing of IPv4 addresses, the MAP node
-      MUST validate the embedded IPv4 source address of the
-      encapsulated IPv6 packet with the IPv4 source address it is
-      encapsulated by according to the parameters of the matching
-      mapping rule. If the two source addresses do not match, the
-      packet MUST be dropped and a counter incremented to indicate
-      that a potential spoofing attack may be underway.  Additionally,
-      a CE MUST allow forwarding of packets sourced by the configured
-      BR IPv6 address.</t>
+      MUST validate the embedded IPv4 source address and transport
+      layer port of the encapsulated IPv6 packet with the IPv4 source
+      address and transport layer port it is encapsulated by according
+      to the parameters of the matching mapping rule.  If the two
+      source addresses and transport layer ports do not match, the
+      packet MUST be silently discarded and a counter incremented to
+      indicate that a potential spoofing attack may be underway.
+      Additionally, a CE MUST allow forwarding of packets sourced by
+      the configured BR IPv6 address.</t>
 
       <t>By default, the CE router MUST drop packets received on the
       MAP virtual interface (i.e., after decapsulation of IPv6) for
