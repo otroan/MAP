@@ -37,7 +37,7 @@
 <!ENTITY I-D.ietf-softwire-map-dhcp SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map-dhcp.xml">
 <!ENTITY I-D.ietf-softwire-stateless-4v6-motivation SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-stateless-4v6-motivation.xml">
 <!ENTITY I-D.ietf-tsvwg-iana-ports SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-tsvwg-iana-ports.xml">
-<!ENTITY I-D.dec-stateless-4v6 SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.dec-stateless-4v6.xml">
+<!ENTITY I-D.ietf-softwire-map-deployment SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map-deployment.xml">
 ]>
 <?rfc toc="yes" ?>
 <?rfc tocompact="yes" ?>
@@ -220,7 +220,7 @@
       <t>A companion document defines a DHCPv6 option for provisioning of MAP
       <xref target="I-D.ietf-softwire-map-dhcp"></xref>. Other means of
       provisioning is possible. Deployment considerations are described in
-      [I-D.mdt-softwire-map-deployment].</t>
+      <xref target="I-D.ietf-softwire-map-deployment"/>.</t>
 
       <t>MAP relies on IPv6 and is designed to deliver production-quality
       dual-stack service while allowing IPv4 to be phased out within the SP
@@ -1072,8 +1072,7 @@ O---.--------------O
           filtering behavior SHOULD be "Address-Dependent Filtering".
           Furthermore, the MAP CEs SHOULD use a DNS transport proxy function
           to handle DNS traffic, and source such traffic from IPv6 interfaces
-          not assigned to MAP. Practicalities of these methods are discussed
-          in Section 5.9 of <xref target="I-D.dec-stateless-4v6"></xref>.</t>
+          not assigned to MAP.</t>
         </list></t>
 
       <t><xref target="RFC6269"></xref> outlines general issues with IPv4
@@ -1194,10 +1193,11 @@ O---.--------------O
       &rfc4787;
       &rfc5508;
       &rfc5382;
-      &I-D.dec-stateless-4v6;
+<!--       &I-D.dec-stateless-4v6;-->
       &rfc4862;
       &rfc4632;
       &rfc4459;
+      &I-D.ietf-softwire-map-deployment;
     </references>
 
     <section title="Examples" anchor="appendixA">
