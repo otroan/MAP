@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="US-ASCII"?>
 <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!ENTITY rfc2119 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY rfc3315 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3315.xml">
+<!ENTITY rfc3633 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3633.xml">
+<!ENTITY rfc2119 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY I-D.ietf-softwire-map SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map.xml">
+<!ENTITY I-D.ietf-softwire-map-t SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map-t.xml">
+<!ENTITY I-D.mdt-softwire-map-deployment SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mdt-softwire-map-deployment.xml">
+<!ENTITY I-D.ietf-homenet-arch SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-homenet-arch.xml">
+<!ENTITY I-D.ietf-dhc-option-guidelines SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-dhc-option-guidelines.xml">
+<!ENTITY I-D.ietf-dhc-secure-dhcpv6 SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-dhc-secure-dhcpv6.xml">
+]>
+
+
 <?rfc toc="yes" ?>
 <?rfc tocompact="yes" ?>
 <?rfc compact="yes" ?>
@@ -8,10 +22,9 @@
 <?rfc sortrefs="yes" ?>
 <?rfc comments="yes" ?>
 <?rfc inline="yes" ?>
-<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
-<!ENTITY rfc2119 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
-]>
-<rfc category="std" docName="draft-ietf-softwire-map-dhcp-03"
+
+
+<rfc category="std" docName="draft-ietf-softwire-map-dhcp-04"
      ipr="trust200902">
   <front>
     <title abbrev="MAP DHCPv6 Options">DHCPv6 Options for Mapping of Address
@@ -20,83 +33,45 @@
     <author fullname="Tomasz Mrugalski" initials="T." surname="Mrugalski">
       <organization abbrev="ISC">Internet Systems Consortium,
       Inc.</organization>
-
       <address>
         <postal>
           <street>950 Charter Street</street>
-
           <city>Redwood City</city>
-
           <region>CA</region>
-
           <code>94063</code>
-
           <country>USA</country>
         </postal>
-
         <phone>+1 650 423 1345</phone>
-
         <email>tomasz.mrugalski@gmail.com</email>
-
         <uri>http://www.isc.org/</uri>
       </address>
     </author>
 
-    <!-- Med and Xiaohong requested to be removed from the authors list
-      <author fullname="Mohamed Boucadair" initials="M." surname="Boucadair">
-      <organization>France Telecom</organization>
+    <author fullname="Ole Troan" initials="O" surname="Troan" role="editor">
+      <organization>Cisco Systems</organization>
       <address>
         <postal>
-	  <street></street>
-          <city>Rennes</city>
-          <code>35000</code>
-          <country>France</country>
-        </postal>
-        <email>mohamed.boucadair@gmail.com</email>
-	<uri>http://www.francetelecom.com/</uri>
-      </address>
-    </author>-->
-
-    <author fullname="Ole Troan" initials="O" surname="Troan">
-      <organization abbrev="Cisco">Cisco Systems, Inc.</organization>
-
-      <address>
-        <postal>
-          <street>Telemarksvingen 20</street>
-
-          <city>Oslo</city>
-
-          <code>N-0655</code>
-
+          <street>Philip Pedersens vei 1</street>
+          <city>Lysaker</city>
+          <code>1366</code>
           <country>Norway</country>
         </postal>
-
         <email>ot@cisco.com</email>
-
-        <uri>http://cisco.com</uri>
       </address>
     </author>
 
     <author fullname="Wojciech Dec" initials="W" surname="Dec">
       <organization abbrev="Cisco">Cisco Systems, Inc.</organization>
-
       <address>
         <postal>
           <street></street>
-
           <city></city>
-
           <region></region>
-
           <code></code>
-
           <country>The Netherlands</country>
         </postal>
-
         <phone></phone>
-
         <facsimile></facsimile>
-
         <email>wdec@cisco.com</email>
         <uri>http://cisco.com</uri>
       </address>
@@ -105,42 +80,29 @@
     <author fullname="Congxiao Bao" initials="C.X." surname="Bao">
       <organization abbrev="Tsinghua University">CERNET Center/Tsinghua
       University</organization>
-
       <address>
         <postal>
           <street>Room 225, Main Building, Tsinghua University</street>
-
           <city>Beijing</city>
-
           <code>100084</code>
-
           <country>CN</country>
         </postal>
-
         <phone>+86 10-62785983</phone>
-
         <email>congxiao@cernet.edu.cn</email>
       </address>
     </author>
 
     <author fullname="Leaf Y. Yeh" initials="L." surname="Yeh">
       <organization>Freelancer Technologies</organization>
-
       <address>
         <postal>
           <street></street>
-
           <city>Shenzhen</city>
-
           <region>Guangdong</region>
-
           <code></code>
-
           <country>P. R. China</country>
         </postal>
-
         <phone></phone>
-
         <facsimile></facsimile>
         <email>leaf.yeh.sdo@gmail.com</email>
         <uri></uri>
@@ -149,20 +111,14 @@
 
     <author fullname="Xiaohong Deng" initials="X." surname="Deng">
       <!-- <organization></organization> -->
-
       <address>
         <postal>
           <street>6 Cordelia St.</street>
-
           <code>QLD 4101</code>
-
           <city>South Brisbane</city>
-
           <country>Australia</country>
         </postal>
-
         <phone>+61 3858 3128</phone>
-
         <email>dxhbupt@gmail.com</email>
       </address>
     </author>
@@ -170,21 +126,17 @@
     <!-- Qiong Sun requested joining author team as well (22.10.2011 12:10) -->
 
     <date />
-
     <area>Internet</area>
-
     <workgroup>Softwire WG</workgroup>
-
     <keyword>MAP</keyword>
-
     <keyword>DHCPv6</keyword>
 
     <!--  SECTION 0:  Abstract                      -->
 
     <abstract>
-      <t>This document specifies DHCPv6 options for the provisioning of
-      Mapping of Address and Port (MAP) Customer Edge (CE) devices, based on
-      the MAP paramaters defined in <xref
+      <t>This document specifies DHCPv6 options for the provisioning
+      of Mapping of Address and Port (MAP) Customer Edge (CE) devices,
+      based on the MAP paramaters defined in <xref
       target="I-D.ietf-softwire-map"></xref>.</t>
 
       <t></t>
@@ -196,14 +148,15 @@
 
     <section title="Introduction">
       <t>Mapping of Address and Port (MAP) defined in <xref
-      target="I-D.ietf-softwire-map"></xref> is a mechanism for providing IPv4
-      connectivity service to end users over a service provider's IPv6
-      network, allowing for shared or dedicated IPv4 addressing. It consists
-      of a set of one or more MAP Border Relay (BR) routers, responsible for
-      stateless forwarding, and one or more MAP Customer Edge (CE) routers,
-      that collectively form a MAP Domain when configured with common MAP
-      rule-sets. In a residential broadband deployment the CE is sometimes
-      referred to as a Residential Gateway (RG) or Customer Premises Equipment
+      target="I-D.ietf-softwire-map"></xref> is a mechanism for
+      providing IPv4 connectivity to end users over a service
+      provider's IPv6 network, allowing for shared or dedicated IPv4
+      addressing. It consists of a set of one or more MAP Border Relay
+      (BR) routers, responsible for stateless forwarding, and one or
+      more MAP Customer Edge (CE) routers, that collectively form a
+      MAP Domain when configured with common MAP rule-sets. In a
+      residential broadband deployment the CE is sometimes referred to
+      as a Residential Gateway (RG) or Customer Premises Equipment
       (CPE).</t>
 
       <t>A typical MAP CE will serve its end-user with one WAN side interface
@@ -217,25 +170,31 @@
       outside of scope of this document.</t>
 
       <t>This document specifies the DHCPv6 options that allow MAP CE
-      provisioning, based on the definitions of parameters provided in <xref
-      target="I-D.ietf-softwire-map"></xref>, and is applicable to both MAP-E
-      and MAP-T transport variants. The definition of DHCPv6 options for MAP
-      CE provisioning does not preclude the definition of other dynamic
-      methods for configuring MAP devices, or supplementing such
-      configuration, nor is the use of DHCPv6 provisioning mandatory for MAP
-      operation.</t>
-
-      <t>Since specification of MAP architecture is still expected to evolve,
-      DHCPv6 options may have to evolve too to fit the revised MAP
-      specification.</t>
-
-      <t>Defined proposal is not a dynamic port allocation mechanism.</t>
+      provisioning, based on the definitions of parameters provided in
+      <xref target="I-D.ietf-softwire-map"></xref>, and is applicable
+      to the MAP-E transport variant. The definition of DHCPv6 options
+      for MAP CE provisioning does not preclude the definition of
+      other dynamic methods for configuring MAP devices, or
+      supplementing such configuration, nor is the use of DHCPv6
+      provisioning mandatory for MAP operation.</t>
 
       <t>Readers interested in deployment considerations are encouraged to
       read <xref target="I-D.mdt-softwire-map-deployment"></xref>.</t>
+
+      <t>There are a number of related IPv4 over IPv6 mechanisms that
+      can re-use some of the options described in this document. The
+      intention is that other mechanisms will define new container
+      options, e.g. a OPTION_MAPT container option for MAP-T <xref
+      target="I-D.ietf-softwire-map-t"/>. And specify which existing
+      sub-options that can be re-used and which new options are
+      required. In the MAP-T case, the OPTION_MAP_RULE and the
+      OPTION_MAP_PORTPARAMS can be re-used and a new option to
+      describre BR IPv6 prefixes must be defined.</t>
+
+
     </section>
 
-    <!--  SECTION 2: REQUIREMENTS LANGUAGE                                         -->
+    <!-- SECTION 2: REQUIREMENTS LANGUAGE -->
 
     <section anchor="conventions" title="Conventions">
       <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -245,14 +204,13 @@
     </section>
 
     <section anchor="description" title="MAP Information">
-      <t>The following presents the information parameters that are used to
+      <t>The following presents the parameters that are used to
       configure a MAP CE:</t>
 
       <t><list style="symbols">
-          <t>A Default Mapping Rule (DMR). This rule governs the default
-          forwarding/mapping behaviour of the MAP CE, ie it informs the CE of
-          the BR router's address or prefix that is typically used as a
-          default. The DMR is a mandatory parameter for a MAP CE.</t>
+          <t>The BR IPv6 address(es). It informs the CE of the BR
+          router's address(es) that is used as a default route. The BR
+          IPv6 option is a mandatory parameter for a MAP CE.</t>
 
           <t>A Basic Mapping Rule (BMR). This rule governs the MAP
           configuration of the CE, including that of completing the CE's MAP
@@ -274,11 +232,6 @@
           indicates that the CE is to simply use its default mapping rule for
           all destinations.</t>
 
-          <t>Transport mode; encapsulation (MAP-E, <xref
-          target="I-D.ietf-softwire-map"/>) or translation (MAP-T, <xref
-          target="I-D.ietf-softwire-map-t"/>) modes to be used for the MAP CE
-          Domain.</t>
-
           <t>Additional parameters. The MAP specification allows great
           flexibility in the level of automation a CE uses to derive its IPv4
           address and port-sharing (PSID), ranging from full derivation of
@@ -287,25 +240,6 @@
           parameters such as the PSID allow this flexibility.</t>
         </list></t>
 
-      <!--
-      <t>Discussion: Qiong Sun also proposed to add deployment mode
-      here.  Jacni Qin recommends against it. Deployment mode is to
-      notify whether CE is in Hub and spoke mode or mesh. In Hub and
-      spoke mode, only the first default MAP mapping rule is needed
-      in the following MAP procedure. While in mesh mode, all MAP
-      mapping rules are included to achieve CE-CE traffic
-      optimization. Tomek: I believe that hub and spoke or mesh
-      affects number of rules, so server will provision one (hub and
-      spoke) or many (mesh) rules. CE does not need to explicitly be
-      information about this. It can derive this information in a
-      simple manner: if (number of rules>1) then mode=mesh else
-      mode=hub_and_spoke.</t> -->
-
-      <!-- Tomek: Discussion resolved: see additional comment in "MAP
-           Container Option" section. Algo for detecting mode: In th hub
-           and spoke mode, all traffic should be forwarded using
-           DMR. Hub and spoke mode is achieved with a BMR IPv4 rule
-           prefix length of 32 and no further FMR. -->
     </section>
 
     <!-- conventions -->
@@ -313,126 +247,83 @@
     <!--  SECTION 3: DESCRIPTION                                                   -->
 
     <section title="DHCPv6 MAP Options">
-      <t>The DHCPv6 protocol is used for MAP CE provisioning following regular
-      DHCPv6 notions, with the MAP CE assuming a DHCPv6 client role, and the
-      MAP parameters provided by the DHCPv6 server following typical DHCPv6
-      server side policies. The format and usage of the MAP options is defined
-      in the following sections.</t>
+      <t>The DHCPv6 protocol is used for MAP CE provisioning following
+      regular DHCPv6 notions, with the MAP CE assuming the role as a
+      DHCPv6 client, and the MAP parameters provided by the DHCPv6
+      server following typical DHCPv6 server side policies. The format
+      and usage of the MAP options is defined in the following
+      sections.</t>
 
-      <t>Discussion: As the exact parameters required to configure MAP rules
-      and MAP in general are expected to change, this section is expected to
-      be updated and follow changes in the <xref
-      target="I-D.ietf-softwire-map"></xref>.</t>
-
-      <!-- <t>Discussion: Proposed layout assumes that several simple
-      options are used. Such approach simplifies implementation as it
-      is much easier for implementors to reuse existing code handling
-      such options. This design choice comes at a cost,
-      however. Clients must perform checks if provided set of options
-      is complete. Alternatively, it would be possible to define one
-      complex option that contains all mandatory
-      parameters. </t> -->
-
-      <t>Discussion: It should be noted that initial concept of 4rd/MAP
-      provisioning was presented in DHC working group meeting. It used one
-      complex option to convey all required parameters. Strong suggestion from
-      DHC WG was to use several simpler options. Options (possibly nested) are
-      preferred over conditional option formatting. See DHCP option guidelines
-      document <xref target="I-D.ietf-dhc-option-guidelines"></xref>).</t>
-
-      <t>Server that supports MAP configuration and is configured to provision
-      requesting CE MUST include exactly one OPTION_MAP option in a REPLY
-      message for each MAP domain. It is envisaged that in typical network,
-      there will be only one MAP domain deployed.</t>
+      <t>A server that supports MAP configuration and is configured to
+      provision requesting CEs, MUST include exactly one OPTION_MAPE
+      option in a REPLY message for each MAP domain. It is envisaged
+      that in typical network, there will be only one MAP domain
+      deployed.</t>
 
       <section anchor="what-where" title="MAP Options Cardinality">
-        <t>Server configured to provision MAP configuration SHOULD return one
-        MAP Container Option for each MAP domain, when requested by clients.
-        As there will typically be only one MAP Domain configured, server will
-        typically return a single instance of MAP Container Option.</t>
+        <t>A server configured to provision MAP configuration SHOULD
+        return one MAP Container Option for each MAP domain, when
+        requested by clients. As there will typically be only one MAP
+        Domain configured, server will typically return a single
+        instance of the MAP Container Option.</t>
 
-        <t>Returned MAP Container Option MUST include exactly one MAP DMR Rule
-        option. It also MAY include zero or more MAP Rule Options. It also MAY
-        include MAP Port Parameters option. It MAY include additional options
-        that may be defined in the future.</t>
+        <t>The returned MAP Container Option MUST include a the MAP BR
+        option. It also MAY include zero or more MAP Rule Options. It
+        also MAY include MAP Port Parameters option. It MAY include
+        additional options that may be defined in the future.</t>
       </section>
 
-      <section anchor="option-map" title="MAP Container Option">
-        <t>This MAP Container Option specifies the container used to group all
-        rules and optional port parameters for a specified MAP domain.</t>
+      <section anchor="option-map" title="MAP-E Container Option">
+        <t>This MAP-E Container Option specifies the container used to
+        group all rules and optional port parameters for a specified
+        MAP-E domain.</t>
 
         <figure align="center" anchor="img-map-option"
-                title="MAP Container Option">
+                title="MAP-E Container Option">
           <preamble></preamble>
 
           <artwork align="center"><![CDATA[
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|        OPTION_MAP             |         option-length         |
+|        OPTION_MAPE            |         option-length         |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|     flags     |                                               .
-+-+-+-+-+-+-+-+-+    encapsulated-options (variable length)     .
+.                                                               .
+.                    encapsulated-options (variable length)     .
 .                                                               .
 +---------------------------------------------------------------+
 	]]></artwork>
         </figure>
 
         <t><list style="symbols">
-            <t>option-code: OPTION_MAP (TBD1)</t>
+            <t>option-code: OPTION_MAPE (TBD1)</t>
 
             <t>option-length: 1 + Length of encapsulated options</t>
-
-            <t>flags: This 8-bits long conveys the MAP Flags that apply to all
-            encapsulated options. The meaning of specific bits is explained in
-            <xref target="img-map-option-flag"></xref>.</t>
 
             <t>encapsulated-options: options associatied with this MAP
             domain.</t>
           </list></t>
 
-        <t>The encapsulated options field encapsulates those options that are
-        specific to this MAP Option. Currently there are three options that
-        MAY appear here: OPTION_MAP_RULE, OPTION_MAP_DMR and
-        OPTION_MAP_PORTPARAMS. Other options suitable for a MAP domain may be
-        defined in the future. A DHCP message MAY include multiple MAP
-        Container Options (representing multiple MAP domains), but typically
-        it will have only one.</t>
+        <t>The encapsulated options field encapsulates those options
+        that are specific to this MAP Option. Currently there are
+        three options that MAY appear here: OPTION_MAP_RULE,
+        OPTION_MAP_BR and OPTION_MAP_PORTPARAMS. Other options
+        suitable for a MAP domain may be defined in the future. A DHCP
+        message MAY include multiple MAP Container Options
+        (representing multiple MAP domains), but typically it will
+        have only one.</t>
 
-        <t>The Format of the MAP flags field is:</t>
-
-        <t><figure align="center" anchor="img-map-option-flag"
-            title="MAP Option Flags">
-            <preamble></preamble>
-
-            <artwork align="center"><![CDATA[
- 0 1 2 3 4 5 6 7 
-+-+-+-+-+-+-+-+-+
-|Reserved     |T| 
-+-+-+-+-+-+-+-+-+]]>
-          </artwork>
-          </figure><list style="symbols">
-            <t>Reserved: 7-bits reserved for future use.</t>
-
-            <t>T: 1 bit field that specifies transport mode to use:
-            translation (0) or encapsulation (1).</t>
-          </list></t>
-
-        <t>Discussion: It was suggested to also provision information whether
-        MAP network is working in hub and spoke or mesh mode. That is not
-        necessary, as mesh mode is assumed when there is at least one FMR
-        present.</t>
       </section>
 
       <section title="MAP Rule Option">
         <t>Figure <xref target="img-option-rule"></xref> shows the format of
         the MAP Rule option used for conveying the BMR and FMR.</t>
 
-        <t>Server includes zero or more MAP Rule Options in MAP Container
+        <t>Server includes one or more MAP Rule Options in MAP Container
         Option.</t>
 
         <t>Server MAY send more than one MAP Rule Option, if it is configured
-        to do so. Clients MUST NOT send MAP Rule Option.</t>
+        to do so. Clients MUST NOT send the MAP Rule Option.</t>
 
         <figure align="center" anchor="img-option-rule"
                 title="MAP Rule Option">
@@ -465,13 +356,16 @@
             option-length fields, including length of all encapsulated
             options, expressed in bytes.</t>
 
-            <t>prefix4-len: 8 bits long field expressing the bit mask length
-            of the IPv4 prefix specified in the rule-ipv4-prefix field.</t>
+            <t>prefix4-len: 8 bits long field expressing the bit mask
+            length of the IPv4 prefix specified in the
+            rule-ipv4-prefix field. This may be any value between 0
+            and 32.  Any value greater than 32 is invalid.</t>
 
-            <!-- tomek todo: Do we want to restrict values to 0-32 here? -->
-
-            <t>rule-ipv4-prefix: a fixed length 32 bit field that specifies
-            the IPv4 prefix for the MAP rule.</t>
+            <t>rule-ipv4-prefix: a fixed length 32 bit field that
+            specifies the IPv4 prefix for the MAP rule. The bits in
+            the prefix after the prefix4-len number of bits are
+            reserved and MUST be initialized to zero by the sender and
+            ignored by the receiver.</t>
 
             <t>ea-len: 8 bits long field that specifies the Embedded-Address
             (EA) bit length. Values allowed range from 0 to 48.</t>
@@ -480,13 +374,15 @@
             rule. The meaning of specific bits is explained in <xref
             target="img-rule-flags"></xref>.</t>
 
-            <t>prefix6-len: 8 bits long field expressing the bit mask length
-            of the IPv6 prefix specified in the rule-ipv6-prefix field.</t>
+            <t>prefix6-len: 8 bits long field expressing the bit mask
+            length of the IPv6 prefix specified in the
+            rule-ipv6-prefix field. This may be any value between 0
+            and 128. Any value greater than 128 is invalid.</t>
 
-            <t>rule-ipv6-prefix: a variable length field that specifies the
-            IPv6 domain prefix for the MAP rule. The field is padded with
-            follow up zero bits up to the nearest octet boundary when
-            prefix6-len is not divisible by 8.</t>
+            <t>rule-ipv6-prefix: a variable length field that
+            specifies the IPv6 domain prefix for the MAP rule. The
+            field is padded with zero bits up to the nearest octet
+            boundary when prefix6-len is not divisible by 8.</t>
 
             <t>encapsulated options: a variable field that may contain zero or
             more options that specify additional parameters for this MAP
@@ -520,9 +416,10 @@
             against the CPE's prefix(es).</t>
           </list></t>
 
-        <t>It is expected that in a typical MAP deployment scenarios, there
-        will be a single DMR and a single BMR, which could also be designated
-        as an FMR using the F-Flag.</t>
+        <t>It is expected that in a typical MAP deployment scenarios,
+        there will be a single BMR, which could also be designated as
+        an FMR using the F-Flag and a single BR IPv6 address(es) or
+        IPv6 prefix(es) option.</t>
 
         <t>Discussion: This option format attempts to use option formats
         recommended by <xref target="I-D.ietf-dhc-option-guidelines"></xref>,
@@ -532,29 +429,26 @@
         target="I-D.ietf-dhc-option-guidelines"></xref>, Section 5.9.</t>
       </section>
 
-      <section title="MAP DMR Option">
-        <t>MAP DMR Option is used to convey values for Default Mapping Rule.
-        MAP DMR Option MUST appear in each MAP Container Option exactly once.
-        It MUST NOT appear in the DHCP message directly. Figure <xref
-        target="img-option-dmr"></xref> shows the format of the MAP Rule
-        option used for conveying a DMR.</t>
+      <section title="MAP BR Option">
+        <t>The MAP BR Option is used to convey the address(es) of the
+        MAP BR.  The MAP BR Option MUST appear in each MAP-E
+        Container Option exactly once. It MUST NOT appear in the DHCP
+        message directly. Figure <xref target="img-option-dmr"></xref>
+        shows the format of the MAP BR option.</t>
 
         <t><figure align="center" anchor="img-option-dmr"
-            title="MAP DMR Option">
+            title="MAP BR Option">
             <preamble></preamble>
 
             <artwork align="center"><![CDATA[
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|        OPTION_MAP_DMR         |         option-length         |
+|        OPTION_MAP_BR          |         option-length         |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|dmr-prefix6-len|            dmr-ipv6-prefix                    |
-+-+-+-+-+-+-+-+-+           (variable length)                   |
+|                      br-ipv6-address(es)                      |
 .                                                               .
-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|                                                               |
-.            encapsulated-options (variable length)             .
+.                                                               .
 .                                                               .
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 
@@ -563,32 +457,22 @@
           </figure></t>
 
         <t><list style="symbols">
-            <t>option-code: OPTION_MAP_DMR (TBD3)</t>
+            <t>option-code: OPTION_MAP_BR (TBD3)</t>
 
             <t>option-length: 1 + length of dmr-ipv6-prefix + encapsulated
             options, specified in bytes.</t>
 
-            <t>dmr-prefix6-len: 8 bits long field expressing the bit mask
-            length of the IPv6 prefix specified in the dmr-ipv6-prefix
-            field.</t>
+            <t>br-ipv6-address: a fixed length field of 16 octets that
+            specifies the IPv6 address for the MAP BR.</t>
 
-            <t>dmr-ipv6-prefix: a variable length field that specifies the
-            IPv6 prefix or address for the MAP BR. This field is padded with
-            follow up zeros to the nearest octet boundary when dmr-prefix6-len
-            is not divisible by 8.</t>
-
-            <t>encapsulated options: nested options associatied to this MAP
-            DMR option. Currently there are no such options defined, but they
-            may be defined in the future.</t>
           </list></t>
       </section>
 
       <section anchor="option-portparams" title="MAP Port Parameters Option">
         <t>Port Parameters Option specifies optional Rule Port Parameters that
         MAY be provided as part of the Mapping Rule. It MAY appear as
-        encapsulated option in OPTION_MAP option. It MUST NOT appear directly
-        in a message. It MUST NOT appear in OPTION_MAP_RULE nor OPTION_MAP_DMR
-        options.</t>
+        encapsulated option in OPTION_MAP_RULE option. It MUST NOT appear directly
+        in a message.</t>
 
         <t>See <xref target="I-D.ietf-softwire-map"></xref>, Section 5.1 for
         detailed description of MAP algorithm that explains meaning of all
@@ -617,7 +501,7 @@
             numeric value for the MAP algorithm's excluded port range/offset
             bits (A-bits), as per section 5.1.1 in <xref
             target="I-D.ietf-softwire-map"></xref>. Allowed values are between
-            0 and 16, with the default value being 4.</t>
+            0 and 16, with the default value being 6.</t>
 
             <t>PSID-len: Bit length value of the number of significant bits in
             the PSID field. (also known as 'k'). When set to 0, the PSID field
@@ -639,58 +523,49 @@
     </section>
 
     <section title="DHCPv6 Server Behavior">
-      <t><xref target="RFC3315">RFC 3315 Section 17.2.2</xref> describes how a
-      DHCPv6 client and server negotiate configuration values using the ORO.
-      As a convenience to the reader, we mention here that a server will by
-      default not reply with a MAP Rule Option if the client has not
-      explicitly enumerated it on its Option Request Option.</t>
+      <t><xref target="RFC3315">RFC 3315 Section 17.2.2</xref>
+      describes how a DHCPv6 client and server negotiate configuration
+      values using the ORO.  As a convenience to the reader, we
+      mention here that a server will by default not reply with a MAP
+      Container Option if the client has not explicitly enumerated it
+      on its Option Request Option.</t>
 
-      <t>A Server following this specification MUST allow the configuration of
-      one or more MAP Rule Options, exactly one DMR Option and optional Port
-      Parameters Option and SHOULD send such options grouped under a single
-      MAP Container Option.</t>
+      <t>A Server following this specification MUST allow the
+      configuration of one or more MAP Rule Options, one MAP BR
+      Option and optional Port Parameters Option and MUST send such
+      options grouped within a single MAP Container Option.</t>
 
-      <t>Server MUST include a MAP Container Option (which encapsulates all
-      MAP Rule, MAP DMR, and MAP Port parameters Options) in its responses if
-      client requested it using OPTION_MAP in client's Option Request Option
-      (ORO).</t>
+      <t>The server MUST include a MAP Container Option (which
+      encapsulates all MAP Rule, MAP BR, and MAP Port parameters
+      Options) in its responses if the client requested in the
+      client's Option Request Option (ORO).</t>
 
-      <t>Server MAY include more than one MAP Container Options only in the
-      unlikely case of having more than one MAP Domain configured.</t>
-
-      <!-- sadly, with introduction of OPTION_PORTPARAMS that is no longer true.
-      <t>Rules assignment is a stateless process from the server's
-      perspective. Server does not need to maintain a state of rules
-      provisioned to clients, track lifetimes, expire outdated rules
-      etc. Server SHOULDs assign the same set of rules to all CEs in
-      one MAP Domain, unless there are several classes of CEs defined,
-      e.g. regular and premium users. In such case, each class of CEs
-      is expected to get the same set of rules. Server is not expected
-      to track MAP rules on a per CE basis. Exact assignment of
-      specific rules to a specific CEs is outside of scope of this
-      document.</t> -->
+      <t>The server MAY include more than one MAP Container Options
+      only in the unlikely case of having more than one MAP Domain
+      configured.</t>
 
       <t>The server SHOULD be capable of following per client assignment rules
       when assigning MAP options.</t>
     </section>
 
     <section title="DHCPv6 Client Behavior">
-      <t>A MAP CE acting as DHCPv6 client will request MAP configuration to be
-      assigned by the DHCPv6 server located in the ISP network. A client
-      supporting MAP functionality SHOULD request OPTION_MAP option in its ORO
-      in SOLICIT, REQUEST, RENEW, REBIND and INFORMATION-REQUEST messages.</t>
+      <t>A MAP CE acting as DHCPv6 client will request MAP
+      configuration to be assigned by the DHCPv6 server located in the
+      ISP network. A client supporting MAP functionality SHOULD
+      request the OPTION_MAPE option in its ORO in SOLICIT, REQUEST,
+      RENEW, REBIND and INFORMATION-REQUEST messages.</t>
 
       <t>When processing received MAP options the following behaviour is
       expected:<list style="symbols">
           <t>A client MUST support processing multiple received
-          OPTION_MAP_RULE options in a OPTION_MAP option</t>
+          OPTION_MAP_RULE options in a MAP Container option.</t>
 
           <t>A client receiving an unsupported MAP option, or an unrecognized
-          parameter value SHOULD discard the entire OPTION_MAP.</t>
+          parameter value SHOULD discard the entire MAP container option.</t>
 
-          <t>Exactly one OPTION_MAP_DMR is allowed per OPTION_MAP option.
-          Client MUST ignore entire OPTION_MAP if there is zero or more than
-          one MAP DMR Option.</t>
+          <t>Exactly one of the OPTION_MAP_BR options is allowed per
+          OPTION_MAPE option. The client MUST ignore the entire OPTION_MAPE if
+          there is zero or more than one MAP BR Option.</t>
         </list></t>
 
       <t>The client MUST be capable of applying the received MAP option
@@ -716,21 +591,6 @@
       CE. Some usage examples are:</t>
 
       <t><list style="symbols">
-          <t>A MAP CE receiving an OPTION_MAP option with the T flag set to 1
-          will assume a MAP-E (encapsulation) mode of operation for the domain
-          and all associated rules. Conversely, when the received option has
-          the T flag set to 0, the CE will assume a MAP-T (stateless NAT46
-          translation) mode of operation.</t>
-
-          <t>The presence of a OPTION_MAP_RULE option, along with IPv4 prefix
-          parameters, indicates to the MAP CE that NAPT44 mode of operation is
-          expected, following the address mapping rules defined in <xref
-          target="I-D.ietf-softwire-map"></xref>. Conversely, the absence of
-          an OPTION_MAP_RULE option indicates that NAT44 mode is not required,
-          and that the MAP CE is to plainly encapsulate (MAP-E mode) or
-          statelessly translate using NAT64 (MAP-T mode) any IPv4 traffic sent
-          following the DMR.</t>
-
           <t>The MAP domain ipv6-prefix in the BMR should correspond to a
           service prefix assigned to the CPE by the operator, with the latter
           being assigned using regular IPv6 means, e.g. DHCP PD <xref
@@ -747,14 +607,14 @@
           received BMR as an FMR, thereby enabling mesh-mode for the domain
           covered by the BMR rule.</t>
 
-          <t>In the absence of a BMR, the presence of the mandatory DMR
-          indicates to the CPE the address or prefix of a BR, and makes the
-          MAP CE fully compatible with DS-Lite and stateful or stateless NAT64
-          core nodes. Eg a MAP CE configured in MAP-E mode, with just a DMR
-          and a BR IPv6 address equivalent to that of the AFTR, effectively
-          acts as a DS-Lite B4 element. For more discussion about MAP
-          deployment considerations, see <xref
-          target="I-D.mdt-softwire-map-deployment"></xref>.</t>
+          <t>In the absence of a BMR, the presence of the mandatory
+          MAP BR Option indicates to the CPE the address of a BR, and
+          makes the MAP CE fully compatible with DS-Lite and stateful
+          or stateless NAT64 core nodes. Eg a MAP CE configured in
+          MAP-E mode, with just a BR IPv6 address equivalent to that
+          of the AFTR, effectively acts as a DS-Lite B4 element. For
+          more discussion about MAP deployment considerations, see
+          <xref target="I-D.mdt-softwire-map-deployment"></xref>.</t>
         </list></t>
     </section>
 
@@ -783,8 +643,8 @@
 
     <section title="IANA Considerations">
       <t>IANA is kindly requested to allocate the following DHCPv6 option
-      codes: TBD1 for OPTION_MAP, TBD2 for OPTION_MAP_RULE, TBD3 for
-      OPTION_MAP_DMR, and TBD4 for OPTION_MAP_PORTPARAMS. All values should be
+      codes: TBD1 for OPTION_MAPE, TBD2 for OPTION_MAP_RULE, TBD3 for
+      OPTION_MAP_BR, and TBD4 for OPTION_MAP_PORTPARAMS. All values should be
       added to the DHCPv6 option code space defined in Section 24.3 of <xref
       target="RFC3315"></xref>.</t>
     </section>
@@ -821,10 +681,6 @@
       <t>Authors would like to thank Bernie Volz for his insightful comments
       and suggestions.</t>
 
-      <t>This work draws ideas from previous drafts:
-      <xref target="I-D.boucadair-dhcpv6-shared-address-option"/>,
-      <xref target="I-D.mrugalski-dhc-dhcpv6-4rd"/>,
-      <xref target="I-D.murakami-softwire-4rd"/> and others.</t>
     </section>
   </middle>
 
@@ -832,243 +688,21 @@
     <!-- SECTION 8.1: Normative References -->
 
     <references title="Normative References">
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map.xml" ?>
-
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3315"?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3633"?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119" ?>
+      &rfc3315;
+      &rfc3633;
+      &rfc2119;
+      &I-D.ietf-softwire-map;
     </references>
 
     <!--  SECTION 8.2:  Informative References		-->
 
     <references title="Informative References">
-      <!-- MAP-T is experimental, it must not be put as normative reference -->
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map-t.xml" ?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mdt-softwire-map-deployment.xml" ?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-homenet-arch"?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-dhc-option-guidelines.xml" ?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mrugalski-dhc-dhcpv6-4rd.xml" ?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.boucadair-dhcpv6-shared-address-option.xml" ?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-dhc-secure-dhcpv6.xml" ?>
-
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml3/reference.I-D.murakami-softwire-4rd.xml" ?>
+      &I-D.ietf-softwire-map-t;
+      &I-D.mdt-softwire-map-deployment;
+      &I-D.ietf-homenet-arch;
+      &I-D.ietf-dhc-option-guidelines;
+      &I-D.ietf-dhc-secure-dhcpv6;
     </references>
-
-  <section anchor="example" title="MAP Options Examples">
-    <t>DHCPv6 server provisioning a single MAP Rule to a CE (DHCPv6 client) will
-    convey the following MAP options in its messages:</t>
-
-    <section title="Example 1: BMR Option">
-      <!-- contributed by Xiaohong -->
-      <t>
-        Given the MAP domain information and an IPv6 address of an endpoint:
-      </t>
-      <t>
-        <list style="symbols">
-          <t>
-            IPv6 prefix assigned to the end user:  2001:db8:0012:3400::/56
-          </t>
-          <t>
-            Basic Mapping Rule:  {2001:db8:0000::/40 (Rule IPv6 prefix),
-            192.0.2.0/24 (Rule IPv4 prefix), 16 (Rule EA-bits length)}
-            <!-- Sharing ratio:  256 (16 - (32 - 24) = 8. 2^8 = 256) -->
-          </t>
-          <t>
-            PSID offset:  4
-          </t>
-        </list>
-      </t>
-
-      <t>This configuration example includes one MAP Container Option
-      (OPTION_MAP) that has two nested options: one MAP Rule Option
-      (OPTION_MAP_RULE) and one MAP Port Parameters Option
-      (OPTION_MAP_PORTPARAMS).</t>
-
-      <figure align="center" anchor="img-bmr-example"
-              title="BMR Option Example">
-        <preamble></preamble>
-        <artwork align="center"><![CDATA[
-OPTION_MAP=TBD1
-option-length=26 # (i.e. 1(OPTION_MAP) + suboptions: 17
-                 # (OPTION_MAP_RULE) and 8 (OPTION_MAP_PORT_PARAMS)
-flags=0x01       # encapsulation
-encapsulated-options: 2 options specified below
-
-OPTION_MAP_RULE=TBD2
-option-length=17
-prefix4-len=24
-rule-ipv4-prefix=192.0.2.0       # rules-ipv4-prefix length is always
-                                 # 4 bytes
-ea-len=16
-rule-flags=0x01                  # BMR and FMR
-prefix6-length=40                # prefix-length implies rule-ipv6-
-                                 # prefix is a 5 bytes(40bits)
-rule-ipv6-prefix=2001:db8:0000:: # long field.
-encapsulated-options: none       # no nested options in MAP_RULE
-
-OPTION_MAP_PORTPARAMS=TBD4
-option-length=4
-offset=4
-PSID-len=8
-PSID=52]]></artwork>
-          </figure>
-        </section>
-
-        <section title="Example 2: DMR Option">
-          <!-- contributed by Xiaohong -->
-          <t>
-            <!-- it used to be 1.2.3.4 IPv4 address. Changed to 203.0.113.1 as
-            203.0.113.0/24 is a TEST-NET-3, as specified in RFC5735 -->
-            An IPv4 host behind the MAP CE (addressed as per the previous examples)
-            corresponding with IPv4 host 203.0.113.1 will have its packets converted
-            into IPv6 using the DMR configured on the MAP CE as follows:
-          </t>
-
-          <t>
-            <list style="symbols">
-              <t>
-                Default Mapping Rule:  {2001:db8:ffff::1/128
-                (Rule IPv6 prefix), 0.0.0.0/0 (Rule IPv4 prefix), null (BR IPv4
-                address)}
-              </t>
-            </list>
-          </t>
-          <t>
-            This configuration example uses one MAP Container Option (OPTION_MAP)
-            with a single MAP DMR Option (OPTION_MAP_DMR) in it.
-          </t>
-
-          <figure align="center" anchor="img-dmr-example"
-                  title="DMR Option Examples">
-            <preamble></preamble>
-            <artwork align="center"><![CDATA[
-OPTION_MAP=TBD1
-option-length=22 # 1 + nested option (MAP_DMR, 21 bytes)
-flags=0x01       # encapsulation
-encapsulated-options=one MAP_DMR option specified below
-
-OPTION_MAP_DMR=TDB3
-option-length=17
-dmr-prefix6-len=128  #dmr-ipv6-prefix is 16bytes(128 bits) long
-dmr-ipv6-prefix=2001:db8:ffff::1
-encapsulated-options: none]]></artwork>
-          </figure>
-        </section>
-
-        <section title="Example 3: 1:1 Rule with No Address Sharing">
-          <!-- contributed by Congxiao -->
-          <t>
-            Given the MAP domain information and an IPv6 address of an endpoint:
-          </t>
-          <t>
-            <list style="symbols">
-              <t>
-                IPv6 prefix assigned to the end user:  2001:db8:0012:3400::/56
-              </t>
-              <t>
-                Basic Mapping Rule:  {2001:db8:0012:3400::/56 (Rule IPv6 prefix),
-                192.0.2.1/32 (Rule IPv4 prefix), 0 (Rule EA-bits length)}
-                <!-- Sharing ratio:  1 -->
-              </t>
-              <t>
-                PSID offset:  n/a
-              </t>
-            </list>
-          </t>
-
-          <t>
-            This configuration uses one MAP Container Option (OPTION_MAP)
-            that includes one nested MAP Rule Option (OPTION_MAP_RULE).
-          </t>
-
-          <figure align="center" anchor="img-11-nosharing-example"
-                  title="1:1 Rule with No Address Sharing Examples">
-            <preamble></preamble>
-            <artwork align="center"><![CDATA[
-OPTION_MAP=TBD1
-option-length=20 # 1 for OPTION_MAP and 19 for (OPTION_MAP_RULE)
-flags=0x00       # just for BMR, not for FMR
-encapsulated-options: one MAP Rule option, specified below
-
-OPTION_MAP_RULE=TBD2
-option-length=15
-prefix4-len=32
-rule-ipv4-prefix=192.0.2.1
-ea-len=0
-rule-flags=0x00	   # for BMR only
-prefix6-length=56  # length of the rule-ipv6-prefix
-                   # is 7 bytes (56bits)
-rule-ipv6-prefix=2001:db8:0012:3400::
-encapsulated-options: none
-]]></artwork>
-          </figure>
-        </section>
-
-        <section title="Example 4: 1:1 Rule with Address Sharing">
-
-<t>
-Given the MAP domain information and an IPv6 address of an endpoint:
-</t>
-<t>
-<list style="symbols">
-<t>
-  IPv6 prefix assigned to the end user:  2001:db8:0012:3400::/56
-</t>
-<t>
-  Basic Mapping Rule:  {2001:db8:0012:3400::/56 (Rule IPv6 prefix),
-      192.0.2.1/32 (Rule IPv4 prefix), 0 (Rule EA-bits length)
-      PSID-len 8, PSID 11 }
-   <!-- Sharing ratio:  256 (16 - (32 - 24) = 8. 2^8 = 256) -->
-   </t>
-<t>
-   PSID offset:  4
-</t>
-</list>
-</t>
-
-<t>
-  This configuration example features one MAP Container Option (OPTION_MAP)
-  that includes two nested options: one MAP Rule Option (OPTION_MAP_RULE)
-  and one MAP Port Parameters Option (OPTION_MAP_PORTPARAMS).
-</t>
-          <figure align="center" anchor="img-11-sharing-example"
-                  title="1:1 Rule with no Address Sharing Examples">
-            <preamble></preamble>
-            <artwork align="center"><![CDATA[
-OPTION_MAP=TBD1
-option-length=28
-flags=0x01
-encapsulated-options: includes two options specified below
-
-OPTION_MAP_RULE=TBD2
-option-length=15
-rule-ipv4-prefix=192.0.2.1
-rule-flags=0x00 # for BMR only
-ea-len=0
-prefix4-len=32
-prefix6-length=56 # rule-ipv6-prefix length is 7 bytes(56 bits)
-rule-ipv6-prefix=2001:db8:0012:3400::
-encapsulated-options: none
-
-OPTION_MAP_PORTPARAMS=TDB4
-option-length=4
-offset=4
-PSID-len=8
-PSID=11]]></artwork>
-          </figure>
-        </section>
-
-
-      </section>
 
 
   </back>
