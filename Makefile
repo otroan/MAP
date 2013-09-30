@@ -11,7 +11,7 @@ draft-mdt-softwire-mapping-address-and-port: draft-mdt-softwire-mapping-address-
 draft-ietf-softwire-map: draft-ietf-softwire-map.xml
 	$(XML2RFC) $< -f $@-08.txt
 draft-ietf-softwire-map-dhcp: draft-ietf-softwire-map-dhcp.xml
-	$(XML2RFC) $< -f $@-04.txt
+	$(XML2RFC) $< -f $@-05.txt
 draft-mdt-softwire-map-dhcp-option: draft-mdt-softwire-map-dhcp-option.xml
 	$(XML2RFC) $< $@-02.txt
 draft-mdt-softwire-map-deployment: draft-mdt-softwire-map-deployment.xml
