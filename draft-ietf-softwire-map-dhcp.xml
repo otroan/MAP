@@ -15,6 +15,9 @@
 <!ENTITY I-D.ietf-homenet-arch SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-homenet-arch.xml">
 <!ENTITY I-D.ietf-dhc-option-guidelines SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-dhc-option-guidelines.xml">
 <!ENTITY I-D.ietf-dhc-secure-dhcpv6 SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-dhc-secure-dhcpv6.xml">
+<!ENTITY I-D.townsley-troan-ipv6-ce-transitioning SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.townsley-troan-ipv6-ce-transitioning.xml">
+
+
 ]>
 
 
@@ -31,7 +34,7 @@
 <rfc category="std" docName="draft-ietf-softwire-map-dhcp-05"
      ipr="trust200902">
   <front>
-    <title abbrev="DHCPv6 for Softwire A+P CEs">DHCPv6 Options for
+    <title abbrev="DHCPv6 for Softwire 46 CEs">DHCPv6 Options for
     configuration of Softwire Address and Port Mapped Clients</title>
 
     <author fullname="Tomasz Mrugalski" initials="T." surname="Mrugalski">
@@ -155,8 +158,8 @@
 
 
     <section title="Introduction">
-      <t>A number of architectual solution proposals formed in the IETF
-      Softwires Working Group use Address and Port (A+P) as their technolgy
+      <t>A number of architectural solution proposals formed in the IETF
+      Softwires Working Group use Address and Port (A+P) as their technology
       base in providing IPv4 connectivity service to end users using CE
       devices across a service provider's IPv6 network, while allowing for
       shared or dedicated IPv4 addressing of the CEs. This document specifies
@@ -175,7 +178,7 @@
       Softwire46 proposals.</t>
 
       <t>To function in such a domain, a CE requires to be provisioned
-      with the appropriate A+P service paramaters for that
+      with the appropriate A+P service parameters for that
       domain. This consists primarily of the IPv4 address the CE
       should use and the transport layer port-range(s), both of which
       may be derived from the CE's IPv6 prefix, as well as the
@@ -186,6 +189,28 @@
       options to provision this information to CE
       routers. Configuration of the Border Relay is out of scope of
       this document.</t>
+
+    </section>
+
+    <section title="Softwire 46 approaches discussed">
+      <t>***To be removed***</t>
+
+      <t>The approach laid out in this document was taken after
+      consideration of a couple of alternatives. The first alternative
+      was to have everything in the single option. However, given that
+      in practice some CPEs might not implement all of the mechanism,
+      this means the single option would not work. The CPE would have
+      to come up with the mechanism to signal its capabilities to
+      DHCPv6 server. Thus, the conclusion was made that each mechanism
+      requires its own option, containing the per-mechanism
+      configuration. The container design was selected because the
+      configuration elements are similar between the mechanisms and
+      having the smaller building blocks within them should help to
+      reuse the code, for the CPEs that implement multiple
+      mechanisms. After the multi-container approach was taken, the
+      choice was to keep everything in the single document or split
+      into several documents - one per mechanism.</t>
+
     </section>
 
     <!--  SECTION 2: REQUIREMENTS LANGUAGE                                         -->
@@ -197,19 +222,27 @@
       target="RFC2119"></xref>.</t>
     </section>
 
-    <section title="Softwire A+P">
+    <section title="Softwire 46">
 
      <t>This document describes a set of common DHCPv6 options for
      MAP-E <xref target="I-D.ietf-softwire-map"/>, MAP-T <xref
      target="I-D.ietf-softwire-map-t"/> and Lightweight 4over6 <xref
-     target="I-D.ietf-softwire-lw4over6"/>. The common options are
-     encapsulated in a container option. The container option is
-     specific per mechanism. A DHCPv6 client can request a particular
+     target="I-D.ietf-softwire-lw4over6"/> mechanisms. To support more 
+     than one mechanism at a time and to allow for a possibility of transition 
+     between them, ORO DHCPv6 mechanism is used. Each mechanism has a 
+     corresponding container option. A DHCPv6 client can request a particular
      mechanism by including the option code for a particular container
-     option in its ORO option.</t>
+     option in its ORO option. The provisioning parameters for that mechanism
+     are expressed by embedding the common format options within the respective container.
+     </t>
+     <t>
+     This approach implies that the all the provisioning options MUST appear only within the container options. 
+     The client MUST NOT request any of the provisioning options themselves within ORO. Likewise, the server MUST NOT send
+     the provisioning options directly within DHCPv6 message, without enclosing them into the corresponding container options first.
+     </t>
 
      <t>MAP-E, MAP-T and Lightweight 4over6 are essentially providing
-     the same functionality. IPv4 service to a CE router over an IPv6
+     the same functionality: IPv4 service to a CE router over an IPv6
      only access network. MAP-E and MAP-T may embed parts of the IPv4
      address in IPv6 prefixes, thereby supporting many clients with a
      fixed set of mapping rules and mesh mode (direct CE to CE
@@ -231,7 +264,7 @@
 
     </section>
 
-    <section title="Common Softwire A+P DHCPv6 Options">
+    <section title="Common Softwire 46 DHCPv6 Options">
       <t>The DHCPv6 protocol is used for Softwire46 CE provisioning
       following regular DHCPv6 notions, with the CE assuming the role
       of a DHCPv6 client, and the DHCPv6 server providing options
@@ -245,17 +278,17 @@
       Lightweight 4over6, the OPTION_S46_ADDRESS option is used. A CE
       that needs to communicate outside of the A+P domain, also needs
       the address or prefix of the BR. MAP-E and Lightweight 4over6
-      uses the OPTION_S46_BR, while MAP-T needs to embed the IPv4
-      destination address in the IPv6 destination address uses the
+      uses the OPTION_S46_BR, while MAP-T embeds the IPv4
+      destination address into the IPv6 destination address created using the
       OPTION_S46_DMR. Optionally all mechanisms can include the
       OPTION_S46_PORTPARAMS to specify parameters and port sets for
       the port range algorithm.</t>
    
       <section title="S46 Rule Option">
-        <t>Figure <xref target="img-option-rule"></xref> shows the format of
+        <t><xref target="img-option-rule"></xref> shows the format of
         the S46 Rule option used for conveying the BMR and FMR.</t>
 
-        <t>A server MAY send more than one S46 Rule Option, if it is
+        <t>A server MAY send more than one S46 Rule Option in a container, if it is
         configured to do so. Clients MUST NOT send a S46 Rule Option.</t>
 
         <figure align="center" anchor="img-option-rule"
@@ -346,10 +379,9 @@
       </section>
 
       <section title="S46 BR Option">
-        <t>S46 BR Option is used to convey the IPv6 address(es) of the Border Relay.
-        S46 BR Option MUST appear in each S46 Container Option and MUST NOT
-        appear in the DHCP message directly. Figure <xref
-        target="img-option-dmr"></xref> shows the format of the BR option.</t>
+        <t>S46 BR Option is used to convey the IPv6 address of the
+        Border Relay. Figure <xref target="img-option-dmr"></xref> shows
+        the format of the BR option.</t>
 
         <t><figure align="center" anchor="img-option-br"
             title="S46 DMR Option">
@@ -387,8 +419,7 @@
 
       <section title="S46 DMR Option">
         <t>S46 DMR Option is used to convey values for Default Mapping Rule.
-        S46 DMR Option MUST appear in each S46 Container Option and MUST NOT
-        appear in the DHCP message directly. Figure <xref
+        Figure <xref
         target="img-option-dmr"></xref> shows the format of the MAP Rule
         option used for conveying a DMR.</t>
 
@@ -431,10 +462,9 @@
 
       <section anchor="option-ipv4address"
                title="S46 IPv4 Address Option">
-        <t>The IPv4 address Option specifies the full or shared IPv4
-        address of the CE. It MAY appear as encapsulated option in
-        OPTION_S46 option. It MUST NOT appear directly in a
-        message.</t>
+        <t>The IPv4 address Option MAY be used to specify the full or shared IPv4
+        address of the CE. 
+        </t>
 
         <figure align="center" anchor="img-option-ipv4address"
                 title="S46 IPv4 address Option">
@@ -463,7 +493,7 @@
             <t>ipv4-address: A fixed field of 4 octets specifying an IPv4 address.</t>
 	    <t>encapsulated options: a variable field that may contain
 	    zero or more options that specify additional parameters
-	    for this S46 rule, e.g. a Port Parameter Option.</t>
+	    e.g. a Port Parameter Option.</t>
           </list></t>
       </section>
 
@@ -471,9 +501,8 @@
                title="S46 Port Parameters Option">
         <t>The Port Parameters Option specifies optional Rule Port Parameters
         that MAY be provided as part of the Mapping Rule for CEs using the MAP
-        algorithm. It MAY appear as encapsulated option in OPTION_S46 option.
-        It MUST NOT appear directly in a message. It MUST NOT appear (as a
-        sub-option) in OPTION_S46_RULE nor OPTION_S46_DMR options. </t>
+        algorithm.
+	</t>
 
         <t>See <xref target="I-D.ietf-softwire-map"></xref>, Section 5.1 for
         detailed description of MAP algorithm that explains meaning of all
@@ -517,18 +546,18 @@
             zeros.</t>
           </list></t>
 
-        <t>When receiveing the Port Parameters option with an explicit
+        <t>When receiving the Port Parameters option with an explicit
         PSID, the client MUST use this explicit PSID in configuring
         its MAP interface. The PSID field MUST be ignored in all but
         the BMR.</t>
 
 	<t>The OPTION_S46_PORTPARAMS option MUST be encapsulated in a
-	OPTION_s46_RULE option or an OPTION_S46_IPV4ADDRESS
-	option.</t>
+	OPTION_S46_RULE option or an OPTION_S46_IPV4ADDRESS option. It
+	MUST NOT appear directly within a container option.</t>
       </section>
     </section>
 
-    <section title="Softwire A+P Container DHCPv6 Options">
+    <section title="Softwire 46 Container DHCPv6 Options">
 
       <section anchor="option-mape" title="Softwire46 MAP-E Container Option">
         <t>This MAP-E Container Option specifies the container used to group all
@@ -542,7 +571,7 @@
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|        OPTION_S46_MAPE        |         option-length         |
+|        OPTION_S46_CONT_MAPE   |         option-length         |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                                                               |
 .            encapsulated-options (variable length)             .
@@ -552,15 +581,15 @@
         </figure>
 
         <t><list style="symbols">
-            <t>option-code: OPTION_S46_MAPE (TBD6)</t>
+            <t>option-code: OPTION_S46_CONT_MAPE (TBD6)</t>
             <t>option-length: 1 + Length of encapsulated options</t>
-            <t>encapsulated-options: options associatied with this Softwire46
+            <t>encapsulated-options: options associated with this Softwire46
             MAP-E domain.</t>
           </list></t>
 
         <t>The encapsulated options field encapsulates those options
         that are specific to this MAP Option. Currently there are two
-        options specified for the OPTION_S46_MAPE option,
+        options specified for the OPTION_S46_CONT_MAPE option,
         OPTION_S46_RULE and OPTION_S46_BR. There MUST be at least one
         OPTION_S46_RULE option and at least one OPTION_S46_BR.</t>
 
@@ -581,7 +610,7 @@
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|        OPTION_S46_MAPT        |         option-length         |
+|        OPTION_S46_CONT_MAPT   |         option-length         |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                                                               |
 .            encapsulated-options (variable length)             .
@@ -591,15 +620,15 @@
         </figure>
 
         <t><list style="symbols">
-            <t>option-code: OPTION_S46_MAPT (TBD7)</t>
+            <t>option-code: OPTION_S46_CONT_MAPT (TBD7)</t>
             <t>option-length: 1 + Length of encapsulated options</t>
-            <t>encapsulated-options: options associatied with this
+            <t>encapsulated-options: options associated with this
             Softwire46 MAP-T domain.</t>
           </list></t>
 
         <t>The encapsulated options field encapsulates those options
         that are specific to this MAP Option. Currently there are two
-        options specified for the OPTION_S46_MAPT option,
+        options specified for the OPTION_S46_CONT_MAPT option,
         OPTION_S46_RULE and OPTION_S46_DMR options. There MUST be at
         least one OPTION_S46_RULE option and exactly one
         OPTION_S46_DMR.</t>
@@ -620,7 +649,7 @@
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|        OPTION_S46_LW          |         option-length         |
+|        OPTION_S46_CONT_LW     |         option-length         |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                                                               |
 +            encapsulated-options (variable length)             .
@@ -630,16 +659,16 @@
         </figure>
 
         <t><list style="symbols">
-            <t>option-code: OPTION_S46_LW (TBD8)</t>
+            <t>option-code: OPTION_S46_CONT_LW (TBD8)</t>
             <t>option-length: 1 + Length of encapsulated options</t>
-            <t>encapsulated-options: options associatied with this Softwire46
+            <t>encapsulated-options: options associated with this Softwire46
             domain.</t>
           </list></t>
 
 
         <t>The encapsulated options field encapsulates those options
         that are specific to this Lightweight 4over6 Option. Currently
-        there are two options specified for the OPTION_S46_LW option,
+        there are two options specified for the OPTION_S46_CONT_LW option,
         OPTION_S46_IPV4ADDRESS and OPTION_S46_BR. There MUST be
         exactly one OPTION_S46_IPV4ADDRESS option and at least one
         OPTION_S46_BR.</t>
@@ -655,25 +684,54 @@
       mention here that a server will by default not reply with a
       Softwire 46 Container Option if the client has not explicitly
       enumerated it in its Option Request Option.</t>
+
+      <t>A CE router may support several or all of the mechanisms
+      mentioned here. In the case where a client requests multiple
+      mechanisms in its ORO option, the server SHOULD reply with all
+      the corresponding Softwire 46 Container options enumerated in
+      the Option Request Option.</t>
     </section>
 
     <section title="DHCPv6 Client Behavior">
       <t>A S46 CE acting as DHCPv6 client will request S46
       configuration to be assigned by the DHCPv6 server located in the
-      IPv6 network. Such a client SHOULD request OPTION_S46_MAPE,
-      OPTION_S46_MAPT or OPTION_S46_LW option in its ORO in SOLICIT,
+      IPv6 network. Such a client SHOULD request OPTION_S46_CONT_MAPE,
+      OPTION_S46_CONT_MAPT or OPTION_S46_CONT_LW option in its ORO in SOLICIT,
       REQUEST, RENEW, REBIND and INFORMATION-REQUEST messages. </t>
 
-      <t>When processing received S46 contaienr options the following behaviour is
+      <t>When processing received S46 container options the following behaviour is
       expected:<list style="symbols">
           <t>A client MUST support processing multiple received
-          OPTION_S46_RULE options in a container OPTION_S46_MAPE or
-          OPTION_S46_MAPT option</t>
+          OPTION_S46_RULE options in a container OPTION_S46_CONT_MAPE or
+          OPTION_S46_CONT_MAPT option</t>
 
           <t>A client receiving an unsupported S46 option, or an
           invalid parameter value SHOULD discard that S46 Container
           option and log the event.</t>
-        </list></t>
+      </list></t>
+
+      <t>A client supporting multiple of the Softwire 46 mechanisms
+      MAY request any or all of them in its ORO option. When receiving
+      multiple Softwire 46 Container options from the server, the
+      client behaviour is implementation specific. A client MAY
+      configure all mechanisms, or it MAY order the mechanisms in
+      local preference order and only configure the most preferred
+      mechanism. However, it is also foreseen that in practice a
+      DHCPv6 option with operator-defined priorities will be useful -
+      it is not discussed in this document, however the implementors
+      should foresee its existence.</t>
+
+      <t>DISCUSS: There are many ways of delivering IPv4 to a CE
+      router. Native IPv4 with global addressing, native IPv4 with
+      private addressing, DS-lite, 464XLAT, 4rd, MAP-E, MAP-T,
+      Lightweight 4over6. Should a CPE prefer a single option (per
+      interface), should it configure multiple, and handle a smooth
+      transition between them? <xref
+      target="I-D.townsley-troan-ipv6-ce-transitioning"/> proposes one
+      of the approaches to handle this scenario by having an implicit
+      order. Other approaches are possible and should be discussed,
+      however, this is out of scope for this particular document.</t>
+
 
       <t>Note that system implementing CE functionality may have multiple
       network interfaces, and these interfaces may be configured differently;
@@ -712,8 +770,8 @@
       <t>IANA is kindly requested to allocate the following DHCPv6
       option codes: TBD1 for OPTION_S46_RULE, TBD2 for OPTION_S4_BR,
       TBD3 for OPTION_S46_DMR, TBD4 for OPTION_S46_IPV4ADDRESS, TBD5
-      for OPTION_S46_PORTPARAMS, and TBD6 for OPTION_S46_MAPE, TBD7
-      for OPTION_S46_MAPT and TBD8 for OPTION_S46_LW All values should
+      for OPTION_S46_PORTPARAMS, and TBD6 for OPTION_S46_CONT_MAPE, TBD7
+      for OPTION_S46_CONT_MAPT and TBD8 for OPTION_S46_CONT_LW All values should
       be added to the DHCPv6 option code space defined in Section 24.3
       of <xref target="RFC3315"/>.</t>
     </section>
@@ -755,6 +813,7 @@
       &I-D.ietf-homenet-arch;
       &I-D.ietf-dhc-option-guidelines;
       &I-D.ietf-dhc-secure-dhcpv6;
+      &I-D.townsley-troan-ipv6-ce-transitioning;
     </references>
   </back>
 </rfc>
