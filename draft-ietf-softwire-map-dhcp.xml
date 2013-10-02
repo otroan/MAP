@@ -145,10 +145,7 @@
       options, for the provisioning of Softwire46 Customer Edge (CE)
       devices. Softwire46 is a collective term used to refer to
       architectures based on the notion of IPv4 Address+Port (A+P) for
-      providing IPv4 connectivity across an IPv6 network, as specified
-      by the IETF Softwires Working Group, including those where the
-      IPv4 A+P parameters are optionally derived from the CE's IPv6
-      network prefix by algorithmic means.</t>
+      providing IPv4 connectivity across an IPv6 network.</t>
       <t></t>
     </abstract>
   </front>
@@ -158,13 +155,12 @@
 
 
     <section title="Introduction">
-      <t>A number of architectural solution proposals formed in the IETF
-      Softwires Working Group use Address and Port (A+P) as their technology
-      base in providing IPv4 connectivity service to end users using CE
-      devices across a service provider's IPv6 network, while allowing for
-      shared or dedicated IPv4 addressing of the CEs. This document specifies
-      DHCPv6 options for the provisioning of such Softwire46 A+P based
-      Customer Edge (CE) devices.</t>
+      <t>A number of architectural solution proposals discussed in the
+      IETF Softwires Working Group use Address and Port (A+P) as their
+      technology base in providing IPv4 connectivity service to end
+      users using CE devices across a service provider's IPv6 network,
+      while allowing for shared or dedicated IPv4 addressing of the
+      CEs.</t>
 
       <t>An example is Mapping of Address and Port (MAP) defined in
       <xref target="I-D.ietf-softwire-map"></xref>. The MAP solution
@@ -180,15 +176,14 @@
       <t>To function in such a domain, a CE requires to be provisioned
       with the appropriate A+P service parameters for that
       domain. This consists primarily of the IPv4 address the CE
-      should use and the transport layer port-range(s), both of which
-      may be derived from the CE's IPv6 prefix, as well as the
-      port-indexing method. Furthermore the IPv6 transport mode
-      (e.g. encapsulation or translation) needs to be specified.</t>
+      should use and the transport layer port-range(s). Furthermore
+      the IPv6 transport mode (e.g. encapsulation or translation)
+      needs to be specified.</t>
 
       <t>This memo specifies a set of DHCPv6 <xref target="RFC3315"/>
-      options to provision this information to CE
-      routers. Configuration of the Border Relay is out of scope of
-      this document.</t>
+      options to provision Softwire46 information to CE
+      routers. Configuration of the BR is out of scope of this
+      document.</t>
 
     </section>
 
@@ -222,24 +217,12 @@
       target="RFC2119"></xref>.</t>
     </section>
 
-    <section title="Softwire 46">
+    <section title="Softwire 46 Overview">
 
      <t>This document describes a set of common DHCPv6 options for
      MAP-E <xref target="I-D.ietf-softwire-map"/>, MAP-T <xref
      target="I-D.ietf-softwire-map-t"/> and Lightweight 4over6 <xref
-     target="I-D.ietf-softwire-lw4over6"/> mechanisms. To support more 
-     than one mechanism at a time and to allow for a possibility of transition 
-     between them, ORO DHCPv6 mechanism is used. Each mechanism has a 
-     corresponding container option. A DHCPv6 client can request a particular
-     mechanism by including the option code for a particular container
-     option in its ORO option. The provisioning parameters for that mechanism
-     are expressed by embedding the common format options within the respective container.
-     </t>
-     <t>
-     This approach implies that the all the provisioning options MUST appear only within the container options. 
-     The client MUST NOT request any of the provisioning options themselves within ORO. Likewise, the server MUST NOT send
-     the provisioning options directly within DHCPv6 message, without enclosing them into the corresponding container options first.
-     </t>
+     target="I-D.ietf-softwire-lw4over6"/> mechanisms.</t>
 
      <t>MAP-E, MAP-T and Lightweight 4over6 are essentially providing
      the same functionality: IPv4 service to a CE router over an IPv6
@@ -256,6 +239,24 @@
      address bits. Lightweight 4over6 is restricted to supporting only
      a full IPv4 address or shared IPv4 address, provisioning an IPv4
      prefix is not supported.</t>
+
+     <t>To support more than one mechanism at a time and to allow for
+     a possibility of transition between them, the Option Request
+     Option DHCPv6 <xref target="RFC3315"/> function is used. Each
+     mechanism has a corresponding container option. A DHCPv6 client
+     can request a particular mechanism by including the option code
+     for a particular container option in its ORO option. The
+     provisioning parameters for that mechanism are expressed by
+     embedding the common format options within the respective
+     container.</t>
+
+     <t>This approach implies that the all the provisioning options
+     MUST appear only within the container options. The client MUST
+     NOT request any of the provisioning options directly within an
+     ORO. Likewise, the server MUST NOT send the provisioning options
+     directly within DHCPv6 message, without encapsluating them in the
+     corresponding container options.</t>
+
 
      <t>The document is organized with the common sub-options
      described first, and then the three container options. Some of
@@ -275,7 +276,7 @@
       <t>Each CE needs to be provisioned with enough information to
       calculate its IPv4 address, IPv4 prefix or shared IPv4
       address. MAP-E and MAP-T uses the OPTION_S46_RULE, while for
-      Lightweight 4over6, the OPTION_S46_ADDRESS option is used. A CE
+      Lightweight 4over6, the OPTION_S46_IPV4ADDRESS option is used. A CE
       that needs to communicate outside of the A+P domain, also needs
       the address or prefix of the BR. MAP-E and Lightweight 4over6
       uses the OPTION_S46_BR, while MAP-T embeds the IPv4
@@ -301,11 +302,11 @@
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |        OPTION_S46_RULE        |         option-length         |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|  prefix4-len  |               rule-ipv4-prefix                |
+|     flags     |     ea-len    |  prefix4-len  | ipv4-prefix   |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-| (continued)   |     ea-len    |  rule-flags  |  prefix6-len   |
+|                  (continued)                  |  prefix6-len  |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|                       rule-ipv6-prefix                        |
+|                           ipv6-prefix                         |
 |                       (variable length)                       |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                                                               |
@@ -323,24 +324,24 @@
             option-length fields, including length of all encapsulated
             options, expressed in bytes.</t>
 
-            <t>prefix4-len: 8 bits long field expressing the prefix
-            length of the IPv4 prefix specified in the
-            rule-ipv4-prefix field. Valid values 0 to 32.</t>
-
-            <t>rule-ipv4-prefix: a fixed length 32 bit field that specifies
-            the IPv4 prefix for the S46 rule. Zero-padded.</t>
+            <t>flags: 8 bits long field carrying flags applicable to the
+            rule. The meaning of specific bits is explained in <xref
+            target="img-rule-flags"></xref>.</t>
 
             <t>ea-len: 8 bits long field that specifies the Embedded-Address
             (EA) bit length. Values allowed range from 0 to 48.</t>
 
-            <t>rule-flags: 8 bits long field carrying flags applicable to the
-            rule. The meaning of specific bits is explained in <xref
-            target="img-rule-flags"></xref>.</t>
+            <t>prefix4-len: 8 bits long field expressing the prefix
+            length of the IPv4 prefix specified in the
+            rule-ipv4-prefix field. Valid values 0 to 32.</t>
+
+            <t>ipv4-prefix: a fixed length 32 bit field that specifies
+            the IPv4 prefix for the S46 rule. Zero-padded.</t>
 
             <t>prefix6-len: 8 bits long field expressing the prefix length
             of the IPv6 prefix specified in the rule-ipv6-prefix field.</t>
 
-            <t>rule-ipv6-prefix: a variable length field that specifies the
+            <t>ipv6-prefix: a variable length field that specifies the
             IPv6 domain prefix for the S46 rule. The field is padded with
             follow up zero bits up to the nearest octet boundary when
             prefix6-len is not divisible by 8.</t>
@@ -558,6 +559,21 @@
     </section>
 
     <section title="Softwire 46 Container DHCPv6 Options">
+
+      <texttable anchor="table_options" title="Option to Container Mappings">
+    <ttcol align='left'>Option</ttcol>
+    <ttcol align='center'>MAP-E</ttcol>
+    <ttcol align='center'>MAP-T</ttcol>
+    <ttcol align='center'>Lightweight 4over6</ttcol>
+
+    <c>OPTION_S46_RULE</c><c>M</c><c>M</c><c>-</c>
+    <c>OPTION_S46_BR</c><c>M</c><c>-</c><c>M</c>
+    <c>OPTION_S46_PORTPARAMS</c><c>O</c><c>O</c><c>O</c>
+    <c>OPTION_S46_DMR</c><c>-</c><c>M</c><c>-</c>
+    <c>OPTION_S46_IPV4ADDRESS</c><c>-</c><c>-</c><c>M</c>
+
+    <postamble>M - Mandatory, O - Optional, - - Not Applicable</postamble>
+</texttable>
 
       <section anchor="option-mape" title="Softwire46 MAP-E Container Option">
         <t>This MAP-E Container Option specifies the container used to group all
