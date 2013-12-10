@@ -47,7 +47,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc comments="yes" ?>
 <?rfc inline="yes" ?>
-<rfc category="std" docName="draft-ietf-softwire-map-08" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-softwire-map-09" ipr="trust200902">
   <front>
     <title abbrev="MAP">Mapping of Address and Port with Encapsulation
     (MAP)</title>
@@ -793,11 +793,9 @@ O---.--------------O
 	access.</t>
 
 	<t>The MAP provisioning parameters, and hence the IPv4 service
-	itself, is tied to the End-user IPv6 prefix lease; thus, the
-	MAP service is also tied to this in terms of authorization,
-	accounting, etc. The MAP IPv4 address, prefix or shared IPv4
-	address and port set has the same lifetime as its associated
-	End-user IPv6 prefix.</t>
+	itself, is tied to the associated End-user IPv6 prefix
+	lifetime; thus, the MAP service is also tied to this in terms
+	of authorization, accounting, etc.</t>
 
         <t>A single MAP CE MAY be connected to more than one MAP domain, just
         as any router may have more than one IPv4-enabled service provider
@@ -824,15 +822,6 @@ O---.--------------O
         be advertised externally for MAP to operate, neither in IPv6 nor IPv4
         BGP. However, if anycast is used for the MAP IPv6 relays, the anycast
         addresses must be advertised in the service provider's IGP.</t>
-      </section>
-
-      <section title="Backwards compatibility">
-        <t>A MAP-E CE provisioned with only the IPv6 address of the
-        BR, and with no IPv4 address and port range configured by
-        other means, MUST disable its NAT44 functionality. This
-        characteristic makes a MAP CE compatible with DS-Lite <xref
-        target="RFC6333"></xref> AFTRs, whose addresses are configured
-        as the MAP BR.</t>
       </section>
 
 <!--
@@ -1159,12 +1148,12 @@ O---.--------------O
     <references title="Normative References">
       &rfc2119;
       &rfc2473;
-      &I-D.ietf-softwire-map-dhcp;
     </references>
 
     <!--  SECTION 8.2:  Informative References		-->
 
     <references title="Informative References">
+      &I-D.ietf-softwire-map-dhcp;
       &rfc6052;
       &rfc6346;
       &I-D.ietf-softwire-stateless-4v6-motivation;
@@ -1347,8 +1336,8 @@ O---.--------------O
    PSID length:           8
    PSID:                  0x20
 
-   Available ports (63 ranges) : 1536-1551, 2560-2575, ...... ,
-                                 64000-64015, 65024-65039
+   Available ports (63 ranges) : 1152-1155, 2176-2179, ...... ,
+                                 63616-63619, 64640-64643
 
    The BMR information allows a MAP CE also to determine (complete)
    its full IPv6 address by combining the IPv6 prefix with the MAP
