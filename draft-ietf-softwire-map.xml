@@ -1232,34 +1232,34 @@ O---.--------------O
 
           <artwork align="left"><![CDATA[
 
-   Another example can be made of a MAP BR,
-   configured with the following FMR when receiving a packet
-   with the following characteristics:
+Another example can be made of a MAP BR,
+configured with the following FMR when receiving a packet
+with the following characteristics:
 
-   IPv4 source address:       1.2.3.4 (0x01020304)
-   IPv4 source port:          80
-   IPv4 destination address:  192.0.2.18 (0xc0000212)
-   IPv4 destination port:     1232
+IPv4 source address:       1.2.3.4 (0x01020304)
+IPv4 source port:          80
+IPv4 destination address:  192.0.2.18 (0xc0000212)
+IPv4 destination port:     1232
 
-   Configured Forwarding Mapping Rule: {2001:db8::/40 (Rule IPv6 prefix),
-                                        192.0.2.0/24 (Rule IPv4 prefix),
-                                        16 (Rule EA-bits length)}
+Forwarding Mapping Rule: {2001:db8::/40 (Rule IPv6 prefix),
+                          192.0.2.0/24 (Rule IPv4 prefix),
+                          16 (Rule EA-bits length)}
 
-   IPv6 address of MAP BR:              2001:db8:ffff::1
+IPv6 address of MAP BR:              2001:db8:ffff::1
 
-   The above information allows the BR to derive as follows
-   the mapped destination IPv6 address for the corresponding
-   MAP CE, and also the mapped source IPv6 address for
-   the IPv4 source address.
+The above information allows the BR to derive as follows
+the mapped destination IPv6 address for the corresponding
+MAP CE, and also the mapped source IPv6 address for
+the IPv4 source address.
 
-   IPv4 suffix bits (p):  32 - 24 = 8 (18 (0x12))
-   PSID length:           8
-   PSID:                  0x34 (1232)
+IPv4 suffix bits (p):  32 - 24 = 8 (18 (0x12))
+PSID length:           8
+PSID:                  0x34 (1232)
 
-   The resulting IPv6 packet will have the following key fields:
+The resulting IPv6 packet will have the following key fields:
 
-   IPv6 source address:       2001:db8:ffff::1
-   IPv6 destination address:  2001:db8:0012:3400:0000:c000:0212:0034
+IPv6 source address:       2001:db8:ffff::1
+IPv6 destination address:  2001:db8:0012:3400:0000:c000:0212:0034
 
   ]]></artwork>
         </figure></t>
@@ -1269,30 +1269,30 @@ O---.--------------O
 
           <artwork align="left"><![CDATA[
    
-   An IPv4 host behind the MAP CE (addressed as per the previous
-   examples) corresponding with IPv4 host 1.2.3.4 will have its
-   packets encapsulated by IPv6 using the IPv6 address of the BR
-   configured on the MAP CE as follows:
+An IPv4 host behind the MAP CE (addressed as per the previous
+examples) corresponding with IPv4 host 1.2.3.4 will have its
+packets encapsulated by IPv6 using the IPv6 address of the BR
+configured on the MAP CE as follows:
 
-   IPv6 address of BR used by MAP CE: 2001:db8:ffff::1
-   IPv4 source address:               192.0.2.18
-   IPv4 destination address:          1.2.3.4
-   IPv4 source port:                  1232
-   IPv4 destination port:             80
-   IPv6 source address of MAP CE:     2001:db8:0012:3400:0000:c000:0212:0034
-   IPv6 destination address:          2001:db8:ffff::1
+IPv6 address of BR:         2001:db8:ffff::1
+IPv4 source address:        192.0.2.18
+IPv4 destination address:   1.2.3.4
+IPv4 source port:           1232
+IPv4 destination port:      80
+MAP CE IPv6 source address: 2001:db8:0012:3400:0000:c000:0212:0034
+IPv6 destination address:   2001:db8:ffff::1
    
   ]]></artwork>
         </figure><figure>
           <preamble>Example 4 - Rule with no embedded address bits and no address sharing</preamble>
 
           <artwork><![CDATA[
-   End-User IPv6 prefix:  2001:db8:0012:3400::/56
-   Basic Mapping Rule:    {2001:db8:0012:3400::/56 (Rule IPv6 prefix),
-                           192.0.2.1/32 (Rule IPv4 prefix),
-                           0 (Rule EA-bits length)}
-   PSID length:            0 (Sharing ratio is 1)
-   PSID offset:            n/a
+   End-User IPv6 prefix: 2001:db8:0012:3400::/56
+   Basic Mapping Rule:   {2001:db8:0012:3400::/56 (Rule IPv6 prefix),
+                          192.0.2.1/32 (Rule IPv4 prefix),
+                          0 (Rule EA-bits length)}
+   PSID length:          0 (Sharing ratio is 1)
+   PSID offset:          n/a
 
    A MAP node (CE or BR) can via the BMR or equivalent FMR, determine
    the IPv4 address and port-set as shown below:
@@ -1317,13 +1317,13 @@ O---.--------------O
         ratio 256)</preamble>
 
           <artwork><![CDATA[
-   End-User IPv6 prefix:  2001:db8:0012:3400::/56
-   Basic Mapping Rule:    {2001:db8:0012:3400::/56 (Rule IPv6 prefix),
-                           192.0.2.1/32 (Rule IPv4 prefix),
-                           0 (Rule EA-bits length)}
-   PSID length:           8. (Provisioned with DHCP. Sharing ratio of 256)
-   PSID offset:           6  (Default)
-   PSID       :           0x20 (Provisioned with DHCP.)
+   End-User IPv6 prefix: 2001:db8:0012:3400::/56
+   Basic Mapping Rule:   {2001:db8:0012:3400::/56 (Rule IPv6 prefix),
+                          192.0.2.1/32 (Rule IPv4 prefix),
+                          0 (Rule EA-bits length)}
+   PSID length:          8. (From DHCP. Sharing ratio of 256)
+   PSID offset:          6  (Default)
+   PSID       :          0x20 (Provisioned with DHCP.)
 
    A MAP node can via the BMR determine the IPv4 address and port-set
    as shown below:
