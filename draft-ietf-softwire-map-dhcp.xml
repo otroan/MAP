@@ -33,7 +33,7 @@
 <?rfc inline="yes" ?>
 
 
-<rfc category="std" docName="draft-ietf-softwire-map-dhcp-06"
+<rfc category="std" docName="draft-ietf-softwire-map-dhcp-07"
      ipr="trust200902">
   <front>
     <title abbrev="DHCPv6 for Softwire 46 CEs">DHCPv6 Options for
@@ -101,36 +101,33 @@
       </address>
     </author>
 
-    <author fullname="Leaf Y. Yeh" initials="L." surname="Yeh">
-      <organization>Freelancer Technologies</organization>
-      <address>
-        <postal>
-          <street></street>
-          <city>Shenzhen</city>
-          <region>Guangdong</region>
-          <code></code>
-          <country>P. R. China</country>
-        </postal>
-        <phone></phone>
-        <facsimile></facsimile>
-        <email>leaf.yeh.sdo@gmail.com</email>
-        <uri></uri>
-      </address>
-    </author>
+   <author fullname="Leaf Y. Yeh" initials="L." surname="Yeh">
+     <organization>CNNIC</organization>
+     <address>
+       <postal>
+         <street>4, South 4th Street, Zhong_Guan_Cun</street>
+         <city> Beijing</city>
+         <region></region>
+         <code>100190</code>
+         <country>P. R. China</country>
+       </postal>
+       <email>leaf.yeh.sdo@gmail.com</email>
+     </address>
+   </author>
 
-    <author fullname="Xiaohong Deng" initials="X." surname="Deng">
-      <!-- <organization></organization> -->
-      <address>
-        <postal>
-          <street>6 Cordelia St.</street>
-          <code>QLD 4101</code>
-          <city>South Brisbane</city>
-          <country>Australia</country>
-        </postal>
-        <phone>+61 3858 3128</phone>
-        <email>dxhbupt@gmail.com</email>
-      </address>
-    </author>
+   <author fullname="Xiaohong Deng" initials="X." surname="Deng">
+     <organization>Yingke Law Firm</organization>
+     <address>
+       <postal>
+         <street>6 Floor, C Block, DaCheng International Center Chaoyang District</street>
+         <code>100124</code>
+         <city>Beijing</city>
+         <country>China</country>
+       </postal>
+       <phone>+61 3858 3128</phone>
+       <email>dxhbupt@gmail.com</email>
+     </address>
+   </author>
 
     <!-- Qiong Sun requested joining author team as well (22.10.2011 12:10) -->
 
