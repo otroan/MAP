@@ -241,13 +241,13 @@
      <xref target="RFC2473"/> IPv4 over IPv6 tunnelling, while MAP-T
      uses NAT64 <xref target="RFC6145"/> based
      translation. Lightweight 4over6 is a hub and spoke IPv4 over IPv6
-     tunnel mechanism, with complete independence of IPv4 and IPv6
+     tunneling mechanism, with complete independence of IPv4 and IPv6
      addressing (zero embedded address bits).</t>
 
      <t>The DHCP options described here tie the provisioning
      parameters, and hence the IPv4 service itself, to the End-user
      IPv6 prefix lifetime. The validity of the softwire IPv4 address,
-     prefix or shared IPv4 address, port set and any authorisation and
+     prefix or shared IPv4 address, port set and any authorization and
      accounting are tied to the lifetime of its associated End-user
      IPv6 prefix.</t>
 
@@ -286,7 +286,7 @@
       <t>Each CE needs to be provisioned with enough information to
       calculate its IPv4 address, IPv4 prefix or shared IPv4
       address. MAP-E and MAP-T use the OPTION_S46_RULE, while
-      Lightweight 4over6 uses OPTION_S46_IPV4ADDRESS option. A
+      Lightweight 4over6 uses the OPTION_S46_V4V6BIND option. A
       CE that needs to communicate outside of the A+P domain, also
       needs the address or prefix of the BR. MAP-E and Lightweight
       4over6 use the OPTION_S46_BR option to communicate the IPv6
@@ -467,41 +467,52 @@
           </list></t>
       </section>
 
-      <section anchor="option-ipv4address"
-               title="S46 IPv4 Address Option">
-        <t>The IPv4 address Option MAY be used to specify the full or shared IPv4
-        address of the CE. 
-        </t>
+      <section anchor="option-v4v6bind"
+               title="S46 IPv4/IPv6 Address Binding Option">
+        <t>The IPv4 address Option MAY be used to specify the full or shared
+        IPv4 address of the CE. The IPv6 prefix field is used by the
+        CE to identify the correct prefix to use for the tunnel source.</t>
 
-        <figure align="center" anchor="img-option-ipv4address"
-                title="S46 IPv4 address Option">
+        <figure align="center" anchor="img-option-v4v6bind"
+                title="S46 IPv4/IPv6 Address Binding Option">
           <preamble></preamble>
 
           <artwork align="center"><![CDATA[
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|     OPTION_S46_IPV4ADDRESS    |         option-length         |
+|      OPTION_S46_V4V6BIND      |         option-length         |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                         ipv4-address                          |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|                                                               |
-.                    S46_IPV4ADDRESS-options                    .
+|bindprefix6-len|             bind-ipv6-prefix                  |
++-+-+-+-+-+-+-+-+             (variable length)                 |
 .                                                               .
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-
+|                                                               |
+.                      S46_V4V6BIND-options                     .
+.                                                               .
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 ]]></artwork>
 
         </figure>
 
         <t><list style="symbols">
-            <t>option-code: OPTION_S46_IPV4ADDRESS (TBD4)</t>
+            <t>option-code: OPTION_S46_V4V6BIND (TBD4)</t>
             <t>option-length: 4</t>
-            <t>ipv4-address: A fixed field of 4 octets specifying an IPv4 address.</t>
-	    <t>S46_IPV4ADDRESS-options: a variable field that may
-	    contain zero or more options that specify additional
-	    parameters e.g. a Port Parameter Option.</t>
-          </list></t>
+            <t>ipv4-address: A fixed field of 4 octets specifying an IPv4
+            address.</t>
+            <t>bindprefix6-len: 8 bits long field expressing the bit mask
+            length of the IPv6 prefix specified in the bind-ipv6-prefix
+            field.</t>
+            <t>bind-ipv6-prefix: a variable length field that specifies the
+            IPv6 prefix or address for the S46. This field is padded with
+            follow up zeros to the nearest octet boundary when bindprefix6-len
+            is not divisible by 8.</t>
+            <t>S46_V4V6BIND-options: a variable field that may
+            contain zero or more options that specify additional
+            parameters e.g. a Port Parameter Option.</t>
+        </list></t>
       </section>
 
       <section anchor="option-portparams"
@@ -563,7 +574,7 @@
         completely formed IPv4 address.</t>
 
 	<t>The OPTION_S46_PORTPARAMS option MUST be encapsulated in a
-	OPTION_S46_RULE option or an OPTION_S46_IPV4ADDRESS option. It
+	OPTION_S46_RULE option or an OPTION_S46_V4V6BIND option. It
 	MUST NOT appear directly within a container option.</t>
 
       </section>
@@ -581,7 +592,7 @@
     <c>OPTION_S46_BR</c><c>M</c><c>-</c><c>M</c>
     <c>OPTION_S46_PORTPARAMS</c><c>O</c><c>O</c><c>O</c>
     <c>OPTION_S46_DMR</c><c>-</c><c>M</c><c>-</c>
-    <c>OPTION_S46_IPV4ADDRESS</c><c>-</c><c>-</c><c>O</c>
+    <c>OPTION_S46_V4V6BIND</c><c>-</c><c>-</c><c>O</c>
 
     <postamble>M - Mandatory, O - Optional, - - Not Applicable</postamble>
 </texttable>
@@ -696,8 +707,8 @@
         <t>The encapsulated options field encapsulates those options
         that are specific to this Lightweight 4over6 Option. Currently
         there are two options specified for the OPTION_S46_CONT_LW
-        option, OPTION_S46_IPV4ADDRESS and OPTION_S46_BR. There MUST
-        be at most one OPTION_S46_IPV4ADDRESS option and at least one
+        option, OPTION_S46_V4V6BIND and OPTION_S46_BR. There MUST
+        be at most one OPTION_S46_V4V6BIND option and at least one
         OPTION_S46_BR option.</t>
 
       </section>
@@ -740,8 +751,8 @@
 
       <t>The behavior of a client supporting multiple Softwire 46
       mechanisms, is out of scope of this document. See: <xref
-      target="I-D.ietf-softwire-unified-cpe"/> for how to prioritise and handle
-      multiple simulatanous mechanisms in use.</t>
+      target="I-D.ietf-softwire-unified-cpe"/> for how to prioritize and handle
+      multiple simultaneous mechanisms in use.</t>
 
 <!--      
       <t>DISCUSS: There are many ways of delivering IPv4 to a CE
@@ -795,7 +806,7 @@
       <t>TBD1 for OPTION_S46_RULE</t>
       <t>TBD2 for OPTION_S4_BR</t>
       <t>TBD3 for OPTION_S46_DMR</t>
-      <t>TBD4 for OPTION_S46_IPV4ADDRESS</t>
+      <t>TBD4 for OPTION_S46_V4V6BIND</t>
       <t>TBD5 for OPTION_S46_PORTPARAMS</t>
       <t>TBD6 for OPTION_S46_CONT_MAPE</t>
       <t>TBD7 for OPTION_S46_CONT_MAPT</t>
@@ -813,7 +824,7 @@
       Murakami, Jacni Qin, Necj Scoberne, Qiong Sun, Tina Tsou, Dan Wing, Leaf
       Yeh and Jan Zorz.</t>
 
-      <t>Authors would like to thank Bernie Volz and Tom Tayloer for
+      <t>Authors would like to thank Bernie Volz and Tom Taylor for
       their insightful comments and suggestions.</t>
     </section>
   </middle>
