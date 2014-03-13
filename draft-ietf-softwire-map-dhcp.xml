@@ -4,20 +4,20 @@
 <!ENTITY rfc2119 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
 <!ENTITY rfc2131 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2131.xml">
 <!ENTITY rfc3315 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3315.xml">
-<!ENTITY rfc3633 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3633.xml">
+<!--<!ENTITY rfc3633 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3633.xml">-->
 <!ENTITY rfc2119 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
 <!ENTITY rfc2473 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2473.xml">
-<!ENTITY rfc5226 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5226.xml">
-<!ENTITY rfc6335 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6335.xml">
+<!--<!ENTITY rfc5226 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5226.xml">-->
+<!--<!ENTITY rfc6335 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6335.xml">-->
 <!ENTITY rfc6145 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6145.xml">
 <!ENTITY I-D.ietf-softwire-map SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map.xml">
 <!ENTITY I-D.ietf-softwire-map-t SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map-t.xml">
 <!ENTITY I-D.ietf-softwire-lw4over6 SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-lw4over6.xml">
-<!ENTITY I-D.mdt-softwire-map-deployment SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mdt-softwire-map-deployment.xml">
-<!ENTITY I-D.ietf-homenet-arch SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-homenet-arch.xml">
-<!ENTITY I-D.ietf-dhc-option-guidelines SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-dhc-option-guidelines.xml">
+<!--<!ENTITY I-D.mdt-softwire-map-deployment SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mdt-softwire-map-deployment.xml">-->
+<!--<!ENTITY I-D.ietf-homenet-arch SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-homenet-arch.xml">-->
+<!--<!ENTITY I-D.ietf-dhc-option-guidelines SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-dhc-option-guidelines.xml">-->
 <!ENTITY I-D.ietf-dhc-secure-dhcpv6 SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-dhc-secure-dhcpv6.xml">
-<!ENTITY I-D.townsley-troan-ipv6-ce-transitioning SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.townsley-troan-ipv6-ce-transitioning.xml">
+<!--<!ENTITY I-D.townsley-troan-ipv6-ce-transitioning SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.townsley-troan-ipv6-ce-transitioning.xml">-->
 <!ENTITY I-D.ietf-softwire-unified-cpe SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-unified-cpe.xml">
 
 ]>
@@ -56,7 +56,7 @@
       </address>
     </author>
 
-    <author fullname="Ole Troan" initials="O" surname="Troan" role="editor">
+    <author fullname="Ole Troan" initials="O" surname="Troan">
       <organization>Cisco Systems</organization>
       <address>
         <postal>
@@ -69,6 +69,39 @@
       </address>
     </author>
 
+
+   
+    <author fullname="Ian Farrer" initials="I." surname="Farrer">
+      <organization>Deutsche Telekom AG</organization>
+      <address>
+      <postal>
+      <street>CTO-ATI, Landgrabenweg 151</street>
+      <city>Bonn</city>
+      <region>NRW</region>
+      <code>53227</code>
+      <country>Germany</country>
+      </postal>
+          <phone></phone>
+      <email>ian.farrer@telekom.de</email>
+      </address>
+    </author>
+
+    <author fullname="Simon Perreault" initials="S." surname="Perreault">
+      <organization>Viagenie</organization>
+      <address>
+      <postal>
+      <street>246 Aberdeen</street>
+                  <city>Quebec</city>
+                  <region>QC</region>
+      <code>G1R 2E1</code>
+      <country>Canada</country>
+      </postal>
+          <phone>+1 418 656 9254</phone>
+      <email>simon.perreault@viagenie.ca</email>
+      </address>
+    </author>
+
+<!--
     <author fullname="Wojciech Dec" initials="W" surname="Dec">
       <organization abbrev="Cisco">Cisco Systems, Inc.</organization>
       <address>
@@ -128,7 +161,7 @@
        <email>dxhbupt@gmail.com</email>
      </address>
    </author>
-
+-->
     <!-- Qiong Sun requested joining author team as well (22.10.2011 12:10) -->
 
     <date />
@@ -836,7 +869,7 @@
 
     <references title="Normative References">
       &rfc3315;
-      &rfc3633;
+<!--      &rfc3633;-->
       &rfc2119;
     </references>
 
@@ -845,16 +878,16 @@
     <references title="Informative References">
       &rfc2473;
       &rfc2131;
-      &rfc5226;
-      &rfc6335;
+<!--      &rfc5226;-->
+<!--      &rfc6335;-->
       &I-D.ietf-softwire-map;
       &I-D.ietf-softwire-map-t;
       &I-D.ietf-softwire-lw4over6;
-      &I-D.mdt-softwire-map-deployment;
-      &I-D.ietf-homenet-arch;
-      &I-D.ietf-dhc-option-guidelines;
+<!--      &I-D.mdt-softwire-map-deployment;-->
+<!--      &I-D.ietf-homenet-arch;-->
+<!--      &I-D.ietf-dhc-option-guidelines;-->
       &I-D.ietf-dhc-secure-dhcpv6;
-      &I-D.townsley-troan-ipv6-ce-transitioning;
+<!--      &I-D.townsley-troan-ipv6-ce-transitioning;-->
       &I-D.ietf-softwire-unified-cpe;
       &rfc6145;
     </references>
