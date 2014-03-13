@@ -185,7 +185,10 @@
 
       <t>This memo specifies a set of DHCPv6 <xref target="RFC3315"/>
       options to provision Softwire46 information to CE
-      routers. Configuration of the BR is out of scope of this
+      routers. Although the focus is to deliver IPv4 service to an
+      end-user network (such as a residential home network), it can
+      equally be applied to an individual host acting as a
+      CE. Configuration of the BR is out of scope of this
       document.</t>
 
     </section>
@@ -347,7 +350,10 @@
             rule-ipv4-prefix field. Valid values 0 to 32.</t>
 
             <t>ipv4-prefix: a fixed length 32 bit field that specifies
-            the IPv4 prefix for the S46 rule. Zero-padded.</t>
+            the IPv4 prefix for the S46 rule. The bits in the prefix
+            after prefix4-len number of bits are reserved and MUST be
+            initialized to zero by the sender and ignored by the
+            receiver.</t>
 
             <t>prefix6-len: 8 bits long field expressing the length
             of the IPv6 prefix specified in the rule-ipv6-prefix field.</t>
@@ -378,10 +384,10 @@
 
 	    <t>F-Flag: 1 bit field that specifies whether the rule is
 	    to be used for forwarding (FMR).  If set, this rule is
-	    used as a FMR, if not set this rule is a BMR. Note:
-	    BMR rules can also be FMR rules by setting the F flag.
-	    BMR rules are determined by a match of the
-	    Rule-IPv6-prefix against the CPE's prefix(es).</t>
+	    used as a FMR, if not set this rule is a BMR. Note: A BMR
+	    rule can also be an FMR rule by setting the F flag. The
+	    BMR rule is determined by a match of the Rule-IPv6-prefix
+	    against the CPE's prefix(es).</t>
           </list></t>
 
         <t>It is expected that in a typical mesh deployment scenario,
@@ -545,7 +551,7 @@
             the numeric value for the S46 algorithm's excluded port
             range/offset bits (A-bits), as per section 5.1.1 of <xref
             target="I-D.ietf-softwire-map"></xref>. Allowed values are
-            between 0 and 16, with the default value being 6.</t>
+            between 0 and 15, with the default value being 6.</t>
 
             <t>PSID-len: Bit length value of the number of significant
             bits in the PSID field. (also known as 'k'). When set to
