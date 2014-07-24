@@ -16,7 +16,6 @@
 <!--<!ENTITY I-D.mdt-softwire-map-deployment SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.mdt-softwire-map-deployment.xml">-->
 <!--<!ENTITY I-D.ietf-homenet-arch SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-homenet-arch.xml">-->
 <!--<!ENTITY I-D.ietf-dhc-option-guidelines SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-dhc-option-guidelines.xml">-->
-<!ENTITY I-D.ietf-dhc-secure-dhcpv6 SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-dhc-secure-dhcpv6.xml">
 <!--<!ENTITY I-D.townsley-troan-ipv6-ce-transitioning SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.townsley-troan-ipv6-ce-transitioning.xml">-->
 <!ENTITY I-D.ietf-softwire-unified-cpe SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-unified-cpe.xml">
 
@@ -902,7 +901,7 @@
 <!--      &I-D.mdt-softwire-map-deployment;-->
 <!--      &I-D.ietf-homenet-arch;-->
 <!--      &I-D.ietf-dhc-option-guidelines;-->
-      &I-D.ietf-dhc-secure-dhcpv6;
+<!--      &I-D.ietf-dhc-secure-dhcpv6;-->
 <!--      &I-D.townsley-troan-ipv6-ce-transitioning;-->
       &I-D.ietf-softwire-unified-cpe;
       &rfc6145;
