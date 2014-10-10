@@ -30,7 +30,7 @@
 <?rfc inline="yes" ?>
 
 
-<rfc category="std" docName="draft-ietf-softwire-map-dhcp-08"
+<rfc category="std" docName="draft-ietf-softwire-map-dhcp-09"
      ipr="trust200902">
   <front>
     <title abbrev="DHCPv6 for Softwire 46 CEs">DHCPv6 Options for

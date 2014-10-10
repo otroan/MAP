@@ -37,6 +37,7 @@
 <!ENTITY rfc1858 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.1858.xml">
 <!ENTITY rfc3128 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3128.xml">
 <!ENTITY rfc4963 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4963.xml">
+<!ENTITY rfc5625 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5625.xml">
 
 <!ENTITY I-D.ietf-softwire-map-dhcp SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map-dhcp.xml">
 <!ENTITY I-D.ietf-softwire-stateless-4v6-motivation SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-stateless-4v6-motivation.xml">
@@ -202,12 +203,13 @@
           <t>Provisioning an IPv4 prefix, an IPv4 address or a shared IPv4
           address.</t>
 
-          <t>Algorithmically map between an IPv4 prefix, an IPv4
-          address or a shared IPv4 address and an IPv6 address.</t>
+          <t>Algorithmically map between either an IPv4 prefix, an
+          IPv4 address or a shared IPv4 address and an IPv6
+          address.</t>
         </list></t>
 
       <t>The mapping scheme described here supports encapsulation of
-      IPv4 packets in IPv6 in both mesh and hub and spoke topologies,
+      IPv4 packets in IPv6 in both mesh and hub-and-spoke topologies,
       including address mappings with full independence between IPv6
       and IPv4 addresses.</t>
 
@@ -453,6 +455,10 @@ O---+--------------O
       between MAP CEs, known as mesh mode. In hub and spoke mode,
       there are no forwarding rules, all traffic MUST be forwarded
       directly to the BR.</t>
+
+      <t>A MAP CE MUST be configured with an FMR, either as a
+      separate rule, or implicitly through the BMR. All MAP CEs MUST
+      implement support for both rule types.</t>
 
       <section title="Port mapping algorithm" anchor="portmap">
         <t>The port mapping algorithm is used in domains whose rules allow
@@ -1032,7 +1038,7 @@ O---+--------------O
         domain, those hosts may use the same IPv4 fragmentation identifier,
         resulting in incorrect reassembly of the fragments at the destination
         host. Given that the IPv4 fragmentation identifier is a 16 bit field,
-        it can be used similarly to port ranges. A MAP CE SHOULD rewrite the
+        it can be used similarly to port ranges. A MAP CE MUST rewrite the
         IPv4 fragmentation identifier to be within its allocated port-set.</t>
       </section>
     </section>
@@ -1089,10 +1095,11 @@ O---+--------------O
           connections that are not subject to MAP port range
           restrictions. To minimize this type of attacks when using a
           restricted port-set, the MAP CE's NAT44 filtering behavior
-          SHOULD be "Address-Dependent Filtering".  Furthermore, the
-          MAP CEs SHOULD use a DNS transport proxy function to handle
-          DNS traffic, and source such traffic from IPv6 interfaces
-          not assigned to MAP.</t>
+          SHOULD be "Address-Dependent Filtering". Furthermore, the
+          MAP CEs SHOULD use a DNS transport proxy <xref
+          target="RFC5625"/> function to handle DNS traffic, and
+          source such traffic from IPv6 interfaces not assigned to
+          MAP.</t>
         </list></t>
 
       <t><xref target="RFC6269"></xref> outlines general issues with IPv4
@@ -1179,6 +1186,7 @@ O---+--------------O
     <references title="Normative References">
       &rfc2119;
       &rfc2473;
+      &rfc5625;
     </references>
 
     <!--  SECTION 8.2:  Informative References		-->
