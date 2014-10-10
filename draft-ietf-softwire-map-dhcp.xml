@@ -254,12 +254,16 @@
       target="RFC2119"></xref>.</t>
     </section>
 
+
     <section title="Softwire46 Overview">
 
      <t>This document describes a set of common DHCPv6 options for
-     configuring the MAP-E <xref target="I-D.ietf-softwire-map"/>, MAP-T
-     <xref target="I-D.ietf-softwire-map-t"/> and Lightweight 4over6 <xref
-     target="I-D.ietf-softwire-lw4over6"/> mechanisms.</t>
+     configuring the MAP-E <xref target="I-D.ietf-softwire-map"/>,
+     MAP-T <xref target="I-D.ietf-softwire-map-t"/> and Lightweight
+     4over6 <xref target="I-D.ietf-softwire-lw4over6"/>
+     mechanisms. For definition of the terminology used in this
+     document please see the relevant terminology sections in the
+     above references.</t>
 
      <t>MAP-E, MAP-T and Lightweight 4over6 are essentially providing
      the same functionality: IPv4 service to a CE router over an IPv6
@@ -295,9 +299,11 @@
      <t>This approach implies that all of the provisioning options
      MUST appear only within the container options. The client MUST
      NOT request any of the provisioning options directly within an
-     ORO. Likewise, the server MUST NOT send the provisioning options
-     directly within a DHCPv6 message, without encapsulation in the
-     corresponding container option.</t>
+     ORO. MAP-DHCP clients that receive provisioning options that are
+     not encapsulated in container options MUST silently ignore these
+     options.  DHCP server administrators are advised to ensure that
+     DHCP servers are configured to send these options in the proper
+     encapsulation.</t>
 
      <t>The document is organized with the common sub-options
      described first, followed by the three container options. Some
@@ -333,8 +339,11 @@
         Basic Mapping Rule (BMR) and Forwarding Mapping Rule
         (FMR).</t>
 
-        <t>A server MAY send more than one OPTION_S46_RULE option in a container, if it is
-        configured to do so. Clients MUST NOT send an OPTION_S46_RULE option.</t>
+        <t>A server MAY send more than one OPTION_S46_RULE option in a
+        container, if it is configured to do so. This option has no
+        meaning when sent from client to server. However, servers may
+        take options sent by clients as a hint for what values to
+        return, so clients MUST NOT send this option to servers.</t>
 
         <figure align="center" anchor="img-option-rule"
                 title="S46 Rule Option">
@@ -387,10 +396,11 @@
             <t>prefix6-len: 8 bits long field expressing the length
             of the IPv6 prefix specified in the rule-ipv6-prefix field.</t>
 
-            <t>ipv6-prefix: a variable length field that specifies the
-            IPv6 domain prefix for the S46 rule. The field is padded with
-            follow up zero bits up to the nearest octet boundary when
-            prefix6-len is not divisible by 8.</t>
+	    <t>ipv6-prefix: a variable length field that specifies the
+	    IPv6 domain prefix for the S46 rule.  The field is padded
+	    on the right with zero bits up to the nearest octet
+	    boundary when prefix6-len is not evenly divisible by
+	    8.</t>
 
 	    <t>S46_RULE-options: a variable field that may contain
 	    zero or more options that specify additional parameters
@@ -413,11 +423,12 @@
             <t>Reserved: 7-bits reserved for future use as flags.</t>
 
 	    <t>F-Flag: 1 bit field that specifies whether the rule is
-	    to be used for forwarding (FMR).  If set, this rule is
-	    used as a FMR, if not set this rule is a BMR. Note: A BMR
-	    rule can also be an FMR rule by setting the F flag. The
-	    BMR rule is determined by a match of the Rule-IPv6-prefix
-	    against the CPE's prefix(es).</t>
+	    to be used for forwarding (FMR). If set, this rule is used
+	    as a FMR, if not set this rule is a BMR only and MUST NOT
+	    be used for forwarding. Note: A BMR can also be used as
+	    an FMR for forwarding if the F-flag is set. The BMR rule
+	    is determined by a longest-prefix match of the
+	    Rule-IPv6-prefix against the End-User IPv6 prefix(es).</t>
           </list></t>
 
         <t>It is expected that in a typical mesh deployment scenario,
@@ -604,13 +615,13 @@
 
 	  <t>When receiving the OPTION_S46_PORTPARAMS option with an
 	  explicit PSID, the client MUST use this explicit PSID in
-	  configuring its softwire interface.  The OPTION_S46_PORTPARAMS
-	  option with an explicit PSID MUST be discarded if the
-	  softwire node isn't configured with a full IPv4 address
-	  (e.g. IPv4 prefix).</t>
+	  configuring its softwire interface. The
+	  OPTION_S46_PORTPARAMS option with an explicit PSID MUST be
+	  discarded if the S46 CE isn't configured with a full
+	  IPv4 address (e.g. IPv4 prefix).</t>
 
-	  <t>The OPTION_S46_PORTPARAMS option with an explicit PSID MUST be
-	  discarded if the softwire node isn't configured with a full
+	  <t>The OPTION_S46_PORTPARAMS option with an explicit PSID
+	  MUST be discarded if the S46 CE isn't configured with a full
 	  IPv4 address (e.g. IPv4 prefix).</t>
 
 	  <!--<t>On receipt of the Port
@@ -768,6 +779,10 @@
     <postamble>M - Mandatory, O - Optional, N/A - Not Applicable</postamble>
       </texttable>
 
+      <t>MAP-DHCP clients that receive container options that violate
+      any of the above rules MUST silently ignore such container
+      options.</t>
+
     </section>
     <section title="DHCPv6 Server Behavior">
       <t><xref target="RFC3315"/> Section 17.2.2
@@ -778,16 +793,16 @@
       enumerated one in its Option Request Option.</t>
 
       <t>A CE router may support several (or all) of the mechanisms
-      mentioned here. In the case where a client requests multiple
-      mechanisms in its ORO option, the server SHOULD reply with all
-      the corresponding Softwire46 Container options.</t>
-
+      mentioned here.  In the case where a client requests multiple
+      mechanisms in its ORO option, the server will reply with the
+      corresponding Softwire46 Container options for which it has
+      configuration information.</t>
     </section>
 
     <section title="DHCPv6 Client Behavior">
       <t>An S46 CE acting as DHCPv6 client will request S46
       configuration parameters from the DHCPv6 server located in the
-      IPv6 network. Such a client SHOULD include the S46 Container
+      IPv6 network. Such a client MUST include the S46 Container
       option(s) that it is configured for in its ORO in SOLICIT,
       REQUEST, RENEW, REBIND and INFORMATION-REQUEST messages.</t>
 
@@ -807,6 +822,7 @@
       target="I-D.ietf-softwire-unified-cpe"/> describes client behaviour
       for the prioritization and handling of multiple mechanisms
       simultaneously.</t>
+
 
 <!--      
       <t>DISCUSS: There are many ways of delivering IPv4 to a CE
@@ -837,12 +853,6 @@
       <t>Section 23 of <xref target="RFC3315"></xref> discusses DHCPv6-related
       security issues.</t>
 
-      <t>By successfully compromising DHCPv6 server that provisions
-      MAP configuration, the attacker can influence not only IPv6
-      configuration, but also IPv4. In that sense, this widens the
-      impact in case of successful attack on clients. This affects
-      only clients that support and attempt to use MAP.</t>
-
       <t>As with all DHCPv6-derived configuration state, it is
       possible that configuration is actually being delivered by a third
       party (Man In The Middle). As such, there is no basis on which
@@ -850,16 +860,9 @@
       bypass any security mechanisms such as IP firewalls.</t>
 
       <t>In IPv6-only networks that lack any IPv4 firewalls, a device
-      supporting MAP could be tricked to enable its IPv4 stack, thus
-      exposing itself to previously infeasible IPv4 attack
-      vectors.</t>
-
-      <t>MAP options are more complex then typical other DHCPv6
-      options. Malicious client may repeatedly request all Softwire
-      container options to induce increased server load required for
-      generating more complex responses. For a properly implemented
-      server this attack vector should not pose significant
-      problem.</t>
+      supporting MAP could be tricked into enabling its IPv4 stack and
+      direct IPv4 traffic to the attacker, thus exposing itself to
+      previously infeasible IPv4 attack vectors.</t>
 
       <t>Section 11 of <xref target="I-D.ietf-softwire-map"></xref> discusses
       security issues of the MAP mechanism.</t>
@@ -905,6 +908,10 @@
       &rfc3315;
 <!--      &rfc3633;-->
       &rfc2119;
+      &I-D.ietf-softwire-map;
+      &I-D.ietf-softwire-map-t;
+      &I-D.ietf-softwire-lw4over6;
+
     </references>
 
     <!--  SECTION 8.2:  Informative References		-->
@@ -914,9 +921,6 @@
       &rfc2131;
 <!--      &rfc5226;-->
 <!--      &rfc6335;-->
-      &I-D.ietf-softwire-map;
-      &I-D.ietf-softwire-map-t;
-      &I-D.ietf-softwire-lw4over6;
 <!--      &I-D.mdt-softwire-map-deployment;-->
 <!--      &I-D.ietf-homenet-arch;-->
 <!--      &I-D.ietf-dhc-option-guidelines;-->
