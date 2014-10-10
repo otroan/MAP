@@ -339,11 +339,13 @@
         Basic Mapping Rule (BMR) and Forwarding Mapping Rule
         (FMR).</t>
 
-        <t>A server MAY send more than one OPTION_S46_RULE option in a
-        container, if it is configured to do so. This option has no
-        meaning when sent from client to server. However, servers may
-        take options sent by clients as a hint for what values to
-        return, so clients MUST NOT send this option to servers.</t>
+        <t>This option follows behavior described in Sections 17.1.1
+        and 18.1.1 of <xref target="RFC3315"/>. Clients can insert
+	those options with specific values as hints for the
+	server. Depending on the server configuration and policy,
+	it may accept or ignore the hints. Client MUST be able
+	to process received values that are different than the
+	hints it sent earlier.</t>
 
         <figure align="center" anchor="img-option-rule"
                 title="S46 Rule Option">
@@ -909,7 +911,6 @@
 <!--      &rfc3633;-->
       &rfc2119;
       &I-D.ietf-softwire-map;
-      &I-D.ietf-softwire-map-t;
       &I-D.ietf-softwire-lw4over6;
 
     </references>
@@ -924,6 +925,7 @@
 <!--      &I-D.mdt-softwire-map-deployment;-->
 <!--      &I-D.ietf-homenet-arch;-->
 <!--      &I-D.ietf-dhc-option-guidelines;-->
+      &I-D.ietf-softwire-map-t;
       &I-D.ietf-dhc-sedhcpv6;
 <!--      &I-D.townsley-troan-ipv6-ce-transitioning;-->
       &I-D.ietf-softwire-unified-cpe;
