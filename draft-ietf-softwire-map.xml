@@ -90,7 +90,7 @@
         <postal>
           <street>Room 225, Main Building, Tsinghua University</street>
           <city>Beijing 100084</city>
-          <country>CN</country>
+          <country>People's Republic of China</country>
         </postal>
         <email>xing@cernet.edu.cn</email>
       </address>
@@ -102,7 +102,7 @@
         <postal>
           <street>Room 225, Main Building, Tsinghua University</street>
           <city>Beijing 100084</city>
-          <country>CN</country>
+          <country>People's Republic of China</country>
         </postal>
         <email>congxiao@cernet.edu.cn</email>
       </address>
@@ -163,7 +163,7 @@
 
     <section title="Introduction">
       <t>Mapping of IPv4 addresses in IPv6 addresses has been
-      described in numerous mechanisms dating back to 1996 <xref
+      described in numerous mechanisms dating back to 1995 <xref
       target="RFC1933"></xref>.  The Automatic tunneling mechanism
       described in RFC1933 assigned a globally unique IPv6 address to
       a host by combining the host's IPv4 address with a well-known
@@ -234,7 +234,7 @@
 
       <t>MAP relies on IPv6 and is designed to deliver dual-stack
       service while allowing IPv4 to be phased out within the service
-      provider's(SP) network. The phasing out of IPv4 within the SP
+      provider's (SP) network. The phasing out of IPv4 within the SP
       network is independent of whether the end user disables IPv4
       service or not. Further, "greenfield"; IPv6-only networks may
       use MAP in order to deliver IPv4 to sites via the IPv6
@@ -290,7 +290,7 @@
 
           <t hangText="End-user IPv6 prefix:">The IPv6 prefix assigned
           to an End-user CE by other means than MAP
-          itself. E.g. Provisioned using DHCPv6 PD <xref
+          itself. E.g., Provisioned using DHCPv6 PD <xref
           target="RFC3633"></xref>, assigned via SLAAC <xref
           target="RFC4862"/>, or configured manually. It is unique for
           each CE.</t>
@@ -320,15 +320,16 @@
       and prefixes are described below.</t>
 
       <t>The MAP mechanism uses existing standard building blocks.
-      The existing NAPT on the CE is used with additional support for
-      restricting transport protocol ports, ICMP identifiers and
-      fragment identifiers to the configured port-set.  For packets
-      outbound from the private IPv4 network, the CE NAPT MUST
-      translate transport identifiers (e.g.  TCP and UDP port numbers)
-      so that they fall within the CE's assigned port-range.</t>
+      The existing NAPT <xref target="RFC2663"/> on the CE is used
+      with additional support for restricting transport protocol
+      ports, ICMP identifiers and fragment identifiers to the
+      configured port-set.  For packets outbound from the private IPv4
+      network, the CE NAPT MUST translate transport identifiers (e.g.,
+      TCP and UDP port numbers) so that they fall within the CE's
+      assigned port-range.</t>
 
       <t>The NAPT MUST in turn be connected to a MAP-aware forwarding
-      function, that does encapsulation/ decapsulation of IPv4 packets
+      function, that does encapsulation / decapsulation of IPv4 packets
       in IPv6.  MAP supports the encapsulation mode specified in <xref
       target="RFC2473"/>.  In addition MAP specifies an algorithm to
       do "address resolution" from an IPv4 address and port to an IPv6
@@ -337,7 +338,7 @@
 
       <t>The MAP architecture described here restricts the use of the
       shared IPv4 address to only be used as the global address
-      (outside) of the NAPT <xref target="RFC2663"/> running on the
+      (outside) of the NAPT running on the
       CE. A shared IPv4 address MUST NOT be used to identify an
       interface. While it is theoretically possible to make host
       stacks and applications port-aware, it would be a drastic change
@@ -403,7 +404,7 @@ O---+--------------O
       for multiple different IPv4 sub-nets to exist within the domain
       and optimize forwarding between them.</t>
 
-      <t>Traffic outside of the domain (i.e. when the destination IPv4 address
+      <t>Traffic outside of the domain (i.e., when the destination IPv4 address
       does not match (using longest matching prefix) any Rule IPv4 prefix in
       the Rules database) is forwarded to the BR.</t>
 
@@ -449,16 +450,16 @@ O---+--------------O
       <t>Port-restricted IPv4 routes are installed in the Rules table
       for all the Forwarding Mapping Rules, and a default route is
       installed to the MAP BR (see <xref
-      target="outside-domain"/>.</t>
+      target="outside-domain"/>).</t>
 
-      <t>Forwarding rules are used to allow direct communication
+      <t>Forwarding Mapping Rules are used to allow direct communication
       between MAP CEs, known as mesh mode. In hub and spoke mode,
-      there are no forwarding rules, all traffic MUST be forwarded
+      there are no forwarding mapping rules, all traffic MUST be forwarded
       directly to the BR.</t>
 
-      <t>A MAP CE MUST be configured with an FMR, either as a
-      separate rule, or implicitly through the BMR. All MAP CEs MUST
-      implement support for both rule types.</t>
+      <t>While an FMR is optional in the sense that a MAP CE MAY be
+      configured with zero or more FMRs depending on the deployment,
+      all MAP CEs MUST implement support for both rule types.</t>
 
       <section title="Port mapping algorithm" anchor="portmap">
         <t>The port mapping algorithm is used in domains whose rules allow
@@ -476,7 +477,7 @@ O---+--------------O
  	</t>
  	
  	<t>When the PSID is embedded in the End-user IPv6 prefix, then
- 	to minimise dependencies between the End-user IPv6 prefix and
+ 	to minimize dependencies between the End-user IPv6 prefix and
  	the assigned port-set, it is desirable to minimize the
  	restrictions of possible PSID values. This is achieved by
  	using an infix representation of the port value. Using such a
@@ -512,7 +513,7 @@ O---+--------------O
           algorithm excludes the system ports. For the default value
           of a (6), the system ports, are excluded by requiring that A
           be greater than 0.  Smaller values of a excludes a larger
-          initial range. E.g. a = 4, will exclude ports 0 - 4095.  The
+          initial range. E.g., a = 4, will exclude ports 0 - 4095.  The
           interval between successive contiguous ranges assigned to
           the same user is 2^a.</t>
 
@@ -593,8 +594,8 @@ O---+--------------O
         
         <t>The length r MAY be zero, in which case the complete IPv4
         address or prefix is encoded in the EA bits. If only a part of the
-        IPv4 address/prefix is encoded in the EA bits, the Rule IPv4 prefix is
-        provisioned to the CE by other means (e.g. a DHCPv6 option). To create
+        IPv4 address / prefix is encoded in the EA bits, the Rule IPv4 prefix is
+        provisioned to the CE by other means (e.g., a DHCPv6 option). To create
         a complete IPv4 address (or prefix), the IPv4 address suffix (p) from
         the EA bits, is concatenated with the Rule IPv4 prefix (r bits).</t>
 
@@ -670,7 +671,7 @@ O---+--------------O
         dependence between the IPv4 address and the IPv6 address. In
         addition the length of o MAY be zero (no EA bits embedded in
         the End-User IPv6 prefix), meaning that also the PSID is
-        provisioned using e.g. the DHCP option.</t>
+        provisioned using e.g., the DHCP option.</t>
 
 	<t>See <xref target="appendixA"/> for an example of the Basic
 	Mapping Rule.</t>
@@ -1083,15 +1084,14 @@ O---+--------------O
           BRs checks that the IPv6 source address of a received IPv6 packet is
           a CE address based on Forwarding Mapping Rule.</t>
 
-          <t hangText="Attacks facilitated by restricted port
-          set:">From hosts that are not subject to ingress filtering
+          <t hangText="Attacks facilitated by restricted port set:">From hosts that are not subject to ingress filtering
           of <xref target="RFC2827"></xref>, some attacks are possible
           by an attacker injecting spoofed packets during ongoing
           transport connections (<xref target="RFC4953"></xref>, <xref
           target="RFC5961"></xref>, <xref
           target="RFC6056"></xref>. The attacks depend on guessing
           which ports are currently used by target hosts, and using an
-          unrestricted port-set is preferable, i.e. Using native IPv6
+          unrestricted port-set is preferable, i.e., using native IPv6
           connections that are not subject to MAP port range
           restrictions. To minimize this type of attacks when using a
           restricted port-set, the MAP CE's NAT44 filtering behavior
@@ -1114,21 +1114,24 @@ O---+--------------O
 
       <t><figure><artwork><![CDATA[
       Chongfeng Xie (China Telecom)
-      Room 708, No.118, Xizhimennei Street Beijing 100035 CN
+      Room 708, No.118, Xizhimennei Street Beijing 100035
+      People's Republic of China
       Phone: +86-10-58552116
       Email: xiechf@ctbri.com.cn
       ]]></artwork></figure></t>
 
       <t><figure><artwork><![CDATA[
       Qiong Sun (China Telecom)
-      Room 708, No.118, Xizhimennei Street Beijing 100035 CN
+      Room 708, No.118, Xizhimennei Street Beijing 100035
+      People's Republic of China
       Phone: +86-10-58552936
       Email: sunqiong@ctbri.com.cn
       ]]></artwork></figure></t>
 
       <t><figure><artwork><![CDATA[
       Gang Chen (China Mobile)
-      53A,Xibianmennei Ave. Beijing 100053 P.R.China
+      53A,Xibianmennei Ave. Beijing 100053
+      People's Republic of China
       Email: chengang@chinamobile.com
       ]]></artwork></figure></t>
 
@@ -1137,21 +1140,21 @@ O---+--------------O
       CERNET Center/Tsinghua University
       Room 225, Main Building, Tsinghua University
       Beijing 100084
-      CN
+      People's Republic of China
       Email: jacky.zhai@gmail.com
       ]]></artwork></figure></t>
 
       <t><figure><artwork><![CDATA[
       Wentao Shang (CERNET Center/Tsinghua University)
       Room 225, Main Building, Tsinghua University Beijing 100084
-      CN
+      People's Republic of China
       Email: wentaoshang@gmail.com
       ]]></artwork></figure></t>
 
       <t><figure><artwork><![CDATA[
       Guoliang Han (CERNET Center/Tsinghua University)
       Room 225, Main Building, Tsinghua University Beijing 100084
-      CN
+      People's Republic of China
       Email: bupthgl@gmail.com
       ]]></artwork></figure></t>
 
@@ -1164,7 +1167,7 @@ O---+--------------O
 
     <!--  SECTION 7:  Acknowledgements     			-->
 
-    <section title="Acknowledgements">
+    <section title="Acknowledgments">
       <t>This document is based on the ideas of many, including
       Masakazu Asama, Mohamed Boucadair, Gang Chen, Maoke Chen,
       Wojciech Dec, Xiaohong Deng, Jouni Korhonen, Tomasz Mrugalski,
@@ -1307,7 +1310,7 @@ IPv6 destination address:  2001:db8:0012:3400:0000:c000:0212:0034
         </figure></t>
 
       <t><figure>
-          <preamble>Example 3 - FMR:</preamble>
+          <preamble>Example 3 - Forwarding Mapping Rule:</preamble>
 
           <artwork align="left"><![CDATA[
    
@@ -1365,10 +1368,10 @@ IPv6 destination address:   2001:db8:ffff::1
                           0 (Rule EA-bits length)}
    PSID length:          8. (From DHCP. Sharing ratio of 256)
    PSID offset:          6  (Default)
-   PSID       :          0x34 (Provisioned with DHCP.)
+   PSID       :          0x34 (From DHCP.)
 
-   A MAP node can via the BMR determine the IPv4 address and port-set
-   as shown below:
+   A MAP node can via the Basic Mapping Rule determine the IPv4
+   address and port-set as shown below:
 
    EA bits offset:        0
    IPv4 suffix bits (p):  Length of IPv4 address (32) -
@@ -1381,15 +1384,16 @@ IPv6 destination address:   2001:db8:ffff::1
    Available ports (63 ranges) : 1232-1235, 2256-2259, ...... ,
                                  63696-63699, 64720-64723
 
-   The BMR information allows a MAP CE also to determine (complete)
-   its full IPv6 address by combining the IPv6 prefix with the MAP
-   interface identifier (that embeds the IPv4 address and PSID).
+   The Basic Mapping Rule information allows a MAP CE also to
+   determine (complete) its full IPv6 address by combining the IPv6
+   prefix with the MAP interface identifier (that embeds the IPv4
+   address and PSID).
 
    IPv6 address of MAP CE: 2001:db8:0012:3400:0000:c000:0212:0034
 
    Note that the IPv4 address and PSID is not derived from the IPv6
    prefix assigned to the CE, but provisioned separately using
-   e.g. DHCP.
+   e.g., DHCP.
 
 ]]></artwork>
         </figure></t>
