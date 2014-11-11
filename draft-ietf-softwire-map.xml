@@ -52,7 +52,7 @@
 <?rfc sortrefs="yes" ?>
 <?rfc comments="yes" ?>
 <?rfc inline="yes" ?>
-<rfc category="std" docName="draft-ietf-softwire-map-11" ipr="trust200902">
+<rfc category="std" docName="draft-ietf-softwire-map-12" ipr="trust200902">
   <front>
     <title abbrev="MAP">Mapping of Address and Port with Encapsulation
     (MAP)</title>
@@ -1034,13 +1034,19 @@ O---+--------------O
       </section>
 
       <section title="Sending IPv4 fragments to the outside">
-        <t>If two IPv4 host behind two different MAP CE's with the same IPv4
-        address sends fragments to an IPv4 destination host outside the
-        domain, those hosts may use the same IPv4 fragmentation identifier,
-        resulting in incorrect reassembly of the fragments at the destination
-        host. Given that the IPv4 fragmentation identifier is a 16 bit field,
-        it can be used similarly to port ranges. A MAP CE MUST rewrite the
-        IPv4 fragmentation identifier to be within its allocated port-set.</t>
+        <t>If two IPv4 host behind two different MAP CE's with the
+        same IPv4 address sends fragments to an IPv4 destination host
+        outside the domain, those hosts may use the same IPv4
+        fragmentation identifier, resulting in incorrect reassembly of
+        the fragments at the destination host. Given that the IPv4
+        fragmentation identifier is a 16 bit field, it could be used
+        similarly to port ranges. A MAP CE could rewrite the IPv4
+        fragmentation identifier to be within its allocated port-set,
+        if the resulting fragment identifier space was large enough
+        related to the rate fragments was sent. However, splitting the
+        identifier space in this fashion would increase the
+        probability of reassembly collision for all connections
+        through the CPE. See also <xref target="RFC6864"/></t>
       </section>
     </section>
   </section>

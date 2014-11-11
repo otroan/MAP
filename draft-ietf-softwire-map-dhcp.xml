@@ -30,7 +30,7 @@
 <?rfc inline="yes" ?>
 
 
-<rfc category="std" docName="draft-ietf-softwire-map-dhcp-09"
+<rfc category="std" docName="draft-ietf-softwire-map-dhcp-10"
      ipr="trust200902">
   <front>
     <title abbrev="DHCPv6 for Softwire 46 CEs">DHCPv6 Options for
@@ -910,8 +910,6 @@
       &rfc3315;
 <!--      &rfc3633;-->
       &rfc2119;
-      &I-D.ietf-softwire-map;
-      &I-D.ietf-softwire-lw4over6;
 
     </references>
 
@@ -925,6 +923,8 @@
 <!--      &I-D.mdt-softwire-map-deployment;-->
 <!--      &I-D.ietf-homenet-arch;-->
 <!--      &I-D.ietf-dhc-option-guidelines;-->
+      &I-D.ietf-softwire-map;
+      &I-D.ietf-softwire-lw4over6;
       &I-D.ietf-softwire-map-t;
       &I-D.ietf-dhc-sedhcpv6;
 <!--      &I-D.townsley-troan-ipv6-ce-transitioning;-->
