@@ -10,6 +10,7 @@
 <!--<!ENTITY rfc5226 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5226.xml">-->
 <!--<!ENTITY rfc6335 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6335.xml">-->
 <!ENTITY rfc6145 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6145.xml">
+<!ENTITY rfc7227 PUBLIC "" "http://xml.resource.org/public/rfc/bibxml/reference.RFC.7227.xml">
 <!ENTITY I-D.ietf-softwire-map SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map.xml">
 <!ENTITY I-D.ietf-softwire-map-t SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map-t.xml">
 <!ENTITY I-D.ietf-softwire-lw4over6 SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-lw4over6.xml">
@@ -332,6 +333,10 @@
       conveyed via the OPTION_S46_DMR option. Optionally, all
       mechanisms can include OPTION_S46_PORTPARAMS to specify
       parameters and port sets for the port range algorithm.</t>
+
+      <t>Softwire46 options use addresses rather than FQDNs. For
+      rationale behind this design choice, see Section 8 of
+      <xref target="RFC7227"/>.</t>
    
       <section title="S46 Rule Option">
         <t><xref target="img-option-rule"></xref> shows the format of
@@ -849,6 +854,14 @@
       attached to multiple networks that provide the
       OPTION_S46_CONT_MAPE option, then the CE MUST configure MAP-E
       for each interface separately.</t>
+
+      <t>Failure modes are out of scope for this document. Failure
+      recovery mechanisms may be defined in the future. See Section 5 of
+      <xref target="I-D.ietf-softwire-map" /> for discussion on valid
+      MAP rule combinations. See Section 11 of <xref target="RFC7227" />,
+      Sections 18.1.3, 18.1.4 and 19.1 of <xref target="RFC3315"/> for
+      parameters update mechanisms in DHCPv6 that can be leveraged to
+      update configuration after a failure.</t>
     </section>
 
     <section title="Security Considerations">
@@ -918,6 +931,7 @@
     <references title="Informative References">
       &rfc2473;
       &rfc2131;
+      &rfc7227;
 <!--      &rfc5226;-->
 <!--      &rfc6335;-->
 <!--      &I-D.mdt-softwire-map-deployment;-->
