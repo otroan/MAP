@@ -506,32 +506,40 @@ O---+--------------O
 
 	<t><list style="hanging">
           <t hangText="a bits:">The number of offset bits. 6 by
-          default as this excludes the system ports (0-1023).</t>
+          default as this excludes the system ports (0-1023).
+          To guarantee non-overlapping port sets, the offset 'a' 
+          MUST be the same for every MAP CE sharing the same
+          address.</t>
 
-          <t hangText="A:">Selects the range of the port number. For a
+          <t hangText="A:">Selects the range of the port number. For 'a'
           &gt; 0, A MUST be larger than 0. This ensures that the
           algorithm excludes the system ports. For the default value
           of a (6), the system ports, are excluded by requiring that A
           be greater than 0.  Smaller values of a excludes a larger
           initial range. E.g., a = 4, will exclude ports 0 - 4095.  The
-          interval between successive contiguous ranges assigned to
-          the same user is 2^a.</t>
-
-          <t hangText="PSID:">The Port-Set Identifier
-          (PSID). Different PSIDs guarantee non-overlapping
-          port-sets.</t>
+          interval between initiaL port numbers of successive contiguous
+          ranges assigned to the same user is 2^(16-a).</t>
 
           <t hangText="k bits:">The length in bits of the PSID
-          field. The sharing ratio is 2^k. The number of ports
+          field. To guarantee non-overlapping port sets, the length 'k' 
+          MUST be the same for every MAP CE sharing the same
+          address. The sharing ratio is 2^k. The number of ports
           assigned to the user is 2^(16-k) - 2^m (excluded ports)</t>
+          
+          <t hangText="PSID:">The Port-Set Identifier
+          (PSID). Different PSID values guarantee non-overlapping
+          port-sets thanks to the restrictions on 'a' and 'k' stated
+          above, because the PSID always occupies the same bit
+          positions in the port number.
+          </t>
+
+      	  <t hangText="m bits:">The number of contiguous ports is
+      	  given by 2^m.</t>
 
           <t hangText="M:">Selects the specific port within a
           particular range specified by the concatenation of A and the
           PSID.</t>
-
-	  <t hangText="m bits:">The number of contiguous ports is
-	  given by 2^m.</t>
-	</list></t>
+      	</list></t>
 
       </section>
 
@@ -688,7 +696,7 @@ O---+--------------O
         done in the Rules table and the correct FMR is chosen.</t>-->
 
         <t><figure align="left" anchor="aplusptoipv6-fig"
-            title="Deriving of MAP IPv6 address">
+            title="Derivation of MAP IPv6 address">
             <preamble></preamble>
 
             <artwork align="left"><![CDATA[
@@ -1101,7 +1109,8 @@ O---+--------------O
           connections that are not subject to MAP port range
           restrictions. To minimize this type of attacks when using a
           restricted port-set, the MAP CE's NAT44 filtering behavior
-          SHOULD be "Address-Dependent Filtering". Furthermore, the
+          SHOULD be "Address-Dependent Filtering <xref target="RFC4787/>,
+          Section 5. Furthermore, the
           MAP CEs SHOULD use a DNS transport proxy <xref
           target="RFC5625"/> function to handle DNS traffic, and
           source such traffic from IPv6 interfaces not assigned to
@@ -1185,7 +1194,9 @@ O---+--------------O
       <t>The authors would like to thank Lichun Bao, Guillaume
       Gottard, Dan Wing, Jan Zorz, Necj Scoberne, Tina Tsou, Kristian
       Poscic, and especially Tom Taylor and Simon Perreault for the
-      thorough review and comments of this document.</t>
+      thorough review and comments of this document. Useful IETF Last
+      Casll comments were received from Brian Weis and Lei Yan.
+      </t>
     </section>
   </middle>
 
@@ -1522,8 +1533,11 @@ IPv6 destination address:   2001:db8:ffff::1
           by the next k bits, and the index value j is given by the last
           m bits.</t>
 
-          <t>For any port number, the PSID can be obtained by a bit mask
-          operation.</t>
+          <t>Because the PSID is always in the same position in the port
+          number and always the same length, different PSID values are 
+          guaranteed to generate different sets of port numbers. In the
+          reverse direction, the generating PSID can be extracted from
+          any port number by a bit mask operation.</t>
 
           <t>Note that when M and R are powers of 2, 65536 divides evenly
           by R * M. Hence the final block is complete and the upper bound
