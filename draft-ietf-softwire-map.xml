@@ -33,15 +33,15 @@
 <!ENTITY rfc4862 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4862.xml">
 <!ENTITY rfc4632 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4632.xml">
 <!ENTITY rfc4459 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4459.xml">
-
 <!ENTITY rfc1858 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.1858.xml">
 <!ENTITY rfc3128 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3128.xml">
 <!ENTITY rfc4963 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4963.xml">
 <!ENTITY rfc5625 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5625.xml">
+<!ENTITY rfc6864 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6864.xml">
+<!ENTITY rfc6335 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6335.xml">
 
 <!ENTITY I-D.ietf-softwire-map-dhcp SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map-dhcp.xml">
 <!ENTITY I-D.ietf-softwire-stateless-4v6-motivation SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-stateless-4v6-motivation.xml">
-<!ENTITY I-D.ietf-tsvwg-iana-ports SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-tsvwg-iana-ports.xml">
 <!ENTITY I-D.ietf-softwire-map-deployment SYSTEM "http://xml.resource.org/public/rfc/bibxml3/reference.I-D.ietf-softwire-map-deployment.xml">
 ]>
 <?rfc toc="yes" ?>
@@ -471,7 +471,7 @@ O---+--------------O
 	last 256 ports as 255.0/8. In hexadecimal, 0x0000/8 (PSID = 0)
 	and 0xFF00/8 (PSID = 0xFF). Using this technique, but wishing
 	to avoid allocating the system ports <xref
-	target="I-D.ietf-tsvwg-iana-ports"/> to the user, one would
+	target="RFC6335"/> to the user, one would
 	have to exclude the use of one or more PSIDs (e.g., PSIDs 0 to
 	3 in the example just given).
  	</t>
@@ -1042,7 +1042,7 @@ O---+--------------O
       </section>
 
       <section title="Sending IPv4 fragments to the outside">
-        <t>If two IPv4 host behind two different MAP CE's with the
+        <t>If two IPv4 host behind two different MAP CEs with the
         same IPv4 address sends fragments to an IPv4 destination host
         outside the domain, those hosts may use the same IPv4
         fragmentation identifier, resulting in incorrect reassembly of
@@ -1098,7 +1098,8 @@ O---+--------------O
           BRs checks that the IPv6 source address of a received IPv6 packet is
           a CE address based on Forwarding Mapping Rule.</t>
 
-          <t hangText="Attacks facilitated by restricted port set:">From hosts that are not subject to ingress filtering
+          <t hangText="Attacks facilitated by restricted port
+          set:">From hosts that are not subject to ingress filtering
           of <xref target="RFC2827"></xref>, some attacks are possible
           by an attacker injecting spoofed packets during ongoing
           transport connections (<xref target="RFC4953"></xref>, <xref
@@ -1109,12 +1110,11 @@ O---+--------------O
           connections that are not subject to MAP port range
           restrictions. To minimize this type of attacks when using a
           restricted port-set, the MAP CE's NAT44 filtering behavior
-          SHOULD be "Address-Dependent Filtering <xref target="RFC4787/>,
-          Section 5. Furthermore, the
-          MAP CEs SHOULD use a DNS transport proxy <xref
-          target="RFC5625"/> function to handle DNS traffic, and
-          source such traffic from IPv6 interfaces not assigned to
-          MAP.</t>
+          SHOULD be "Address-Dependent Filtering <xref
+          target="RFC4787"/>, Section 5. Furthermore, the MAP CEs
+          SHOULD use a DNS transport proxy <xref target="RFC5625"/>
+          function to handle DNS traffic, and source such traffic from
+          IPv6 interfaces not assigned to MAP.</t>
         </list></t>
 
       <t><xref target="RFC6269"></xref> outlines general issues with IPv4
@@ -1195,7 +1195,7 @@ O---+--------------O
       Gottard, Dan Wing, Jan Zorz, Necj Scoberne, Tina Tsou, Kristian
       Poscic, and especially Tom Taylor and Simon Perreault for the
       thorough review and comments of this document. Useful IETF Last
-      Casll comments were received from Brian Weis and Lei Yan.
+      Call comments were received from Brian Weis and Lei Yan.
       </t>
     </section>
   </middle>
@@ -1216,7 +1216,7 @@ O---+--------------O
       &rfc6052;
       &rfc6346;
       &I-D.ietf-softwire-stateless-4v6-motivation;
-      &I-D.ietf-tsvwg-iana-ports;
+      &rfc6335;
       &rfc6333;
       &rfc1933;
       &rfc5969;
@@ -1249,6 +1249,7 @@ O---+--------------O
       &rfc1858;
       &rfc3128;
       &rfc4963;
+      &rfc6864;
     </references>
 
     <section title="Examples" anchor="appendixA">
