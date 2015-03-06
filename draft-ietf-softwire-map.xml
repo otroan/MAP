@@ -833,8 +833,7 @@ O---+--------------O
       </section>
 
       <section title="MAP BR">
-        <t>The MAP BR MUST be configured with the same MAP elements as the MAP
-        CEs operating within the same domain.</t>
+        <t>The MAP BR MUST be configured with corresponding mapping rules for each MAP domain which it is acting as BR for.</t>
 
         <t>For increased reliability and load balancing, the BR IPv6 address
         MAY be an anycast address shared across a given MAP domain. As MAP is
