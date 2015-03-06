@@ -514,10 +514,10 @@ O---+--------------O
           <t hangText="A:">Selects the range of the port number. For 'a'
           &gt; 0, A MUST be larger than 0. This ensures that the
           algorithm excludes the system ports. For the default value
-          of a (6), the system ports, are excluded by requiring that A
-          be greater than 0.  Smaller values of a excludes a larger
-          initial range. E.g., a = 4, will exclude ports 0 - 4095.  The
-          interval between initiaL port numbers of successive contiguous
+          of 'a' (6), the system ports, are excluded by requiring that A
+          be greater than 0.  Smaller values of 'a' excludes a larger
+          initial range. E.g., 'a' = 4, will exclude ports 0 - 4095.  The
+          interval between initial port numbers of successive contiguous
           ranges assigned to the same user is 2^(16-a).</t>
 
           <t hangText="k bits:">The length in bits of the PSID
@@ -705,11 +705,11 @@ O---+--------------O
 +--------------------------+         +-------------------+
 | IPv4 destination address |         |  IPv4 dest port   |
 +--------------------------+         +-------------------+
-                :          :           ___/       :
-                | p bits   |          /  q bits   :
-                +----------+         +------------+ 
-                |IPv4  sufx|         |Port-Set ID |
-                +----------+         +------------+
+               :           :           ___/       :
+               |  p bits   |          /  q bits   :
+               +-----------+         +------------+ 
+               |IPv4 suffix|         |Port-Set ID |
+               +-----------+         +------------+
                 \          /    ____/    ________/
                   \       :  __/   _____/                 
                     \     : /     /
@@ -952,7 +952,7 @@ O---+--------------O
       the matching MAP rule. These represent the range of what is
       acceptable as source IPv4 address and port. Secondly, the node
       extracts the source IPv4 address and port from the IPv4 packet
-      embedded inside the IPv6 packet. If they are found to be outside
+      encapsulated inside the IPv6 packet. If they are found to be outside
       the acceptable range, the packet MUST be silently discard and a
       counter incremented to indicate that a potential spoofing attack
       may be underway. The source validation checks just described are
