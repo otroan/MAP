@@ -31,7 +31,7 @@
 <?rfc inline="yes" ?>
 
 
-<rfc category="std" docName="draft-ietf-softwire-map-dhcp-10"
+<rfc category="std" docName="draft-ietf-softwire-map-dhcp-12"
      ipr="trust200902">
   <front>
     <title abbrev="DHCPv6 for Softwire 46 CEs">DHCPv6 Options for
@@ -274,8 +274,7 @@
      communication). MAP-E and MAP-T CEs may also be provisioned in
      hub and spoke mode, and in 1:1 mode (with no embedded address
      bits). The difference between MAP-E and MAP-T is that they use
-     different means to connect to the IPv6 domain. MAP-E uses RFC2473
-     <xref target="RFC2473"/> IPv4 over IPv6 tunnelling, while MAP-T
+     different means to connect to the IPv6 domain. MAP-E uses <xref target="RFC2473"/> IPv4 over IPv6 tunnelling, while MAP-T
      uses NAT64 <xref target="RFC6145"/> based
      translation. Lightweight 4over6 is a hub and spoke IPv4 over IPv6
      tunneling mechanism, with complete independence of IPv4 and IPv6
@@ -552,14 +551,16 @@
 
         <t><list style="symbols">
             <t>option-code: OPTION_S46_V4V6BIND (TBD4)</t>
-            <t>option-length: 4</t>
+            <t>option-length: length of the option, excluding option-code and
+      option-length fields, including length of all encapsulated
+      options, expressed in bytes.</t>
             <t>ipv4-address: A fixed field of 4 octets specifying an IPv4
             address.</t>
             <t>bindprefix6-len: 8 bits long field expressing the bit mask
             length of the IPv6 prefix specified in the bind-ipv6-prefix
             field.</t>
             <t>bind-ipv6-prefix: a variable length field specifying the
-            IPv6 prefix or address for the S46. This field is right padded with
+            IPv6 prefix or address for the S46 CE. This field is right padded with
             zeros to the nearest octet boundary when bindprefix6-len
             is not divisible by 8.</t>
 	    <t>S46_V4V6BIND-options: a variable field that may contain
@@ -600,7 +601,7 @@
 
             <t>offset: (PSID offset) 8 bits long field that specifies
             the numeric value for the S46 algorithm's excluded port
-            range/offset bits (A-bits), as per section 5.1.1 of <xref
+            range/offset bits (a-bits), as per section 5.1.1 of <xref
             target="I-D.ietf-softwire-map"></xref>. Allowed values are
             between 0 and 15. Default values for this field are
             specific to the softwire mechanism being implemented and
@@ -809,7 +810,7 @@
     <section title="DHCPv6 Client Behavior">
       <t>An S46 CE acting as DHCPv6 client will request S46
       configuration parameters from the DHCPv6 server located in the
-      IPv6 network. Such a client MUST include the S46 Container
+      IPv6 network. Such a client MUST request the S46 Container
       option(s) that it is configured for in its ORO in SOLICIT,
       REQUEST, RENEW, REBIND and INFORMATION-REQUEST messages.</t>
 
