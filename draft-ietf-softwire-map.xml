@@ -144,7 +144,7 @@
       </address>
     </author>
    
-    <date year="2014" />
+    <date year="2015" />
     <area>Internet</area>
     <workgroup>Network Working Group</workgroup>
 
@@ -1372,7 +1372,7 @@ IPv6 destination address:   2001:db8:ffff::1
    its full IPv6 address by combining the IPv6 prefix with the MAP
    interface identifier (that embeds the IPv4 address).
 
-   IPv6 address of MAP CE:  2001:db8:0012:3400:0000:c000:0201:0000
+   IPv6 address of MAP CE:  2001:db8:0012:3400:0000:c000:0212:0000
 
 ]]></artwork>
         </figure><figure>
