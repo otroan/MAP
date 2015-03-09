@@ -158,8 +158,8 @@
 
     <abstract>
       <t>This document describes when and how an operator uses the technique of 
-	  Mapping of Address and Port (MAP) for the IPv4 residual
-      deployment in the IPv6-dominant domain.</t>
+	  Mapping of Address and Port (MAP) for IPv4 residual
+      deployment in an IPv6-dominant domain.</t>
     </abstract>
 	
   </front>
@@ -171,7 +171,7 @@
       <t>IPv4 address exhaustion has become world-wide reality and the primary 
       solution in the industry is to deploy IPv6-only networking. Meanwhile,
       having access to legacy IPv4 contents and services is a long-term
-      requirement, will be so until the completion of the IPv6 transition. It
+      requirement, and will be so until the completion of the IPv6 transition. It
       demands sharing residual IPv4 address pools for IPv4 communications
       across the IPv6-only domain(s).</t>
 
@@ -187,27 +187,23 @@
 
       <t>Residual deployment with MAP is new to most operators. This document
       is motivated to provide basic understanding on the usage of MAP, i.e.,
-      when and how an operator can do with MAP to meet its own operational
-      requirements of IPv6 transition and its facility conditions, in the
-      phase of IPv4 residual deployment. Potential readers of this document
+      when and how an operator can deploy MAP to meet its own operational
+      requirements for IPv6 transition given its facility conditions, during the
+      IPv4 residual deployment phase. Potential readers of this document
       are those who want to know: <list style="numbers">
-          <t>What are the requirements of MAP deployment ?</t>
+          <t>What are the requirements of MAP deployment?</t>
 
-          <t>What technical options needs to be considered when deploying MAP,
-          and how?</t>
+          <t>What technical options need to be considered when deploying MAP,
+          and how can they be applied?</t>
 
           <t>How does MAP impact on the address planning for both IPv6 and
           IPv4 pools?</t>
 
           <t>How does MAP impact on daily network operations and
-          administrations?</t>
+          administration?</t>
 
-          <t>How do we migrate to IPv6-only network with the help of MAP?</t>
+          <t>How do we migrate to an IPv6-only network with the help of MAP?</t>
         </list></t>
-
-      <t>Terminology of this document, unless it is intentionally specified,
-      follows the definitions and abbreviations of <xref
-      target="I-D.ietf-softwire-map"></xref>.</t>
 
       <t>Unless it is specifically specified, the deployment 
       considerations and guidance proposed in this document are also applied to 
@@ -235,29 +231,51 @@
 
     <!-- conventions -->
 
-    <!-- section title="Terminology" >
-      <t></t>
-    </section -->
+    <section title="Terminology">
+    
+      <t>The terminology of this document, unless otherwise specified,
+      follows the definitions and abbreviations of <xref
+      target="I-D.ietf-softwire-map"></xref>. In particular, this document uses
+      the following terms and abbreviations:
+      <list style="hanging">
+      	<t hangText="CE">MAP Customer Edge.</t>
+      	<t hangText="BR">MAP Border Relay.</t>
+      	<t hangText="BMR">Basic Mapping Rule.</t>
+      	<t hangText="FMR">Forwarding Mapping Rule.</t>
+      	<t hangText="PSID">Port set identifier.</t>
+      	<t hangText="EA">Embedded Address (bits).</t>
+      </list>
+      In addition, the term "End-user IPv6 prefix" is used as defined in that
+      document.
+      </t>
+
+
+    </section>
 
     <!--  SECTION 3: DEPLOYMENT CASES   -->
 
     <section title="Case Studies">
       <t>MAP can be deployed for large-scale carrier networks.
 	  There are typically two network models for broadband access service: 
-   one is to use PPPoE/PPPoA authentication method while the other is to use IPoE. 
-   The first one is usually applied to Residential network and SOHO networks. 
-   Subscribers in CPNs can access broadband network by PPP dial-up authentication. 
-   BRAS is the key network element which takes full responsibility of IP address 
-   assignment, user authentication, traffic aggregation, PPP session termination, 
-   etc. Then IP traffic is forwarded to Core Routers through Metro Area Network, 
-   and finally transited to Internet via Backbone network. The second network 
-   scenario is usually applied to large enterprise networks. Subscribers in CPNs 
-   can access broadband network by IPoE authentication. IP address is normally 
-   assigned by DHCP server, or static configuration. </t>
-<t>In either case, a CPE could obtain a prefix via prefix delegation procedure, 
-   and the hosts behind CPE would get its own IPv6 addresses within the prefix 
-   through SLAAC or DHCPv6 statefully. A MAP CE would also obtain a set of MAP 
-   rules from DHCPv6 server.  </t>
+   one is to use the PPP over Ethernet or ATM authentication method while the
+   other is to use IP over Ethernet (IPoE) [reference?]. PPP is usually applied to residential and 
+   small office, home office (SOHO) networks. Subscribers in customer networks
+   can access the broadband network by PPP dial-up authentication. 
+   The Broadband Remote Access Server (BRAS) is a key network element that 
+   takes full responsibility for IP address assignment, user authentication,
+   traffic aggregation, PPP session termination, etc. Subsequent IP traffic 
+   is forwarded to Core Routers through a Metro Area Network, 
+   and finally transited to the Internet via the Backbone network. </t>
+   
+   <t>The second network 
+   scenario is usually applied to large enterprise networks. Subscribers in these customer networkss 
+   can access the broadband network by IPoE authentication. The IP address is normally 
+   assigned by DHCP server, or by static configuration. </t>
+   
+   <t>In either case, a CPE could obtain a prefix via the prefix delegation procedure. 
+   A CPE that is a MAP CE would also obtain a set of MAP 
+   rules from DHCPv6 server. The hosts behind the CPE would get their own IPv6 addresses
+   within the delegated prefix through Stateless Address Autoconfiguration (SLAAC) or stateful DHCPv6. </t>
 
 <t><xref target="FIXED_NET" /> depicts a generic model of stateless IPv4-over-IPv6
    communication for broadband access services. </t>
